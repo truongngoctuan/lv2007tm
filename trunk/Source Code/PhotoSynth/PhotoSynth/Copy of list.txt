@@ -1,0 +1,9 @@
+./images/listimages/test101.JPG
+0 1 0
+0 0 0
+./images/listimages/test102.JPG
+-0.47835 -13.9666 2.34708
+0.840191 0.124724 -0.527753 
+./images/listimages/test103.JPG
+-2.39544 -25.9866 5.88984
+0.623152 0.147058 -0.768151 
