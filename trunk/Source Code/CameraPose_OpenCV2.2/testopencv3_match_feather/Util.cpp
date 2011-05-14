@@ -78,6 +78,8 @@ void PrintResultMatrix2(CvMat *mat, ostream &out)
 	CV_MAT_ELEM( *T, float,  1, 0) = -CV_MAT_ELEM(*T, float,  1, 0);
 	CV_MAT_ELEM( *T, float,  2, 0) = -CV_MAT_ELEM(*T, float,  2, 0);
 
+	PrintRotationAngle(R, out);
+
 	// invert Ry, Rz, Ty, Tz : to suit with Silverlight Coordinate System (x : right, y : up, z : into)
 	float AngleX, AngleY, AngleZ;
 	RotationMatrixUlti::CaculateAngleFromRotationMatrix(R, AngleX, AngleY, AngleZ);

@@ -20,8 +20,10 @@ int main(int argc, char* argv[]) {
 	case 0:
 		{			
 			CvMat *K = cvCreateMat(3, 3, CV_32FC1);
-			//RotationMatrixUlti::CreateRotationMatrixFromAngle(0, 45, 0, K);
-
+			RotationMatrixUlti::CreateRotationMatrixFromAngle(-0.231766, -14.2694, 2.36591, K);
+			CvMat *K2 = cvCreateMat(3, 3, CV_32FC1);
+			RotationMatrixUlti::CreateRotationMatrixFromAngle(-0.0837938, -15.0389, 1.728, K2);
+			/*
 			CV_MAT_ELEM(*K, float,  0, 0) = 0.968353;
 			CV_MAT_ELEM(*K, float,  0, 1) = 0.0399885;
 			CV_MAT_ELEM(*K, float,  0, 2) = 0.246359;
@@ -32,6 +34,7 @@ int main(int argc, char* argv[]) {
 			CV_MAT_ELEM(*K, float,  2, 1) = -0.00612539;
 			CV_MAT_ELEM(*K, float,  2, 2) = 0.969171;
 			PrintMatrix(K);
+			*/
 
 			float x, y, z;
 			RotationMatrixUlti::CaculateAngleFromRotationMatrix(K, x, y, z);
