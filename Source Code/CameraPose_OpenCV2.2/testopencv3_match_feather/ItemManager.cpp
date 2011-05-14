@@ -149,8 +149,8 @@ void ItemManager::BuildTree()
 		{
 			if(pIsConnected[i])
 			{
-				bool bConnected = pItems[target].Connect(&pItems[i], K, D);
-				pIsTried[target][i] = true;
+				bool bConnected = pItems[i].Connect(&pItems[target], K, D);
+				pIsTried[i][target] = true;
 				if(bConnected)
 				{
 					pIsConnected[target] = true;

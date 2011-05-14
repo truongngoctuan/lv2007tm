@@ -323,7 +323,7 @@ bool Item::Connect(Item* pSideItem, CvMat *K, CvMat *D)
 	pSideItem->SetTransformationMatrix(P);
 
 	if(!IsEqual(this->transformationMat, Item::I))
-		cvMul(this->transformationMat, pSideItem->transformationMat, pSideItem->transformationMat);
+		cvMatMul(pSideItem->transformationMat, this->transformationMat, pSideItem->transformationMat);
 
 	cvReleaseMat(&P);
 	cvReleaseMat(&T);
