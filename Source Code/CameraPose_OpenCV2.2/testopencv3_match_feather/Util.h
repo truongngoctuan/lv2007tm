@@ -17,3 +17,5 @@ bool IsTranslationMatrix(CvMat *mat);
 bool IsTransformationMatrix(CvMat *mat);
 bool IsEqual(const CvMat *a, const CvMat *b);
 CvMat* CreateTransformationMatrix(const CvMat *R, const CvMat *T);
+
+bool IsAlmostEqual(float src, float dest, float SaiSoChoPhep);

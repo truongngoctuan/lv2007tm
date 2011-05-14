@@ -205,3 +205,12 @@ CvMat* CreateTransformationMatrix(const CvMat *R, const CvMat *T)
 
 	return P;
 }
+
+bool IsAlmostEqual(float src, float dest, float SaiSoChoPhep)
+{
+	if (dest - SaiSoChoPhep <= src && src <= dest + SaiSoChoPhep)
+	{
+		return true;
+	}
+	return false;
+}
