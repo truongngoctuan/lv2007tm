@@ -76,7 +76,10 @@ ItemManager::~ItemManager(void)
 void ItemManager::Print(ostream &out)
 {
 	for(int i = 0; i < nItems; i++)
-		pItems[i].Print(out);
+	{
+		if(pIsConnected[i] == true)
+			pItems[i].Print(out);
+	}
 }
 
 bool ItemManager::IsConnected(int index)
