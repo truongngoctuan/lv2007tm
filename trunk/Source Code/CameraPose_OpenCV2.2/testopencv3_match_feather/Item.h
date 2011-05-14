@@ -7,6 +7,11 @@
 #include "Util.h"
 #include "GetRT.h"
 using namespace std;
+using namespace cv;
+
+//using for RANSAC Threshold in IsConnectable function
+#define DISTANCE_THRES 20
+#define TAN_ANGLE_THRES 0.05
 
 class Item
 {
