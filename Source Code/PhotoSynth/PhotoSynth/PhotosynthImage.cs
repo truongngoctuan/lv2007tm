@@ -16,7 +16,7 @@ namespace PhotoSynth
 {
 	public class PhotosynthImage : Canvas
 	{
-        static float base_focal = 5;
+        static float base_focal = 10;
         // Random image's pose
         private static double MIN_X = -5; private static double MAX_X = 5;
         private static double MIN_Y = -5; private static double MAX_Y = 5;
@@ -50,6 +50,9 @@ namespace PhotoSynth
         public ImageBrush ImageBrush;
         public GeometryModel3D Model;
         public ModelVisual3D ModelVisual;
+
+        public GeometryModel3D WireframeModel;
+        public ModelVisual3D WireframeModelVisual;
         public double m_Width = 0;  // kich thuoc that cua anh
         public double m_Height = 0; // kich thuoc that cua anh
 
@@ -96,7 +99,7 @@ namespace PhotoSynth
         {            
             BitmapImage bi = (BitmapImage)sender;
             m_Width = bi.PixelWidth;
-            m_Height = bi.PixelWidth;
+            m_Height = bi.PixelHeight;
 
             BitmapImageLoaded.Invoke(this, EventArgs.Empty);
         }
@@ -131,6 +134,38 @@ namespace PhotoSynth
 
             Model = model;
             ModelVisual = modvis;
+            return modvis;
+        }
+
+        public ModelVisual3D createNewModel2()
+        {
+            GeometryModel3D model = new GeometryModel3D();
+            model.Geometry = generateViewMesh();
+            model.Material = new DiffuseMaterial(new Kit3DBrush(new SolidColorBrush(Colors.White)));
+            model.SeamSmoothing = 1;
+            //model.BackMaterial = new DiffuseMaterial(new Kit3DBrush(new SolidColorBrush(Colors.Black)));
+            model.BackMaterial = model.Material;
+
+            Transform3D transform3D = null;
+            if (ImageSpace3D.UseMatrix)
+            {
+                transform3D = MatrixTransform;
+            }
+            else
+            {
+                // Create the transform
+                transform3D = TransformGroup;
+            }
+
+            // create the model based on the material and transform
+            ModelVisual3D modvis = new ModelVisual3D();
+            modvis.Transform = transform3D;
+            modvis.Content = model;
+            //modvis.Opacity = ImageSpace3D.UNFOCUS_OPACITY;
+            modvis.Opacity = 0.3;
+
+            WireframeModel = model;
+            WireframeModelVisual = modvis;
             return modvis;
         }
 
@@ -171,6 +206,47 @@ namespace PhotoSynth
                 new Point(0, 1),
                 new Point(1, 1)
             };
+
+            return mesh;
+        }
+
+        private MeshGeometry3D generateViewMesh()
+        {
+            double width_metric = m_Width / BASE_METRIC;
+            double height_metric = m_Height / BASE_METRIC;
+            MeshGeometry3D mesh = new MeshGeometry3D();
+            mesh.Positions = new Point3DCollection
+            {
+                new Point3D(0, 0, base_focal),
+                new Point3D(-width_metric/2, height_metric/2, 0),
+                new Point3D(width_metric/2, height_metric/2, 0),
+                new Point3D(width_metric/2, -height_metric/2, 0),
+                new Point3D(-width_metric/2, -height_metric/2, 0)                
+            };
+
+            //mesh.Positions = new Point3DCollection
+            //{
+            //    new Point3D(-1, 1, 0),
+            //    new Point3D(1, 1, 0),
+            //    new Point3D(-1, -1, 0),
+            //    new Point3D(1, -1, 0)
+            //};
+
+            mesh.TriangleIndices = new Int32Collection
+            {
+                1, 0, 2,
+                2, 0, 3,
+                3, 0, 4,
+                4, 0, 1
+            };
+
+            //mesh.TextureCoordinates = new Kit3D.Windows.Media.PointCollection
+            //{
+            //    new Point(0, 0),
+            //    new Point(1, 0),
+            //    new Point(0, 1),
+            //    new Point(1, 1)
+            //};
 
             return mesh;
         }

@@ -51,11 +51,18 @@ namespace PhotoSynth
 {
     public partial class ImageSpace3D : UserControl
     {
+        private static double _basedistance = 5;
         private static double _distance = 5;
-        private Point3D _cameraBasePosition = new Point3D(0, 0, _distance);
+        private Point3D _cameraBasePosition = new Point3D(0, 0, _basedistance);
 
         public static readonly double FOCUS_OPACITY = 1.0;		// springness
-        public static readonly double UNFOCUS_OPACITY = 0.05;		// springness
+        public static readonly double UNFOCUS_OPACITY = 0.3;		// springness
+
+        public static readonly double WIREFRAME_FOCUS_OPACITY = 0.0;		// springness        
+        public static readonly double WIREFRAME_UNFOCUS_OPACITY = 0.3;		// springness
+
+        public static readonly double WIREFRAME_INVISIBLE_OPACITY = 0.0;		// springness
+        public static readonly double WIREFRAME_VISIBLE_OPACITY = 0.3;		// springness
 
         // Hinh 1 va Hinh 2
         public static bool UseMatrix = true;
@@ -148,9 +155,9 @@ namespace PhotoSynth
 
             // set the _camera to the position of the text
             if (UseMatrix)
-                _cameraPosition = Helper.TransformPoint3D(_cameraBasePosition, photosynthImage.MatrixTransform);
+                _cameraPosition = Helper.TransformPoint3D(new Point3D(0, 0, _distance), photosynthImage.MatrixTransform);
             else
-                _cameraPosition = Helper.TransformPoint3D(_cameraBasePosition, photosynthImage.TransformGroup);
+                _cameraPosition = Helper.TransformPoint3D(new Point3D(0, 0, _distance), photosynthImage.TransformGroup);
 		}
 
         // update all three : camera position, look vector, up vector
@@ -163,9 +170,9 @@ namespace PhotoSynth
             // set the _camera to the position of the text
 
             if (UseMatrix)
-                _cameraPosition = Helper.TransformPoint3D(_cameraBasePosition, photosynthImage.MatrixTransform);
+                _cameraPosition = Helper.TransformPoint3D(new Point3D(0, 0, _distance), photosynthImage.MatrixTransform);
             else
-                _cameraPosition = Helper.TransformPoint3D(_cameraBasePosition, photosynthImage.TransformGroup);
+                _cameraPosition = Helper.TransformPoint3D(new Point3D(0, 0, _distance), photosynthImage.TransformGroup);
             
             if (UseMatrix)
                 _upDirection = Helper.TransformVector3D(new Vector3D(0, 1, 0), photosynthImage.MatrixTransform);
@@ -213,7 +220,10 @@ namespace PhotoSynth
                         _selectedImage = photosynthImage;
 
                         updateDestination(photosynthImage);
+                        break;
                     }
+                    if (res.ModelHit == photosynthImage.WireframeModel)
+                        return HitTestResultBehavior.Continue;
                 }
             }
             return HitTestResultBehavior.Stop;
@@ -234,7 +244,7 @@ namespace PhotoSynth
 		/////////////////////////////////////////////////////
         void  _timer_Tick(object sender, EventArgs e)
         {
-            timeout++;
+            //timeout++;
             if (timeout == 24 * 5)
             {
                 timeout = 0;
@@ -446,6 +456,7 @@ namespace PhotoSynth
             if (photosynthImage != null)
             {
                 _viewport.Children.Add(photosynthImage.createNewModel());
+                _viewport.Children.Add(photosynthImage.createNewModel2());
             }
         }
 
@@ -480,6 +491,22 @@ namespace PhotoSynth
         private void RotateX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             
+        }
+
+        private void checkBox1_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach(PhotosynthImage img in _images)
+            {
+                img.WireframeModelVisual.Opacity = WIREFRAME_INVISIBLE_OPACITY;
+            }
+        }
+
+        private void checkBox1_Checked(object sender, RoutedEventArgs e)
+        {
+            foreach (PhotosynthImage img in _images)
+            {
+                img.WireframeModelVisual.Opacity = WIREFRAME_VISIBLE_OPACITY;
+            }
         }
     }
 }

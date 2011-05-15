@@ -104,8 +104,6 @@
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
-    <Resource Include="ImageSpace3D\images\img1.jpg" />
-    <Resource Include="ImageSpace3D\images\img2.jpg" />
     <Resource Include="ImageSpace3D\images\tree06.jpg" />
     <Resource Include="ImageSpace3D\images\tree07.jpg" />
     <Resource Include="ImageSpace3D\images\test101.JPG" />
