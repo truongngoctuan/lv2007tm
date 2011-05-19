@@ -2,6 +2,8 @@
 #include <iostream>
 #include "ItemManager.h"
 #include <vector>
+#include "Util.h"
+#include <string>
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -75,6 +77,31 @@ int main(int argc, char* argv[]) {
 
 			delete pItemManager;
 			of.close();
+			break;
+		}
+		case 2:
+		{//for test
+			//lay danh sach file từ ListImage.txt
+			CLearLogFile();
+
+			vector<string> arrFileName;
+
+			FILE *fptr = fopen("TestIsconnectable.txt","r");
+			char names[2048];
+
+			while(fscanf(fptr,"%s ",names)==1)
+			{
+				arrFileName.push_back(names);
+			}
+
+			ItemManager* pItemManager = ItemManager::CreateItemManager(arrFileName.size(), arrFileName);
+			pItemManager->InitFeatures();
+
+			ASSERT((pItemManager->GetItem(0)->GetFileName() + " - " + pItemManager->GetItem(1)->GetFileName()).c_str(), !(pItemManager->IsConnectable(0, 1)));
+			ASSERT((pItemManager->GetItem(0)->GetFileName() + " - " + pItemManager->GetItem(2)->GetFileName()).c_str(), !(pItemManager->IsConnectable(0, 2)));
+
+
+			delete pItemManager;
 			break;
 		}
 	default:

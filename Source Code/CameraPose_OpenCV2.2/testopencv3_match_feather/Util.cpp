@@ -216,3 +216,33 @@ bool IsAlmostEqual(float src, float dest, float SaiSoChoPhep)
 	}
 	return false;
 }
+
+string Str_itoa(int i)
+{
+	char c[20];
+	itoa(i, c, 10);
+	return string(c);
+}
+
+//http://www.infernodevelopment.com/c-log-file-class-forget-debuggers
+void CLearLogFile(){
+	ofstream m_stream;
+	m_stream.open("Log.txt", ios::trunc);
+	m_stream.close();
+}
+
+void WriteLog(const char* logline){
+	ofstream m_stream;
+	m_stream.open("Log.txt",ios::out | ios::app);
+	m_stream << logline << endl;
+	m_stream.close();
+}
+
+void WriteErrorLog(const char* logline, long line, char* file){
+	ofstream m_stream;
+	m_stream.open("Log.txt",ios::out | ios::app);
+	m_stream << "Error: " << logline 
+		<<" line: "<<line
+		<<" file: "<<file<< endl;
+	m_stream.close();
+}

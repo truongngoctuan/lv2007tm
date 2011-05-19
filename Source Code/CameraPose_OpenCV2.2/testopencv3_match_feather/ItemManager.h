@@ -17,15 +17,19 @@ class ItemManager
 private:
 	ItemManager();
 	bool IsConnected(int index);
-	bool IsConnectable(int item1, int item2);
+	
 	bool IsTried(int item1, int item2);
 	int GetNextTarget();
 public:	
+	bool IsConnectable(int item1, int item2);
+
 	static ItemManager* CreateItemManager(int n, vector<string> filenames, int root = 0);
 	~ItemManager(void);
 	void Print(ostream &out);
 
 	void InitFeatures();
 	void BuildTree();	
+
+	Item* GetItem(int iIndex) const;
 };
 
