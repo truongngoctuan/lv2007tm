@@ -157,7 +157,7 @@ bool Item::IsConnectable(Item* target)
 	int points_number = points1->cols;
 	float e;
 	float P = 0.99;					//Probability we select at least one set off all inliers
-	bool IsDraw = true;
+	bool IsDraw = false;
 
 	//calculate transition vector
 	CvMat* TV = cvCreateMat(2,points_number,CV_32F);
@@ -266,6 +266,7 @@ bool Item::IsConnectable(Item* target)
 	}
 
 	cout<<"max_inlier"<<max_inlier<<"/"<<points_number<<" percent: "<< (float)max_inlier / (float)points_number<<endl;
+	WriteLog(("max_inlier" + Str_itoa(max_inlier) + "/" + Str_itoa(points_number)).c_str());
 	if ( max_inlier >= 8)
 	{
 		cout<<"connectable"<<endl;

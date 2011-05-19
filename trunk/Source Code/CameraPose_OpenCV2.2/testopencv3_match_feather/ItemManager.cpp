@@ -89,8 +89,8 @@ bool ItemManager::IsConnected(int index)
 
 bool ItemManager::IsConnectable(int item1, int item2)
 {
-	if(0 < item1 && item1 < nItems)
-		if(0 < item2 && item2 < nItems)
+	if(0 <= item1 && item1 < nItems)
+		if(0 <= item2 && item2 < nItems)
 			return pItems[item1].IsConnectable(&pItems[item2]);
 	return false;
 }
@@ -159,4 +159,13 @@ void ItemManager::BuildTree()
 			}
 		}
 	}	
+}
+
+Item* ItemManager::GetItem(int iIndex) const
+{
+	if(0 <= iIndex && iIndex < nItems)
+	{
+		return &(pItems[iIndex]);
+	}
+	return NULL;
 }
