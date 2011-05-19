@@ -84,7 +84,7 @@ namespace PhotoSynth
 		
         private List<PhotosynthImage> _images = new List<PhotosynthImage>();        
         private PhotosynthImage _selectedImage = null;
-        private Point3D _cameraPosition; // move destination
+        private Point3D _position; // move destination
         private Vector3D _upDirection; // move up direction
         private Vector3D _lookDirection; // move look direction        
 
@@ -119,7 +119,7 @@ namespace PhotoSynth
 
             //_cameraPosition = new Point3D(0, 0, VIEW_DIMENSION);
             //_camera.Position = new Point3D(0, 0, _distance);
-            _cameraPosition = _cameraBasePosition;
+            _position = _cameraBasePosition;
 
             // add all the texts to the stage
             addImages();
@@ -134,73 +134,10 @@ namespace PhotoSynth
             _timer.Tick +=new EventHandler(_timer_Tick);         
 			//Start();
             this.MouseLeftButtonDown += new MouseButtonEventHandler(ImageSpace3D_MouseLeftButtonDown);
-            this.ZoomSlider.Value = _distance;
-        }
+            this.sldDistance.Value = _distance;
+            this.sldHeight.Value = _height;
 
-
-        void ImageSpace3D_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            Kit3D.Windows.Media.VisualTreeHelper.HitTest(_viewport, null, HitTest, new PointHitTestParameters(e.GetPosition(_viewport)));
-        }
-
-        // only update Destination Camera Position (zooming)
-		private void updateDestPosition(PhotosynthImage photosynthImage)
-		{
-            //return;
-            if (photosynthImage == null)
-            {
-                _cameraPosition = new Point3D(0, 0, _distance);
-                return;
-            }
-
-            // set the _camera to the position of the text
-            if (UseMatrix)
-                _cameraPosition = Helper.TransformPoint3D(new Point3D(0, 0, _distance), photosynthImage.MatrixTransform);
-            else
-                _cameraPosition = Helper.TransformPoint3D(new Point3D(0, 0, _distance), photosynthImage.TransformGroup);
-		}
-
-        // update all three : camera position, look vector, up vector
-        private void updateDestination(PhotosynthImage photosynthImage)
-        {
-            //return;
-            if (photosynthImage == null)
-                return;
-
-            // set the _camera to the position of the text
-
-            if (UseMatrix)
-                _cameraPosition = Helper.TransformPoint3D(new Point3D(0, 0, _distance), photosynthImage.MatrixTransform);
-            else
-                _cameraPosition = Helper.TransformPoint3D(new Point3D(0, 0, _distance), photosynthImage.TransformGroup);
-            
-            if (UseMatrix)
-                _upDirection = Helper.TransformVector3D(new Vector3D(0, 1, 0), photosynthImage.MatrixTransform);
-            else
-                _upDirection = Helper.RotateVector3D(new Vector3D(0, 1, 0), photosynthImage.Rotations.X, photosynthImage.Rotations.Y, photosynthImage.Rotations.Z);
-            _upRotateCenter = new Point3D(0, 0, 0);
-            _upRotateAxis = Vector3D.CrossProduct(_camera.UpDirection, _upDirection);
-            _upRotateAngle = Helper.GetAngle(_camera.UpDirection, _upDirection);
-
-            _lookDirection = new Vector3D(photosynthImage.RealPosition.X - _cameraPosition.X, photosynthImage.RealPosition.Y - _cameraPosition.Y, photosynthImage.RealPosition.Z - _cameraPosition.Z);
-            _lookRotateCenter = new Point3D(0, 0, 0);
-            _lookRotateAxis = Vector3D.CrossProduct(_camera.LookDirection, _lookDirection);
-            _lookRotateAngle = Helper.GetAngle(_camera.LookDirection, _lookDirection);
-
-            // A : _camera.Position - vi tri hien tai camera
-            // B : _cameraPosition - vi tri dich cua camera
-            // I : _cameraRotateCenter - trung diem AB
-            // _cameraAxis - [OI]x[AB] hoac -[OI]x[AB] sao cho _cameraAxis cung chieu _lookAxis (hop nhau goc nho hon 90)
-            //      de dam bao camera luon huong ve phia target plane (chieu xoay camera phu hop chieu xoay look vector)
-            _cameraRotateAngle = 180;
-            _cameraRotateCenter = new Point3D((_camera.Position.X + _cameraPosition.X) / 2, (_camera.Position.Y + _cameraPosition.Y) / 2, (_camera.Position.Z + _cameraPosition.Z) / 2);
-            Vector3D v1 = new Vector3D(_cameraPosition.X - _camera.Position.X, _cameraPosition.Y - _camera.Position.Y, _cameraPosition.Z - _camera.Position.Z);
-            Vector3D v2 = new Vector3D(_cameraRotateCenter.X - 0, _cameraRotateCenter.Y - 0, _cameraRotateCenter.Z - 0);
-            _cameraRotateAxis = Vector3D.CrossProduct(v1, v2);
-            if (_cameraRotateAxis.X == 0 && _cameraRotateAxis.Y == 0 && _cameraRotateAxis.Z == 0)
-                _cameraRotateAxis = new Vector3D(0, 1, 0);
-            if (Helper.GetAngle(_lookRotateAxis, _cameraRotateAxis) > 90)
-                _cameraRotateAxis = -_cameraRotateAxis;
+            setNormal();
         }
 
         private HitTestResultBehavior HitTest(HitTestResult result)
@@ -214,12 +151,28 @@ namespace PhotoSynth
                 {
                     if (res.ModelHit == photosynthImage.Model)
                     {
-                        if (_selectedImage != null)
-                            _selectedImage.ModelVisual.Opacity = UNFOCUS_OPACITY;
-                        photosynthImage.ModelVisual.Opacity = FOCUS_OPACITY;
-                        _selectedImage = photosynthImage;
+                        if (_isOverhead == false)
+                        {
+                            if (_selectedImage != null)
+                                _selectedImage.ModelVisual.Opacity = UNFOCUS_OPACITY;
 
-                        updateDestination(photosynthImage);
+                            photosynthImage.ModelVisual.Opacity = FOCUS_OPACITY;
+                            _selectedImage = photosynthImage;
+                            updateDestination(photosynthImage);
+                            _isMoving = true;
+                        }
+                        else
+                        {
+                            if (_selectedImage != null)
+                            {
+                                _selectedImage.ModelVisual.Opacity = UNFOCUS_OPACITY;
+                                _selectedImage.WireframeModelVisual.Opacity = WIREFRAME_INVISIBLE_OPACITY;
+                            }
+
+                            photosynthImage.ModelVisual.Opacity = FOCUS_OPACITY;
+                            photosynthImage.WireframeModelVisual.Opacity = WIREFRAME_VISIBLE_OPACITY;
+                            _selectedImage = photosynthImage;
+                        }
                         break;
                     }
                     if (res.ModelHit == photosynthImage.WireframeModel)
@@ -227,6 +180,102 @@ namespace PhotoSynth
                 }
             }
             return HitTestResultBehavior.Stop;
+        }
+
+        void ImageSpace3D_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            Kit3D.Windows.Media.VisualTreeHelper.HitTest(_viewport, null, HitTest, new PointHitTestParameters(e.GetPosition(_viewport)));
+        }
+
+        private void updateViewport(PhotosynthImage photosynthImage, bool updatePosition, bool updateUpDirection, bool updateLookDirection)
+        {
+            //if (photosynthImage == null)
+            //{
+            //    return;
+            //}
+
+            // set the _camera to the position of the text
+            if (updatePosition)
+            {
+                if (photosynthImage == null)
+                {
+                    _position = new Point3D(0, 0, _distance);
+                }
+                else
+                {
+                    if (UseMatrix)
+                        _position = Helper.TransformPoint3D(new Point3D(0, 0, _distance), photosynthImage.MatrixTransform);
+                    else
+                        _position = Helper.TransformPoint3D(new Point3D(0, 0, _distance), photosynthImage.TransformGroup);
+                }
+            }
+
+            if (updateUpDirection)
+            {
+                if (photosynthImage == null)
+                {
+                    _upDirection = new Vector3D(0, 1, 0);
+                }
+                else
+                {
+                    if (UseMatrix)
+                        _upDirection = Helper.TransformVector3D(new Vector3D(0, 1, 0), photosynthImage.MatrixTransform);
+                    else
+                        _upDirection = Helper.RotateVector3D(new Vector3D(0, 1, 0), photosynthImage.Rotations.X, photosynthImage.Rotations.Y, photosynthImage.Rotations.Z);
+                }
+
+                _upRotateCenter = new Point3D(0, 0, 0);
+                _upRotateAxis = Vector3D.CrossProduct(_camera.UpDirection, _upDirection);
+                _upRotateAngle = Helper.GetAngle(_camera.UpDirection, _upDirection);
+            }
+
+            if (updateLookDirection)
+            {
+                if (photosynthImage == null)
+                {
+                    _lookDirection = new Vector3D(0, 0, -1);
+                }
+                else
+                {
+                    _lookDirection = new Vector3D(photosynthImage.RealPosition.X - _position.X, photosynthImage.RealPosition.Y - _position.Y, photosynthImage.RealPosition.Z - _position.Z);
+                }
+
+                _lookRotateCenter = new Point3D(0, 0, 0);
+                _lookRotateAxis = Vector3D.CrossProduct(_camera.LookDirection, _lookDirection);
+                _lookRotateAngle = Helper.GetAngle(_camera.LookDirection, _lookDirection);
+            }
+
+            // A : _camera.Position - vi tri hien tai camera
+            // B : _cameraPosition - vi tri dich cua camera
+            // I : _cameraRotateCenter - trung diem AB
+            // _cameraAxis - [OI]x[AB] hoac -[OI]x[AB] sao cho _cameraAxis cung chieu _lookAxis (hop nhau goc nho hon 90)
+            //      de dam bao camera luon huong ve phia target plane (chieu xoay camera phu hop chieu xoay look vector)
+            _cameraRotateAngle = 180;
+            _cameraRotateCenter = new Point3D((_camera.Position.X + _position.X) / 2, (_camera.Position.Y + _position.Y) / 2, (_camera.Position.Z + _position.Z) / 2);
+            Vector3D v1 = new Vector3D(_position.X - _camera.Position.X, _position.Y - _camera.Position.Y, _position.Z - _camera.Position.Z);
+            Vector3D v2 = new Vector3D(_cameraRotateCenter.X - 0, _cameraRotateCenter.Y - 0, _cameraRotateCenter.Z - 0);
+            _cameraRotateAxis = Vector3D.CrossProduct(v1, v2);
+            if (_cameraRotateAxis.X == 0 && _cameraRotateAxis.Y == 0 && _cameraRotateAxis.Z == 0)
+                _cameraRotateAxis = new Vector3D(0, 1, 0);
+
+
+            if (updateLookDirection)
+            {                
+                if (Helper.GetAngle(_lookRotateAxis, _cameraRotateAxis) > 90)
+                    _cameraRotateAxis = -_cameraRotateAxis;
+            }
+        }
+
+        // only update Destination Camera Position (zooming)
+		private void updateDestPosition(PhotosynthImage photosynthImage)
+		{
+            updateViewport(photosynthImage, true, false, false);            
+		}
+
+        // update all three : camera position, look vector, up vector
+        private void updateDestination(PhotosynthImage photosynthImage)
+        {
+            updateViewport(photosynthImage, true, true, true);            
         }
 
         Vector3D _upRotateAxis; double _upRotateAngle; Point3D _upRotateCenter;
@@ -283,11 +332,9 @@ namespace PhotoSynth
             if (_isZooming)
             {
                 // Zooming animation - not allowed to change target plane
-                updateDestPosition(_selectedImage);
-                
-                if (Math.Abs(_cameraPosition.X - _camera.Position.X) < 0.01
-                    && Math.Abs(_cameraPosition.Y - _camera.Position.Y) < 0.01
-                    && Math.Abs(_cameraPosition.Z - _camera.Position.Z) < 0.01)
+                if (Math.Abs(_position.X - _camera.Position.X) < 0.01
+                    && Math.Abs(_position.Y - _camera.Position.Y) < 0.01
+                    && Math.Abs(_position.Z - _camera.Position.Z) < 0.01)
                 {
                     // finished
                     _isZooming = false;
@@ -295,15 +342,14 @@ namespace PhotoSynth
                 else
                 {
                     // zoom : change camera position
-                    _curDistance += (_distance - _curDistance) / DISTANCE_MUL;
                     Point3D position = _camera.Position;
-                    position.X += (_cameraPosition.X - _camera.Position.X) / X_MUL;
-                    position.Y += (_cameraPosition.Y - _camera.Position.Y) / Y_MUL;
-                    position.Z += (_cameraPosition.Z - _camera.Position.Z) / Z_MUL;
+                    position.X += (_position.X - _camera.Position.X) / X_MUL;
+                    position.Y += (_position.Y - _camera.Position.Y) / Y_MUL;
+                    position.Z += (_position.Z - _camera.Position.Z) / Z_MUL;
                     _camera.Position = position;
                 }
             }
-            else
+            else if(_isMoving)
             {
                 // changing target plane, not allowed to zoom-in/out
                 double camRotateAngle = _cameraRotateAngle / ROTATE_CAM_MUL;
@@ -329,16 +375,25 @@ namespace PhotoSynth
                     RotateTransform3D upTransform = new RotateTransform3D(new AxisAngleRotation3D(_upRotateAxis, upRotateAngle), _upRotateCenter);
                     _camera.UpDirection = upTransform.Value.Transform(_camera.UpDirection);
                 }
+
                 if (Math.Abs(camRotateAngle) > 0.01 || Math.Abs(lookRotateAngle) > 0.01 || Math.Abs(upRotateAngle) > 0.01)
                 {
+                    sldDistance.IsEnabled = false;
+                    sldDistance.ReleaseMouseCapture();
+                    sldHeight.IsEnabled = false;
+                    sldHeight.ReleaseMouseCapture();
+
                     _isMoving = true;
-                    ZoomSlider.IsEnabled = false;
-                }
+                }                
                 else
                 {
-                    // finished
+                    // finished                  
+                    if (!_isOverhead)
+                        sldDistance.IsEnabled = true;
+                    else
+                        sldHeight.IsEnabled = true;
+
                     _isMoving = false;
-                    ZoomSlider.IsEnabled = true;
                 }
             }
         }
@@ -467,46 +522,141 @@ namespace PhotoSynth
 			Resize();
         }
 
-        private void Slider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
-        {
-        	// TODO: Add event handler implementation here.
-            Zooming(e.NewValue);
-        }
-        
-        private bool _isZooming = false;
-        private double _oldDistance;
-        private double _curDistance;
+        private bool _isOverhead = false;
+        private bool _isZooming = true;
+        private double _height = 25;
 
-        private void Zooming(double value)
-        {
-            if (!_isMoving)
+        private void updateOverheadViewport(bool updatePosition, bool updateUpDirection, bool updateLookDirection)
+        {   
+            if (updatePosition)
             {
-                _oldDistance = _curDistance = _distance;
-                _distance = value;
-                _isZooming = true;
+                _position = new Point3D(0, _height, 0);            
+            }
+
+            if (updateUpDirection)
+            {
+                _upDirection = new Vector3D(0, 0, -1);
+                _upRotateCenter = new Point3D(0, 0, 0);
+                _upRotateAxis = Vector3D.CrossProduct(_camera.UpDirection, _upDirection);
+                _upRotateAngle = Helper.GetAngle(_camera.UpDirection, _upDirection);
+            }
+
+            if (updateLookDirection)
+            {
+                _lookDirection = new Vector3D(0, -1, 0);
+                _lookRotateCenter = new Point3D(0, 0, 0);
+                _lookRotateAxis = Vector3D.CrossProduct(_camera.LookDirection, _lookDirection);
+                _lookRotateAngle = Helper.GetAngle(_camera.LookDirection, _lookDirection);
+            }
+
+            // A : _camera.Position - vi tri hien tai camera
+            // B : _cameraPosition - vi tri dich cua camera
+            // I : _cameraRotateCenter - trung diem AB
+            // _cameraAxis - [OI]x[AB] hoac -[OI]x[AB] sao cho _cameraAxis cung chieu _lookAxis (hop nhau goc nho hon 90)
+            //      de dam bao camera luon huong ve phia target plane (chieu xoay camera phu hop chieu xoay look vector)
+            _cameraRotateAngle = 180;
+            _cameraRotateCenter = new Point3D((_camera.Position.X + _position.X) / 2, (_camera.Position.Y + _position.Y) / 2, (_camera.Position.Z + _position.Z) / 2);
+            Vector3D v1 = new Vector3D(_position.X - _camera.Position.X, _position.Y - _camera.Position.Y, _position.Z - _camera.Position.Z);
+            Vector3D v2 = new Vector3D(_cameraRotateCenter.X - 0, _cameraRotateCenter.Y - 0, _cameraRotateCenter.Z - 0);
+            _cameraRotateAxis = Vector3D.CrossProduct(v1, v2);
+            if (_cameraRotateAxis.X == 0 && _cameraRotateAxis.Y == 0 && _cameraRotateAxis.Z == 0)
+                _cameraRotateAxis = new Vector3D(0, 1, 0);
+
+            if (updateLookDirection)
+            {
+                if (Helper.GetAngle(_lookRotateAxis, _cameraRotateAxis) > 90)
+                    _cameraRotateAxis = -_cameraRotateAxis;
             }
         }
 
-        private int rotateX = 0;
-        private void RotateX_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        private void btNormal_Click(object sender, RoutedEventArgs e)
         {
-            
+            if (_isOverhead == false || _isZooming)
+                return;
+            setNormal();
+            updateViewport(_selectedImage, true, true, true);
+            _isMoving = true;
         }
 
-        private void checkBox1_Unchecked(object sender, RoutedEventArgs e)
+        private void setNormal()
         {
-            foreach(PhotosynthImage img in _images)
+            _isOverhead = false;
+            sldHeight.IsEnabled = false;
+            chkShowAll.IsEnabled = false;
+
+            sldDistance.IsEnabled = true;
+            chkWireframe.IsEnabled = true;
+        }
+
+        private void sldDistance_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_isOverhead == false && _isMoving == false)
+            {
+                _isZooming = true;
+                _distance = e.NewValue;
+                updateViewport(_selectedImage, true, false, false);
+            }
+        }
+
+        private void chkWireframe_Checked(object sender, RoutedEventArgs e)
+        {            
+            foreach (PhotosynthImage img in _images)
+            {
+                img.WireframeModelVisual.Opacity = WIREFRAME_VISIBLE_OPACITY;
+            }
+        }
+
+        private void chkWireframe_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (PhotosynthImage img in _images)
             {
                 img.WireframeModelVisual.Opacity = WIREFRAME_INVISIBLE_OPACITY;
             }
         }
 
-        private void checkBox1_Checked(object sender, RoutedEventArgs e)
+        private void btOverhead_Click(object sender, RoutedEventArgs e)
+        {
+            if (_isOverhead == true || _isZooming)
+                return;
+            setOverhead();
+            updateOverheadViewport(true, true, true);
+            _isMoving = true;
+        }
+
+        private void setOverhead()
+        {
+            _isOverhead = true;
+            sldHeight.IsEnabled = true;
+            chkShowAll.IsEnabled = true;
+
+            sldDistance.IsEnabled = false;
+            chkWireframe.IsEnabled = false;
+        }   
+
+        private void sldHeight_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_isOverhead == true && _isMoving == false)
+            {
+                _isZooming = true;
+                _height = e.NewValue;
+                updateOverheadViewport(true, false, false);
+            }
+        }
+
+        private void chkShowAll_Checked(object sender, RoutedEventArgs e)
         {
             foreach (PhotosynthImage img in _images)
             {
                 img.WireframeModelVisual.Opacity = WIREFRAME_VISIBLE_OPACITY;
             }
         }
+
+        private void chkShowAll_Unchecked(object sender, RoutedEventArgs e)
+        {
+            foreach (PhotosynthImage img in _images)
+            {
+                img.WireframeModelVisual.Opacity = WIREFRAME_INVISIBLE_OPACITY;
+            }
+        }     
     }
 }

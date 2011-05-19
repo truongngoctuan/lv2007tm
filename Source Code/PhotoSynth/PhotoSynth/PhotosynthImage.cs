@@ -161,8 +161,7 @@ namespace PhotoSynth
             ModelVisual3D modvis = new ModelVisual3D();
             modvis.Transform = transform3D;
             modvis.Content = model;
-            //modvis.Opacity = ImageSpace3D.UNFOCUS_OPACITY;
-            modvis.Opacity = 0.3;
+            modvis.Opacity = ImageSpace3D.WIREFRAME_INVISIBLE_OPACITY;
 
             WireframeModel = model;
             WireframeModelVisual = modvis;
