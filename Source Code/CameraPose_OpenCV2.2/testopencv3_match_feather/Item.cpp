@@ -119,7 +119,7 @@ bool IsSameTransitionVector(float V1x, float V1y, float V2x, float V2y)
 
 	if (IsAlmostEqual(fDistance1, fDistance2, DISTANCE_THRES) &&
 		IsAlmostEqual(ftanAngle1, ftanAngle2, TAN_ANGLE_THRES) && 
-		V1y * V2y > 0)//loai bo truong hop x_am, y_duong va x_duong, y_am --> 2 truong hop dau van thoa dk
+		V1y * V2y >= 0)//loai bo truong hop x_am, y_duong va x_duong, y_am --> 2 truong hop dau van thoa dk
 	{
 		return true;
 	}
@@ -266,15 +266,17 @@ bool Item::IsConnectable(Item* target)
 	}
 
 	cout<<"max_inlier"<<max_inlier<<"/"<<points_number<<" percent: "<< (float)max_inlier / (float)points_number<<endl;
-	WriteLog(("max_inlier" + Str_itoa(max_inlier) + "/" + Str_itoa(points_number)).c_str());
+	TRACKING(("max_inlier" + Str_itoa(max_inlier) + "/" + Str_itoa(points_number)).c_str());
 	if ( max_inlier >= 8)
 	{
 		cout<<"connectable"<<endl;
+		TRACKING("connectable");
 		return true;
 	}
 	else
 	{
 		cout<<"not connectable"<<endl;
+		TRACKING("not connectable");
 		return false;
 	}
 }
