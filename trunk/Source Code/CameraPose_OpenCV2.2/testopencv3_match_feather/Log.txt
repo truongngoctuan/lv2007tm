@@ -1,4 +1,48 @@
-max_inlier210/304
-Error: images/test101.jpg - images/test102.jpg line: 100 file: d:\lv_project\source code\camerapose_opencv2.2\testopencv3_match_feather\main.cpp
-max_inlier58/108
-Error: images/test101.jpg - images/test103.jpg line: 101 file: d:\lv_project\source code\camerapose_opencv2.2\testopencv3_match_feather\main.cpp
+images/test06K4201.jpg - images/test06K4201.jpg
+max_inlier222/222
+connectable
+images/test06K4201.jpg - images/test06K4202.jpg
+max_inlier66/89
+connectable
+images/test06K4201.jpg - images/test06K4203.jpg
+max_inlier15/44
+connectable
+images/test06K4201.jpg - images/test06K4204.jpg
+max_inlier2/48
+not connectable
+images/test06K4202.jpg - images/test06K4201.jpg
+max_inlier59/67
+connectable
+images/test06K4202.jpg - images/test06K4202.jpg
+max_inlier447/447
+connectable
+images/test06K4202.jpg - images/test06K4203.jpg
+max_inlier135/171
+connectable
+images/test06K4202.jpg - images/test06K4204.jpg
+max_inlier6/45
+not connectable
+images/test06K4203.jpg - images/test06K4201.jpg
+max_inlier16/37
+connectable
+images/test06K4203.jpg - images/test06K4202.jpg
+max_inlier139/158
+connectable
+images/test06K4203.jpg - images/test06K4203.jpg
+max_inlier759/759
+connectable
+images/test06K4203.jpg - images/test06K4204.jpg
+max_inlier214/239
+connectable
+images/test06K4204.jpg - images/test06K4201.jpg
+max_inlier2/11
+not connectable
+images/test06K4204.jpg - images/test06K4202.jpg
+max_inlier7/23
+not connectable
+images/test06K4204.jpg - images/test06K4203.jpg
+max_inlier218/242
+connectable
+images/test06K4204.jpg - images/test06K4204.jpg
+max_inlier842/842
+connectable

@@ -26,9 +26,12 @@ bool IsAlmostEqual(float src, float dest, float SaiSoChoPhep);
 //http://www.java-samples.com/showtutorial.php?tutorialid=451
 #ifndef DEBUG
 #define ASSERT(x)
+#define TRACKING(x)
 #else
 
 #define ASSERT(message, x) \
+	cout << "TRACKING: "<< message<<endl; \
+	WriteLog(message); \
 	if (! (x)) \
 { \
 	cout << "ERROR!! Assert "<<endl; \
@@ -37,6 +40,11 @@ bool IsAlmostEqual(float src, float dest, float SaiSoChoPhep);
 	cout << "\tin file " << __FILE__ << endl;  \
 	WriteErrorLog(message, __LINE__, __FILE__); \
 }
+
+#define TRACKING(message) \
+{ \
+	WriteLog(message); \
+} 
 #endif
 
 string Str_itoa(int i);

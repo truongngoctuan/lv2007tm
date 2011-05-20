@@ -85,6 +85,7 @@
     <ClCompile Include="reconstruction.cpp" />
     <ClCompile Include="RotationMatrixUlti.cpp" />
     <ClCompile Include="SURFMatching.cpp" />
+    <ClCompile Include="TestIsConnectable.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -94,6 +95,7 @@
     <ClInclude Include="reconstruction.h" />
     <ClInclude Include="RotationMatrixUlti.h" />
     <ClInclude Include="SURFMatching.h" />
+    <ClInclude Include="TestIsConnectable.h" />
     <ClInclude Include="Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
