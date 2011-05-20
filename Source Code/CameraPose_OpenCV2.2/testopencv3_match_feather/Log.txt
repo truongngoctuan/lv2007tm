@@ -1,3 +1,228 @@
+images/test101.jpg - images/test101.jpg
+max_inlier915/915
+connectable
+images/test101.jpg - images/test102.jpg
+max_inlier211/304
+connectable
+images/test101.jpg - images/test103.jpg
+max_inlier65/108
+connectable
+images/test101.jpg - images/test104.jpg
+max_inlier1/11
+not connectable
+images/test101.jpg - images/test105.jpg
+max_inlier2/19
+not connectable
+images/test102.jpg - images/test101.jpg
+max_inlier213/289
+connectable
+images/test102.jpg - images/test102.jpg
+max_inlier1141/1141
+connectable
+images/test102.jpg - images/test103.jpg
+max_inlier219/338
+connectable
+images/test102.jpg - images/test104.jpg
+max_inlier12/25
+connectable
+images/test102.jpg - images/test105.jpg
+max_inlier1/11
+not connectable
+images/test103.jpg - images/test101.jpg
+max_inlier71/114
+connectable
+images/test103.jpg - images/test102.jpg
+max_inlier214/337
+connectable
+images/test103.jpg - images/test103.jpg
+max_inlier856/856
+connectable
+images/test103.jpg - images/test104.jpg
+max_inlier22/50
+connectable
+images/test103.jpg - images/test105.jpg
+max_inlier2/18
+not connectable
+images/test104.jpg - images/test101.jpg
+max_inlier2/38
+not connectable
+images/test104.jpg - images/test102.jpg
+max_inlier20/71
+connectable
+images/test104.jpg - images/test103.jpg
+max_inlier32/99
+connectable
+images/test104.jpg - images/test104.jpg
+max_inlier313/313
+connectable
+images/test104.jpg - images/test105.jpg
+max_inlier49/68
+connectable
+images/test104.jpg - images/test101.jpg
+max_inlier2/38
+not connectable
+images/test104.jpg - images/test102.jpg
+max_inlier20/71
+connectable
+images/test104.jpg - images/test103.jpg
+max_inlier32/99
+connectable
+images/test104.jpg - images/test104.jpg
+max_inlier313/313
+connectable
+images/test104.jpg - images/test105.jpg
+max_inlier49/68
+connectable
+images/test301.jpg - images/test301.jpg
+max_inlier95/95
+connectable
+images/test301.jpg - images/test302.jpg
+max_inlier4/14
+not connectable
+images/test301.jpg - images/test303.jpg
+max_inlier3/34
+not connectable
+images/test301.jpg - images/test304.jpg
+max_inlier2/28
+not connectable
+images/test301.jpg - images/test305.jpg
+max_inlier2/44
+not connectable
+images/test302.jpg - images/test301.jpg
+max_inlier7/17
+not connectable
+images/test302.jpg - images/test302.jpg
+max_inlier62/62
+connectable
+images/test302.jpg - images/test303.jpg
+max_inlier12/21
+connectable
+images/test302.jpg - images/test304.jpg
+max_inlier7/33
+not connectable
+images/test302.jpg - images/test305.jpg
+max_inlier2/30
+not connectable
+images/test303.jpg - images/test301.jpg
+max_inlier1/2
+not connectable
+images/test303.jpg - images/test302.jpg
+max_inlier13/17
+connectable
+images/test303.jpg - images/test303.jpg
+max_inlier234/234
+connectable
+images/test303.jpg - images/test304.jpg
+max_inlier76/120
+connectable
+images/test303.jpg - images/test305.jpg
+max_inlier53/88
+connectable
+images/test304.jpg - images/test301.jpg
+max_inlier1/3
+not connectable
+images/test304.jpg - images/test302.jpg
+max_inlier6/8
+not connectable
+images/test304.jpg - images/test303.jpg
+max_inlier76/106
+connectable
+images/test304.jpg - images/test304.jpg
+max_inlier357/357
+connectable
+images/test304.jpg - images/test305.jpg
+max_inlier92/137
+connectable
+images/test304.jpg - images/test301.jpg
+max_inlier1/3
+not connectable
+images/test304.jpg - images/test302.jpg
+max_inlier6/8
+not connectable
+images/test304.jpg - images/test303.jpg
+max_inlier76/106
+connectable
+images/test304.jpg - images/test304.jpg
+max_inlier357/357
+connectable
+images/test304.jpg - images/test305.jpg
+max_inlier92/137
+connectable
+images/test05101.jpg - images/test05101.jpg
+max_inlier1157/1157
+connectable
+images/test05101.jpg - images/test05102.jpg
+max_inlier229/281
+connectable
+images/test05101.jpg - images/test05103.jpg
+max_inlier106/122
+connectable
+images/test05102.jpg - images/test05101.jpg
+max_inlier237/298
+connectable
+images/test05102.jpg - images/test05102.jpg
+max_inlier1202/1202
+connectable
+images/test05102.jpg - images/test05103.jpg
+max_inlier190/223
+connectable
+images/test05103.jpg - images/test05101.jpg
+max_inlier99/114
+connectable
+images/test05103.jpg - images/test05102.jpg
+max_inlier183/222
+connectable
+images/test05103.jpg - images/test05103.jpg
+max_inlier1219/1219
+connectable
+images/test05201.jpg - images/test05201.jpg
+max_inlier1107/1107
+connectable
+images/test05201.jpg - images/test05202.jpg
+max_inlier229/328
+connectable
+images/test05201.jpg - images/test05203.jpg
+max_inlier145/171
+connectable
+images/test05201.jpg - images/test05204.jpg
+max_inlier15/45
+connectable
+images/test05202.jpg - images/test05201.jpg
+max_inlier241/320
+connectable
+images/test05202.jpg - images/test05202.jpg
+max_inlier1199/1199
+connectable
+images/test05202.jpg - images/test05203.jpg
+max_inlier259/279
+connectable
+images/test05202.jpg - images/test05204.jpg
+max_inlier67/95
+connectable
+images/test05203.jpg - images/test05201.jpg
+max_inlier148/166
+connectable
+images/test05203.jpg - images/test05202.jpg
+max_inlier260/283
+connectable
+images/test05203.jpg - images/test05203.jpg
+max_inlier1193/1193
+connectable
+images/test05203.jpg - images/test05204.jpg
+max_inlier272/296
+connectable
+images/test05204.jpg - images/test05201.jpg
+max_inlier13/33
+connectable
+images/test05204.jpg - images/test05202.jpg
+max_inlier62/96
+connectable
+images/test05204.jpg - images/test05203.jpg
+max_inlier234/261
+connectable
+images/test05204.jpg - images/test05204.jpg
+max_inlier1283/1283
+connectable
 images/test06K4201.jpg - images/test06K4201.jpg
 max_inlier222/222
 connectable
@@ -11,7 +236,7 @@ images/test06K4201.jpg - images/test06K4204.jpg
 max_inlier2/48
 not connectable
 images/test06K4202.jpg - images/test06K4201.jpg
-max_inlier59/67
+max_inlier56/67
 connectable
 images/test06K4202.jpg - images/test06K4202.jpg
 max_inlier447/447
@@ -23,10 +248,10 @@ images/test06K4202.jpg - images/test06K4204.jpg
 max_inlier6/45
 not connectable
 images/test06K4203.jpg - images/test06K4201.jpg
-max_inlier16/37
+max_inlier17/37
 connectable
 images/test06K4203.jpg - images/test06K4202.jpg
-max_inlier139/158
+max_inlier138/158
 connectable
 images/test06K4203.jpg - images/test06K4203.jpg
 max_inlier759/759
@@ -41,7 +266,7 @@ images/test06K4204.jpg - images/test06K4202.jpg
 max_inlier7/23
 not connectable
 images/test06K4204.jpg - images/test06K4203.jpg
-max_inlier218/242
+max_inlier217/242
 connectable
 images/test06K4204.jpg - images/test06K4204.jpg
 max_inlier842/842
