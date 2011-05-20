@@ -85,10 +85,10 @@ int main(int argc, char* argv[]) {
 			//lay danh sach file từ ListImage.txt
 			CLearLogFile();
 
-			//TestIsConnectable1x();
-			//TestIsConnectable3x();
-			//TestIsConnectable051x();
-			//TestIsConnectable052x();
+			TestIsConnectable1x();
+			TestIsConnectable3x();
+			TestIsConnectable051x();
+			TestIsConnectable052x();
 			TestIsConnectable06K42x();
 			break;
 		}
