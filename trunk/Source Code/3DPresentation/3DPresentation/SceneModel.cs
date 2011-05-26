@@ -37,7 +37,7 @@ namespace _3DPresentation
         // the device to use when creating resources
         static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
-        bool bUseTriangle = false;
+        bool bUseTriangle = true;
 
         // resources
         VertexBuffer vertexBuffer; VertexBuffer avertexBuffer;
@@ -63,10 +63,10 @@ namespace _3DPresentation
             // Initialize resources required to draw the Cube
             CreateCube();
 
-            Stream shaderStream = Application.GetResourceStream(new Uri(@"3DPresentation;component/Cube.vs", UriKind.Relative)).Stream;
+            Stream shaderStream = Application.GetResourceStream(new Uri(@"3DPresentation;component/BasicVertexShader.vs", UriKind.Relative)).Stream;
             vertexShader = VertexShader.FromStream(resourceDevice, shaderStream);
 
-            shaderStream = Application.GetResourceStream(new Uri(@"3DPresentation;component/Cube.ps", UriKind.Relative)).Stream;
+            shaderStream = Application.GetResourceStream(new Uri(@"3DPresentation;component/BasicPixelShader.ps", UriKind.Relative)).Stream;
             pixelShader = PixelShader.FromStream(resourceDevice, shaderStream);
         }
 
@@ -259,6 +259,10 @@ namespace _3DPresentation
 
         public void Draw(GraphicsDevice graphicsDevice, TimeSpan totalTime, Matrix viewProjection)
         {
+            graphicsDevice.RasterizerState = new RasterizerState{
+                FillMode = FillMode.Solid,
+                CullMode = CullMode.CullClockwiseFace
+            };
             // update cube transform
             Matrix position = Matrix.Identity; // origin
             Matrix scale = Matrix.CreateScale(1.0f); // no scale modifier
