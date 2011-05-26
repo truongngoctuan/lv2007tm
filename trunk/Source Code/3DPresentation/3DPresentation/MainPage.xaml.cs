@@ -21,6 +21,8 @@ namespace _3DPresentation
         public MainPage()
         {
             InitializeComponent();
+            //App.Current.Host.Settings.MaxFrameRate = 24;
+
             ZSlider.Value = 1000;
         }
 
