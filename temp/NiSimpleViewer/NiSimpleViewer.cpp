@@ -48,7 +48,7 @@ using namespace xn;
 #define DISPLAY_MODE_OVERLAY	1
 #define DISPLAY_MODE_DEPTH		2
 #define DISPLAY_MODE_IMAGE		3
-#define DEFAULT_DISPLAY_MODE	DISPLAY_MODE_DEPTH
+#define DEFAULT_DISPLAY_MODE	DISPLAY_MODE_OVERLAY
 
 #define MAX_DEPTH 10000
 
@@ -527,7 +527,8 @@ int main(int argc, char* argv[])
 				cout<<"err: nRetVal = recorder.AddNodeToRecording(g_image, XN_CODEC_JPEG);  ";
 				return 1;
 			}
-
+glutKeyboard('1', 0, 0);
+			//g_context.WaitAndUpdateAll();
 			g_depth.GetMetaData(g_depthMD);
 			g_image.GetMetaData(g_imageMD);
 
@@ -566,6 +567,7 @@ int main(int argc, char* argv[])
 			glDisable(GL_DEPTH_TEST);
 			glEnable(GL_TEXTURE_2D);
 
+			
 			// Per frame code is in glutDisplay
 			glutMainLoop();
 			break;
