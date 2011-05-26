@@ -243,7 +243,7 @@ namespace _3DPresentation
                 #region use triangle
                 idx[count + 0] = i1;
                 idx[count + 1] = i2;
-                idx[count + 1] = i3;
+                idx[count + 2] = i3;
                 count += 3;
                 #endregion
             }
@@ -293,14 +293,14 @@ namespace _3DPresentation
             if (bUseTriangle)
             {
                 #region use triangle
-                //int triangles = fullVertices.Length / 2;
-                //int trianglesPerDraw = 20000;
-                //int verticesPerDraw = trianglesPerDraw * 2;
-                //int n = triangles / trianglesPerDraw;
-                //for (int i = 0; i < n; i++)
-                //{
-                //    graphicsDevice.DrawPrimitives(PrimitiveType.LineList, i * verticesPerDraw, trianglesPerDraw);
-                //}
+                int triangles = fullVertices.Length / 3;
+                int trianglesPerDraw = 20000;
+                int verticesPerDraw = trianglesPerDraw * 3;
+                int n = triangles / trianglesPerDraw;
+                for (int i = 0; i < n; i++)
+                {
+                    graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, i * verticesPerDraw, trianglesPerDraw);
+                }
                 #endregion
             }
             else
