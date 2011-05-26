@@ -2,5 +2,7 @@
   <Deployment.Parts>
     <AssemblyPart x:Name="PhotoSynth" Source="PhotoSynth.dll" />
     <AssemblyPart x:Name="Kit3D" Source="Kit3D.dll" />
+    <AssemblyPart x:Name="System.Windows.Controls.Data.Input" Source="System.Windows.Controls.Data.Input.dll" />
+    <AssemblyPart x:Name="System.ComponentModel.DataAnnotations" Source="System.ComponentModel.DataAnnotations.dll" />
   </Deployment.Parts>
 </Deployment>
