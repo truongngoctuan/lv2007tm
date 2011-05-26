@@ -7,6 +7,10 @@
     d:DesignHeight="300" d:DesignWidth="400">
 
     <Grid x:Name="LayoutRoot" Background="Black">
-        <DrawingSurface Draw="OnDraw" SizeChanged="OnSizeChanged" />
+        <DrawingSurface x:Name="drawingSurface" Draw="OnDraw" SizeChanged="OnSizeChanged" />        
+        <Slider x:Name="XSlider" Width="200" Height="35" Minimum="-1000" Maximum="1000"  Margin="0,10,0,0" ValueChanged="XSlider_ValueChanged" VerticalAlignment="Top" HorizontalAlignment="Left" />
+        <Slider x:Name="YSlider" Width="200" Height="35" Minimum="-1000" Maximum="1000" Margin="0,50,0,0" ValueChanged="YSlider_ValueChanged" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Slider x:Name="ZSlider" Width="200" Height="35" Minimum="-3000" Maximum="3000" Margin="0,90,0,0" ValueChanged="ZSlider_ValueChanged" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+        <Button Content="Start" Width="50" Height="23" Margin="0,10,10,0" Name="button1" Click="button1_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
     </Grid>
 </UserControl>

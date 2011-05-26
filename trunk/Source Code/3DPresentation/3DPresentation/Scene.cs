@@ -25,11 +25,20 @@ namespace _3DPresentation
         // The single Cube at the root of the scene
         SceneModel Cube = new SceneModel(false);
 
+        float x = 0;
+        float y = 0;
+        float z = 1000;
         public Scene()
         {
-            Vector3 cameraPosition = new Vector3(0, 0, 5.0f); // the camera's position
-            Vector3 cameraTarget = Vector3.Zero; // the place the camera is looking (towards world origin)
+            UpdateView();
+        }
 
+        private void UpdateView()
+        {
+            Vector3 cameraPosition = new Vector3(x, y, z); // the camera's position
+            //Vector3 cameraTarget = Vector3.Zero; // the place the camera is looking (towards world origin)
+
+            Vector3 cameraTarget = new Vector3(0, 0, 0);
             // the transform representing a camera at a position looking at a target
             view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.Up);
         }
@@ -39,7 +48,33 @@ namespace _3DPresentation
             set
             {
                 // update the screen space transform every time the aspect ratio changes
-                projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 100.0f);
+                //projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 100.0f);
+                projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 30000.0f);
+            }
+        }
+
+        public float X
+        {
+            set
+            {
+                x = value;
+                UpdateView();
+            }
+        }
+        public float Y
+        {
+            set
+            {
+                y = value;
+                UpdateView();
+            }
+        }
+        public float Z
+        {
+            set
+            {
+                z = value;
+                UpdateView();
             }
         }
 

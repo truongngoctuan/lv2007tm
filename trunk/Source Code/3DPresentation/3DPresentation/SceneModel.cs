@@ -38,13 +38,13 @@ namespace _3DPresentation
         static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
         // resources
-        VertexBuffer vertexBuffer;
+        VertexBuffer vertexBuffer; VertexBuffer avertexBuffer;
         IndexBuffer indexBuffer;
         VertexShader vertexShader;
         PixelShader pixelShader;
 
-        VertexPositionColor[] vertices;
-        VertexPositionColor[] avertex;        
+        VertexPositionColor[] vertices; VertexPositionColor[] fullVertices;
+        VertexPositionColor[] avertex;
 
         WriteableBitmap writeableBitmap;
 
@@ -85,7 +85,6 @@ namespace _3DPresentation
             Color orange = Color.FromNonPremultiplied(255, 128, 0, 255);
             Color yellow = Color.FromNonPremultiplied(255, 255, 0, 255);
             Color purple = Color.FromNonPremultiplied(128, 0, 255, 255);
-
             Color black = Color.FromNonPremultiplied(0, 0, 0, 255);
             Color cyan = Color.FromNonPremultiplied(0, 255, 255, 255);
 
@@ -98,9 +97,9 @@ namespace _3DPresentation
 
             avertex[4] = new VertexPositionColor(new Vector3(0, 0, -3000), blue);
             avertex[5] = new VertexPositionColor(new Vector3(0, 0, 3000), Color.White);
-
+            /*
             vertexBuffer = new VertexBuffer(resourceDevice, VertexPositionColor.VertexDeclaration,
-                vertices.Length, BufferUsage.WriteOnly);
+                vertices.Length, BufferUsage.WriteOnly);            
 
             // copy vertex data to graphics device buffer
             vertexBuffer.SetData(0, vertices, 0, vertices.Length, 0);
@@ -111,7 +110,33 @@ namespace _3DPresentation
                 idx.Length,
                 BufferUsage.WriteOnly
             );
-            indexBuffer.SetData(0, idx, 0, count);            
+            indexBuffer.SetData(0, idx, 0, count);        
+            */
+            float minX = 100000;
+            float maxX = -110000;
+            fullVertices = new VertexPositionColor[count];
+            for (int i = 0; i < count; i++)
+            {
+                if (vertices[idx[i]].Position.Z != 0)
+                    i = i;
+                fullVertices[i].Position = vertices[idx[i]].Position;
+                if (minX > vertices[idx[i]].Position.X)
+                    minX = vertices[idx[i]].Position.X;
+                if (maxX < vertices[idx[i]].Position.X)
+                    maxX = vertices[idx[i]].Position.X;
+                fullVertices[i].Color = vertices[idx[i]].Color;
+            }
+            //fullVertices[0] = new VertexPositionColor(new Vector3(-3000, 0, 0), red);
+            //fullVertices[1] = new VertexPositionColor(new Vector3(+3000, 0, 0), Color.White);
+            //fullVertices[2] = new VertexPositionColor(new Vector3(0, -3000, 0), green);
+
+            vertexBuffer = new VertexBuffer(resourceDevice, VertexPositionColor.VertexDeclaration,
+                fullVertices.Length, BufferUsage.WriteOnly);
+            vertexBuffer.SetData(0, fullVertices, 0, fullVertices.Length, 0);
+
+            avertexBuffer = new VertexBuffer(resourceDevice, VertexPositionColor.VertexDeclaration,
+                avertex.Length, BufferUsage.WriteOnly);
+            avertexBuffer.SetData(0, avertex, 0, avertex.Length, 0);
         }
 
         float degH = 57.0f;
@@ -134,6 +159,7 @@ namespace _3DPresentation
             val.Z = -input.Z;
             val.X = input.Z * (input.X) / dOH;
             val.Y = -input.Z * (input.Y) / dOH;
+
             return val;
         }
 
@@ -174,11 +200,17 @@ namespace _3DPresentation
         private Color getPixel(int num)
         {
             int colorAsInt = writeableBitmap.Pixels[num];
+            //return Color.White;
+            //return Color.FromNonPremultiplied(
+            //                            (byte)255,
+            //                            (byte)0,
+            //                            (byte)255,
+            //                            (byte)255);
             return Color.FromNonPremultiplied(
                                         (byte)((colorAsInt >> 16) & 0xff), 
                                         (byte)((colorAsInt >> 8) & 0xff), 
                                         (byte)((colorAsInt >> 0) & 0xff),
-                                        (byte)((colorAsInt >> 24) & 0xff));
+                                        (byte)255);
         }
 
         int[] idx;
@@ -229,10 +261,18 @@ namespace _3DPresentation
                 return;
             if (Math.Abs(vertices[i2].Position.Z - vertices[i3].Position.Z) > Threshold)
                 return;
-            //if (vertices[i1].Position == vertices[i2].Position
-            //    || vertices[i1].Position == vertices[i3].Position
-            //    || vertices[i2].Position == vertices[i3].Position)
+
+            //if (Vector3.Distance(vertices[i1].Position, vertices[i2].Position) > Threshold)
             //    return;
+            //if (Vector3.Distance(vertices[i1].Position, vertices[i3].Position) > Threshold)
+            //    return;
+            //if (Vector3.Distance(vertices[i2].Position, vertices[i3].Position) > Threshold)
+            //    return;
+
+            if (vertices[i1].Position == vertices[i2].Position
+                || vertices[i1].Position == vertices[i3].Position
+                || vertices[i2].Position == vertices[i3].Position)
+                return;
 
             idx[count + 0] = i1;
             idx[count + 1] = i2;
@@ -257,15 +297,14 @@ namespace _3DPresentation
 
             // the world transform for the cube leaves it centered
             // at the origin but with the rotation applied
-            Matrix world = scale * rotation * position;
+            Matrix world = Matrix.Identity;//scale * rotation * position;
 
             // calculate the final transform to pass to the shader
             Matrix worldViewProjection = world * viewProjection;
 
             // setup vertex pipeline
-             
             graphicsDevice.SetVertexBuffer(vertexBuffer);
-            graphicsDevice.Indices = indexBuffer;
+            //graphicsDevice.Indices = indexBuffer;
 
             graphicsDevice.SetVertexShader(vertexShader);
             graphicsDevice.SetVertexShaderConstantFloat4(0, ref worldViewProjection); // pass the transform to the shader
@@ -274,9 +313,14 @@ namespace _3DPresentation
             graphicsDevice.SetPixelShader(pixelShader);
 
             // draw using the configured pipeline
-            graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertices.Length, 0, count/3);
-            graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, avertex.Length / 2);
+            //graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertices.Length, 0, count/3);
+            //graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, avertex.Length / 3);
+            for (int i = 0; i < 90; i++)
+            {
+                graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, i * fullVertices.Length / 90, fullVertices.Length / 90);
+            }
 
+            //graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, fullVertices.Length/30);
             // not supported
             //graphicsDevice.DrawUserPrimitives<VertexPositionColor>(PrimitiveType.LineList, avertex, 0, 3);
         }
