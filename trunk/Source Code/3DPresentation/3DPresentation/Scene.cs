@@ -23,7 +23,7 @@ namespace _3DPresentation
         Matrix projection; // The projection transform to convert 3D space to 2D screen space
 
         // The single Cube at the root of the scene
-        SceneModel Cube = new SceneModel(false);
+        SceneModel sceneModel = new SceneModel(false);
 
         float x = 0;
         float y = 0;
@@ -38,7 +38,7 @@ namespace _3DPresentation
             Vector3 cameraPosition = new Vector3(x, y, z); // the camera's position
             //Vector3 cameraTarget = Vector3.Zero; // the place the camera is looking (towards world origin)
 
-            Vector3 cameraTarget = new Vector3(0, 0, 0);
+            Vector3 cameraTarget = new Vector3(0, 0, -1000);
             // the transform representing a camera at a position looking at a target
             view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.Up);
         }
@@ -48,13 +48,76 @@ namespace _3DPresentation
             set
             {
                 // update the screen space transform every time the aspect ratio changes
-                //projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 100.0f);
                 projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 30000.0f);
+                //projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 100);
+            }
+        }
+
+        public float LightSourceX
+        {
+            get
+            {
+                return sceneModel.LightSourceX;
+            }
+            set
+            {
+                sceneModel.LightSourceX = value;
+            }
+        }
+
+        public float LightSourceY
+        {
+            get
+            {
+                return sceneModel.LightSourceY;
+            }
+            set
+            {
+                sceneModel.LightSourceY = value;
+            }
+        }
+
+        public float LightSourceZ
+        {
+            get
+            {
+                return sceneModel.LightSourceZ;
+            }
+            set
+            {
+                sceneModel.LightSourceZ = value;
+            }
+        }
+
+        public float LightIntensity
+        {
+            get
+            {
+                return sceneModel.LightIntensity;
+            }
+            set
+            {
+                sceneModel.LightIntensity = value;
+            }
+        }
+        public float AmbientIntensity
+        {
+            get
+            {
+                return sceneModel.AmbientIntensity;
+            }
+            set
+            {
+                sceneModel.AmbientIntensity = value;
             }
         }
 
         public float X
         {
+            get
+            {
+                return x;
+            }
             set
             {
                 x = value;
@@ -63,6 +126,10 @@ namespace _3DPresentation
         }
         public float Y
         {
+            get
+            {
+                return y;
+            }
             set
             {
                 y = value;
@@ -71,6 +138,10 @@ namespace _3DPresentation
         }
         public float Z
         {
+            get
+            {
+                return z;
+            }
             set
             {
                 z = value;
@@ -84,7 +155,7 @@ namespace _3DPresentation
             graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
 
             // draw the Cube
-            Cube.Draw(graphicsDevice, totalTime, view * projection);
+            sceneModel.Draw(graphicsDevice, totalTime, view * projection);
         }
     }
 }

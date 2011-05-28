@@ -21,9 +21,81 @@ namespace _3DPresentation
         public MainPage()
         {
             InitializeComponent();
-            //App.Current.Host.Settings.MaxFrameRate = 24;
+            //App.Current.Host.Settings.MaxFrameRate = 24;            
 
-            ZSlider.Value = 1000;
+            LayoutRoot.KeyDown += new KeyEventHandler(LayoutRoot_KeyDown);
+            myLightSourceX.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceX_ValueChanged);
+            myLightSourceY.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceY_ValueChanged);
+            myLightSourceZ.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceZ_ValueChanged);
+
+            myLightIntensity.ValueChanged += new MySliderControl.ValueChangedEventHandler(myDiffuseIntensity_ValueChanged);
+            myAmbientIntensity.ValueChanged += new MySliderControl.ValueChangedEventHandler(myAmbientIntensity_ValueChanged);
+
+
+            // Init
+            myLightSourceX.MinValue = -1000;
+            myLightSourceY.MinValue = -1000;
+            myLightSourceZ.MinValue = -3000;
+
+            myLightSourceX.MaxValue = 1000;
+            myLightSourceY.MaxValue = 1000;
+            myLightSourceZ.MaxValue = 3000;
+
+            myLightIntensity.MinValue = 0;
+            myLightIntensity.MaxValue = 5000;
+
+            myAmbientIntensity.MinValue = 0;
+            myAmbientIntensity.MaxValue = 1.0;
+
+
+            myLightSourceX.Value = 0;
+            myLightSourceY.Value = 0;
+            myLightSourceZ.Value = 1000;
+            myLightIntensity.Value = 5000.0f;
+            myAmbientIntensity.Value = 0.2f;
+        }
+
+        void myAmbientIntensity_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.AmbientIntensity = (float)e.NewValue;
+        }
+
+        void myDiffuseIntensity_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.LightIntensity = (float)e.NewValue;
+        }
+
+        void myLightSourceZ_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.LightSourceZ = (float)e.NewValue;
+        }
+
+        void myLightSourceY_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.LightSourceY = (float)e.NewValue;
+        }
+
+        void myLightSourceX_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.LightSourceX = (float)e.NewValue;
+        }
+
+        void LayoutRoot_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.A)
+                scene.X -= 10;
+            if (e.Key == Key.D)
+                scene.X += 10;
+
+            if (e.Key == Key.W)
+                scene.Y += 10;
+            if (e.Key == Key.S)
+                scene.Y -= 10;
+
+            if (e.Key == Key.Q)
+                scene.Z -= 10;
+            if (e.Key == Key.E)
+                scene.Z += 10;
         }
 
         void OnDraw(object sender, DrawEventArgs args)
