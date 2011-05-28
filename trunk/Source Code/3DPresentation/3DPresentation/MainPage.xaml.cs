@@ -18,11 +18,14 @@ namespace _3DPresentation
         // init the 3D scene
         Scene scene = new Scene();
 
+        private static int MAX_FRAME_RATE = 24;
         public MainPage()
         {
             InitializeComponent();
-            //App.Current.Host.Settings.MaxFrameRate = 24;            
-
+            //Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 24 });
+            // INGNORED
+            App.Current.Host.Settings.MaxFrameRate = MAX_FRAME_RATE;            
+            
             LayoutRoot.KeyDown += new KeyEventHandler(LayoutRoot_KeyDown);
             myLightSourceX.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceX_ValueChanged);
             myLightSourceY.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceY_ValueChanged);
