@@ -34,7 +34,6 @@ namespace _3DPresentation
             myLightIntensity.ValueChanged += new MySliderControl.ValueChangedEventHandler(myDiffuseIntensity_ValueChanged);
             myAmbientIntensity.ValueChanged += new MySliderControl.ValueChangedEventHandler(myAmbientIntensity_ValueChanged);
 
-
             // Init
             myLightSourceX.MinValue = -1000;
             myLightSourceY.MinValue = -1000;
@@ -56,6 +55,23 @@ namespace _3DPresentation
             myLightSourceZ.Value = 1000;
             myLightIntensity.Value = 5000.0f;
             myAmbientIntensity.Value = 0.2f;
+
+            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+        }
+
+        int uiFPS = 0;
+        int _total_frames = 0;
+        DateTime _lastFPS = DateTime.Now;            
+        void CompositionTarget_Rendering(object sender, EventArgs e)
+        {
+            _total_frames++;
+            if ((DateTime.Now - _lastFPS).Seconds >= 1)
+            {
+                uiFPS = _total_frames;
+                _total_frames = 0;
+                _lastFPS = DateTime.Now;
+            }
+            myUIFPS.Dispatcher.BeginInvoke(new Action(() => { myUIFPS.Text = "UIFPS : " + uiFPS; }));
         }
 
         void myAmbientIntensity_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
@@ -103,8 +119,9 @@ namespace _3DPresentation
 
         void OnDraw(object sender, DrawEventArgs args)
         {
+            myDrawFPS.Dispatcher.BeginInvoke(new Action(() => { myDrawFPS.Text = "DrawFPS : " + scene.FPS; }));
             if (isDraw)
-            {
+            {                
                 // draw 3D scene
                 scene.Draw(args.GraphicsDevice, args.TotalTime);
 

@@ -149,6 +149,11 @@ namespace _3DPresentation
             }
         }
 
+        public int FPS
+        {
+            get { return sceneModel.FPS; }
+        }
+
         public void Draw(GraphicsDevice graphicsDevice, TimeSpan totalTime)
         {
             // clear the existing render target

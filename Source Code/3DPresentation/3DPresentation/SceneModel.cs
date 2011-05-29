@@ -141,6 +141,8 @@ namespace _3DPresentation
             avertexBuffer = new VertexBuffer(resourceDevice, VertexPositionColor.VertexDeclaration,
                 avertex.Length, BufferUsage.WriteOnly);
             avertexBuffer.SetData(0, avertex, 0, avertex.Length, 0);
+
+            //resourceDevice.SetVertexBuffer(vertexBuffer);
         }
 
         float degH = 57.0f;
@@ -314,8 +316,23 @@ namespace _3DPresentation
         Vector4 xDisfuseColor = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
         Vector4 xAmbientIntensity = new Vector4(0.2f, 0, 0, 0);
 
+        public int FPS
+        {
+            get;
+            set;
+        }
+        int _total_frames = 0;
+        DateTime _lastFPS = DateTime.Now;        
         public void Draw(GraphicsDevice graphicsDevice, TimeSpan totalTime, Matrix viewProjection)
         {
+            _total_frames++;
+            if ((DateTime.Now - _lastFPS).Seconds >= 1)
+            {
+                FPS = _total_frames;
+                _total_frames = 0;
+                _lastFPS = DateTime.Now;
+            }
+
             graphicsDevice.RasterizerState = new RasterizerState{
                 FillMode = FillMode.Solid,
                 CullMode = CullMode.CullClockwiseFace
