@@ -33,6 +33,40 @@ namespace _3DPresentation
             UpdateView();
         }
 
+        #region NewUpdate
+        Vector3 _cameraPosition = new Vector3(0, 0, 1000); // the camera's position
+        Vector3 _cameraTarget = new Vector3(0, 0, -1000);
+        public void UpdateView2()
+        {
+            // the transform representing a camera at a position looking at a target
+            view = Matrix.CreateLookAt(_cameraPosition, _cameraTarget, Vector3.Up);
+        }
+
+        public Vector3 CameraPosition
+        {
+            get
+            {
+                return _cameraPosition;
+            }
+            set
+            {
+                _cameraPosition = value;
+            }
+        }
+
+        public Vector3 CameraTarget
+        {
+            get
+            {
+                return _cameraTarget;
+            }
+            set
+            {
+                _cameraTarget = value;
+            }
+        }
+        #endregion
+
         private void UpdateView()
         {
             Vector3 cameraPosition = new Vector3(x, y, z); // the camera's position

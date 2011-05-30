@@ -57,6 +57,17 @@ namespace _3DPresentation
             myAmbientIntensity.Value = 0.2f;
 
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+
+            myUDRMZControl.MoveForwardClick += new RoutedEventHandler(MoveForward_Click);
+            myUDRMZControl.MoveBackClick += new RoutedEventHandler(MoveBack_Click);
+            myUDRMZControl.MoveLeftClick += new RoutedEventHandler(MoveLeft_Click);
+            myUDRMZControl.MoveRightClick += new RoutedEventHandler(MoveRight_Click);
+
+            myUDRMZControl.RotateLeftClick += new RoutedEventHandler(RotateLeft_Click);
+            myUDRMZControl.RotateRightClick += new RoutedEventHandler(RotateRight_Click);
+
+            myUDRMZControl.RotateUpClick += new RoutedEventHandler(RotateUp_Click);
+            myUDRMZControl.RotateDownClick += new RoutedEventHandler(RotateDown_Click);
         }
 
         int uiFPS = 0;
@@ -165,6 +176,177 @@ namespace _3DPresentation
         {
             float value = (float)e.NewValue;
             scene.Z = value;
+        }
+
+        #region NewMove
+        private void MoveForward_Click(object sender, RoutedEventArgs e)
+        {
+            //scene.Y += 10;
+            try
+            {
+                CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.FORWARD);
+                scene.CameraPosition = CameraMovements.CameraResult;
+                scene.CameraTarget = CameraMovements.LookAtResult;
+                scene.UpdateView2();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("MoveForward_Click" + ex.Message);
+            }
+
+        }
+
+        private void MoveBack_Click(object sender, RoutedEventArgs e)
+        {
+            //scene.Y += 10;
+            try
+            {
+                CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.BACK);
+                scene.CameraPosition = CameraMovements.CameraResult;
+                scene.CameraTarget = CameraMovements.LookAtResult;
+                scene.UpdateView2();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("MoveBack_Click" + ex.Message);
+            }
+
+        }
+
+        private void MoveLeft_Click(object sender, RoutedEventArgs e)
+        {
+            //scene.Y += 10;
+            try
+            {
+                CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.LEFT);
+                scene.CameraPosition = CameraMovements.CameraResult;
+                scene.CameraTarget = CameraMovements.LookAtResult;
+                scene.UpdateView2();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("MoveLeft_Click" + ex.Message);
+            }
+
+        }
+
+        private void MoveRight_Click(object sender, RoutedEventArgs e)
+        {
+            //scene.Y += 10;
+            try
+            {
+                CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.RIGHT);
+                scene.CameraPosition = CameraMovements.CameraResult;
+                scene.CameraTarget = CameraMovements.LookAtResult;
+                scene.UpdateView2();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("MoveRight_Click" + ex.Message);
+            }
+
+        }
+
+        #endregion
+
+        #region NewRotate
+        private void RotateLeft_Click(object sender, RoutedEventArgs e)
+        {
+            //scene.Y += 10;
+            try
+            {
+                CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, 2), scene.CameraPosition, scene.CameraTarget);
+                //scene.CameraPosition = CameraMovements.CameraResult;
+                scene.CameraTarget = CameraMovements.LookAtResult;
+                scene.UpdateView2();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("RotateLeft_Click" + ex.Message);
+            }
+
+        }
+
+        private void RotateRight_Click(object sender, RoutedEventArgs e)
+        {
+            //scene.Y += 10;
+            try
+            {
+                CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, -2), scene.CameraPosition, scene.CameraTarget);
+                //scene.CameraPosition = CameraMovements.CameraResult;
+                scene.CameraTarget = CameraMovements.LookAtResult;
+                scene.UpdateView2();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("RotateRight_Click" + ex.Message);
+            }
+
+        }
+
+        private void RotateUp_Click(object sender, RoutedEventArgs e)
+        {
+            //scene.Y += 10;
+            try
+            {
+                CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(10, 0), scene.CameraPosition, scene.CameraTarget);
+                //scene.CameraPosition = CameraMovements.CameraResult;
+                scene.CameraTarget = CameraMovements.LookAtResult;
+                scene.UpdateView2();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("RotateUp_Click" + ex.Message);
+            }
+
+        }
+
+        private void RotateDown_Click(object sender, RoutedEventArgs e)
+        {
+            //scene.Y += 10;
+            try
+            {
+                CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(-10, 0), scene.CameraPosition, scene.CameraTarget);
+                //scene.CameraPosition = CameraMovements.CameraResult;
+                scene.CameraTarget = CameraMovements.LookAtResult;
+                scene.UpdateView2();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("RotateDown_Click" + ex.Message);
+            }
+
+        }
+        #endregion
+
+        bool bIsbtDown = false;
+        Point oldPoint = new Point();
+        Point newPoint = new Point();
+
+        private void LayoutRoot_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //MessageBox.Show("LayoutRoot_MouseLeftButtonDown");
+            bIsbtDown = true;
+            oldPoint = e.GetPosition(drawingSurface);
+        }
+
+        private void LayoutRoot_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            bIsbtDown = false;
+        }
+
+        private void LayoutRoot_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (bIsbtDown)
+            {
+                newPoint = e.GetPosition(drawingSurface);
+
+                CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2((float)(newPoint.Y - oldPoint.Y), (float)(newPoint.X - oldPoint.X)), scene.CameraPosition, scene.CameraTarget);
+                scene.CameraTarget = CameraMovements.LookAtResult;
+                scene.UpdateView2();
+
+                oldPoint = newPoint;
+            }
         }
     }
 }
