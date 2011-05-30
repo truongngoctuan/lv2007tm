@@ -26,7 +26,6 @@ namespace _3DPresentation
             // INGNORED
             App.Current.Host.Settings.MaxFrameRate = MAX_FRAME_RATE;            
             
-            LayoutRoot.KeyDown += new KeyEventHandler(LayoutRoot_KeyDown);
             myLightSourceX.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceX_ValueChanged);
             myLightSourceY.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceY_ValueChanged);
             myLightSourceZ.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceZ_ValueChanged);
@@ -110,24 +109,6 @@ namespace _3DPresentation
             scene.LightSourceX = (float)e.NewValue;
         }
 
-        void LayoutRoot_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.A)
-                scene.X -= 10;
-            if (e.Key == Key.D)
-                scene.X += 10;
-
-            if (e.Key == Key.W)
-                scene.Y += 10;
-            if (e.Key == Key.S)
-                scene.Y -= 10;
-
-            if (e.Key == Key.Q)
-                scene.Z -= 10;
-            if (e.Key == Key.E)
-                scene.Z += 10;
-        }
-
         void OnDraw(object sender, DrawEventArgs args)
         {
             myDrawFPS.Dispatcher.BeginInvoke(new Action(() => { myDrawFPS.Text = "DrawFPS : " + scene.FPS; }));
@@ -150,32 +131,21 @@ namespace _3DPresentation
         }
 
         bool isDraw = false;
+        bool isStart = false;
         private void button1_Click(object sender, RoutedEventArgs e)
         {
             isDraw = !isDraw;
-            if(isDraw)
+            if (isDraw)
+            {
                 button1.Content = "Stop";
+                isStart = true;
+            }
             else
+            {
                 button1.Content = "Start";
+                isStart = false;
+            }
             drawingSurface.Invalidate();
-        }
-
-        private void XSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            float value = (float)e.NewValue;
-            scene.X = value;
-        }
-
-        private void YSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            float value = (float)e.NewValue;
-            scene.Y = value;
-        }
-
-        private void ZSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            float value = (float)e.NewValue;
-            scene.Z = value;
         }
 
         #region NewMove
@@ -184,10 +154,13 @@ namespace _3DPresentation
             //scene.Y += 10;
             try
             {
-                CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.FORWARD);
-                scene.CameraPosition = CameraMovements.CameraResult;
-                scene.CameraTarget = CameraMovements.LookAtResult;
-                scene.UpdateView2();
+                if (isStart)
+                {
+                    CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.FORWARD);
+                    scene.CameraPosition = CameraMovements.CameraResult;
+                    scene.CameraTarget = CameraMovements.LookAtResult;
+                    scene.UpdateView2();
+                }
             }
             catch (Exception ex)
             {
@@ -201,10 +174,13 @@ namespace _3DPresentation
             //scene.Y += 10;
             try
             {
-                CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.BACK);
-                scene.CameraPosition = CameraMovements.CameraResult;
-                scene.CameraTarget = CameraMovements.LookAtResult;
-                scene.UpdateView2();
+                if (isStart)
+                {
+                    CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.BACK);
+                    scene.CameraPosition = CameraMovements.CameraResult;
+                    scene.CameraTarget = CameraMovements.LookAtResult;
+                    scene.UpdateView2();
+                }
             }
             catch (Exception ex)
             {
@@ -218,10 +194,13 @@ namespace _3DPresentation
             //scene.Y += 10;
             try
             {
-                CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.LEFT);
-                scene.CameraPosition = CameraMovements.CameraResult;
-                scene.CameraTarget = CameraMovements.LookAtResult;
-                scene.UpdateView2();
+                if (isStart)
+                {
+                    CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.LEFT);
+                    scene.CameraPosition = CameraMovements.CameraResult;
+                    scene.CameraTarget = CameraMovements.LookAtResult;
+                    scene.UpdateView2();
+                }
             }
             catch (Exception ex)
             {
@@ -235,10 +214,13 @@ namespace _3DPresentation
             //scene.Y += 10;
             try
             {
-                CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.RIGHT);
-                scene.CameraPosition = CameraMovements.CameraResult;
-                scene.CameraTarget = CameraMovements.LookAtResult;
-                scene.UpdateView2();
+                if (isStart)
+                {
+                    CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.RIGHT);
+                    scene.CameraPosition = CameraMovements.CameraResult;
+                    scene.CameraTarget = CameraMovements.LookAtResult;
+                    scene.UpdateView2();
+                }
             }
             catch (Exception ex)
             {
@@ -255,10 +237,13 @@ namespace _3DPresentation
             //scene.Y += 10;
             try
             {
-                CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, 2), scene.CameraPosition, scene.CameraTarget);
-                //scene.CameraPosition = CameraMovements.CameraResult;
-                scene.CameraTarget = CameraMovements.LookAtResult;
-                scene.UpdateView2();
+                if (isStart)
+                {
+                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, 2), scene.CameraPosition, scene.CameraTarget);
+                    //scene.CameraPosition = CameraMovements.CameraResult;
+                    scene.CameraTarget = CameraMovements.LookAtResult;
+                    scene.UpdateView2();
+                }
             }
             catch (Exception ex)
             {
@@ -272,10 +257,13 @@ namespace _3DPresentation
             //scene.Y += 10;
             try
             {
-                CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, -2), scene.CameraPosition, scene.CameraTarget);
-                //scene.CameraPosition = CameraMovements.CameraResult;
-                scene.CameraTarget = CameraMovements.LookAtResult;
-                scene.UpdateView2();
+                if (isStart)
+                {
+                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, -2), scene.CameraPosition, scene.CameraTarget);
+                    //scene.CameraPosition = CameraMovements.CameraResult;
+                    scene.CameraTarget = CameraMovements.LookAtResult;
+                    scene.UpdateView2();
+                }
             }
             catch (Exception ex)
             {
@@ -289,10 +277,13 @@ namespace _3DPresentation
             //scene.Y += 10;
             try
             {
-                CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(10, 0), scene.CameraPosition, scene.CameraTarget);
-                //scene.CameraPosition = CameraMovements.CameraResult;
-                scene.CameraTarget = CameraMovements.LookAtResult;
-                scene.UpdateView2();
+                if (isStart)
+                {
+                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(10, 0), scene.CameraPosition, scene.CameraTarget);
+                    //scene.CameraPosition = CameraMovements.CameraResult;
+                    scene.CameraTarget = CameraMovements.LookAtResult;
+                    scene.UpdateView2();
+                }
             }
             catch (Exception ex)
             {
@@ -306,10 +297,13 @@ namespace _3DPresentation
             //scene.Y += 10;
             try
             {
-                CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(-10, 0), scene.CameraPosition, scene.CameraTarget);
-                //scene.CameraPosition = CameraMovements.CameraResult;
-                scene.CameraTarget = CameraMovements.LookAtResult;
-                scene.UpdateView2();
+                if (isStart)
+                {
+                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(-10, 0), scene.CameraPosition, scene.CameraTarget);
+                    //scene.CameraPosition = CameraMovements.CameraResult;
+                    scene.CameraTarget = CameraMovements.LookAtResult;
+                    scene.UpdateView2();
+                }
             }
             catch (Exception ex)
             {
@@ -317,7 +311,7 @@ namespace _3DPresentation
             }
 
         }
-        #endregion
+
 
         bool bIsbtDown = false;
         Point oldPoint = new Point();
@@ -337,7 +331,7 @@ namespace _3DPresentation
 
         private void LayoutRoot_MouseMove(object sender, MouseEventArgs e)
         {
-            if (bIsbtDown)
+            if (bIsbtDown && isStart)
             {
                 newPoint = e.GetPosition(drawingSurface);
 
@@ -348,5 +342,6 @@ namespace _3DPresentation
                 oldPoint = newPoint;
             }
         }
+        #endregion
     }
 }
