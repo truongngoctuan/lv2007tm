@@ -25,12 +25,9 @@ namespace _3DPresentation
         // The single Cube at the root of the scene
         SceneModel sceneModel = new SceneModel(false);
 
-        float x = 0;
-        float y = 0;
-        float z = 1000;
         public Scene()
         {
-            UpdateView();
+            UpdateView2();
         }
 
         #region NewUpdate
@@ -66,16 +63,6 @@ namespace _3DPresentation
             }
         }
         #endregion
-
-        private void UpdateView()
-        {
-            Vector3 cameraPosition = new Vector3(x, y, z); // the camera's position
-            //Vector3 cameraTarget = Vector3.Zero; // the place the camera is looking (towards world origin)
-
-            Vector3 cameraTarget = new Vector3(0, 0, -1000);
-            // the transform representing a camera at a position looking at a target
-            view = Matrix.CreateLookAt(cameraPosition, cameraTarget, Vector3.Up);
-        }
 
         public float AspectRatio
         {
@@ -145,44 +132,7 @@ namespace _3DPresentation
                 sceneModel.AmbientIntensity = value;
             }
         }
-
-        public float X
-        {
-            get
-            {
-                return x;
-            }
-            set
-            {
-                x = value;
-                UpdateView();
-            }
-        }
-        public float Y
-        {
-            get
-            {
-                return y;
-            }
-            set
-            {
-                y = value;
-                UpdateView();
-            }
-        }
-        public float Z
-        {
-            get
-            {
-                return z;
-            }
-            set
-            {
-                z = value;
-                UpdateView();
-            }
-        }
-
+        
         public int FPS
         {
             get { return sceneModel.FPS; }
