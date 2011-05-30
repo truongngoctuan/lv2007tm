@@ -239,7 +239,7 @@ namespace _3DPresentation
             {
                 if (isStart)
                 {
-                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, 2), scene.CameraPosition, scene.CameraTarget);
+                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, -2), scene.CameraPosition, scene.CameraTarget);
                     //scene.CameraPosition = CameraMovements.CameraResult;
                     scene.CameraTarget = CameraMovements.LookAtResult;
                     scene.UpdateView2();
@@ -259,7 +259,7 @@ namespace _3DPresentation
             {
                 if (isStart)
                 {
-                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, -2), scene.CameraPosition, scene.CameraTarget);
+                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, 2), scene.CameraPosition, scene.CameraTarget);
                     //scene.CameraPosition = CameraMovements.CameraResult;
                     scene.CameraTarget = CameraMovements.LookAtResult;
                     scene.UpdateView2();
@@ -279,7 +279,7 @@ namespace _3DPresentation
             {
                 if (isStart)
                 {
-                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(10, 0), scene.CameraPosition, scene.CameraTarget);
+                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(-2, 0), scene.CameraPosition, scene.CameraTarget);
                     //scene.CameraPosition = CameraMovements.CameraResult;
                     scene.CameraTarget = CameraMovements.LookAtResult;
                     scene.UpdateView2();
@@ -299,7 +299,7 @@ namespace _3DPresentation
             {
                 if (isStart)
                 {
-                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(-10, 0), scene.CameraPosition, scene.CameraTarget);
+                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(2, 0), scene.CameraPosition, scene.CameraTarget);
                     //scene.CameraPosition = CameraMovements.CameraResult;
                     scene.CameraTarget = CameraMovements.LookAtResult;
                     scene.UpdateView2();
