@@ -8,20 +8,22 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using Babylon.Toolbox;
 using _3DPresentation.Effects.NoEffect;
+using Babylon.Importers;
+using System.Windows.Threading;
 
 namespace _3DPresentation
 {
     /// <summary>
     /// Represents a vertex with position and color elements.
     /// </summary>
-    public struct VertexPositionColor
+    public struct VertexPositionNormalColor
     {
         // MUST HAVE THE SAME ORDER as VertexDeclaration
         public Vector3 Position;
         public Vector3 Normal;        
         public Color Color;
 
-        public VertexPositionColor(Vector3 position, Color color, Vector3 normal)
+        public VertexPositionNormalColor(Vector3 position, Color color, Vector3 normal)
         {
             Position = position;
             Normal = normal;
@@ -35,6 +37,26 @@ namespace _3DPresentation
             );
     }
 
+    public struct VertexPositionColor
+    {
+        // MUST HAVE THE SAME ORDER as VertexDeclaration
+        public Vector3 Position;
+        public Color Color;
+
+        public VertexPositionColor(Vector3 position, Color color)
+        {
+            Position = position;
+            Color = color;
+        }
+
+        public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration(
+            new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+            new VertexElement(sizeof(float) * 3, VertexElementFormat.Color, VertexElementUsage.Color, 0)
+            );
+    }
+
+
+
     /// <summary>
     /// Represents a Scene model made of multiple triangles.
     /// </summary>
@@ -47,10 +69,12 @@ namespace _3DPresentation
 
         // resources
         VertexBuffer vertexBuffer; VertexBuffer avertexBuffer;
+        VertexBuffer lightSourceVertexBuffer;
         IndexBuffer indexBuffer;
 
-        VertexPositionColor[] vertices; VertexPositionColor[] fullVertices;
+        VertexPositionNormalColor[] vertices; VertexPositionNormalColor[] fullVertices;
         VertexPositionColor[] avertex;
+        VertexPositionColor[] lightSourceVertices;
 
         WriteableBitmap writeableBitmap;
 
@@ -103,16 +127,79 @@ namespace _3DPresentation
             Color cyan = Color.FromNonPremultiplied(0, 255, 255, 255);
 
             avertex = new VertexPositionColor[6];
-            avertex[0] = new VertexPositionColor(new Vector3(-3000, 0, 0), red, Vector3.Up);
-            avertex[1] = new VertexPositionColor(new Vector3(+3000, 0, 0), Color.White, Vector3.Up);
+            avertex[0] = new VertexPositionColor(new Vector3(-3000, 0, 0), red);
+            avertex[1] = new VertexPositionColor(new Vector3(+3000, 0, 0), Color.White);
 
-            avertex[2] = new VertexPositionColor(new Vector3(0, -3000, 0), green, Vector3.Up);
-            avertex[3] = new VertexPositionColor(new Vector3(0, 3000, 0), Color.White, Vector3.Up);
+            avertex[2] = new VertexPositionColor(new Vector3(0, -3000, 0), green);
+            avertex[3] = new VertexPositionColor(new Vector3(0, 3000, 0), Color.White);
 
-            avertex[4] = new VertexPositionColor(new Vector3(0, 0, -3000), blue, Vector3.Up);
-            avertex[5] = new VertexPositionColor(new Vector3(0, 0, 3000), Color.White, Vector3.Up);
+            avertex[4] = new VertexPositionColor(new Vector3(0, 0, -3000), blue);
+            avertex[5] = new VertexPositionColor(new Vector3(0, 0, 3000), Color.White);
 
-            fullVertices = new VertexPositionColor[count];
+            #region LightSource
+            lightSourceVertices = new VertexPositionColor[36];
+            // face coordinates
+            Vector3 topLeftFront = new Vector3(-10.0f, 10.0f, 10.0f);
+            Vector3 bottomLeftFront = new Vector3(-10.0f, -10.0f, 10.0f);
+            Vector3 topRightFront = new Vector3(10.0f, 10.0f, 10.0f);
+            Vector3 bottomRightFront = new Vector3(10.0f, -10.0f, 10.0f);
+            Vector3 topLeftBack = new Vector3(-10.0f, 10.0f, -10.0f);
+            Vector3 topRightBack = new Vector3(10.0f, 10.0f, -10.0f);
+            Vector3 bottomLeftBack = new Vector3(-10.0f, -10.0f, -10.0f);
+            Vector3 bottomRightBack = new Vector3(10.0f, -10.0f, -10.0f);
+            lightSourceVertices[0] = new VertexPositionColor(topRightFront, red);
+            lightSourceVertices[1] = new VertexPositionColor(bottomLeftFront, orange);
+            lightSourceVertices[2] = new VertexPositionColor(topLeftFront, yellow);
+            lightSourceVertices[3] = new VertexPositionColor(topRightFront, red);
+            lightSourceVertices[4] = new VertexPositionColor(bottomRightFront, green);
+            lightSourceVertices[5] = new VertexPositionColor(bottomLeftFront, orange);
+
+            // back face 
+            lightSourceVertices[6] = new VertexPositionColor(bottomLeftBack, blue);
+            lightSourceVertices[7] = new VertexPositionColor(topRightBack, purple);
+            lightSourceVertices[8] = new VertexPositionColor(topLeftBack, black);
+            lightSourceVertices[9] = new VertexPositionColor(bottomRightBack, cyan);
+            lightSourceVertices[10] = new VertexPositionColor(topRightBack, purple);
+            lightSourceVertices[11] = new VertexPositionColor(bottomLeftBack, blue);
+
+            // top face
+            lightSourceVertices[12] = new VertexPositionColor(topLeftBack, black);
+            lightSourceVertices[13] = new VertexPositionColor(topRightBack, purple);
+            lightSourceVertices[14] = new VertexPositionColor(topLeftFront, yellow);
+            lightSourceVertices[15] = new VertexPositionColor(topRightBack, purple);
+            lightSourceVertices[16] = new VertexPositionColor(topRightFront, red);
+            lightSourceVertices[17] = new VertexPositionColor(topLeftFront, yellow);
+
+            // bottom face 
+            lightSourceVertices[18] = new VertexPositionColor(bottomRightBack, cyan);
+            lightSourceVertices[19] = new VertexPositionColor(bottomLeftBack, blue);
+            lightSourceVertices[20] = new VertexPositionColor(bottomLeftFront, orange);
+            lightSourceVertices[21] = new VertexPositionColor(bottomRightFront, green);
+            lightSourceVertices[22] = new VertexPositionColor(bottomRightBack, cyan);
+            lightSourceVertices[23] = new VertexPositionColor(bottomLeftFront, orange);
+
+            // left face
+            lightSourceVertices[24] = new VertexPositionColor(bottomLeftFront, orange);
+            lightSourceVertices[25] = new VertexPositionColor(bottomLeftBack, blue);
+            lightSourceVertices[26] = new VertexPositionColor(topLeftFront, yellow);
+            lightSourceVertices[27] = new VertexPositionColor(topLeftFront, yellow);
+            lightSourceVertices[28] = new VertexPositionColor(bottomLeftBack, blue);
+            lightSourceVertices[29] = new VertexPositionColor(topLeftBack, black);
+
+            // right face 
+            lightSourceVertices[30] = new VertexPositionColor(bottomRightBack, cyan);
+            lightSourceVertices[31] = new VertexPositionColor(bottomRightFront, green);
+            lightSourceVertices[32] = new VertexPositionColor(topRightFront, red);
+            lightSourceVertices[33] = new VertexPositionColor(bottomRightBack, cyan);
+            lightSourceVertices[34] = new VertexPositionColor(topRightFront, red);
+            lightSourceVertices[35] = new VertexPositionColor(topRightBack, purple);
+
+            lightSourceVertexBuffer = new VertexBuffer(resourceDevice, VertexPositionColor.VertexDeclaration,
+                lightSourceVertices.Length, BufferUsage.WriteOnly);
+            lightSourceVertexBuffer.SetData(0, lightSourceVertices, 0, lightSourceVertices.Length, 0);
+            #endregion
+
+            fullVertices = new VertexPositionNormalColor[count];
             for (int i = 0; i < count - 2; i += 3)
             {
                 fullVertices[i].Position = vertices[idx[i]].Position;
@@ -133,7 +220,7 @@ namespace _3DPresentation
                 fullVertices[i+2].Normal = normal;
             }
 
-            vertexBuffer = new VertexBuffer(resourceDevice, VertexPositionColor.VertexDeclaration,
+            vertexBuffer = new VertexBuffer(resourceDevice, VertexPositionNormalColor.VertexDeclaration,
                 fullVertices.Length, BufferUsage.WriteOnly);
             vertexBuffer.SetData(0, fullVertices, 0, fullVertices.Length, 0);
 
@@ -226,7 +313,7 @@ namespace _3DPresentation
         int count = 0;
         private void SetUpVertices()
         {
-            vertices = new VertexPositionColor[terrainWidth * terrainHeight];
+            vertices = new VertexPositionNormalColor[terrainWidth * terrainHeight];
             for (int x = 0; x < terrainWidth; x++)
             {
                 for (int y = 0; y < terrainHeight; y++)
@@ -340,7 +427,7 @@ namespace _3DPresentation
 
             graphicsDevice.RasterizerState = new RasterizerState{
                 FillMode = FillMode.Solid,
-                CullMode = CullMode.CullClockwiseFace
+                CullMode = CullMode.None
             };
 
             Matrix world = Matrix.Identity;
@@ -385,6 +472,11 @@ namespace _3DPresentation
             graphicsDevice.SetVertexBuffer(avertexBuffer);
             SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, world, view, projection, cameraPosition);            
             graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, 3);
+
+            graphicsDevice.SetVertexBuffer(lightSourceVertexBuffer);
+            Matrix lightSource = Matrix.CreateTranslation(xLightSource);
+            SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, lightSource, view, projection, cameraPosition);            
+            graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 12);
         }
 
         enum ShaderEffect { NoEffect, MyBasicEffect, BasicEffect };
