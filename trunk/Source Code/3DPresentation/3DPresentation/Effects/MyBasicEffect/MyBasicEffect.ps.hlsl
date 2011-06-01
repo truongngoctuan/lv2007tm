@@ -9,10 +9,10 @@
 // This simple pixel shader returns the unmodified vertex color.
 // ---
 
-float4 xLightSource : register(c0);
-float4 xLightIntensity : register(c1);
-float4 xDiffuseColor  : register(c2);
-float4 xAmbientIntensity  : register(c3);
+float4 xLightSource;
+float4 xLightIntensity;
+float4 xDiffuseColor;
+float4 xAmbientIntensity;
 
 // vertex shader output passed through to geometry 
 // processing and a pixel shader
@@ -31,7 +31,7 @@ struct PixelToFrame
 
 PixelToFrame main(VertexShaderOutput PSIn)
 {
-    PixelToFrame Output = (PixelToFrame)0;    
+    PixelToFrame Output = (PixelToFrame)0; 
 
 	// Ambient
 	float4 baseColor = PSIn.Color;
@@ -39,8 +39,8 @@ PixelToFrame main(VertexShaderOutput PSIn)
 
 	// Disfuse
 	// Determine the diffuse component by finding the angle between the light and the normal.
-    // The smaller the angle between the normal and the light direction, the closer the dot
-    // product will be to 1, and the brighter the pixel will be.
+	// The smaller the angle between the normal and the light direction, the closer the dot
+	// product will be to 1, and the brighter the pixel will be.
 	float3 lightDirection = normalize(PSIn.Position3D - (float3)xLightSource);
 	float lightIntensity = saturate(dot(-lightDirection, PSIn.Normal)) * (1 - distance((float3)xLightSource, PSIn.Position3D) / xLightIntensity);
 	if(lightIntensity > 0.0f)
@@ -50,6 +50,7 @@ PixelToFrame main(VertexShaderOutput PSIn)
 	}
 	
 	Output.Color = saturate(baseColor * effectColor);
+
 	//Output.Color = effectColor;
 	// Apply
 	//Output.Color = PSIn.Color;

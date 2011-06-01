@@ -68,7 +68,7 @@ namespace _3DPresentation
             myUDRMZControl.RotateUpClick += new RoutedEventHandler(RotateUp_Click);
             myUDRMZControl.RotateDownClick += new RoutedEventHandler(RotateDown_Click);
         }
-
+        
         int uiFPS = 0;
         int _total_frames = 0;
         DateTime _lastFPS = DateTime.Now;            
