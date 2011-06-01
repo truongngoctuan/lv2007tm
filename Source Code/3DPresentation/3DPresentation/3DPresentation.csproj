@@ -62,6 +62,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Babylon.Toolbox, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Babylon.Toolkit\Babylon.Toolbox.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework.Math">
       <HintPath>.\Microsoft.Xna.Framework.Math.dll</HintPath>
     </Reference>
@@ -101,6 +105,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="CameraMovements.cs" />
+    <Compile Include="Effects\MyBasicEffect\MyBasicEffect.cs" />
+    <Compile Include="Effects\NoEffect\NoEffect.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -138,8 +144,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CompileShaders.cmd" />
-    <PixelShader Include="BasicPixelShader.ps.hlsl" />
-    <VertexShader Include="BasicVertexShader.vs.hlsl" />
+    <PixelShader Include="Effects\MyBasicEffect\MyBasicEffect.ps.hlsl" />
+    <VertexShader Include="Effects\MyBasicEffect\MyBasicEffect.vs.hlsl" />
+    <PixelShader Include="Effects\NoEffect\NoEffect.ps.hlsl" />
+    <VertexShader Include="Effects\NoEffect\NoEffect.vs.hlsl" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>

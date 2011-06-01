@@ -10,18 +10,14 @@
 // ---
 
 // transformation matrix provided by the application
-float4x4 xWorldViewProjection : register(c0);
-float4x4 xWorld : register(c4);
+float4x4 WorldViewProjection;
 
 // vertex input to the shader matching the structure
 // defined in the application
 struct VertexData
 {
-	// DOES NOT NEED TO BE IN THE SAME ORDER
-	// BUT MUST MATCH THE DESCRIPTION : Position, Normal, Color, TEXCOORD.... in VertexDeclaration
-  float3 Position : POSITION;    
-  float3 Normal : NORMAL;
-  float4 Color : COLOR;  
+  float3 Position : POSITION;
+  float4 Color : COLOR;
 };
 
 // vertex shader output passed through to geometry 
@@ -29,22 +25,21 @@ struct VertexData
 struct VertexShaderOutput
 {
   float4 Position : POSITION;
-  float4 Color : COLOR;  
-  float3 Normal : TEXCOORD0;
-  float3 Position3D    : TEXCOORD1;  
+  float4 Color : COLOR;
 };
 
 // main shader function
 VertexShaderOutput main(VertexData vertex)
 {
-	VertexShaderOutput Output = (VertexShaderOutput)0;
+  VertexShaderOutput output;
 
-    Output.Position = mul(float4(vertex.Position,1), xWorldViewProjection);
-    Output.Color = vertex.Color;
-    Output.Normal = normalize(mul(normalize(vertex.Normal), (float3x3)xWorld));    
-    Output.Position3D = mul(vertex.Position, xWorld);
-	
-	//if(vertex.Position.z > -1000)
-		//Output.Color = 1;
-    return Output;
+  // apply standard transformation for rendering
+  // Position of this point in object coordinate system
+  // => need to be transform to camera coordinate
+  output.Position = mul(float4(vertex.Position,1), WorldViewProjection);
+
+  // pass the color through to the next stage (pass to pixel shader)
+  output.Color = vertex.Color;
+  
+  return output;
 }

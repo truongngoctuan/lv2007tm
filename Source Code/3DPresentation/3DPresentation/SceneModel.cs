@@ -6,6 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Silverlight;
 using System.IO;
 using System.Windows.Media.Imaging;
+using Babylon.Toolbox;
+using _3DPresentation.Effects.NoEffect;
 
 namespace _3DPresentation
 {
@@ -46,8 +48,6 @@ namespace _3DPresentation
         // resources
         VertexBuffer vertexBuffer; VertexBuffer avertexBuffer;
         IndexBuffer indexBuffer;
-        VertexShader vertexShader;
-        PixelShader pixelShader;
 
         VertexPositionColor[] vertices; VertexPositionColor[] fullVertices;
         VertexPositionColor[] avertex;
@@ -58,20 +58,28 @@ namespace _3DPresentation
         private int terrainHeight;
         private float[,] heightData;
 
+        
+        NoEffect noEffect;
+        BasicEffect basicEffect; private Texture2D texture;
+        MyBasicEffect myBasicEffect;
+
         public SceneModel(bool solidFaceColor = true)
         {
             Stream imageStream = Application.GetResourceStream(new Uri(@"3DPresentation;component/ColorImg.png", UriKind.Relative)).Stream;
             var bitmapImage = new BitmapImage();
             bitmapImage.SetSource(imageStream);
             writeableBitmap = new WriteableBitmap(bitmapImage);
+            // Create texture           
+            //texture = new Texture2D(resourceDevice, bitmapImage.PixelWidth, bitmapImage.PixelHeight, false, SurfaceFormat.Color);
+            // Copy image to texture
+            //bitmapImage.CopyTo(texture);
+
             // Initialize resources required to draw the Cube
             CreateModel();
 
-            Stream shaderStream = Application.GetResourceStream(new Uri(@"3DPresentation;component/BasicVertexShader.vs", UriKind.Relative)).Stream;
-            vertexShader = VertexShader.FromStream(resourceDevice, shaderStream);
-
-            shaderStream = Application.GetResourceStream(new Uri(@"3DPresentation;component/BasicPixelShader.ps", UriKind.Relative)).Stream;
-            pixelShader = PixelShader.FromStream(resourceDevice, shaderStream);
+            basicEffect = new BasicEffect(resourceDevice);
+            noEffect = new NoEffect(resourceDevice);
+            myBasicEffect = new MyBasicEffect(resourceDevice);
         }
 
         /// <summary>
@@ -94,24 +102,15 @@ namespace _3DPresentation
             Color black = Color.FromNonPremultiplied(0, 0, 0, 255);
             Color cyan = Color.FromNonPremultiplied(0, 255, 255, 255);
 
-            avertex = new VertexPositionColor[3];
-            //avertex[0] = new VertexPositionColor(new Vector3(-3000, 0, 0), red, Vector3.Up);
-            //avertex[1] = new VertexPositionColor(new Vector3(+3000, 0, 0), Color.White, Vector3.Up);
+            avertex = new VertexPositionColor[6];
+            avertex[0] = new VertexPositionColor(new Vector3(-3000, 0, 0), red, Vector3.Up);
+            avertex[1] = new VertexPositionColor(new Vector3(+3000, 0, 0), Color.White, Vector3.Up);
 
-            //avertex[2] = new VertexPositionColor(new Vector3(0, -3000, 0), green, Vector3.Up);
-            //avertex[3] = new VertexPositionColor(new Vector3(0, 3000, 0), Color.White, Vector3.Up);
+            avertex[2] = new VertexPositionColor(new Vector3(0, -3000, 0), green, Vector3.Up);
+            avertex[3] = new VertexPositionColor(new Vector3(0, 3000, 0), Color.White, Vector3.Up);
 
-            //avertex[4] = new VertexPositionColor(new Vector3(0, 0, -3000), blue, Vector3.Up);
-            //avertex[5] = new VertexPositionColor(new Vector3(0, 0, 3000), Color.White, Vector3.Up);
-
-            avertex[0] = new VertexPositionColor(new Vector3(-10, 0, -10), red, new Vector3(0, 0, 1));
-            avertex[1] = new VertexPositionColor(new Vector3(10, 0, -10), green, new Vector3(0, 0, 1));
-            avertex[2] = new VertexPositionColor(new Vector3(0, 10, -10), blue, new Vector3(0, 0, 1));
-            
-            //avertex[3] = new VertexPositionColor(new Vector3(0, 0, 0), Color.White, new Vector3(-1, 0, 2));
-
-            //avertex[4] = new VertexPositionColor(new Vector3(-3, -5, -20), blue, new Vector3(-1, 0, 2));
-            //avertex[5] = new VertexPositionColor(new Vector3(-3, 5, -25), Color.White, new Vector3(-1, 0, 2));
+            avertex[4] = new VertexPositionColor(new Vector3(0, 0, -3000), blue, Vector3.Up);
+            avertex[5] = new VertexPositionColor(new Vector3(0, 0, 3000), Color.White, Vector3.Up);
 
             fullVertices = new VertexPositionColor[count];
             for (int i = 0; i < count - 2; i += 3)
@@ -120,10 +119,10 @@ namespace _3DPresentation
                 fullVertices[i].Color = vertices[idx[i]].Color;
 
                 fullVertices[i+1].Position = vertices[idx[i+1]].Position;
-                fullVertices[i+1].Color = vertices[idx[i+1]].Color;
+                fullVertices[i + 1].Color = vertices[idx[i + 1]].Color;
 
                 fullVertices[i+2].Position = vertices[idx[i+2]].Position;
-                fullVertices[i+2].Color = vertices[idx[i+2]].Color;
+                fullVertices[i + 2].Color = vertices[idx[i + 2]].Color;
 
                 Vector3 v1 = fullVertices[i+1].Position - fullVertices[i].Position;
                 Vector3 v2 = fullVertices[i+2].Position - fullVertices[i].Position;
@@ -143,7 +142,17 @@ namespace _3DPresentation
             avertexBuffer.SetData(0, avertex, 0, avertex.Length, 0);
 
             //resourceDevice.SetVertexBuffer(vertexBuffer);
+
         }
+        
+        Vector3 xLightSource = new Vector3(0, 0, 1000);
+        float xLightIntensity = 5000.0f;
+        Color xDisfuseColor = Color.FromNonPremultiplied(255, 255, 255, 255);
+        float xAmbientIntensity = 0.2f;
+
+        Vector4 xNoEffect = new Vector4(0.0f, 0, 0, 0);
+        Color DiffuseColor = Color.White;
+        Color AmbientColor = Color.White;
 
         float degH = 57.0f;
         float degV = 43.0f;
@@ -225,6 +234,7 @@ namespace _3DPresentation
                     Vector3 temp;
                     temp = new Vector3(x - 320, y - 240, heightData[x, y]);
                     vertices[x + y * terrainWidth].Position = Calc3DPos(temp);
+                    //vertices[x + y * terrainWidth].TextureCoordinates = new Vector2(x, y);
                     vertices[x + y * terrainWidth].Color = getPixel(x + y * terrainWidth);
                     //vertices[x + y * terrainWidth].Normal = new Vector3(0, 0, 1);
                 }                
@@ -302,19 +312,14 @@ namespace _3DPresentation
         }
         public float LightIntensity
         {
-            get { return xLightIntensity.X; }
-            set { xLightIntensity.X = value; }
+            get { return xLightIntensity; }
+            set { xLightIntensity = value; }
         }
         public float AmbientIntensity
         {
-            get { return xAmbientIntensity.X; }
-            set { xAmbientIntensity.X = value; }
+            get { return xAmbientIntensity; }
+            set { xAmbientIntensity = value; }
         }
-
-        Vector4 xLightSource = new Vector4(0, 0, 1000, 0);
-        Vector4 xLightIntensity = new Vector4(5000, 0, 0, 0);
-        Vector4 xDisfuseColor = new Vector4(1.0f, 1.0f, 1.0f, 1.0f);
-        Vector4 xAmbientIntensity = new Vector4(0.2f, 0, 0, 0);
 
         public int FPS
         {
@@ -323,7 +328,7 @@ namespace _3DPresentation
         }
         int _total_frames = 0;
         DateTime _lastFPS = DateTime.Now;        
-        public void Draw(GraphicsDevice graphicsDevice, TimeSpan totalTime, Matrix viewProjection)
+        public void Draw(GraphicsDevice graphicsDevice, TimeSpan totalTime, Matrix view, Matrix projection, Vector3 cameraPosition)
         {
             _total_frames++;
             if ((DateTime.Now - _lastFPS).Seconds >= 1)
@@ -337,48 +342,19 @@ namespace _3DPresentation
                 FillMode = FillMode.Solid,
                 CullMode = CullMode.CullClockwiseFace
             };
-            // update cube transform
-            Matrix position = Matrix.Identity; // origin
-            Matrix scale = Matrix.CreateScale(1.0f); // no scale modifier
 
-            // create a continuously advancing rotation
-            Matrix rotation = Matrix.CreateFromYawPitchRoll(
-                MathHelper.PiOver4 * (float)totalTime.TotalSeconds,
-                MathHelper.PiOver4 * (float)totalTime.TotalSeconds,
-                0.0f);        
-    
-            // uncomment to stop rotation
-            rotation = Matrix.Identity;
-
-            // the world transform for the cube leaves it centered
-            // at the origin but with the rotation applied
-            Matrix world = Matrix.Identity;//scale * rotation * position;
-
-            // calculate the final transform to pass to the shader
-            Matrix worldViewProjection = world * viewProjection;
-
-            // setup vertex pipeline
+            Matrix world = Matrix.Identity;
+            
             graphicsDevice.SetVertexBuffer(vertexBuffer);
             //graphicsDevice.Indices = indexBuffer;
 
-            graphicsDevice.SetVertexShader(vertexShader);
-            graphicsDevice.SetVertexShaderConstantFloat4(0, ref worldViewProjection); // pass the transform to the shader
-            graphicsDevice.SetVertexShaderConstantFloat4(4, ref world); // pass the transform to the shader
-            // setup pixel pipeline            
-            graphicsDevice.SetPixelShader(pixelShader);
-            graphicsDevice.SetPixelShaderConstantFloat4(0, ref xLightSource);
-            graphicsDevice.SetPixelShaderConstantFloat4(1, ref xLightIntensity);
-            graphicsDevice.SetPixelShaderConstantFloat4(2, ref xDisfuseColor);
-            graphicsDevice.SetPixelShaderConstantFloat4(3, ref xAmbientIntensity);
-            //graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 1);
-
-            //return;
-            // draw using the configured pipeline
+            SetShaderEffect(ShaderEffect.MyBasicEffect, graphicsDevice, world, view, projection, cameraPosition);            
+            
             if (bUseTriangle)
             {
                 #region use triangle
                 int triangles = fullVertices.Length / 3;
-                int trianglesPerDraw = (triangles > 20000) ? 20000 : triangles;
+                int trianglesPerDraw = (triangles > 5000) ? 5000 : triangles;
                 int verticesPerDraw = trianglesPerDraw * 3;
                 int n = triangles / trianglesPerDraw;
                 for (int i = 0; i < n; i++)
@@ -402,6 +378,53 @@ namespace _3DPresentation
                     graphicsDevice.DrawPrimitives(PrimitiveType.LineList, i * verticesPerDraw, linesPerDraw);
                 }
                 #endregion
+            }
+            
+            
+            // Draw axis
+            graphicsDevice.SetVertexBuffer(avertexBuffer);
+            SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, world, view, projection, cameraPosition);            
+            graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, 3);
+        }
+
+        enum ShaderEffect { NoEffect, MyBasicEffect, BasicEffect };
+        private void SetShaderEffect(ShaderEffect shaderEffect, GraphicsDevice graphicsDevice, Matrix world, Matrix view, Matrix projection, Vector3 cameraPosition)
+        {
+            if(shaderEffect == ShaderEffect.NoEffect)
+            {
+                noEffect.World = world;
+                noEffect.Projection = projection;
+                noEffect.View = view;
+
+                noEffect.Device = graphicsDevice;
+                noEffect.Apply();
+            }
+            else if (shaderEffect == ShaderEffect.MyBasicEffect)
+            {
+                myBasicEffect.World = world;
+                myBasicEffect.Projection = projection;
+                myBasicEffect.View = view;
+                myBasicEffect.LightSource = xLightSource;
+                myBasicEffect.LightIntensity = xLightIntensity;
+                myBasicEffect.DiffuseColor = xDisfuseColor;
+                myBasicEffect.AmbientIntensity = xAmbientIntensity;
+
+                myBasicEffect.Device = graphicsDevice;
+                myBasicEffect.Apply();
+            }
+            else if (shaderEffect == ShaderEffect.BasicEffect)
+            {
+                basicEffect.World = Matrix.Identity;
+                basicEffect.View = view;
+                basicEffect.Projection = projection;
+                basicEffect.CameraPosition = cameraPosition;
+                basicEffect.LightPosition = xLightSource;
+                basicEffect.AmbientColor = DiffuseColor;
+                basicEffect.DiffuseColor = AmbientColor;
+                basicEffect.EmissiveColor = Color.Black;
+                basicEffect.DiffuseTexture = texture;
+                basicEffect.Device = graphicsDevice;
+                basicEffect.Apply();
             }
         }
     }

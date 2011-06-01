@@ -70,7 +70,6 @@ namespace _3DPresentation
             {
                 // update the screen space transform every time the aspect ratio changes
                 projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 30000.0f);
-                //projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 100);
             }
         }
 
@@ -144,7 +143,7 @@ namespace _3DPresentation
             graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
 
             // draw the Cube
-            sceneModel.Draw(graphicsDevice, totalTime, view * projection);
+            sceneModel.Draw(graphicsDevice, totalTime, view, projection, _cameraPosition);
         }
     }
 }
