@@ -43,15 +43,15 @@ namespace _3DPresentation
             myLightSourceZ.MaxValue = 3000;
 
             myLightIntensity.MinValue = 0;
-            myLightIntensity.MaxValue = 5000;
+            myLightIntensity.MaxValue = 10000;
 
             myAmbientIntensity.MinValue = 0;
             myAmbientIntensity.MaxValue = 1.0;
 
 
-            myLightSourceX.Value = 0;
-            myLightSourceY.Value = 0;
-            myLightSourceZ.Value = 1000;
+            myLightSourceX.Value = 200;
+            myLightSourceY.Value = 200;
+            myLightSourceZ.Value = -500;
             myLightIntensity.Value = 5000.0f;
             myAmbientIntensity.Value = 0.2f;
 
