@@ -62,12 +62,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Babylon.Importers">
-      <HintPath>C:\Babylon.Toolkit\Babylon.Importers.dll</HintPath>
-    </Reference>
     <Reference Include="Babylon.Toolbox, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Babylon.Toolkit\Babylon.Toolbox.dll</HintPath>
+      <HintPath>Babylon.Toolkit\Babylon.Toolbox.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Xna.Framework.Math">
       <HintPath>.\Microsoft.Xna.Framework.Math.dll</HintPath>
@@ -90,15 +87,17 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="CameraMovements.cs" />
-    <Compile Include="Debug.cs" />
+    <Compile Include="ClientLog.cs" />
     <Compile Include="Effects\MyBasicEffect\MyBasicEffect.cs" />
     <Compile Include="Effects\NoEffect\NoEffect.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="MeshManger.cs" />
     <Compile Include="MySliderControl.xaml.cs">
       <DependentUpon>MySliderControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Partition.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="SceneModel.cs" />
@@ -162,9 +161,6 @@
     <AvailableItemName Include="PixelShader">
       <Visible>false</Visible>
     </AvailableItemName>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
   </ItemGroup>
   <UsingTask TaskName="ShaderBuildTask.ShaderCompile" AssemblyName="ShaderBuildTask, Version=1.0.3072.18169, Culture=neutral,&#xD;&#xA;PublicKeyToken=44e467d1687af125" />
   <Target Name="VertexShaderCompile" Condition="'@(VertexShader)' != '' " BeforeTargets="Build">

@@ -8,8 +8,8 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using Babylon.Toolbox;
 using _3DPresentation.Effects.NoEffect;
-using Babylon.Importers;
 using System.Windows.Threading;
+using System.Collections.Generic;
 
 namespace _3DPresentation
 {
@@ -68,13 +68,13 @@ namespace _3DPresentation
         bool bUseTriangle = true;
 
         // resources
-        VertexBuffer vertexBuffer; VertexBuffer avertexBuffer;
+        VertexBuffer avertexBuffer;
         VertexBuffer lightSourceVertexBuffer;
-        IndexBuffer indexBuffer;
 
-        VertexPositionNormalColor[] vertices; VertexPositionNormalColor[] fullVertices;
         VertexPositionColor[] avertex;
         VertexPositionColor[] lightSourceVertices;
+
+        public MeshManger meshManager;
 
         WriteableBitmap writeableBitmap;
 
@@ -88,7 +88,7 @@ namespace _3DPresentation
         MyBasicEffect myBasicEffect;
 
         public SceneModel(bool solidFaceColor = true)
-        {
+        {            
             Stream imageStream = Application.GetResourceStream(new Uri(@"3DPresentation;component/ColorImg.png", UriKind.Relative)).Stream;
             var bitmapImage = new BitmapImage();
             bitmapImage.SetSource(imageStream);
@@ -98,12 +98,13 @@ namespace _3DPresentation
             // Copy image to texture
             //bitmapImage.CopyTo(texture);
 
-            // Initialize resources required to draw the Cube
+            // Initialize resources
+            meshManager = new MeshManger();
             CreateModel();
 
-            basicEffect = new BasicEffect(resourceDevice);
             noEffect = new NoEffect(resourceDevice);
             myBasicEffect = new MyBasicEffect(resourceDevice);
+            basicEffect = new BasicEffect(resourceDevice);            
         }
 
         /// <summary>
@@ -126,6 +127,7 @@ namespace _3DPresentation
             Color black = Color.FromNonPremultiplied(0, 0, 0, 255);
             Color cyan = Color.FromNonPremultiplied(0, 255, 255, 255);
 
+            #region Axis
             avertex = new VertexPositionColor[6];
             avertex[0] = new VertexPositionColor(new Vector3(-3000, 0, 0), red);
             avertex[1] = new VertexPositionColor(new Vector3(+3000, 0, 0), Color.White);
@@ -135,6 +137,11 @@ namespace _3DPresentation
 
             avertex[4] = new VertexPositionColor(new Vector3(0, 0, -3000), blue);
             avertex[5] = new VertexPositionColor(new Vector3(0, 0, 3000), Color.White);
+
+            avertexBuffer = new VertexBuffer(resourceDevice, VertexPositionColor.VertexDeclaration,
+                avertex.Length, BufferUsage.WriteOnly);
+            avertexBuffer.SetData(0, avertex, 0, avertex.Length, 0);
+            #endregion
 
             #region LightSource
             lightSourceVertices = new VertexPositionColor[36];
@@ -198,38 +205,7 @@ namespace _3DPresentation
                 lightSourceVertices.Length, BufferUsage.WriteOnly);
             lightSourceVertexBuffer.SetData(0, lightSourceVertices, 0, lightSourceVertices.Length, 0);
             #endregion
-
-            fullVertices = new VertexPositionNormalColor[count];
-            for (int i = 0; i < count - 2; i += 3)
-            {
-                fullVertices[i].Position = vertices[idx[i]].Position;
-                fullVertices[i].Color = vertices[idx[i]].Color;
-
-                fullVertices[i+1].Position = vertices[idx[i+1]].Position;
-                fullVertices[i + 1].Color = vertices[idx[i + 1]].Color;
-
-                fullVertices[i+2].Position = vertices[idx[i+2]].Position;
-                fullVertices[i + 2].Color = vertices[idx[i + 2]].Color;
-
-                Vector3 v1 = fullVertices[i+1].Position - fullVertices[i].Position;
-                Vector3 v2 = fullVertices[i+2].Position - fullVertices[i].Position;
-                Vector3 normal = Vector3.Cross(v1, v2);
-                //normal = new Vector3(0, 0, 1);
-                fullVertices[i].Normal = normal;
-                fullVertices[i+1].Normal = normal;
-                fullVertices[i+2].Normal = normal;
-            }
-
-            vertexBuffer = new VertexBuffer(resourceDevice, VertexPositionNormalColor.VertexDeclaration,
-                fullVertices.Length, BufferUsage.WriteOnly);
-            vertexBuffer.SetData(0, fullVertices, 0, fullVertices.Length, 0);
-
-            avertexBuffer = new VertexBuffer(resourceDevice, VertexPositionColor.VertexDeclaration,
-                avertex.Length, BufferUsage.WriteOnly);
-            avertexBuffer.SetData(0, avertex, 0, avertex.Length, 0);
-
-            //resourceDevice.SetVertexBuffer(vertexBuffer);
-
+            
         }
         
         Vector3 xLightSource = new Vector3(0, 0, 1000);
@@ -254,7 +230,6 @@ namespace _3DPresentation
             dOH = (float)(320.0f / Math.Tan(radH / 2));
         }
 
-
         Vector3 Calc3DPos(Vector3 input)
         {
             Vector3 val;
@@ -269,16 +244,12 @@ namespace _3DPresentation
         float mm;
         private void LoadHeightData(Stream stream)
         {
-            StreamReader sr = new StreamReader(stream);
-            //StreamReader sr = new StreamReader(s);
+            StreamReader sr = new StreamReader(stream);           
 
             terrainWidth = 640;
             terrainHeight = 480;
 
             Color[] heightMapColors = new Color[terrainWidth * terrainHeight];
-
-            //            heightMap.GetData(heightMapColors);
-            //            sr.ReadLine();
             MM = 0;
             mm = 65000;
             heightData = new float[terrainWidth, terrainHeight];
@@ -308,78 +279,27 @@ namespace _3DPresentation
                                         (byte)((colorAsInt >> 0) & 0xff),
                                         (byte)((colorAsInt >> 24) & 0xff));
         }
-
-        int[] idx;
-        int count = 0;
+        
         private void SetUpVertices()
-        {
-            vertices = new VertexPositionNormalColor[terrainWidth * terrainHeight];
+        {            
+            meshManager.Begin(terrainWidth, terrainHeight);
             for (int x = 0; x < terrainWidth; x++)
             {
                 for (int y = 0; y < terrainHeight; y++)
                 {
                     Vector3 temp;
                     temp = new Vector3(x - 320, y - 240, heightData[x, y]);
-                    vertices[x + y * terrainWidth].Position = Calc3DPos(temp);
-                    //vertices[x + y * terrainWidth].TextureCoordinates = new Vector2(x, y);
-                    vertices[x + y * terrainWidth].Color = getPixel(x + y * terrainWidth);
-                    //vertices[x + y * terrainWidth].Normal = new Vector3(0, 0, 1);
+
+                    VertexPositionNormalColor vertex = new VertexPositionNormalColor();
+                    vertex.Position = Calc3DPos(temp);
+                    vertex.Color = getPixel(x + y * terrainWidth);
+                    vertex.Normal = new Vector3(0, 0, 0);
+                    meshManager.AddVertex(vertex, y, x);
                 }                
             }
-
-            idx = new int[(terrainWidth - 1) * (terrainHeight - 1) * 24];
-            count = 0;
-            int step = 1; //fineness : do min
-            for (int x = 0; x < terrainWidth - step; x += step)
-            {
-                for (int y = 0; y < terrainHeight - step; y += step)
-                {
-                    if (x > step - 1)
-                        AddTriangle((x + 0) + (y + 0) * terrainWidth, (x - step) + (y + 0) * terrainWidth, (x + 0) + (y + step) * terrainWidth);
-
-                    if ((y > step - 1) && (x > step - 1))
-                        AddTriangle((x + 0) + (y + 0) * terrainWidth, (x - 0) + (y - step) * terrainWidth, (x - step) + (y + 0) * terrainWidth);
-
-                    AddTriangle((x + 0) + (y + 0) * terrainWidth, (x - 0) + (y + step) * terrainWidth, (x + step) + (y + 0) * terrainWidth);
-
-                    if (y > step - 1)
-                        AddTriangle((x + 0) + (y + 0) * terrainWidth, (x + step) + (y + 0) * terrainWidth, (x + 0) + (y - step) * terrainWidth);
-                }
-            }
-        }
-
-        int Threshold = 30;
-        private void AddTriangle(int i1, int i2, int i3)
-        {
-            if (Math.Abs(vertices[i1].Position.Z - vertices[i2].Position.Z) > Threshold)
-                return;
-            if (Math.Abs(vertices[i1].Position.Z - vertices[i3].Position.Z) > Threshold)
-                return;
-            if (Math.Abs(vertices[i2].Position.Z - vertices[i3].Position.Z) > Threshold)
-                return;
-
-            if (vertices[i1].Position == vertices[i2].Position
-                || vertices[i1].Position == vertices[i3].Position
-                || vertices[i2].Position == vertices[i3].Position)
-                return;
-
-            if (bUseTriangle)
-            {
-                #region use triangle
-                idx[count + 0] = i1;
-                idx[count + 1] = i2;
-                idx[count + 2] = i3;
-                count += 3;
-                #endregion
-            }
-            else
-            {
-                #region use line
-                idx[count + 0] = i1;
-                idx[count + 1] = i2;
-                count += 2;
-                #endregion
-            }
+            meshManager.End();
+            meshManager.InitVertexBuffer(resourceDevice);
+            
         }
 
         public float LightSourceX
@@ -413,8 +333,15 @@ namespace _3DPresentation
             get;
             set;
         }
+
         int _total_frames = 0;
-        DateTime _lastFPS = DateTime.Now;        
+        DateTime _lastFPS = DateTime.Now;
+        public int MyBlock
+        {
+            get;
+            set;
+        }
+
         public void Draw(GraphicsDevice graphicsDevice, TimeSpan totalTime, Matrix view, Matrix projection, Vector3 cameraPosition)
         {
             _total_frames++;
@@ -430,43 +357,14 @@ namespace _3DPresentation
                 CullMode = CullMode.None
             };
 
-            Matrix world = Matrix.Identity;
-            
-            graphicsDevice.SetVertexBuffer(vertexBuffer);
-            //graphicsDevice.Indices = indexBuffer;
+            Matrix world = Matrix.Identity;         
 
-            SetShaderEffect(ShaderEffect.MyBasicEffect, graphicsDevice, world, view, projection, cameraPosition);            
-            
-            if (bUseTriangle)
+            SetShaderEffect(ShaderEffect.MyBasicEffect, graphicsDevice, world, view, projection, cameraPosition);
+            int block = MyBlock < meshManager.Partitions.Count ? MyBlock : meshManager.Partitions.Count;
+            for (int partitionIndex = 0; partitionIndex < block; partitionIndex++)
             {
-                #region use triangle
-                int triangles = fullVertices.Length / 3;
-                int trianglesPerDraw = (triangles > 5000) ? 5000 : triangles;
-                int verticesPerDraw = trianglesPerDraw * 3;
-                int n = triangles / trianglesPerDraw;
-                for (int i = 0; i < n; i++)
-                {
-                    graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, i * verticesPerDraw, trianglesPerDraw);
-                }
-                
-                if(triangles - n * verticesPerDraw > 0)
-                    graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, n * verticesPerDraw, triangles - n * verticesPerDraw);
-                #endregion
+                meshManager.RenderPartition(graphicsDevice, partitionIndex);
             }
-            else
-            {
-                #region use lines
-                int lines = fullVertices.Length / 2;
-                int linesPerDraw = 20000;
-                int verticesPerDraw = linesPerDraw * 2;
-                int n = lines / linesPerDraw;
-                for (int i = 0; i < n; i++)
-                {
-                    graphicsDevice.DrawPrimitives(PrimitiveType.LineList, i * verticesPerDraw, linesPerDraw);
-                }
-                #endregion
-            }
-            
             
             // Draw axis
             graphicsDevice.SetVertexBuffer(avertexBuffer);

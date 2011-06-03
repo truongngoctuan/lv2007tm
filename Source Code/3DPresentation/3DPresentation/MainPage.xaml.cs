@@ -67,6 +67,23 @@ namespace _3DPresentation
 
             myUDRMZControl.RotateUpClick += new RoutedEventHandler(RotateUp_Click);
             myUDRMZControl.RotateDownClick += new RoutedEventHandler(RotateDown_Click);
+
+            btAdd.Click += new RoutedEventHandler(btAdd_Click);
+
+            cbLOD.Items.Add(Partition.LOD.LOW);
+            cbLOD.Items.Add(Partition.LOD.MEDIUM);
+            cbLOD.Items.Add(Partition.LOD.HIGH);
+            cbLOD.SelectionChanged += new SelectionChangedEventHandler(cbLOD_SelectionChanged);
+        }
+
+        void cbLOD_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            scene.LOD = (Partition.LOD)e.AddedItems[0];
+        }
+
+        void btAdd_Click(object sender, RoutedEventArgs e)
+        {
+            scene.sceneModel.MyBlock = scene.sceneModel.MyBlock + 1;
         }
         
         int uiFPS = 0;
