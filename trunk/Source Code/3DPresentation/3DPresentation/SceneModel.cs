@@ -107,6 +107,15 @@ namespace _3DPresentation
             basicEffect = new BasicEffect(resourceDevice);            
         }
 
+        static Color red = Color.FromNonPremultiplied(255, 0, 0, 255);
+        static Color green = Color.FromNonPremultiplied(0, 255, 0, 255);
+        static Color blue = Color.FromNonPremultiplied(0, 0, 255, 255);
+        static Color orange = Color.FromNonPremultiplied(255, 128, 0, 255);
+        static Color yellow = Color.FromNonPremultiplied(255, 255, 0, 255);
+        static Color purple = Color.FromNonPremultiplied(128, 0, 255, 255);
+        static Color black = Color.FromNonPremultiplied(0, 0, 0, 255);
+        static Color cyan = Color.FromNonPremultiplied(0, 255, 255, 255);
+
         /// <summary>
         /// Creates a vertex buffer that defines a cube
         /// </summary>
@@ -116,16 +125,7 @@ namespace _3DPresentation
             Stream stream = Application.GetResourceStream(new Uri(@"3DPresentation;component/depthmap.txt", UriKind.Relative)).Stream;
             LoadHeightData(stream);
             InitValues();
-            SetUpVertices();
-
-            Color red = Color.FromNonPremultiplied(255, 0, 0, 255);
-            Color green = Color.FromNonPremultiplied(0, 255, 0, 255);
-            Color blue = Color.FromNonPremultiplied(0, 0, 255, 255);
-            Color orange = Color.FromNonPremultiplied(255, 128, 0, 255);
-            Color yellow = Color.FromNonPremultiplied(255, 255, 0, 255);
-            Color purple = Color.FromNonPremultiplied(128, 0, 255, 255);
-            Color black = Color.FromNonPremultiplied(0, 0, 0, 255);
-            Color cyan = Color.FromNonPremultiplied(0, 255, 255, 255);
+            SetUpVertices();            
 
             #region Axis
             avertex = new VertexPositionColor[6];
@@ -208,9 +208,11 @@ namespace _3DPresentation
             
         }
         
-        Vector3 xLightSource = new Vector3(0, 0, 1000);
+        public Vector3 xLightSource1 = new Vector3(0, 0, 1000);
+        public Vector3 xLightSource2 = new Vector3(0, 0, 1000);
+        public Vector3 xLightSource3 = new Vector3(0, 0, 1000);
+
         float xLightIntensity = 5000.0f;
-        Color xDisfuseColor = Color.FromNonPremultiplied(255, 255, 255, 255);
         float xAmbientIntensity = 0.2f;
 
         Vector4 xNoEffect = new Vector4(0.0f, 0, 0, 0);
@@ -302,21 +304,6 @@ namespace _3DPresentation
             
         }
 
-        public float LightSourceX
-        {
-            get { return xLightSource.X; }
-            set { xLightSource.X = value; }
-        }
-        public float LightSourceY
-        {
-            get { return xLightSource.Y; }
-            set { xLightSource.Y = value; }
-        }
-        public float LightSourceZ
-        {
-            get { return xLightSource.Z; }
-            set { xLightSource.Z = value; }
-        }
         public float LightIntensity
         {
             get { return xLightIntensity; }
@@ -371,9 +358,20 @@ namespace _3DPresentation
             SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, world, view, projection, cameraPosition);            
             graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, 3);
 
+            // Draw lightsource
             graphicsDevice.SetVertexBuffer(lightSourceVertexBuffer);
-            Matrix lightSource = Matrix.CreateTranslation(xLightSource);
+            Matrix lightSource = Matrix.CreateTranslation(xLightSource1);
             SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, lightSource, view, projection, cameraPosition);            
+            graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 12);
+
+            graphicsDevice.SetVertexBuffer(lightSourceVertexBuffer);
+            Matrix lightSource2 = Matrix.CreateTranslation(xLightSource2);
+            SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, lightSource2, view, projection, cameraPosition);
+            graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 12);
+
+            graphicsDevice.SetVertexBuffer(lightSourceVertexBuffer);
+            Matrix lightSource3 = Matrix.CreateTranslation(xLightSource3);
+            SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, lightSource3, view, projection, cameraPosition);
             graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, 12);
         }
 
@@ -394,9 +392,19 @@ namespace _3DPresentation
                 myBasicEffect.World = world;
                 myBasicEffect.Projection = projection;
                 myBasicEffect.View = view;
-                myBasicEffect.LightSource = xLightSource;
-                myBasicEffect.LightIntensity = xLightIntensity;
-                myBasicEffect.DiffuseColor = xDisfuseColor;
+
+                myBasicEffect.DiffuseSource1 = xLightSource1;
+                myBasicEffect.DiffuseIntensity1 = xLightIntensity;
+                myBasicEffect.DiffuseColor1 = Color.White;
+
+                myBasicEffect.DiffuseSource2 = xLightSource2;
+                myBasicEffect.DiffuseIntensity2 = xLightIntensity;
+                myBasicEffect.DiffuseColor2 = Color.White;
+
+                myBasicEffect.DiffuseSource3 = xLightSource3;
+                myBasicEffect.DiffuseIntensity3 = xLightIntensity;
+                myBasicEffect.DiffuseColor3 = Color.White;
+
                 myBasicEffect.AmbientIntensity = xAmbientIntensity;
 
                 myBasicEffect.Device = graphicsDevice;
@@ -408,7 +416,7 @@ namespace _3DPresentation
                 basicEffect.View = view;
                 basicEffect.Projection = projection;
                 basicEffect.CameraPosition = cameraPosition;
-                basicEffect.LightPosition = xLightSource;
+                basicEffect.LightPosition = xLightSource1;
                 basicEffect.AmbientColor = DiffuseColor;
                 basicEffect.DiffuseColor = AmbientColor;
                 basicEffect.EmissiveColor = Color.Black;

@@ -85,42 +85,7 @@ namespace _3DPresentation
             }
         }
 
-        public float LightSourceX
-        {
-            get
-            {
-                return sceneModel.LightSourceX;
-            }
-            set
-            {
-                sceneModel.LightSourceX = value;
-            }
-        }
-
-        public float LightSourceY
-        {
-            get
-            {
-                return sceneModel.LightSourceY;
-            }
-            set
-            {
-                sceneModel.LightSourceY = value;
-            }
-        }
-
-        public float LightSourceZ
-        {
-            get
-            {
-                return sceneModel.LightSourceZ;
-            }
-            set
-            {
-                sceneModel.LightSourceZ = value;
-            }
-        }
-
+        
         public float LightIntensity
         {
             get

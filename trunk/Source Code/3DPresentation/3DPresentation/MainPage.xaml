@@ -3,8 +3,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit"
-             xmlns:theming="clr-namespace:System.Windows.Controls.Theming;assembly=System.Windows.Controls.Theming.Toolkit"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
     
@@ -15,8 +13,16 @@
             <my:MySliderControl x:Name="myLightSourceY" Title="LightSourceY" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 35, 0, 0"/>
             <my:MySliderControl x:Name="myLightSourceZ" Title="LightSourceZ" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 65, 0, 0"/>
 
-            <my:MySliderControl x:Name="myLightIntensity" Title="LightIntensity" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 105, 0, 0"/>
-            <my:MySliderControl x:Name="myAmbientIntensity" Title="AmbientIntensity" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 135, 0, 0"/>
+            <my:MySliderControl x:Name="myLightSourceX2" Title="LightSourceX2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 95, 0, 0"/>
+            <my:MySliderControl x:Name="myLightSourceY2" Title="LightSourceY2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 125, 0, 0"/>
+            <my:MySliderControl x:Name="myLightSourceZ2" Title="LightSourceZ2" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 155, 0, 0"/>
+
+            <my:MySliderControl x:Name="myLightSourceX3" Title="LightSourceX3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 185, 0, 0"/>
+            <my:MySliderControl x:Name="myLightSourceY3" Title="LightSourceY3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 215, 0, 0"/>
+            <my:MySliderControl x:Name="myLightSourceZ3" Title="LightSourceZ3" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 245, 0, 0"/>
+
+            <my:MySliderControl x:Name="myLightIntensity" Title="LightIntensity" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5, 0, 0, 130"/>
+            <my:MySliderControl x:Name="myAmbientIntensity" Title="AmbientIntensity" HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="5, 0, 0, 100"/>
 
             <Button Content="Start" Width="50" Height="23" Margin="0,10,10,0" Name="button1" Click="button1_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 			<Button Content="AddBlock" Width="50" Height="23" Margin="0,40,10,0" Name="btAdd" VerticalAlignment="Top" HorizontalAlignment="Right"/>

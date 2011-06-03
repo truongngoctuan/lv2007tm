@@ -17,7 +17,7 @@ namespace _3DPresentation
 {
     public class Partition
     {
-        private double THRESHOLD = 300;
+        private double THRESHOLD = 30;
 
         public enum LOD { LOW = 5, MEDIUM = 3, HIGH = 1 };
         private int PartitionWidth;
