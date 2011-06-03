@@ -23,7 +23,7 @@ namespace _3DPresentation
         Matrix projection; // The projection transform to convert 3D space to 2D screen space
 
         // The single Cube at the root of the scene
-        SceneModel sceneModel = new SceneModel(false);
+        public SceneModel sceneModel = new SceneModel(false);
 
         public Scene()
         {
@@ -37,6 +37,18 @@ namespace _3DPresentation
         {
             // the transform representing a camera at a position looking at a target
             view = Matrix.CreateLookAt(_cameraPosition, _cameraTarget, Vector3.Up);
+        }
+
+        public Partition.LOD LOD
+        {
+            get
+            {
+                return sceneModel.meshManager.LOD;
+            }
+            set
+            {
+                sceneModel.meshManager.LOD = value;
+            }
         }
 
         public Vector3 CameraPosition

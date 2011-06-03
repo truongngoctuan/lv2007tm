@@ -42,7 +42,7 @@ PixelToFrame main(VertexShaderOutput PSIn)
 	// The smaller the angle between the normal and the light direction, the closer the dot
 	// product will be to 1, and the brighter the pixel will be.
 	float3 lightDirection = normalize(PSIn.Position3D - (float3)xLightSource);
-	float lightIntensity = saturate(dot(-lightDirection, PSIn.Normal)) * (1 - distance((float3)xLightSource, PSIn.Position3D) / xLightIntensity);
+	float lightIntensity = saturate(dot(-lightDirection, PSIn.Normal)) * (1 - pow(distance((float3)xLightSource, PSIn.Position3D) / xLightIntensity, 2));
 	if(lightIntensity > 0.0f)
 	{
 		float4 diffuse = xDiffuseColor * lightIntensity;
@@ -50,7 +50,8 @@ PixelToFrame main(VertexShaderOutput PSIn)
 	}
 	
 	Output.Color = saturate(baseColor * effectColor);
-
+	//if(Output.Color.x != 0)
+	//	Output.Color = PSIn.Color;
 	//Output.Color = effectColor;
 	// Apply
 	//Output.Color = PSIn.Color;
