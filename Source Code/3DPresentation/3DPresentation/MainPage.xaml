@@ -8,7 +8,7 @@
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400" xmlns:sdk="http://schemas.microsoft.com/winfx/2006/xaml/presentation/sdk">
     <theming:Theme ThemeUri="themes/System.Windows.Controls.Theming.ExpressionDark.xaml">
-        <Grid x:Name="LayoutRoot" Background="Black" MouseLeftButtonDown="LayoutRoot_MouseLeftButtonDown" MouseLeftButtonUp="LayoutRoot_MouseLeftButtonUp" MouseMove="LayoutRoot_MouseMove">
+        <Grid x:Name="LayoutRoot" Background="Black" MouseLeftButtonDown="LayoutRoot_MouseLeftButtonDown" MouseLeftButtonUp="LayoutRoot_MouseLeftButtonUp" MouseMove="LayoutRoot_MouseMove" KeyDown="LayoutRoot_KeyDown">
             <DrawingSurface x:Name="drawingSurface" Draw="OnDraw" SizeChanged="OnSizeChanged" />
 
             <my:MySliderControl x:Name="myLightSourceX" Title="LightSourceX" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5, 5, 0, 0"/>

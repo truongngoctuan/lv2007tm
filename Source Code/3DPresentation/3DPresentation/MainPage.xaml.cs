@@ -156,17 +156,21 @@ namespace _3DPresentation
             {
                 if (isStart)
                 {
-                    CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.FORWARD);
-                    scene.CameraPosition = CameraMovements.CameraResult;
-                    scene.CameraTarget = CameraMovements.LookAtResult;
-                    scene.UpdateView2();
+                    CameraMovements cm = new CameraMovements();
+                    cm.OnTickProcess = () =>
+                    {
+                        cm.Move2(scene.CameraPosition, scene.CameraTarget, 50f, _3DPresentation.CameraMovements.MOVE.FORWARD);
+                        scene.CameraPosition = CameraMovements.CameraResult;
+                        scene.CameraTarget = CameraMovements.LookAtResult;
+                        scene.UpdateView2();
+                    };
+                    cm.AnimationSurface(250);
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("MoveForward_Click" + ex.Message);
             }
-
         }
 
         private void MoveBack_Click(object sender, RoutedEventArgs e)
@@ -176,10 +180,15 @@ namespace _3DPresentation
             {
                 if (isStart)
                 {
-                    CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.BACK);
-                    scene.CameraPosition = CameraMovements.CameraResult;
-                    scene.CameraTarget = CameraMovements.LookAtResult;
-                    scene.UpdateView2();
+                    CameraMovements cm = new CameraMovements();
+                    cm.OnTickProcess = () =>
+                    {
+                        cm.Move2(scene.CameraPosition, scene.CameraTarget, 50f, _3DPresentation.CameraMovements.MOVE.BACK);
+                        scene.CameraPosition = CameraMovements.CameraResult;
+                        scene.CameraTarget = CameraMovements.LookAtResult;
+                        scene.UpdateView2();
+                    };
+                    cm.AnimationSurface(250);
                 }
             }
             catch (Exception ex)
@@ -196,10 +205,15 @@ namespace _3DPresentation
             {
                 if (isStart)
                 {
-                    CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.LEFT);
-                    scene.CameraPosition = CameraMovements.CameraResult;
-                    scene.CameraTarget = CameraMovements.LookAtResult;
-                    scene.UpdateView2();
+                    CameraMovements cm = new CameraMovements();
+                    cm.OnTickProcess = () =>
+                    {
+                        cm.Move2(scene.CameraPosition, scene.CameraTarget, 50f, _3DPresentation.CameraMovements.MOVE.LEFT);
+                        scene.CameraPosition = CameraMovements.CameraResult;
+                        scene.CameraTarget = CameraMovements.LookAtResult;
+                        scene.UpdateView2();
+                    };
+                    cm.AnimationSurface(250);
                 }
             }
             catch (Exception ex)
@@ -216,10 +230,15 @@ namespace _3DPresentation
             {
                 if (isStart)
                 {
-                    CameraMovements.Move(scene.CameraPosition, scene.CameraTarget, 10.0f, _3DPresentation.CameraMovements.MOVE.RIGHT);
-                    scene.CameraPosition = CameraMovements.CameraResult;
-                    scene.CameraTarget = CameraMovements.LookAtResult;
-                    scene.UpdateView2();
+                    CameraMovements cm = new CameraMovements();
+                    cm.OnTickProcess = () =>
+                    {
+                        cm.Move2(scene.CameraPosition, scene.CameraTarget, 50f, _3DPresentation.CameraMovements.MOVE.RIGHT);
+                        scene.CameraPosition = CameraMovements.CameraResult;
+                        scene.CameraTarget = CameraMovements.LookAtResult;
+                        scene.UpdateView2();
+                    };
+                    cm.AnimationSurface(250);
                 }
             }
             catch (Exception ex)
@@ -239,10 +258,14 @@ namespace _3DPresentation
             {
                 if (isStart)
                 {
-                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, -2), scene.CameraPosition, scene.CameraTarget);
-                    //scene.CameraPosition = CameraMovements.CameraResult;
-                    scene.CameraTarget = CameraMovements.LookAtResult;
-                    scene.UpdateView2();
+                    CameraMovements cm = new CameraMovements();
+                    cm.OnTickProcess = () =>
+                    {
+                        cm.Rotate2(-8f, 0, 0, scene.CameraPosition, scene.CameraTarget);
+                        scene.CameraTarget = CameraMovements.LookAtResult;
+                        scene.UpdateView2();
+                    };
+                    cm.AnimationSurface(250);
                 }
             }
             catch (Exception ex)
@@ -259,10 +282,14 @@ namespace _3DPresentation
             {
                 if (isStart)
                 {
-                    CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(0, 2), scene.CameraPosition, scene.CameraTarget);
-                    //scene.CameraPosition = CameraMovements.CameraResult;
-                    scene.CameraTarget = CameraMovements.LookAtResult;
-                    scene.UpdateView2();
+                    CameraMovements cm = new CameraMovements();
+                    cm.OnTickProcess = () =>
+                    {
+                        cm.Rotate2(8f, 0, 0, scene.CameraPosition, scene.CameraTarget);
+                        scene.CameraTarget = CameraMovements.LookAtResult;
+                        scene.UpdateView2();
+                    };
+                    cm.AnimationSurface(250);
                 }
             }
             catch (Exception ex)
@@ -280,7 +307,6 @@ namespace _3DPresentation
                 if (isStart)
                 {
                     CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(-2, 0), scene.CameraPosition, scene.CameraTarget);
-                    //scene.CameraPosition = CameraMovements.CameraResult;
                     scene.CameraTarget = CameraMovements.LookAtResult;
                     scene.UpdateView2();
                 }
@@ -300,7 +326,6 @@ namespace _3DPresentation
                 if (isStart)
                 {
                     CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2(2, 0), scene.CameraPosition, scene.CameraTarget);
-                    //scene.CameraPosition = CameraMovements.CameraResult;
                     scene.CameraTarget = CameraMovements.LookAtResult;
                     scene.UpdateView2();
                 }
@@ -311,7 +336,6 @@ namespace _3DPresentation
             }
 
         }
-
 
         bool bIsbtDown = false;
         Point oldPoint = new Point();
@@ -335,7 +359,7 @@ namespace _3DPresentation
             {
                 newPoint = e.GetPosition(drawingSurface);
 
-                CameraMovements.Rotate(new Microsoft.Xna.Framework.Vector2((float)(newPoint.Y - oldPoint.Y), (float)(newPoint.X - oldPoint.X)), scene.CameraPosition, scene.CameraTarget);
+                CameraMovements.RotateByMouse(new Microsoft.Xna.Framework.Vector2((float)(newPoint.Y - oldPoint.Y), (float)(newPoint.X - oldPoint.X)), scene.CameraPosition, scene.CameraTarget);
                 scene.CameraTarget = CameraMovements.LookAtResult;
                 scene.UpdateView2();
 
@@ -343,5 +367,28 @@ namespace _3DPresentation
             }
         }
         #endregion
+
+        private void LayoutRoot_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.A)
+            {
+                MoveLeft_Click(this, new RoutedEventArgs());
+            }
+
+            if (e.Key == Key.D)
+            {
+                MoveRight_Click(this, new RoutedEventArgs());
+            }
+
+            if (e.Key == Key.W)
+            {
+                MoveForward_Click(this, new RoutedEventArgs());
+            }
+
+            if (e.Key == Key.S)
+            {
+                MoveBack_Click(this, new RoutedEventArgs());
+            }
+        }
     }
 }
