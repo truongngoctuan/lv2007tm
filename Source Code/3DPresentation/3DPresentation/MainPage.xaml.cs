@@ -30,6 +30,14 @@ namespace _3DPresentation
             myLightSourceY.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceY_ValueChanged);
             myLightSourceZ.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceZ_ValueChanged);
 
+            myLightSourceX2.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceX2_ValueChanged);
+            myLightSourceY2.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceY2_ValueChanged);
+            myLightSourceZ2.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceZ2_ValueChanged);
+
+            myLightSourceX3.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceX3_ValueChanged);
+            myLightSourceY3.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceY3_ValueChanged);
+            myLightSourceZ3.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceZ3_ValueChanged);
+
             myLightIntensity.ValueChanged += new MySliderControl.ValueChangedEventHandler(myDiffuseIntensity_ValueChanged);
             myAmbientIntensity.ValueChanged += new MySliderControl.ValueChangedEventHandler(myAmbientIntensity_ValueChanged);
 
@@ -42,6 +50,22 @@ namespace _3DPresentation
             myLightSourceY.MaxValue = 1000;
             myLightSourceZ.MaxValue = 3000;
 
+            myLightSourceX2.MinValue = -1000;
+            myLightSourceY2.MinValue = -1000;
+            myLightSourceZ2.MinValue = -3000;
+
+            myLightSourceX2.MaxValue = 1000;
+            myLightSourceY2.MaxValue = 1000;
+            myLightSourceZ2.MaxValue = 3000;
+
+            myLightSourceX3.MinValue = -1000;
+            myLightSourceY3.MinValue = -1000;
+            myLightSourceZ3.MinValue = -3000;
+
+            myLightSourceX3.MaxValue = 1000;
+            myLightSourceY3.MaxValue = 1000;
+            myLightSourceZ3.MaxValue = 3000;
+
             myLightIntensity.MinValue = 0;
             myLightIntensity.MaxValue = 10000;
 
@@ -52,6 +76,15 @@ namespace _3DPresentation
             myLightSourceX.Value = 200;
             myLightSourceY.Value = 200;
             myLightSourceZ.Value = -500;
+
+            myLightSourceX2.Value = -300;
+            myLightSourceY2.Value = 200;
+            myLightSourceZ2.Value = -500;
+
+            myLightSourceX3.Value = 700;
+            myLightSourceY3.Value = 200;
+            myLightSourceZ3.Value = -500;
+
             myLightIntensity.Value = 5000.0f;
             myAmbientIntensity.Value = 0.2f;
 
@@ -113,17 +146,47 @@ namespace _3DPresentation
 
         void myLightSourceZ_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.LightSourceZ = (float)e.NewValue;
+            scene.sceneModel.xLightSource1.Z = (float)e.NewValue;
         }
 
         void myLightSourceY_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.LightSourceY = (float)e.NewValue;
+            scene.sceneModel.xLightSource1.Y = (float)e.NewValue;
         }
 
         void myLightSourceX_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.LightSourceX = (float)e.NewValue;
+            scene.sceneModel.xLightSource1.X = (float)e.NewValue;
+        }
+
+        void myLightSourceZ2_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.sceneModel.xLightSource2.Z = (float)e.NewValue;
+        }
+
+        void myLightSourceY2_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.sceneModel.xLightSource2.Y = (float)e.NewValue;
+        }
+
+        void myLightSourceX2_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.sceneModel.xLightSource2.X = (float)e.NewValue;
+        }
+
+        void myLightSourceZ3_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.sceneModel.xLightSource3.Z = (float)e.NewValue;
+        }
+
+        void myLightSourceY3_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.sceneModel.xLightSource3.Y = (float)e.NewValue;
+        }
+
+        void myLightSourceX3_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
+        {
+            scene.sceneModel.xLightSource3.X = (float)e.NewValue;
         }
 
         void OnDraw(object sender, DrawEventArgs args)
