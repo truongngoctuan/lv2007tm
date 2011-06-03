@@ -62,6 +62,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Babylon.Importers">
+      <HintPath>C:\Babylon.Toolkit\Babylon.Importers.dll</HintPath>
+    </Reference>
+    <Reference Include="Babylon.Toolbox, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Babylon.Toolkit\Babylon.Toolbox.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework.Math">
       <HintPath>.\Microsoft.Xna.Framework.Math.dll</HintPath>
     </Reference>
@@ -70,29 +77,12 @@
     <Reference Include="system" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
-    <Reference Include="System.Windows.Controls.Data.DataForm.Toolkit">
-      <HintPath>C:\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Bin\System.Windows.Controls.Data.DataForm.Toolkit.dll</HintPath>
+    <Reference Include="System.Windows.Controls, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Theming.ExpressionDark">
+      <HintPath>C:\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Themes\System.Windows.Controls.Theming.ExpressionDark.dll</HintPath>
     </Reference>
-    <Reference Include="System.Windows.Controls.Data.Input, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
-    <Reference Include="System.Windows.Controls.Data.Toolkit">
-      <HintPath>C:\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Bin\System.Windows.Controls.Data.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Controls.DataVisualization.Toolkit">
-      <HintPath>C:\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Bin\System.Windows.Controls.DataVisualization.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Controls.Input.Toolkit">
-      <HintPath>C:\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Bin\System.Windows.Controls.Input.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Controls.Layout.Toolkit">
-      <HintPath>C:\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Bin\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Controls.Theming.Toolkit">
-      <HintPath>C:\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Bin\System.Windows.Controls.Theming.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Controls.Toolkit">
-      <HintPath>C:\Program Files (x86)\Microsoft SDKs\Silverlight\v4.0\Toolkit\Apr10\Bin\System.Windows.Controls.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Windows.Controls.Toolkit.Internals, Version=4.0.5.0, Culture=neutral, PublicKeyToken=2c5c654d367bf4a7, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Theming.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Windows.Browser" />
   </ItemGroup>
@@ -144,7 +134,6 @@
     <VertexShader Include="Effects\MyBasicEffect\MyBasicEffect.vs.hlsl" />
     <PixelShader Include="Effects\NoEffect\NoEffect.ps.hlsl" />
     <VertexShader Include="Effects\NoEffect\NoEffect.vs.hlsl" />
-    <Resource Include="Models\candle.obj" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -175,14 +164,7 @@
     </AvailableItemName>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="E:\NetworkShared\babylontoolkit-89456\Babylon.Toolkit\Babylon.Importers\Babylon.Importers.csproj">
-      <Project>{74FFF9ED-47A3-4C97-BFAA-81468D2C21E8}</Project>
-      <Name>Babylon.Importers</Name>
-    </ProjectReference>
-    <ProjectReference Include="E:\NetworkShared\babylontoolkit-89456\Babylon.Toolkit\Babylon.Toolbox\Babylon.Toolbox.csproj">
-      <Project>{FDE5F342-9CE4-405B-8AA3-D7B16AED2C36}</Project>
-      <Name>Babylon.Toolbox</Name>
-    </ProjectReference>
+    <Folder Include="Models\" />
   </ItemGroup>
   <UsingTask TaskName="ShaderBuildTask.ShaderCompile" AssemblyName="ShaderBuildTask, Version=1.0.3072.18169, Culture=neutral,&#xD;&#xA;PublicKeyToken=44e467d1687af125" />
   <Target Name="VertexShaderCompile" Condition="'@(VertexShader)' != '' " BeforeTargets="Build">

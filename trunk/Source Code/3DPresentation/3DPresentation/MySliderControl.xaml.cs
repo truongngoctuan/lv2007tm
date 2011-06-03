@@ -55,11 +55,11 @@ namespace _3DPresentation
         {
             get
             {
-                return mTitle.Content.ToString();
+                return mTitle.Text.ToString();
             }
             set
             {
-                mTitle.Content = value;
+                mTitle.Text = value;
             }
         }
 
