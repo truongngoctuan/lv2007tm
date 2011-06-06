@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Babylon.Toolbox;
 
-namespace _3DPresentation.Effects.NoEffect
+namespace _3DPresentation.Effects.MyBasicEffect
 {
     public class MyBasicEffect : Effect
     {
