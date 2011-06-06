@@ -19,7 +19,7 @@ namespace _3DPresentation
     {
         private double THRESHOLD = 30;
 
-        public enum LOD { LOW = 5, MEDIUM = 3, HIGH = 1 };
+        
         private int PartitionWidth;
         private int PartitionHeight;
         private int PartitionRealWidth;
@@ -29,7 +29,7 @@ namespace _3DPresentation
         public VertexPositionNormalColor[] Vertices;
         public VertexBuffer VertexBuffer;
 
-        Dictionary<LOD, IndexBuffer> IndexBuffers;
+        Dictionary<GlobalVars.LOD, IndexBuffer> IndexBuffers;
         public int Length
         {
             get { return Vertices.Length; }
@@ -45,7 +45,7 @@ namespace _3DPresentation
             PartitionRealHeight = partitionRealHeight;
 
             Vertices = new VertexPositionNormalColor[PartitionRealWidth * PartitionRealHeight];
-            IndexBuffers = new Dictionary<LOD, IndexBuffer>();
+            IndexBuffers = new Dictionary<_3DPresentation.GlobalVars.LOD, IndexBuffer>();
         }
 
         public bool AddVertex(VertexPositionNormalColor vertex, int row, int col)
@@ -208,7 +208,7 @@ namespace _3DPresentation
         #endregion        
 
         #region Indices
-        public IndexBuffer GetIndexBuffer(LOD lod, GraphicsDevice graphicsDevice)
+        public IndexBuffer GetIndexBuffer(_3DPresentation.GlobalVars.LOD lod, GraphicsDevice graphicsDevice)
         {
             IndexBuffer indexBuffer = null;
             ushort[] indices;
@@ -233,8 +233,6 @@ namespace _3DPresentation
         }
         void AddTriangleToIndices(object param, int triangleCount, int i1, int i2, int i3)
         {
-            if (triangleCount == PartitionWidth * PartitionHeight * 2)
-                triangleCount = triangleCount;
             ushort[] indices = param as ushort[];
             if (indices != null)
             {
@@ -278,7 +276,7 @@ namespace _3DPresentation
         #endregion
 
         #region CalculateNormalVector
-        public void CalculateNormalVector(LOD lod)
+        public void CalculateNormalVector(GlobalVars.LOD lod)
         {
             int step = (int)lod;
             iterateThroughPartition(step, null, CalculateNormalVector_Phrase1);

@@ -81,14 +81,21 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Camera.cs" />
     <Compile Include="CameraMovements.cs" />
     <Compile Include="ClientLog.cs" />
     <Compile Include="Effects\MyBasicEffect\MyBasicEffect.cs" />
     <Compile Include="Effects\NoEffect\NoEffect.cs" />
+    <Compile Include="Effects\VertexDeclarations.cs" />
+    <Compile Include="GlobalVars.cs" />
+    <Compile Include="Light\LightPoint.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="MeshManger.cs" />
+    <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\MyModel.cs" />
+    <Compile Include="Models\SimpleModel.cs" />
     <Compile Include="MySliderControl.xaml.cs">
       <DependentUpon>MySliderControl.xaml</DependentUpon>
     </Compile>
@@ -99,6 +106,7 @@
     <Compile Include="UDRMZControl.xaml.cs">
       <DependentUpon>UDRMZControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">

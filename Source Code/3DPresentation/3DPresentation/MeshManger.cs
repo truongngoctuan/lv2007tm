@@ -21,7 +21,6 @@ namespace _3DPresentation
         public int PartitionRealWidth;
         public int PartitionRealHeight;
 
-        public Partition.LOD LOD = Partition.LOD.LOW;
         public MeshManger()
         {
             MeshWidth = MeshHeight = 0;
@@ -97,7 +96,7 @@ namespace _3DPresentation
             // Calculate normal vector
             for (int i = 0; i < Partitions.Count; i++)
             {
-                Partitions[i].CalculateNormalVector(Partition.LOD.HIGH);
+                Partitions[i].CalculateNormalVector(GlobalVars.LOD.HIGH);
             }
         }
 
@@ -116,7 +115,7 @@ namespace _3DPresentation
         public void RenderPartition(GraphicsDevice graphicsDevice, int partitionIndex)
         {
             VertexBuffer vertexBuffer = Partitions[partitionIndex].VertexBuffer;
-            IndexBuffer indexBuffer = Partitions[partitionIndex].GetIndexBuffer(LOD, graphicsDevice);
+            IndexBuffer indexBuffer = Partitions[partitionIndex].GetIndexBuffer(_3DPresentation.GlobalVars.LevelOfDetail, graphicsDevice);
             /*
             if (sVertexBuffer == null)
             {

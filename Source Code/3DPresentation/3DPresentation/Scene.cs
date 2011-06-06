@@ -10,6 +10,8 @@ using System.Net;
 using System.Windows;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using _3DPresentation.Models;
+using System.Windows.Controls;
 
 namespace _3DPresentation
 {
@@ -19,35 +21,64 @@ namespace _3DPresentation
     /// </summary>
     public class Scene
     {
-        Matrix view; // The view or camera transform
-        Matrix projection; // The projection transform to convert 3D space to 2D screen space
-
+        Camera camera;
         // The single Cube at the root of the scene
-        public SceneModel sceneModel = new SceneModel(false);
-
+        SceneModel sceneModel = new SceneModel(false);
         public Scene()
         {
+            camera.cameraPosition = new Vector3(0, 0, 1000);
+            camera.cameraTarget = new Vector3(0, 0, -1000);
             UpdateView2();
         }
 
+        public void  Scene_Draw(object sender, DrawEventArgs e)
+        {
+            // clear the existing render target
+            GraphicsDevice graphicsDevice = e.GraphicsDevice;
+            graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
+
+            // draw 
+            sceneModel.Draw(graphicsDevice, e.TotalTime, camera);
+        }
+
+        // update the aspect ratio of the scene based on the
+        // dimensions of the surface
+        public void Scene_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            DrawingSurface surface = sender as DrawingSurface;
+            AspectRatio = (float)surface.ActualWidth / (float)surface.ActualHeight;
+        }
+
+        public MyModel AddMyModel(string image, string depthmap, Vector3 position)
+        {
+            return sceneModel.AddMyModel(image, depthmap, position);
+        }
+        public SimpleModel AddSimpleModel(VertexPositionColor[] vertices, Vector3 position)
+        {
+            return sceneModel.AddSimpleModel(vertices, position);
+        }
+        public LightPoint AddLightPoint(Vector3 position, Color color, float intensity)
+        {
+            return sceneModel.AddLightPoint(position, color, intensity);
+        }
+
         #region NewUpdate
-        Vector3 _cameraPosition = new Vector3(0, 0, 1000); // the camera's position
-        Vector3 _cameraTarget = new Vector3(0, 0, -1000);
+        
         public void UpdateView2()
         {
             // the transform representing a camera at a position looking at a target
-            view = Matrix.CreateLookAt(_cameraPosition, _cameraTarget, Vector3.Up);
+            camera.view = Matrix.CreateLookAt(camera.cameraPosition, camera.cameraTarget, Vector3.Up);
         }
 
-        public Partition.LOD LOD
+        public GlobalVars.LOD LOD
         {
             get
             {
-                return sceneModel.meshManager.LOD;
+                return GlobalVars.LevelOfDetail;
             }
             set
             {
-                sceneModel.meshManager.LOD = value;
+                GlobalVars.LevelOfDetail = value;
             }
         }
 
@@ -55,11 +86,11 @@ namespace _3DPresentation
         {
             get
             {
-                return _cameraPosition;
+                return camera.cameraPosition;
             }
             set
             {
-                _cameraPosition = value;
+                camera.cameraPosition = value;
             }
         }
 
@@ -67,11 +98,11 @@ namespace _3DPresentation
         {
             get
             {
-                return _cameraTarget;
+                return camera.cameraTarget;
             }
             set
             {
-                _cameraTarget = value;
+                camera.cameraTarget = value;
             }
         }
         #endregion
@@ -81,11 +112,9 @@ namespace _3DPresentation
             set
             {
                 // update the screen space transform every time the aspect ratio changes
-                projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 30000.0f);
+                camera.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 30000.0f);
             }
-        }
-
-        
+        }        
         public float LightIntensity
         {
             get
@@ -107,20 +136,10 @@ namespace _3DPresentation
             {
                 sceneModel.AmbientIntensity = value;
             }
-        }
-        
+        }        
         public int FPS
         {
             get { return sceneModel.FPS; }
-        }
-
-        public void Draw(GraphicsDevice graphicsDevice, TimeSpan totalTime)
-        {
-            // clear the existing render target
-            graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
-
-            // draw the Cube
-            sceneModel.Draw(graphicsDevice, totalTime, view, projection, _cameraPosition);
         }
     }
 }

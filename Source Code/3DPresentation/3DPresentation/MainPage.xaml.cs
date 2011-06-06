@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Windows.Controls;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
+using Microsoft.Xna.Framework;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
-using Microsoft.Xna.Framework.Graphics;
 
 namespace _3DPresentation
 {
@@ -25,6 +19,13 @@ namespace _3DPresentation
             //Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 24 });
             // INGNORED
             App.Current.Host.Settings.MaxFrameRate = MAX_FRAME_RATE;            
+
+            scene.AddMyModel("ColorImg.png", "depthmap.txt", Vector3.Zero);
+            scene.AddSimpleModel(CreateAxisModel(), Vector3.Zero);
+
+            light1 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);
+            light2 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);
+            light3 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);            
             
             myLightSourceX.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceX_ValueChanged);
             myLightSourceY.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceY_ValueChanged);
@@ -101,22 +102,50 @@ namespace _3DPresentation
             myUDRMZControl.RotateUpClick += new RoutedEventHandler(RotateUp_Click);
             myUDRMZControl.RotateDownClick += new RoutedEventHandler(RotateDown_Click);
 
-            btAdd.Click += new RoutedEventHandler(btAdd_Click);
-
-            cbLOD.Items.Add(Partition.LOD.LOW);
-            cbLOD.Items.Add(Partition.LOD.MEDIUM);
-            cbLOD.Items.Add(Partition.LOD.HIGH);
+            cbLOD.Items.Add(GlobalVars.LOD.LOW);
+            cbLOD.Items.Add(GlobalVars.LOD.MEDIUM);
+            cbLOD.Items.Add(GlobalVars.LOD.HIGH);
             cbLOD.SelectionChanged += new SelectionChangedEventHandler(cbLOD_SelectionChanged);
+
+            drawingSurface.Draw += new EventHandler<DrawEventArgs>(drawingSurface_Draw);
+            drawingSurface.SizeChanged += new SizeChangedEventHandler(drawingSurface_SizeChanged);
+        }
+
+        void drawingSurface_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            scene.Scene_SizeChanged(sender, e);
+        }
+
+        void drawingSurface_Draw(object sender, DrawEventArgs e)
+        {
+            if (isDraw)
+            {
+                scene.Scene_Draw(sender, e);                
+            }
+            e.InvalidateSurface();
+        }
+
+        LightPoint light1;
+        LightPoint light2;
+        LightPoint light3;
+
+        private VertexPositionColor[] CreateAxisModel()
+        {
+            VertexPositionColor[] vertices = new VertexPositionColor[6];
+            vertices[0] = new VertexPositionColor(new Vector3(-3000, 0, 0), GlobalVars.Red);
+            vertices[1] = new VertexPositionColor(new Vector3(+3000, 0, 0), GlobalVars.White);
+
+            vertices[2] = new VertexPositionColor(new Vector3(0, -3000, 0), GlobalVars.Green);
+            vertices[3] = new VertexPositionColor(new Vector3(0, 3000, 0), GlobalVars.White);
+
+            vertices[4] = new VertexPositionColor(new Vector3(0, 0, -3000), GlobalVars.Blue);
+            vertices[5] = new VertexPositionColor(new Vector3(0, 0, 3000), GlobalVars.White);
+            return vertices;
         }
 
         void cbLOD_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            scene.LOD = (Partition.LOD)e.AddedItems[0];
-        }
-
-        void btAdd_Click(object sender, RoutedEventArgs e)
-        {
-            scene.sceneModel.MyBlock = scene.sceneModel.MyBlock + 1;
+            scene.LOD = (_3DPresentation.GlobalVars.LOD)e.AddedItems[0];
         }
         
         int uiFPS = 0;
@@ -132,6 +161,7 @@ namespace _3DPresentation
                 _lastFPS = DateTime.Now;
             }
             myUIFPS.Dispatcher.BeginInvoke(new Action(() => { myUIFPS.Text = "UIFPS : " + uiFPS; }));
+            myDrawFPS.Dispatcher.BeginInvoke(new Action(() => { myDrawFPS.Text = "DrawFPS : " + scene.FPS; }));
         }
 
         void myAmbientIntensity_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
@@ -146,69 +176,48 @@ namespace _3DPresentation
 
         void myLightSourceZ_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.sceneModel.xLightSource1.Z = (float)e.NewValue;
+            light1.Position = new Vector3(light1.Position.X, light1.Position.Y, (float)e.NewValue);
         }
 
         void myLightSourceY_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.sceneModel.xLightSource1.Y = (float)e.NewValue;
+            light1.Position = new Vector3(light1.Position.X, (float)e.NewValue, light1.Position.Z);
         }
 
         void myLightSourceX_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.sceneModel.xLightSource1.X = (float)e.NewValue;
+            light1.Position = new Vector3((float)e.NewValue, light1.Position.Y, light1.Position.Z);
         }
 
         void myLightSourceZ2_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.sceneModel.xLightSource2.Z = (float)e.NewValue;
+            light2.Position = new Vector3(light2.Position.X, light2.Position.Y, (float)e.NewValue); ;
         }
 
         void myLightSourceY2_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.sceneModel.xLightSource2.Y = (float)e.NewValue;
+            light2.Position = new Vector3(light2.Position.X, (float)e.NewValue, light2.Position.Z);
         }
 
         void myLightSourceX2_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.sceneModel.xLightSource2.X = (float)e.NewValue;
+            light2.Position = new Vector3((float)e.NewValue, light2.Position.Y, light2.Position.Z);
         }
 
         void myLightSourceZ3_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.sceneModel.xLightSource3.Z = (float)e.NewValue;
+            light3.Position = new Vector3(light3.Position.X, light3.Position.Y, (float)e.NewValue);
         }
 
         void myLightSourceY3_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.sceneModel.xLightSource3.Y = (float)e.NewValue;
+            light3.Position = new Vector3(light3.Position.X, (float)e.NewValue, light3.Position.Z);
         }
 
         void myLightSourceX3_ValueChanged(object sender, MySliderControl.ValueChangedEventArgs e)
         {
-            scene.sceneModel.xLightSource3.X = (float)e.NewValue;
-        }
-
-        void OnDraw(object sender, DrawEventArgs args)
-        {
-            myDrawFPS.Dispatcher.BeginInvoke(new Action(() => { myDrawFPS.Text = "DrawFPS : " + scene.FPS; }));
-            if (isDraw)
-            {                
-                // draw 3D scene
-                scene.Draw(args.GraphicsDevice, args.TotalTime);
-
-                // invalidate to get a callback next frame
-                args.InvalidateSurface();
-            }
-        }
-
-        // update the aspect ratio of the scene based on the
-        // dimensions of the surface
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            DrawingSurface surface = sender as DrawingSurface;
-            scene.AspectRatio = (float)surface.ActualWidth / (float)surface.ActualHeight;
-        }
+            light3.Position = new Vector3((float)e.NewValue, light3.Position.Y, light3.Position.Z);
+        }        
 
         bool isDraw = false;
         bool isStart = false;
@@ -219,6 +228,7 @@ namespace _3DPresentation
             {
                 button1.Content = "Stop";
                 isStart = true;
+
             }
             else
             {
