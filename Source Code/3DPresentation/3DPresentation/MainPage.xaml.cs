@@ -4,29 +4,52 @@ using System.Windows;
 using Microsoft.Xna.Framework;
 using System.Windows.Input;
 using System.Windows.Media;
+using _3DPresentation.Models;
+using _3DPresentation.Controllers;
 
 namespace _3DPresentation
 {
     public partial class MainPage : UserControl
     {
+        private static int MAX_FRAME_RATE = 24;
         // init the 3D scene
         Scene scene = new Scene();
-
-        private static int MAX_FRAME_RATE = 24;
+        MyModel model1;
+        MyModel model2;
+        Controller controller;
         public MainPage()
         {
             InitializeComponent();
             //Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 24 });
             // INGNORED
-            App.Current.Host.Settings.MaxFrameRate = MAX_FRAME_RATE;            
+            App.Current.Host.Settings.MaxFrameRate = MAX_FRAME_RATE;
 
-            scene.AddMyModel("ColorImg.png", "depthmap.txt", Vector3.Zero);
+            //======== Add Models to Scene ===============================================
+            model1 = scene.AddMyModel("ColorImg.png", "depthmap.txt", Vector3.Zero);
+            model2 = scene.AddMyModel("ColorImg.png", "depthmap.txt", new Vector3(150, 250, 50));
+            Microsoft.Xna.Framework.Matrix rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationY((122.0f * 3.14f / 180.0f));
+            model2.WorldMatrix *= rotateMatrix;
+            rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationX((122.0f * 3.14f / 180.0f));
+            model2.WorldMatrix *= rotateMatrix;
+            rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationZ((122.0f * 3.14f / 180.0f));
+            model2.WorldMatrix *= rotateMatrix;
+
             scene.AddSimpleModel(CreateAxisModel(), Vector3.Zero);
-
             light1 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);
             light2 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);
-            light3 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);            
-            
+            light3 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);
+
+            controller = new Controllers.Controller(model1, model2);
+            MatchedFeaturePair p1 = new MatchedFeaturePair(new Vector3(500, 0, 0), new Vector3(500, 0, 0));
+            MatchedFeaturePair p2 = new MatchedFeaturePair(new Vector3(0, 500, 0), new Vector3(0, 500, 0));
+            MatchedFeaturePair p3 = new MatchedFeaturePair(new Vector3(0, 0, 500), new Vector3(0, 0, 500));
+            controller.AddMatchedFeaturePair(p1);
+            controller.AddMatchedFeaturePair(p2);
+            controller.AddMatchedFeaturePair(p3);
+
+            btAnimate.Click += new RoutedEventHandler(btAnimate_Click);
+            //============================================================================
+
             myLightSourceX.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceX_ValueChanged);
             myLightSourceY.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceY_ValueChanged);
             myLightSourceZ.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceZ_ValueChanged);
@@ -109,6 +132,11 @@ namespace _3DPresentation
 
             drawingSurface.Draw += new EventHandler<DrawEventArgs>(drawingSurface_Draw);
             drawingSurface.SizeChanged += new SizeChangedEventHandler(drawingSurface_SizeChanged);
+        }
+
+        void btAnimate_Click(object sender, RoutedEventArgs e)
+        {
+            controller.Run();
         }
 
         void drawingSurface_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -471,13 +499,17 @@ namespace _3DPresentation
             }
 
             if (e.Key == Key.W)
-            {
-                MoveForward_Click(this, new RoutedEventArgs());
+            {                
+                scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y + 10, scene.CameraPosition.Z);
+                scene.UpdateView2();
+                //MoveForward_Click(this, new RoutedEventArgs());
             }
 
             if (e.Key == Key.S)
             {
-                MoveBack_Click(this, new RoutedEventArgs());
+                scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y - 10, scene.CameraPosition.Z);
+                scene.UpdateView2();
+                //MoveBack_Click(this, new RoutedEventArgs());
             }
         }
     }

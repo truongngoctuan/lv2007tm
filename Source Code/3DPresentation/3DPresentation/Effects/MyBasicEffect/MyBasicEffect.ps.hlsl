@@ -90,8 +90,8 @@ PixelToFrame main(VertexShaderOutput PSIn)
 	effectColor = saturate(effectColor);
 	Output.Color = saturate(baseColor * effectColor);
 
-	//if(Output.Color.x != 0)
-	//	Output.Color = PSIn.Color;
+	//if(PSIn.Position3D.z > -1000)
+		//Output.Color = 1.0;
 	//Output.Color = effectColor;
 	// Apply
 	//Output.Color = PSIn.Color;
