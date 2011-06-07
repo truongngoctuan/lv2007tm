@@ -5,20 +5,35 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="_3DPresentation.UDRMZControl"
-	d:DesignWidth="286" d:DesignHeight="100">
+	d:DesignWidth="370" d:DesignHeight="100">
 
-	<Grid x:Name="LayoutRoot">
-		<Canvas Margin="0,0,21,8">
-			<Button x:Name="btMoveForward" Content="^" Height="25" Canvas.Left="165" Canvas.Top="8" Width="26" Click="btMoveForward_Click" />
-			<Button x:Name="btMoveBack" Content="v" Height="25" Canvas.Left="165" Canvas.Top="59" Width="26" Click="btMoveBack_Click" />
-			<Button x:Name="btMoveRight" Content="&gt;" Height="25" Canvas.Left="191" Canvas.Top="33" Width="26" Click="btMoveRight_Click" />
-			<Button x:Name="btMoveLeft" Content="&lt;" Height="25" Canvas.Left="139" Canvas.Top="33" Width="26" Click="btMoveLeft_Click" />
-			<Button x:Name="btMoveUp" Content="^" Height="37" Canvas.Left="96" Canvas.Top="8" Width="26" Click="btMoveUp_Click" />
-			<Button x:Name="btMoveDown" Content="v" Height="37" Canvas.Left="96" Canvas.Top="45" Width="26" Click="btMoveDown_Click" />
-			<Button x:Name="btZoomOut" Content="-" Height="37" Canvas.Left="233" Canvas.Top="45" Width="26"/>
-			<Button x:Name="btZoomIn" Content="+" Height="37" Canvas.Left="233" Canvas.Top="8" Width="26"/>
-			<Button x:Name="btRotateRight" Content=")" Height="25" Canvas.Left="43" Canvas.Top="33" Width="37" Click="btRotateRight_Click" />
-			<Button x:Name="btRotateLeft" Content="(" Height="25" Canvas.Left="2" Canvas.Top="33" Width="41" Click="btRotateLeft_Click" />
-		</Canvas>
+	<Grid x:Name="LayoutRoot" Width="370" Height="100">
+        <Canvas Background="Black" Margin="0,0,0,0">
+			<Button x:Name="btMoveForward" Content="^" Height="40" Canvas.Left="216" Canvas.Top="8" Width="40" Click="btMoveForward_Click" />
+			<Button x:Name="btMoveBack" Content="v" Height="40" Canvas.Left="216" Canvas.Top="55" Width="40" Click="btMoveBack_Click" />
+            <Button x:Name="btMoveRight" Height="40" Canvas.Left="262" Canvas.Top="30" Width="40" Click="btMoveRight_Click" >
+                <Button.Content>
+                    <Path x:Name="Path_58" Width="12" Height="22" Stretch="Fill" Fill="#FFafafaf" Data="F1 M 610.68,232.403L 592.412,214.134C 591.77,213.492 590.807,213.3 589.968,213.648C 589.131,213.995 588.584,214.812 588.584,215.72L 588.584,252.257C 588.584,253.164 589.131,253.981 589.968,254.328C 590.247,254.444 590.538,254.498 590.826,254.498C 591.41,254.498 591.983,254.272 592.412,253.844L 610.68,235.573C 611.098,235.156 611.338,234.578 611.338,233.988C 611.338,233.398 611.098,232.82 610.68,232.403 Z "/>
+                </Button.Content>
+            </Button>
+            <Button x:Name="btMoveLeft" Height="40" Canvas.Left="170" Canvas.Top="30" Width="40" Click="btMoveLeft_Click" >
+                <Button.Content>
+                    <Path Width="14" Height="23" Stretch="Fill" Fill="#FFafafaf" Data="F1 M 610.68,232.403L 592.412,214.134C 591.77,213.492 590.807,213.3 589.968,213.648C 589.131,213.995 588.584,214.812 588.584,215.72L 588.584,252.257C 588.584,253.164 589.131,253.981 589.968,254.328C 590.247,254.444 590.538,254.498 590.826,254.498C 591.41,254.498 591.983,254.272 592.412,253.844L 610.68,235.573C 611.098,235.156 611.338,234.578 611.338,233.988C 611.338,233.398 611.098,232.82 610.68,232.403 Z " RenderTransformOrigin="0.5,0.5" UseLayoutRounding="False">
+                    	<Path.RenderTransform>
+                    		<CompositeTransform ScaleX="-1"/>
+                    	</Path.RenderTransform>
+                    </Path>
+                </Button.Content>
+            </Button>
+            <Button x:Name="btMoveUp" Content="^" Height="40" Canvas.Left="113" Canvas.Top="8" Width="40" Click="btMoveUp_Click" />
+            <Button x:Name="btMoveDown" Content="v" Height="40" Canvas.Left="113" Canvas.Top="55" Width="40" Click="btMoveDown_Click" />
+            <Button x:Name="btZoomOut" Content="-" Height="40" Canvas.Left="317" Canvas.Top="55" Width="40"/>
+            <Button x:Name="btZoomIn" Content="+" Height="40" Canvas.Left="317" Canvas.Top="8" Width="40"/>
+            <Button x:Name="btRotateRight" Content=")" Height="40" Canvas.Left="56" Canvas.Top="32" Width="40" Click="btRotateRight_Click" >
+                </Button>
+            <Button x:Name="btRotateLeft" Content="(" Height="40" Canvas.Left="10" Canvas.Top="32" Width="40" Click="btRotateLeft_Click" >
+            </Button>
+
+        </Canvas>
 	</Grid>
 </UserControl>
