@@ -91,6 +91,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controllers\MatchedFeatureController.cs" />
     <Compile Include="OpenFileControl.xaml.cs">
       <DependentUpon>OpenFileControl.xaml</DependentUpon>
     </Compile>
@@ -135,6 +136,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Resource Include="SampleData\ColorImg1.png" />
+    <Resource Include="SampleData\ColorImg2.png" />
+    <Resource Include="SampleData\depthmap1.txt" />
+    <Resource Include="SampleData\depthmap2.txt" />
     <Content Include="themes\System.Windows.Controls.Theming.ExpressionDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -157,8 +162,8 @@
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="ColorImg.png" />
-    <Resource Include="depthmap.txt" />
+    <Resource Include="SampleData\ColorImg.png" />
+    <Resource Include="SampleData\depthmap.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -131,14 +131,31 @@ namespace _3DPresentation
 
             foreach (MyModel myModel in myModels)
             {
-                SetShaderEffect(ShaderEffect.MyBasicEffect, graphicsDevice, myModel.WorldMatrix, camera);
-                myModel.Render(graphicsDevice);
+                if (myModel.IsVisible)
+                {
+                    SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, myModel.WorldMatrix, camera);
+                    myModel.Render(graphicsDevice);
+                }
+
+                SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, myModel.WorldMatrix, camera);
+                VertexPositionColor[] vertices = new VertexPositionColor[4];
+                vertices[0] = new VertexPositionColor(myModel.marker1, GlobalVars.Red);
+                vertices[1] = new VertexPositionColor(myModel.marker2, GlobalVars.Red);
+                vertices[2] = new VertexPositionColor(myModel.marker1, GlobalVars.Blue);
+                vertices[3] = new VertexPositionColor(myModel.marker3, GlobalVars.Blue);
+                VertexBuffer v = new VertexBuffer(graphicsDevice, VertexPositionColor.VertexDeclaration, vertices.Length, BufferUsage.WriteOnly);
+                v.SetData(0, vertices, 0, vertices.Length, 0);
+                graphicsDevice.SetVertexBuffer(v);
+                graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, vertices.Length / 2);
             }
 
             foreach (SimpleModel simpleModel in simpleModels)
             {
-                SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, simpleModel.WorldMatrix, camera);
-                simpleModel.Render(graphicsDevice);
+                if (simpleModel.IsVisible)
+                {
+                    SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, simpleModel.WorldMatrix, camera);
+                    simpleModel.Render(graphicsDevice);
+                }
             }
         }
 

@@ -26,10 +26,11 @@ namespace _3DPresentation.Models
         public string ImagePath { get; set; }
         public string DepthMapPath { get; set; }
 
-        float[,] heightData;
+        public float[,] heightData;
         float dOH;
 
         public Matrix WorldMatrix { get; set; }
+        public bool IsVisible = true;
 
         public MyModel(string imgPath, string depthmapPath, int width, int height)
         {
@@ -49,13 +50,17 @@ namespace _3DPresentation.Models
             SetupVertices(heightData, graphicsDevice);
             return true;
         }
+
+        public Vector3 marker1 { get; set; }
+        public Vector3 marker2 { get; set; }
+        public Vector3 marker3 { get; set; }
         public void Render(GraphicsDevice graphicsDevice)
         {
             for (int partitionIndex = 0; partitionIndex < meshManager.Partitions.Count; partitionIndex++)
             //for (int partitionIndex = 0; partitionIndex < 7; partitionIndex++)
             {
                 meshManager.RenderPartition(graphicsDevice, partitionIndex);
-            }
+            }            
         }
 
         private void LoadImage()
@@ -98,11 +103,8 @@ namespace _3DPresentation.Models
             {
                 for (int y = 0; y < Height; y++)
                 {
-                    Vector3 temp;
-                    temp = new Vector3(x - 320, y - 240, heightData[x, y]);
-
                     VertexPositionNormalColor vertex = new VertexPositionNormalColor();
-                    vertex.Position = Calc3DPos(temp);
+                    vertex.Position = PixelToPoint(x, y);
                     vertex.Color = getPixel(x + y * Width);
                     vertex.Normal = new Vector3(0, 0, 0);
                     meshManager.AddVertex(vertex, y, x);
@@ -111,7 +113,13 @@ namespace _3DPresentation.Models
             meshManager.End();
             meshManager.InitVertexBuffer(graphicsDevice);
         }
-
+        public Vector3 PixelToPoint(int x, int y)
+        {
+            Vector3 point;
+            point = new Vector3(x - 320, y - 240, heightData[x, y]);
+            point = Calc3DPos(point);
+            return point;
+        }
         
         private void InitValues()
         {

@@ -35,13 +35,33 @@ namespace _3DPresentation
                 //    // Store file content in 'text' variable
                 //    string text = reader.ReadToEnd();
                 //}
-                using (Stream stream = dialog.File.OpenRead())
-                {
-                    // Store file content in 'text' variable
-                    BitmapImage bitmapImage = new BitmapImage();
-                    bitmapImage.SetSource(stream);
-                    img.Source = bitmapImage;
-                }
+                //using (Stream stream = dialog.File.OpenRead())
+                //{
+                //    // Store file content in 'text' variable
+                //    BitmapImage bitmapImage = new BitmapImage();
+                //    bitmapImage.SetSource(stream);
+                //    img.Source = bitmapImage;
+                //}
+                if (this.FileOpened != null)
+                    FileOpened(this, new FileOpenedEventArgs(dialog.File));
+            }
+        }
+
+        public delegate void FileOpenedHandler(object sender, FileOpenedEventArgs e);
+        public event FileOpenedHandler FileOpened;
+
+        public class FileOpenedEventArgs : EventArgs
+        {
+            public FileInfo FileInfo
+            {
+                get;
+                set;
+            }
+
+            public FileOpenedEventArgs(FileInfo fileInfo)
+                : base()
+            {
+                FileInfo = fileInfo;
             }
         }
     }

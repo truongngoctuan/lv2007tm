@@ -11,6 +11,7 @@ namespace _3DPresentation.Models
 
         public Type RenderType { get; set; }
         public Matrix WorldMatrix { get; set; }
+        public bool IsVisible = true;
         private SimpleModel()
         {
         }
