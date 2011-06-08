@@ -28,8 +28,13 @@
 
             <Button Content="Start" Width="60" Height="40" Margin="0,10,10,0" Name="button1" Click="button1_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 			<Button Content="Animate" Width="60" Height="40" Margin="0,54,10,0" Name="btAnimate" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-			
-            <TextBlock x:Name="myUIFPS" Text="UI FPS : " Height="20" HorizontalAlignment="Left" Margin="5,0,0,30" VerticalAlignment="Bottom" Width="120" FontSize="14" Foreground="Lime" FontWeight="Bold" />
+            <Button Content="Next" Width="60" Height="40" Margin="0,135,10,0" Name="btNext" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+            <my:OpenFileControl Margin="0,175,10,0" x:Name="myOpenFile" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+            <Button Content="Reset" Width="60" Height="40" Margin="0,210,10,0" Name="btReset" VerticalAlignment="Top" HorizontalAlignment="Right"/>
+            <CheckBox x:Name="chkModel1" Content="Show 1" Margin="0,275,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" IsChecked="True"/>
+            <CheckBox x:Name="chkModel2" Content="Show 2" Margin="0,300,10,0" VerticalAlignment="Top" HorizontalAlignment="Right" IsChecked="True"/>
+            
+            <TextBlock x:Name="myUIFPS" Text="UI FPS : " Height="20" HorizontalAlignment="Left" Margin="5,0,0,30" VerticalAlignment="Bottom" Width="120" FontSize="14" Foreground="Lime" FontWeight="Bold"/>
             <TextBlock x:Name="myDrawFPS" Text="Draw FPS : " Height="20" HorizontalAlignment="Left" Margin="5,0,0,10" VerticalAlignment="Bottom" Width="120" FontSize="14" Foreground="Lime" FontWeight="Bold" />
             <my:UDRMZControl x:Name="myUDRMZControl" Height="100" Margin="106,0,0,0" VerticalAlignment="Bottom"/>
         <ComboBox x:Name="cbLOD" Height="23" HorizontalAlignment="Right" Margin="0,100,6,0" VerticalAlignment="Top" Width="80" />

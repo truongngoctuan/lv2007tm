@@ -6,6 +6,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using _3DPresentation.Models;
 using _3DPresentation.Controllers;
+using System.IO;
+using System.Collections.Generic;
 
 namespace _3DPresentation
 {
@@ -17,6 +19,44 @@ namespace _3DPresentation
         MyModel model1;
         MyModel model2;
         Controller controller;
+
+        MatchedFeatureController matchController;
+        FileInfo lastFileInfo = null;
+        public void InitAnimate(FileInfo fileInfo)
+        {
+            lastFileInfo = fileInfo;
+            controller = new Controllers.Controller(model1, model2);
+            matchController = new MatchedFeatureController(model1, model2);
+            matchController.GetPairs(fileInfo);
+            MatchedFeaturePair[] bestPair = matchController.GetBestPairs();
+            if (bestPair != null)
+            {
+                controller.AddMatchedFeaturePair(bestPair[0]);
+                controller.AddMatchedFeaturePair(bestPair[1]);
+                controller.AddMatchedFeaturePair(bestPair[2]);
+
+                model1.marker1 = bestPair[0].destPosition;
+                model1.marker2 = bestPair[1].destPosition;
+                model1.marker3 = bestPair[2].destPosition;
+
+                model2.marker1 = bestPair[0].movingPoint;
+                model2.marker2 = bestPair[1].movingPoint;
+                model2.marker3 = bestPair[2].movingPoint;
+            }
+            else
+            {
+                model1.marker1 = Vector3.Zero;
+                model1.marker2 = Vector3.Zero;
+                model1.marker3 = Vector3.Zero;
+
+                model2.marker1 = Vector3.Zero;
+                model2.marker2 = Vector3.Zero;
+                model2.marker3 = Vector3.Zero;
+            }
+        }
+
+        Microsoft.Xna.Framework.Matrix model1Matrix;
+        Microsoft.Xna.Framework.Matrix model2Matrix;
         public MainPage()
         {
             InitializeComponent();
@@ -25,29 +65,33 @@ namespace _3DPresentation
             App.Current.Host.Settings.MaxFrameRate = MAX_FRAME_RATE;
 
             //======== Add Models to Scene ===============================================
-            model1 = scene.AddMyModel("ColorImg.png", "depthmap.txt", Vector3.Zero);
-            model2 = scene.AddMyModel("ColorImg.png", "depthmap.txt", new Vector3(150, 250, 50));
-            Microsoft.Xna.Framework.Matrix rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationY((122.0f * 3.14f / 180.0f));
-            model2.WorldMatrix *= rotateMatrix;
-            rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationX((122.0f * 3.14f / 180.0f));
-            model2.WorldMatrix *= rotateMatrix;
-            rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationZ((122.0f * 3.14f / 180.0f));
-            model2.WorldMatrix *= rotateMatrix;
+            model1 = scene.AddMyModel("SampleData/ColorImg1.png", "SampleData/depthmap1.txt", new Vector3(-500, 0, 0));
+            model2 = scene.AddMyModel("SampleData/ColorImg2.png", "SampleData/depthmap2.txt", new Vector3(500, 0, 0));
+            //Microsoft.Xna.Framework.Matrix rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationY((122.0f * 3.14f / 180.0f));
+            //model2.WorldMatrix *= rotateMatrix;
+            //rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationX((122.0f * 3.14f / 180.0f));
+            //model2.WorldMatrix *= rotateMatrix;
+            //rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationZ((122.0f * 3.14f / 180.0f));
+            //model2.WorldMatrix *= rotateMatrix;                       
+            model1Matrix = model1.WorldMatrix;
+            model2Matrix = model2.WorldMatrix;
 
             scene.AddSimpleModel(CreateAxisModel(), Vector3.Zero);
             light1 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);
             light2 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);
             light3 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);
-
-            controller = new Controllers.Controller(model1, model2);
-            MatchedFeaturePair p1 = new MatchedFeaturePair(new Vector3(500, 0, 0), new Vector3(500, 0, 0));
-            MatchedFeaturePair p2 = new MatchedFeaturePair(new Vector3(0, 500, 0), new Vector3(0, 500, 0));
-            MatchedFeaturePair p3 = new MatchedFeaturePair(new Vector3(0, 0, 500), new Vector3(0, 0, 500));
-            controller.AddMatchedFeaturePair(p1);
-            controller.AddMatchedFeaturePair(p2);
-            controller.AddMatchedFeaturePair(p3);
+            light1.Model.IsVisible = false;
+            light2.Model.IsVisible = false;
+            light3.Model.IsVisible = false;
 
             btAnimate.Click += new RoutedEventHandler(btAnimate_Click);
+            btNext.Click += new RoutedEventHandler(btNext_Click);
+            myOpenFile.FileOpened += new OpenFileControl.FileOpenedHandler(myOpenFile_FileOpened);
+            btReset.Click += new RoutedEventHandler(btReset_Click);
+            chkModel1.Checked += new RoutedEventHandler(chkModel1_Checked);
+            chkModel1.Unchecked += new RoutedEventHandler(chkModel1_Unchecked);
+            chkModel2.Checked += new RoutedEventHandler(chkModel2_Checked);
+            chkModel2.Unchecked += new RoutedEventHandler(chkModel2_Unchecked);
             //============================================================================
 
             myLightSourceX.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceX_ValueChanged);
@@ -112,6 +156,19 @@ namespace _3DPresentation
             myLightIntensity.Value = 5000.0f;
             myAmbientIntensity.Value = 0.2f;
 
+            //============== Set Collapse ======================
+            myLightSourceX.Visibility = System.Windows.Visibility.Collapsed;
+            myLightSourceY.Visibility = System.Windows.Visibility.Collapsed;
+            myLightSourceZ.Visibility = System.Windows.Visibility.Collapsed;
+            myLightSourceX2.Visibility = System.Windows.Visibility.Collapsed;
+            myLightSourceY2.Visibility = System.Windows.Visibility.Collapsed;
+            myLightSourceZ2.Visibility = System.Windows.Visibility.Collapsed; 
+            myLightSourceX3.Visibility = System.Windows.Visibility.Collapsed;
+            myLightSourceY3.Visibility = System.Windows.Visibility.Collapsed;
+            myLightSourceZ3.Visibility = System.Windows.Visibility.Collapsed;
+            myLightIntensity.Visibility = System.Windows.Visibility.Collapsed;
+            myAmbientIntensity.Visibility = System.Windows.Visibility.Collapsed;
+            //==================================================
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
             myUDRMZControl.MoveForwardClick += new RoutedEventHandler(MoveForward_Click);
@@ -132,6 +189,44 @@ namespace _3DPresentation
 
             drawingSurface.Draw += new EventHandler<DrawEventArgs>(drawingSurface_Draw);
             drawingSurface.SizeChanged += new SizeChangedEventHandler(drawingSurface_SizeChanged);
+        }
+
+        void chkModel2_Unchecked(object sender, RoutedEventArgs e)
+        {
+            model2.IsVisible = false;
+        }
+
+        void chkModel2_Checked(object sender, RoutedEventArgs e)
+        {
+            model2.IsVisible = true;
+        }
+
+        void chkModel1_Unchecked(object sender, RoutedEventArgs e)
+        {
+            model1.IsVisible = false;
+        }
+
+        void chkModel1_Checked(object sender, RoutedEventArgs e)
+        {
+            model1.IsVisible = true;
+        }        
+
+        void btReset_Click(object sender, RoutedEventArgs e)
+        {
+            model1.WorldMatrix = model1Matrix;
+            model2.WorldMatrix = model2Matrix;
+            controller.ClearControllerList();
+            InitAnimate(lastFileInfo);
+        }
+
+        void myOpenFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
+        {
+            InitAnimate(e.FileInfo);
+        }
+
+        void btNext_Click(object sender, RoutedEventArgs e)
+        {
+            controller.isEnable = true;
         }
 
         void btAnimate_Click(object sender, RoutedEventArgs e)

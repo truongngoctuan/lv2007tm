@@ -50,10 +50,25 @@ namespace _3DPresentation.Controllers
             return true;
         }
 
+        public bool ClearControllerList()
+        {
+            bool result = false;
+            if (sControllers.Count > 0)
+                result = true;
+            sControllers.Clear();
+            return result;
+        }
         private bool AddController()
         {
-            if (sControllers.Contains(this))
-                return false;
+            foreach (Controller controller in sControllers)
+            {
+                if (controller == this)
+                    continue;
+                if (controller.DestModel == this.DestModel && controller.MovingModel == this.MovingModel)
+                    return false;
+            }
+            //if (sControllers.Contains(this))
+            //    return false;
             sControllers.Add(this);
             return true;
         }
@@ -74,6 +89,13 @@ namespace _3DPresentation.Controllers
             timer = new DispatcherTimer();
             timer.Tick += new System.EventHandler(timer_Tick);
             timer.Interval = System.TimeSpan.FromMilliseconds(100);
+
+            // MovingPoints in World Coordinate System
+            destPoints = new Vector3[3];
+            destPoints[0] = matchedFeaturePair[0].destPosition;
+            destPoints[1] = matchedFeaturePair[1].destPosition;
+            destPoints[2] = matchedFeaturePair[2].destPosition;
+            destPoints = Util.TransformPoints(DestModel.WorldMatrix, destPoints);
 
             // MovingPoints in World Coordinate System
             movingPoints = new Vector3[3];
@@ -110,14 +132,15 @@ namespace _3DPresentation.Controllers
         private float finalRotation1; private Vector3 rotationAxis1; private float currentRotation1;
         private float finalRotation2; private Vector3 rotationAxis2; private float currentRotation2;
 
+        Vector3[] destPoints;
         Vector3[] movingPoints;
         private Matrix CalculateFinalTransformation()
         {
             Matrix finalMat = Matrix.Identity;
-            if (matchedFeaturePair[0].destPosition != movingPoints[0])
+            if (destPoints[0] != movingPoints[0])
             {
                 // First : Translation  => One feature fixed
-                Vector3 translationVector = matchedFeaturePair[0].destPosition - movingPoints[0];
+                Vector3 translationVector = destPoints[0] - movingPoints[0];
                 Matrix matrix = Matrix.CreateTranslation(translationVector);                 
 
                 // tranfrom movingPoints
@@ -126,10 +149,10 @@ namespace _3DPresentation.Controllers
                 finalTranslation = translationVector;
                 finalMat *= matrix;
             }
-            if (matchedFeaturePair[1].destPosition != movingPoints[1])
+            if (destPoints[1] != movingPoints[1])
             {
                 // Second : Rotation  => Two features fixed
-                Vector3 v1 = matchedFeaturePair[1].destPosition - matchedFeaturePair[0].destPosition;
+                Vector3 v1 = destPoints[1] - destPoints[0];
                 Vector3 v2 = movingPoints[1] - movingPoints[0];
 
                 // See wikipedia : http://en.wikipedia.org/wiki/Cross_product
@@ -153,11 +176,11 @@ namespace _3DPresentation.Controllers
                 finalRotation1 = angle;
                 finalMat *= matrix;
             }
-            if (matchedFeaturePair[2].destPosition != movingPoints[2])
+            if (destPoints[2] != movingPoints[2])
             {
                 // Third : Rotation  => Three features fixed
-                Vector3 destv1 = matchedFeaturePair[2].destPosition - matchedFeaturePair[0].destPosition;
-                Vector3 destv2 = matchedFeaturePair[1].destPosition - matchedFeaturePair[0].destPosition;
+                Vector3 destv1 = destPoints[2] - destPoints[0];
+                Vector3 destv2 = destPoints[1] - destPoints[0];
                 Vector3 destnormal = Vector3.Cross(destv2, destv1); // or destv1, destv2
                 destnormal.Normalize();
 
@@ -194,7 +217,7 @@ namespace _3DPresentation.Controllers
 
         private float ConvertToRadian(float angle)
         {
-            return angle * 3.141516f / 180.0f;
+            return MathHelper.ToRadians(angle);            
         }
 
         private static float SPRING = 10;
@@ -205,14 +228,19 @@ namespace _3DPresentation.Controllers
         private static float MIN_DISTANCE = 0.1f;
         private static float MIN_ANGLE = 0.1f;
 
-        enum Stage { Stage1, Stage2, Stage3, Finished }
+        //non-public
+        enum Stage { Stage1, Stage2, Stage3, Finished, Aborted }
         Stage currentStage;
+
+        public bool isEnable = false;
         void timer_Tick(object sender, System.EventArgs e)
         {
+            if (!isEnable)
+                return;
             float distance = 0;
             if (currentStage == Stage.Stage1)
             {
-                if ((distance = Vector3.Distance(matchedFeaturePair[0].destPosition, movingPoints[0])) > MIN_DISTANCE)
+                if ((distance = Vector3.Distance(destPoints[0], movingPoints[0])) > MIN_DISTANCE)
                 {
                     // First : Translation  => One feature fixed
                     Vector3 translateVector = finalTranslation - currentTranslation;
@@ -229,11 +257,12 @@ namespace _3DPresentation.Controllers
                 else
                 {
                     currentStage = Stage.Stage2;
+                    isEnable = false;
                 }
             }
             else if (currentStage == Stage.Stage2)
             {
-                //if ((distance = Vector3.Distance(matchedFeaturePair[1].destPosition, movingPoints[1])) > MIN_DISTANCE)
+                //if ((distance = Vector3.Distance(destPoints[1].destPosition, movingPoints[1])) > MIN_DISTANCE)
                 float angle = 0;
                 if((angle = finalRotation1 - currentRotation1) > MIN_ANGLE)
                 {
@@ -254,11 +283,12 @@ namespace _3DPresentation.Controllers
                 else
                 {
                     currentStage = Stage.Stage3;
+                    isEnable = false;
                 }
             }
             else if (currentStage == Stage.Stage3)
             {
-                //if ((distance = Vector3.Distance(matchedFeaturePair[2].destPosition, movingPoints[2])) > MIN_DISTANCE)
+                //if ((distance = Vector3.Distance(destPoints[2].destPosition, movingPoints[2])) > MIN_DISTANCE)
                 float angle = 0;
                 if ((angle = finalRotation2 - currentRotation2) > MIN_ANGLE)
                 {
@@ -279,13 +309,19 @@ namespace _3DPresentation.Controllers
                 else
                 {
                     currentStage = Stage.Finished;
+                    isEnable = false;
                 }
             }
             else if(currentStage == Stage.Finished)
             {
-                // DONE ANIMATING, ASSIGN FINAL FROM PRECALCULATION
+                // DONE ANIMATING, ASSIGN FINAL MAT FROM PRECALCULATION TO MODEL 
                 MovingModel.WorldMatrix = finalMovingModelMatrix;
 
+                timer.Stop();
+                timer = null;
+            }
+            else if (currentStage == Stage.Aborted)
+            {
                 timer.Stop();
                 timer = null;
             }
