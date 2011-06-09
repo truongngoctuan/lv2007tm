@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Text;
 using System.Windows.Threading;
 using System;
+using System.IO;
 
 namespace _3DPresentation
 {
@@ -131,6 +132,18 @@ namespace _3DPresentation
             graphicsDevice.SetVertexBuffer(vertexBuffer);
             graphicsDevice.Indices = indexBuffer;
             graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, Partitions[partitionIndex].Length, 0, indexBuffer.IndexCount / 3);
+        }
+        #endregion
+
+        #region Export
+        public void Export(StreamWriter sw, Matrix worldMatrix)
+        {
+            if (sw == null)
+                return;
+            foreach (Partition partition in Partitions)
+            {
+                partition.Export(sw, worldMatrix);
+            }
         }
         #endregion
     }

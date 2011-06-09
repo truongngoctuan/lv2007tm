@@ -31,7 +31,7 @@ namespace _3DPresentation.Models
 
         public Matrix WorldMatrix { get; set; }
         public bool IsVisible = true;
-
+        public int NumberOfAcceptableVertices { get; set; }
         public MyModel(string imgPath, string depthmapPath, int width, int height)
         {
             ImagePath = imgPath;
@@ -98,6 +98,7 @@ namespace _3DPresentation.Models
         }
         private void SetupVertices(float[,] heightData, GraphicsDevice graphicsDevice) 
         {
+            NumberOfAcceptableVertices = 0;
             meshManager.Begin(Width, Height);
             for (int x = 0; x < Width; x++)
             {
@@ -106,8 +107,11 @@ namespace _3DPresentation.Models
                     VertexPositionNormalColor vertex = new VertexPositionNormalColor();
                     vertex.Position = PixelToPoint(x, y);
                     vertex.Color = getPixel(x + y * Width);
-                    vertex.Normal = new Vector3(0, 0, 0);
+                    vertex.Normal = new Vector3(0, 0, 0);                    
                     meshManager.AddVertex(vertex, y, x);
+
+                    if (vertex.Position != Vector3.Zero)
+                        ++NumberOfAcceptableVertices;
                 }
             }
             meshManager.End();
@@ -144,6 +148,13 @@ namespace _3DPresentation.Models
                                         (byte)((colorAsInt >> 8) & 0xff),
                                         (byte)((colorAsInt >> 0) & 0xff),
                                         (byte)((colorAsInt >> 24) & 0xff));
+        }
+
+        public void ExportMesh(StreamWriter sw)
+        {
+            if (sw == null)
+                return;
+            meshManager.Export(sw, this.WorldMatrix);
         }
     }
 }

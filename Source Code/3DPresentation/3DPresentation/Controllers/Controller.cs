@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using _3DPresentation.Models;
 using System.Windows.Threading;
 using System;
+using System.IO;
 
 namespace _3DPresentation.Controllers
 {
@@ -28,16 +29,58 @@ namespace _3DPresentation.Controllers
         MyModel DestModel;
         MyModel MovingModel;
         List<MatchedFeaturePair> matchedFeaturePair;
+        MatchedFeatureController matchController;
+        FileInfo filePairs = null;
 
         DispatcherTimer timer;
-        public Controller(MyModel destModel, MyModel movingModel)
+        public Controller(MyModel destModel, MyModel movingModel, FileInfo pairs)
         {
             DestModel = destModel;
             MovingModel = movingModel;
             matchedFeaturePair = new List<MatchedFeaturePair>();
+            matchController = new MatchedFeatureController(destModel, movingModel);
+            InitAnimate(pairs);
         }
 
-        public bool AddMatchedFeaturePair(MatchedFeaturePair pair)
+        public void Reset()
+        {
+            InitAnimate(filePairs);
+        }
+
+        private void InitAnimate(FileInfo pairs)
+        {
+            filePairs = pairs;
+            matchController.GetPairs(pairs);
+            MatchedFeaturePair[] bestPair = matchController.GetBestPairs();
+            if (bestPair != null)
+            {
+                // Found requested solution 
+                this.AddMatchedFeaturePair(bestPair[0]);
+                this.AddMatchedFeaturePair(bestPair[1]);
+                this.AddMatchedFeaturePair(bestPair[2]);
+
+                DestModel.marker1 = bestPair[0].destPosition;
+                DestModel.marker2 = bestPair[1].destPosition;
+                DestModel.marker3 = bestPair[2].destPosition;
+
+                MovingModel.marker1 = bestPair[0].movingPoint;
+                MovingModel.marker2 = bestPair[1].movingPoint;
+                MovingModel.marker3 = bestPair[2].movingPoint;
+            }
+            else
+            {
+                // Not found
+                DestModel.marker1 = Vector3.Zero;
+                DestModel.marker2 = Vector3.Zero;
+                DestModel.marker3 = Vector3.Zero;
+
+                MovingModel.marker1 = Vector3.Zero;
+                MovingModel.marker2 = Vector3.Zero;
+                MovingModel.marker3 = Vector3.Zero;
+            }
+        }
+
+        private bool AddMatchedFeaturePair(MatchedFeaturePair pair)
         {
             foreach (MatchedFeaturePair p in matchedFeaturePair)
             {
@@ -58,6 +101,7 @@ namespace _3DPresentation.Controllers
             sControllers.Clear();
             return result;
         }
+
         private bool AddController()
         {
             foreach (Controller controller in sControllers)
@@ -325,6 +369,69 @@ namespace _3DPresentation.Controllers
                 timer.Stop();
                 timer = null;
             }
-        }        
+        }
+
+        // Export to ply format
+        public bool ExportMergedMesh(FileInfo outFile)
+        {
+            bool bResult = true;
+            try
+            {
+                Partition.ExportType = Partition.VertexExportType.PositionColor;
+
+                StreamWriter sw = new StreamWriter(outFile.OpenWrite());
+                //StreamWriter sw = new StreamWriter(File.OpenWrite(outFile.FullName));
+                long NumberOfAcceptableVertices = DestModel.NumberOfAcceptableVertices + MovingModel.NumberOfAcceptableVertices;
+                //sw.WriteLine(NumberOfAcceptableVertices);
+
+                if (Partition.ExportType == Partition.VertexExportType.Position)
+                {
+                    sw.WriteLine("ply");
+                    sw.WriteLine("format ascii 1.0");
+                    sw.WriteLine("element vertex " + NumberOfAcceptableVertices);
+                    sw.WriteLine("property float32 x");
+                    sw.WriteLine("property float32 y");
+                    sw.WriteLine("property float32 z");
+                    sw.WriteLine("end_header");
+                }
+                else if (Partition.ExportType == Partition.VertexExportType.PositionColor)
+                {
+                    sw.WriteLine("ply");
+                    sw.WriteLine("format ascii 1.0");
+                    sw.WriteLine("element vertex " + NumberOfAcceptableVertices);
+                    sw.WriteLine("property float32 x");
+                    sw.WriteLine("property float32 y");
+                    sw.WriteLine("property float32 z");
+                    sw.WriteLine("property uchar red");
+                    sw.WriteLine("property uchar green");
+                    sw.WriteLine("property uchar blue");
+                    sw.WriteLine("end_header");
+                }
+                else if (Partition.ExportType == Partition.VertexExportType.PositionColorNormal)
+                {
+                    sw.WriteLine("ply");
+                    sw.WriteLine("format ascii 1.0");
+                    sw.WriteLine("element vertex " + NumberOfAcceptableVertices);
+                    sw.WriteLine("property float32 x");
+                    sw.WriteLine("property float32 y");
+                    sw.WriteLine("property float32 z");
+                    sw.WriteLine("property uchar red");
+                    sw.WriteLine("property uchar green");
+                    sw.WriteLine("property uchar blue");
+                    sw.WriteLine("property float32 nx");
+                    sw.WriteLine("property float32 ny");
+                    sw.WriteLine("property float32 nz");
+                    sw.WriteLine("end_header");
+                }
+                DestModel.ExportMesh(sw);
+                MovingModel.ExportMesh(sw);
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                bResult = false;
+            }
+            return bResult;
+        }
     }
 }

@@ -20,41 +20,6 @@ namespace _3DPresentation
         MyModel model2;
         Controller controller;
 
-        MatchedFeatureController matchController;
-        FileInfo lastFileInfo = null;
-        public void InitAnimate(FileInfo fileInfo)
-        {
-            lastFileInfo = fileInfo;
-            controller = new Controllers.Controller(model1, model2);
-            matchController = new MatchedFeatureController(model1, model2);
-            matchController.GetPairs(fileInfo);
-            MatchedFeaturePair[] bestPair = matchController.GetBestPairs();
-            if (bestPair != null)
-            {
-                controller.AddMatchedFeaturePair(bestPair[0]);
-                controller.AddMatchedFeaturePair(bestPair[1]);
-                controller.AddMatchedFeaturePair(bestPair[2]);
-
-                model1.marker1 = bestPair[0].destPosition;
-                model1.marker2 = bestPair[1].destPosition;
-                model1.marker3 = bestPair[2].destPosition;
-
-                model2.marker1 = bestPair[0].movingPoint;
-                model2.marker2 = bestPair[1].movingPoint;
-                model2.marker3 = bestPair[2].movingPoint;
-            }
-            else
-            {
-                model1.marker1 = Vector3.Zero;
-                model1.marker2 = Vector3.Zero;
-                model1.marker3 = Vector3.Zero;
-
-                model2.marker1 = Vector3.Zero;
-                model2.marker2 = Vector3.Zero;
-                model2.marker3 = Vector3.Zero;
-            }
-        }
-
         Microsoft.Xna.Framework.Matrix model1Matrix;
         Microsoft.Xna.Framework.Matrix model2Matrix;
         public MainPage()
@@ -85,13 +50,14 @@ namespace _3DPresentation
             light3.Model.IsVisible = false;
 
             btAnimate.Click += new RoutedEventHandler(btAnimate_Click);
-            btNext.Click += new RoutedEventHandler(btNext_Click);
-            myOpenFile.FileOpened += new OpenFileControl.FileOpenedHandler(myOpenFile_FileOpened);
+            btNext.Click += new RoutedEventHandler(btNext_Click);            
             btReset.Click += new RoutedEventHandler(btReset_Click);
             chkModel1.Checked += new RoutedEventHandler(chkModel1_Checked);
             chkModel1.Unchecked += new RoutedEventHandler(chkModel1_Unchecked);
             chkModel2.Checked += new RoutedEventHandler(chkModel2_Checked);
             chkModel2.Unchecked += new RoutedEventHandler(chkModel2_Unchecked);
+            myOpenFile.FileOpened += new OpenFileControl.FileOpenedHandler(myOpenFile_FileOpened);
+            myWriteFile.FileOpened += new OpenFileControl.FileOpenedHandler(myWriteFile_FileOpened);
             //============================================================================
 
             myLightSourceX.ValueChanged += new MySliderControl.ValueChangedEventHandler(myLightSourceX_ValueChanged);
@@ -191,6 +157,16 @@ namespace _3DPresentation
             drawingSurface.SizeChanged += new SizeChangedEventHandler(drawingSurface_SizeChanged);
         }
 
+        void myWriteFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
+        {
+            controller.ExportMergedMesh(e.FileInfo);
+        }
+
+        void myOpenFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
+        {
+            controller = new Controller(model1, model2, e.FileInfo);
+        }
+
         void chkModel2_Unchecked(object sender, RoutedEventArgs e)
         {
             model2.IsVisible = false;
@@ -215,13 +191,7 @@ namespace _3DPresentation
         {
             model1.WorldMatrix = model1Matrix;
             model2.WorldMatrix = model2Matrix;
-            controller.ClearControllerList();
-            InitAnimate(lastFileInfo);
-        }
-
-        void myOpenFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
-        {
-            InitAnimate(e.FileInfo);
+            controller.Reset();            
         }
 
         void btNext_Click(object sender, RoutedEventArgs e)
