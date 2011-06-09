@@ -30,14 +30,14 @@ namespace _3DPresentation
             App.Current.Host.Settings.MaxFrameRate = MAX_FRAME_RATE;
 
             //======== Add Models to Scene ===============================================
-            model1 = scene.AddMyModel("SampleData/ColorImg1.png", "SampleData/depthmap1.txt", new Vector3(-500, 0, 0));
-            model2 = scene.AddMyModel("SampleData/ColorImg2.png", "SampleData/depthmap2.txt", new Vector3(500, 0, 0));
-            //Microsoft.Xna.Framework.Matrix rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationY((122.0f * 3.14f / 180.0f));
-            //model2.WorldMatrix *= rotateMatrix;
-            //rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationX((122.0f * 3.14f / 180.0f));
-            //model2.WorldMatrix *= rotateMatrix;
-            //rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationZ((122.0f * 3.14f / 180.0f));
-            //model2.WorldMatrix *= rotateMatrix;                       
+            model1 = scene.AddMyModel("SampleData/Data5/image_RGB_000004.png", "SampleData/Data5/image_depth_000004.dat", new Vector3(-500, 0, 0));
+            model2 = scene.AddMyModel("SampleData/Data5/image_RGB_000005.png", "SampleData/Data5/image_depth_000005.dat", new Vector3(500, 0, 0));
+            Microsoft.Xna.Framework.Matrix rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationY((122.0f * 3.14f / 180.0f));
+            model2.WorldMatrix *= rotateMatrix;
+            rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationX((122.0f * 3.14f / 180.0f));
+            model2.WorldMatrix *= rotateMatrix;
+            rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationZ((122.0f * 3.14f / 180.0f));
+            model2.WorldMatrix *= rotateMatrix;                       
             model1Matrix = model1.WorldMatrix;
             model2Matrix = model2.WorldMatrix;
 

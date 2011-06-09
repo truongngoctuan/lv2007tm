@@ -128,6 +128,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Resource Include="SampleData\Data5\image_depth_000004.dat" />
+    <Resource Include="SampleData\Data5\image_depth_000005.dat" />
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -141,6 +143,8 @@
     <Resource Include="SampleData\depthmap1.txt" />
     <Resource Include="SampleData\depthmap2.txt" />
     <None Include="Properties\OutOfBrowserSettings.xml" />
+    <Resource Include="SampleData\Data5\image_RGB_000004.png" />
+    <Resource Include="SampleData\Data5\image_RGB_000005.png" />
     <Content Include="themes\System.Windows.Controls.Theming.ExpressionDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -189,6 +193,7 @@
       <Visible>false</Visible>
     </AvailableItemName>
   </ItemGroup>
+  <ItemGroup />
   <UsingTask TaskName="ShaderBuildTask.ShaderCompile" AssemblyName="ShaderBuildTask, Version=1.0.3072.18169, Culture=neutral,&#xD;&#xA;PublicKeyToken=44e467d1687af125" />
   <Target Name="VertexShaderCompile" Condition="'@(VertexShader)' != '' " BeforeTargets="Build">
     <ShaderCompile Sources="@(VertexShader)" ShaderProfile="vs_2_0" IntermediateOutputPath="$(IntermediateOutputPath)">
