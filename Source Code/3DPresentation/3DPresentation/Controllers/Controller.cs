@@ -433,5 +433,10 @@ namespace _3DPresentation.Controllers
             }
             return bResult;
         }
+
+        public void ExportMatchedPairs(FileInfo outFile)
+        {
+            matchController.ExportPairs(outFile);
+        }
     }
 }
