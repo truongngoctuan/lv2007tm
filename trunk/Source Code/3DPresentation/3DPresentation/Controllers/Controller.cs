@@ -423,8 +423,8 @@ namespace _3DPresentation.Controllers
                     sw.WriteLine("property float32 nz");
                     sw.WriteLine("end_header");
                 }
-                DestModel.ExportMesh(sw);
-                MovingModel.ExportMesh(sw);
+                DestModel.ExportMesh_PLY(sw);
+                MovingModel.ExportMesh_PLY(sw);
                 sw.Close();
             }
             catch (Exception ex)

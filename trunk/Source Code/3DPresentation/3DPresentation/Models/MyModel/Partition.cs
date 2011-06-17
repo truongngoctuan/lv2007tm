@@ -307,7 +307,7 @@ namespace _3DPresentation
         #region Export
         public enum VertexExportType {Position, PositionColor, PositionColorNormal};
         public static VertexExportType ExportType;
-        public void Export(StreamWriter sw, Microsoft.Xna.Framework.Matrix worldMatrix)
+        public void Export_PLY(StreamWriter sw, Microsoft.Xna.Framework.Matrix worldMatrix)
         {
             if (sw == null)
                 return;
@@ -362,6 +362,85 @@ namespace _3DPresentation
                         sw.Write(vertex.Color.G);
                         sw.Write(' ');
                         sw.Write(vertex.Color.B);
+                        sw.Write(' ');
+                    }
+                    if (bNormal)
+                    {
+                        sw.Write(vertex.Normal.X);
+                        sw.Write(' ');
+                        sw.Write(vertex.Normal.Y);
+                        sw.Write(' ');
+                        sw.Write(vertex.Normal.Z);
+                        sw.Write(' ');
+                    }
+                    sw.Write('\n');
+                }
+            }
+        }
+
+        public void Export_PCD(StreamWriter sw, Microsoft.Xna.Framework.Matrix worldMatrix)
+        {
+            if (sw == null)
+                return;
+
+            bool bPosition = false;
+            bool bColor = false;
+            bool bNormal = false;
+            if (ExportType == VertexExportType.Position)
+            {
+                bPosition = true;
+            }
+            else if (ExportType == VertexExportType.PositionColor)
+            {
+                bPosition = true;
+                bColor = true;
+            }
+            else if (ExportType == VertexExportType.PositionColorNormal)
+            {
+                bPosition = true;
+                bColor = true;
+                bNormal = true;
+            }
+
+            //for (int row = 0; row < PartitionRealHeight - 1; row++)
+            int index = 0;
+            VertexPositionNormalColor vertex;
+            for (int row = 0; row < PartitionHeight; row++)
+            {
+                //for (int col = 0; row < PartitionRealWidth - 1; col++)
+                for (int col = 0; col < PartitionWidth; col++)
+                {
+                    index = col + row * PartitionRealWidth;
+                    vertex = Vertices[index];
+                    if (vertex.Position == Vector3.Zero)
+                        continue;
+                    Vector3 worldPosition = Util.TransformPoint(worldMatrix, vertex.Position);
+                    if (bPosition)
+                    {
+                        sw.Write(worldPosition.X);
+                        sw.Write(' ');
+                        sw.Write(worldPosition.Y);
+                        sw.Write(' ');
+                        sw.Write(worldPosition.Z);
+                        sw.Write(' ');
+                    }
+                    if (bColor)
+                    {
+                        //sw.Write(vertex.Color.A);
+                        //sw.Write(' ');                        
+                        //sw.Write(vertex.Color.R);
+                        //sw.Write(' ');
+                        //sw.Write(vertex.Color.G);
+                        //sw.Write(' ');
+                        //sw.Write(vertex.Color.B);
+                        //sw.Write(' ');
+
+                        int color;
+                        //vertex.Color = GlobalVars.Blue;
+                        //color = (vertex.Color.R << 16) | (vertex.Color.G << 8) | (vertex.Color.B << 0);
+                        color = (vertex.Color.R * 256 * 256) + (vertex.Color.G * 256) + (vertex.Color.B);
+                        color = color & 0x0FFFFFFF;
+                        sw.Write(color);
                         sw.Write(' ');
                     }
                     if (bNormal)

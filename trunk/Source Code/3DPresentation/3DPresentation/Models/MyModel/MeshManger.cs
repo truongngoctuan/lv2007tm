@@ -136,13 +136,26 @@ namespace _3DPresentation
         #endregion
 
         #region Export
-        public void Export(StreamWriter sw, Matrix worldMatrix)
+        public void Export_PLY(StreamWriter sw, Matrix worldMatrix)
         {
             if (sw == null)
                 return;
             foreach (Partition partition in Partitions)
             {
-                partition.Export(sw, worldMatrix);
+                partition.Export_PLY(sw, worldMatrix);
+            }
+        }
+        public void Export_PCD(StreamWriter sw, Matrix worldMatrix)
+        {
+            if (sw == null)
+                return;
+            int count = 0;
+            foreach (Partition partition in Partitions)
+            {
+                count++;
+                if (count % 7 < 3 || count % 7 > 4)
+                    continue;
+                partition.Export_PCD(sw, worldMatrix);
             }
         }
         #endregion
