@@ -96,8 +96,11 @@ namespace _3DPresentation.Models
                 }
             }
         }
+        
+        VertexPositionNormalColor[,] vertices; // test with export_pcd2
         private void SetupVertices(float[,] heightData, GraphicsDevice graphicsDevice) 
         {
+            vertices = new VertexPositionNormalColor[Height, Width];
             NumberOfAcceptableVertices = 0;
             meshManager.Begin(Width, Height);
             for (int x = 0; x < Width; x++)
@@ -110,6 +113,7 @@ namespace _3DPresentation.Models
                     vertex.Normal = new Vector3(0, 0, 0);                    
                     meshManager.AddVertex(vertex, y, x);
 
+                    vertices[y, x] = vertex;
                     if (vertex.Position != Vector3.Zero)
                         ++NumberOfAcceptableVertices;
                 }
@@ -150,11 +154,204 @@ namespace _3DPresentation.Models
                                         (byte)((colorAsInt >> 24) & 0xff));
         }
 
-        public void ExportMesh(StreamWriter sw)
+        public void ExportMesh_PLY(StreamWriter sw)
         {
             if (sw == null)
                 return;
-            meshManager.Export(sw, this.WorldMatrix);
+            meshManager.Export_PLY(sw, this.WorldMatrix);
+        }
+
+        // Export to ply format
+        public bool ExportMesh_PLY(FileInfo outFile)
+        {
+            bool bResult = true;
+            try
+            {
+                Partition.ExportType = Partition.VertexExportType.PositionColor;
+
+                StreamWriter sw = new StreamWriter(outFile.OpenWrite());                
+                long NumberOfAcceptableVertices = this.NumberOfAcceptableVertices;
+
+                if (Partition.ExportType == Partition.VertexExportType.Position)
+                {
+                    sw.WriteLine("ply");
+                    sw.WriteLine("format ascii 1.0");
+                    sw.WriteLine("element vertex " + NumberOfAcceptableVertices);
+                    sw.WriteLine("property float32 x");
+                    sw.WriteLine("property float32 y");
+                    sw.WriteLine("property float32 z");
+                    sw.WriteLine("end_header");
+                }
+                else if (Partition.ExportType == Partition.VertexExportType.PositionColor)
+                {
+                    sw.WriteLine("ply");
+                    sw.WriteLine("format ascii 1.0");
+                    sw.WriteLine("element vertex " + NumberOfAcceptableVertices);
+                    sw.WriteLine("property float32 x");
+                    sw.WriteLine("property float32 y");
+                    sw.WriteLine("property float32 z");
+                    sw.WriteLine("property uchar red");
+                    sw.WriteLine("property uchar green");
+                    sw.WriteLine("property uchar blue");
+                    sw.WriteLine("end_header");
+                }
+                else if (Partition.ExportType == Partition.VertexExportType.PositionColorNormal)
+                {
+                    sw.WriteLine("ply");
+                    sw.WriteLine("format ascii 1.0");
+                    sw.WriteLine("element vertex " + NumberOfAcceptableVertices);
+                    sw.WriteLine("property float32 x");
+                    sw.WriteLine("property float32 y");
+                    sw.WriteLine("property float32 z");
+                    sw.WriteLine("property uchar red");
+                    sw.WriteLine("property uchar green");
+                    sw.WriteLine("property uchar blue");
+                    sw.WriteLine("property float32 nx");
+                    sw.WriteLine("property float32 ny");
+                    sw.WriteLine("property float32 nz");
+                    sw.WriteLine("end_header");
+                }
+                this.ExportMesh_PLY(sw);
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                bResult = false;
+            }
+            return bResult;
+        }
+
+        public void ExportMesh_PCD(StreamWriter sw)
+        {
+            if (sw == null)
+                return;
+            meshManager.Export_PCD(sw, this.WorldMatrix);
+        }
+
+        // Export to pcd format
+        public bool ExportMesh_PCD(FileInfo outFile)
+        {
+            bool bResult = true;
+            try
+            {
+                Partition.ExportType = Partition.VertexExportType.PositionColor;
+
+                StreamWriter sw = new StreamWriter(outFile.OpenWrite());
+                long NumberOfAcceptableVertices = this.NumberOfAcceptableVertices;
+
+                if (Partition.ExportType == Partition.VertexExportType.Position)
+                {
+                    sw.WriteLine("# .PCD v.7 - Point Cloud Data file format");
+                    sw.WriteLine("VERSION .7");
+                    sw.WriteLine("FIELDS x y z");
+                    sw.WriteLine("SIZE 4 4 4");
+                    sw.WriteLine("TYPE F F F");
+                    sw.WriteLine("COUNT 1 1 1");
+                    sw.WriteLine("WIDTH " + NumberOfAcceptableVertices);
+                    sw.WriteLine("HEIGHT 1");
+                    sw.WriteLine("POINTS " + NumberOfAcceptableVertices);
+                    sw.WriteLine("DATA ascii");
+                }
+                else if (Partition.ExportType == Partition.VertexExportType.PositionColor)
+                {
+                    sw.WriteLine("# .PCD v.7 - Point Cloud Data file format");
+                    sw.WriteLine("VERSION .7");
+                    sw.WriteLine("FIELDS x y z rgb");
+                    sw.WriteLine("SIZE 4 4 4 4");
+                    sw.WriteLine("TYPE F F F F");
+                    sw.WriteLine("COUNT 1 1 1 1");
+                    sw.WriteLine("WIDTH " + NumberOfAcceptableVertices);
+                    sw.WriteLine("HEIGHT 1");
+                    sw.WriteLine("POINTS " + NumberOfAcceptableVertices);
+                    sw.WriteLine("DATA ascii");
+                }
+                else if (Partition.ExportType == Partition.VertexExportType.PositionColorNormal)
+                {
+                    sw.Close();
+                    return false;
+                }
+                this.ExportMesh_PCD(sw);
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                bResult = false;
+            }
+            return bResult;
+        }
+
+        public bool ExportMesh_PCD2(FileInfo outFile)
+        {
+            bool bResult = true;
+            try
+            {
+                Partition.ExportType = Partition.VertexExportType.PositionColor;
+
+                StreamWriter sw = new StreamWriter(outFile.OpenWrite());
+                long NumberOfAcceptableVertices = this.NumberOfAcceptableVertices;
+
+                if (Partition.ExportType == Partition.VertexExportType.Position)
+                {
+                    sw.WriteLine("# .PCD v.7 - Point Cloud Data file format");
+                    sw.WriteLine("VERSION .7");
+                    sw.WriteLine("FIELDS x y z");
+                    sw.WriteLine("SIZE 4 4 4");
+                    sw.WriteLine("TYPE F F F");
+                    sw.WriteLine("COUNT 1 1 1");
+                    sw.WriteLine("WIDTH " + Width);
+                    sw.WriteLine("HEIGHT " + Height);
+                    sw.WriteLine("POINTS " + Width * Height);
+                    sw.WriteLine("DATA ascii");
+                }
+                else if (Partition.ExportType == Partition.VertexExportType.PositionColor)
+                {
+                    sw.WriteLine("# .PCD v.7 - Point Cloud Data file format");
+                    sw.WriteLine("VERSION .7");
+                    sw.WriteLine("FIELDS x y z rgb");
+                    sw.WriteLine("SIZE 4 4 4 4");
+                    sw.WriteLine("TYPE F F F F");
+                    sw.WriteLine("COUNT 1 1 1 1");
+                    sw.WriteLine("WIDTH " + Width);
+                    sw.WriteLine("HEIGHT " + Height);
+                    sw.WriteLine("POINTS " + Width * Height);
+                    sw.WriteLine("DATA ascii");
+                }
+                else if (Partition.ExportType == Partition.VertexExportType.PositionColorNormal)
+                {
+                    sw.Close();
+                    return false;
+                }
+                foreach (VertexPositionNormalColor vertex in vertices)
+                {
+                    if (vertex.Position == Vector3.Zero)
+                    {
+                        sw.Write("nan nan nan");
+                        sw.Write(' ');
+                    }
+                    else
+                    {
+                        Vector3 worldPosition = Util.TransformPoint(WorldMatrix, vertex.Position);
+                        sw.Write(worldPosition.X);
+                        sw.Write(' ');
+                        sw.Write(worldPosition.Y);
+                        sw.Write(' ');
+                        sw.Write(worldPosition.Z);
+                        sw.Write(' ');
+                    }
+                    int color = 0;
+                    color = (vertex.Color.R << 16) | (vertex.Color.G << 8) | (vertex.Color.B << 0);
+                    sw.Write(color);
+                    sw.Write(' ');
+                    sw.Write('\n');
+                }
+
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                bResult = false;
+            }
+            return bResult;
         }
     }
 }

@@ -30,16 +30,23 @@ namespace _3DPresentation
             App.Current.Host.Settings.MaxFrameRate = MAX_FRAME_RATE;
 
             //======== Add Models to Scene ===============================================
-            model1 = scene.AddMyModel("SampleData/Data5/image_RGB_000004.png", "SampleData/Data5/image_depth_000004.dat", new Vector3(-500, 0, 0));
-            model2 = scene.AddMyModel("SampleData/Data5/image_RGB_000005.png", "SampleData/Data5/image_depth_000005.dat", new Vector3(500, 0, 0));
-            Microsoft.Xna.Framework.Matrix rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationY((122.0f * 3.14f / 180.0f));
-            model2.WorldMatrix *= rotateMatrix;
-            rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationX((122.0f * 3.14f / 180.0f));
-            model2.WorldMatrix *= rotateMatrix;
-            rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationZ((122.0f * 3.14f / 180.0f));
-            model2.WorldMatrix *= rotateMatrix;                       
-            model1Matrix = model1.WorldMatrix;
-            model2Matrix = model2.WorldMatrix;
+            model1 = scene.AddMyModel("SampleData/Data5/image_RGB_000004.png", "SampleData/Data5/image_depth_000004.dat", new Vector3(0, 0, 0));
+            model2 = scene.AddMyModel("SampleData/Data5/image_RGB_000005.png", "SampleData/Data5/image_depth_000005.dat", new Vector3(0, 0, 0));
+            //Microsoft.Xna.Framework.Matrix rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationY((122.0f * 3.14f / 180.0f));
+            //model2.WorldMatrix *= rotateMatrix;
+            //rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationX((122.0f * 3.14f / 180.0f));
+            //model2.WorldMatrix *= rotateMatrix;
+            //rotateMatrix = Microsoft.Xna.Framework.Matrix.CreateRotationZ((122.0f * 3.14f / 180.0f));
+            //model2.WorldMatrix *= rotateMatrix;                       
+            //model1Matrix = model1.WorldMatrix;
+            //model2Matrix = model2.WorldMatrix;
+            //Microsoft.Xna.Framework.Matrix myMat = new Microsoft.Xna.Framework.Matrix();
+            //myMat.M11 = 0.995f; myMat.M12 = -0.092f; myMat.M13 = -0.028f; myMat.M14 = 0.0f;
+            //myMat.M21 = 0.082f; myMat.M22 = 0.967f; myMat.M23 = -0.242f; myMat.M24 = 0.0f;
+            //myMat.M31 = 0.049f; myMat.M32 = 0.239f; myMat.M33 = 0.970f; myMat.M34 = 0.0f;
+            //myMat.M41 = -0.209f * 400; myMat.M42 = -0.555f * 400; myMat.M43 = -0.420f * 400; 
+            //myMat.M44 = 1.0f;
+            //model2.WorldMatrix = myMat;            
 
             scene.AddSimpleModel(CreateAxisModel(), Vector3.Zero);
             light1 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);
@@ -160,6 +167,8 @@ namespace _3DPresentation
         void myWriteFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
         {
             controller.ExportMergedMesh(e.FileInfo);
+            //model1.ExportMesh_PLY(e.FileInfo);
+            //model2.ExportMesh_PCD2(e.FileInfo);
         }
 
         void myOpenFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
