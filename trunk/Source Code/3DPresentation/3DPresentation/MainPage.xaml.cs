@@ -40,13 +40,13 @@ namespace _3DPresentation
             //model2.WorldMatrix *= rotateMatrix;                       
             //model1Matrix = model1.WorldMatrix;
             //model2Matrix = model2.WorldMatrix;
-            //Microsoft.Xna.Framework.Matrix myMat = new Microsoft.Xna.Framework.Matrix();
-            //myMat.M11 = 0.995f; myMat.M12 = -0.092f; myMat.M13 = -0.028f; myMat.M14 = 0.0f;
-            //myMat.M21 = 0.082f; myMat.M22 = 0.967f; myMat.M23 = -0.242f; myMat.M24 = 0.0f;
-            //myMat.M31 = 0.049f; myMat.M32 = 0.239f; myMat.M33 = 0.970f; myMat.M34 = 0.0f;
-            //myMat.M41 = -0.209f * 400; myMat.M42 = -0.555f * 400; myMat.M43 = -0.420f * 400; 
-            //myMat.M44 = 1.0f;
-            //model2.WorldMatrix = myMat;            
+            Microsoft.Xna.Framework.Matrix myMat = new Microsoft.Xna.Framework.Matrix();
+            myMat.M11 = 0.984881f; myMat.M12 = -0.120195f; myMat.M13 = -0.124747f; myMat.M14 = 0.0f;
+            myMat.M21 = 0.117494f; myMat.M22 = 0.992655f; myMat.M23 = -0.0288194f; myMat.M24 = 0.0f;
+            myMat.M31 = 0.127294f; myMat.M32 = 0.0137267f; myMat.M33 = 0.99177f; myMat.M34 = 0.0f;
+            myMat.M41 = 6.35206f; myMat.M42 = 30.9885f; myMat.M43 = -63.1876f; 
+            myMat.M44 = 1.0f;
+            model2.WorldMatrix = myMat;
 
             scene.AddSimpleModel(CreateAxisModel(), Vector3.Zero);
             light1 = scene.AddLightPoint(new Vector3(0, 0, 0), GlobalVars.White, 5000);
@@ -166,8 +166,9 @@ namespace _3DPresentation
 
         void myWriteFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
         {
-            controller.ExportMergedMesh(e.FileInfo);
-            //model1.ExportMesh_PLY(e.FileInfo);
+            controller.ExportMatchedPairs(e.FileInfo);
+            //controller.ExportMergedMesh(e.FileInfo);
+            //model2.ExportMesh_PLY(e.FileInfo);
             //model2.ExportMesh_PCD2(e.FileInfo);
         }
 

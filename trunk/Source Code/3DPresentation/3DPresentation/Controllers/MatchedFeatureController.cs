@@ -13,7 +13,7 @@ namespace _3DPresentation.Controllers
         int nTried = 0;
 
         static int MIN_DISTANCE = 300;
-        static int MAX_TOLERANCE = 5;
+        static int THRESHOLD = 5;
 
         MyModel model1;
         MyModel model2;
@@ -34,7 +34,7 @@ namespace _3DPresentation.Controllers
                 strN = stream.ReadLine();
                 MIN_DISTANCE = int.Parse(strN);
                 strN = stream.ReadLine();
-                MAX_TOLERANCE = int.Parse(strN);
+                THRESHOLD = int.Parse(strN);
 
                 strN = stream.ReadLine();
                 int n = int.Parse(strN);
@@ -77,7 +77,7 @@ namespace _3DPresentation.Controllers
                     double distance12b = Vector3.Distance(listPairs[i].movingPoint, listPairs[j].movingPoint);
                     if (distance12a < MIN_DISTANCE || distance12b < MIN_DISTANCE)
                         continue;
-                    if (Math.Abs(distance12a - distance12b) < MAX_TOLERANCE)
+                    if (Math.Abs(distance12a - distance12b) < THRESHOLD)
                     {
                         for (int k = 0; k < listPairs.Count; k++)
                         {
@@ -93,7 +93,7 @@ namespace _3DPresentation.Controllers
                                 continue;
                             if (distance23a < MIN_DISTANCE || distance23b < MIN_DISTANCE)
                                 continue;
-                            if (Math.Abs(distance13a - distance13b) < MAX_TOLERANCE && Math.Abs(distance23a - distance23b) < MAX_TOLERANCE)
+                            if (Math.Abs(distance13a - distance13b) < THRESHOLD && Math.Abs(distance23a - distance23b) < THRESHOLD)
                             {
                                 nTriedCount++;
                                 if (nTriedCount > nTried)
@@ -109,6 +109,42 @@ namespace _3DPresentation.Controllers
                 }
             }
             return null;
+        }
+
+        public bool ExportPairs(FileInfo outFile)
+        {
+            bool bResult = true;
+            try
+            {
+                StreamWriter sw = new StreamWriter(outFile.OpenWrite());
+                if (sw == null)
+                    return false;
+                int threshode = THRESHOLD;
+                sw.WriteLine(threshode);
+                int numPairs = this.listPairs.Count;
+                sw.WriteLine(numPairs);
+                for (int i = 0; i < this.listPairs.Count; i++)
+                {
+                    sw.Write(listPairs[i].destPosition.X);
+                    sw.Write(' ');
+                    sw.Write(listPairs[i].destPosition.Y);
+                    sw.Write(' ');
+                    sw.Write(listPairs[i].destPosition.Z);
+                    sw.Write(' ');
+                    sw.Write(listPairs[i].movingPoint.X);
+                    sw.Write(' ');
+                    sw.Write(listPairs[i].movingPoint.Y);
+                    sw.Write(' ');
+                    sw.Write(listPairs[i].movingPoint.Z);
+                    sw.Write('\n');
+                }
+                sw.Close();
+            }
+            catch (Exception ex)
+            {
+                bResult = false;
+            }
+            return bResult;
         }
     }
 }
