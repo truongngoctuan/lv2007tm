@@ -1,0 +1,42 @@
+max_inlier519/858
+connectable
+max_inlier146/305
+connectable
+max_inlier123/305
+connectable
+max_inlier123/305
+connectable
+max_inlier130/305
+connectable
+max_inlier124/305
+connectable
+max_inlier127/305
+connectable
+max_inlier127/305
+connectable
+max_inlier128/305
+connectable
+max_inlier128/305
+connectable
+max_inlier129/305
+connectable
+max_inlier130/305
+connectable
+max_inlier1/305
+not connectable
+max_inlier129/305
+connectable
+max_inlier128/305
+connectable
+max_inlier130/305
+connectable
+max_inlier128/305
+connectable
+max_inlier127/305
+connectable
+max_inlier1/305
+not connectable
+max_inlier126/305
+connectable
+max_inlier1/305
+not connectable
