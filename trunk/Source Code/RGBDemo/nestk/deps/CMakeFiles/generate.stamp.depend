@@ -1,0 +1,5 @@
+# CMake generation dependency list for this directory.
+C:/RGBDemo-0.5.0-Source/nestk/deps/CMakeLists.txt
+C:/RGBDemo-0.5.0-Source/nestk/deps/cmake/utils.cmake
+C:/RGBDemo-0.5.0-Source/nestk/deps/cmake/msvc.cmake
+C:/RGBDemo-0.5.0-Source/nestk/deps/cmake/Findlibusb-1.0.cmake
