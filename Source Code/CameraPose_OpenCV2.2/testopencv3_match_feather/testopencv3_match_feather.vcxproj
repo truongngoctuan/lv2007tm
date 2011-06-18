@@ -79,23 +79,17 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="GetRT.cpp" />
-    <ClCompile Include="Item.cpp" />
-    <ClCompile Include="ItemManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="reconstruction.cpp" />
     <ClCompile Include="RotationMatrixUlti.cpp" />
     <ClCompile Include="SURFMatching.cpp" />
-    <ClCompile Include="TestIsConnectable.cpp" />
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GetRT.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="ItemManager.h" />
     <ClInclude Include="reconstruction.h" />
     <ClInclude Include="RotationMatrixUlti.h" />
     <ClInclude Include="SURFMatching.h" />
-    <ClInclude Include="TestIsConnectable.h" />
     <ClInclude Include="Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
