@@ -1,0 +1,13 @@
+# Package Information for pkg-config
+
+prefix=C:/Program Files (x86)/RGBDemo
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir_old=${prefix}/include/opencv
+includedir_new=${prefix}/include
+
+Name: OpenCV
+Description: Open Source Computer Vision Library
+Version: 2.2.0
+Libs: -L${libdir} -lopencv_core220 -lopencv_imgproc220 -lopencv_highgui220 -lopencv_ml220 -lopencv_video220 -lopencv_features2d220 -lopencv_calib3d220 -lopencv_objdetect220 -lopencv_contrib220 -lopencv_legacy220 -lopencv_flann220
+Cflags: -I${includedir_old} -I${includedir_new}

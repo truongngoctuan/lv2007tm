@@ -1,0 +1,40 @@
+<Configuration>
+  <RecentFiles>
+    <RecentFiles>
+      <File id="58732D58-7835-4E1B-A24D-1E64D30C5134/f:arg.cpp/l:..?..?..?nestk?ntk?utils?arg.cpp" caret="0" fromTop="0" />
+      <File id="78B91A76-D57E-46CA-85B0-8C5EC27800AD/f:viewer.cpp/l:..?..?viewer?viewer.cpp" caret="0" fromTop="0" />
+      <File id="58732D58-7835-4E1B-A24D-1E64D30C5134/f:rgbd_frame_recorder.cpp/l:..?..?..?nestk?ntk?camera?rgbd_frame_recorder.cpp" caret="1893" fromTop="0" />
+      <File id="78B91A76-D57E-46CA-85B0-8C5EC27800AD/f:GuiController.cpp/l:..?..?viewer?GuiController.cpp" caret="0" fromTop="0" />
+      <File id="58732D58-7835-4E1B-A24D-1E64D30C5134/f:opencv_utils.cpp/l:..?..?..?nestk?ntk?utils?opencv_utils.cpp" caret="0" fromTop="0" />
+      <File id="58732D58-7835-4E1B-A24D-1E64D30C5134/f:feature.cpp/l:..?..?..?nestk?ntk?image?feature.cpp" caret="0" fromTop="0" />
+      <File id="58732D58-7835-4E1B-A24D-1E64D30C5134/f:nite_rgbd_grabber.cpp/l:..?..?..?nestk?ntk?camera?nite_rgbd_grabber.cpp" caret="0" fromTop="0" />
+      <File id="BD25FAB8-C214-45CC-9FCB-DBD676BD7F30/f:reconstructor.cpp/l:..?..?reconstructor?reconstructor.cpp" caret="3348" fromTop="20" />
+    </RecentFiles>
+    <RecentEdits>
+      <File id="58732D58-7835-4E1B-A24D-1E64D30C5134/f:rgbd_frame_recorder.cpp/l:..?..?..?nestk?ntk?camera?rgbd_frame_recorder.cpp" caret="2142" fromTop="17" />
+      <File id="BD25FAB8-C214-45CC-9FCB-DBD676BD7F30/f:reconstructor.cpp/l:..?..?reconstructor?reconstructor.cpp" caret="8428" fromTop="11" />
+      <File id="BD25FAB8-C214-45CC-9FCB-DBD676BD7F30/f:reconstructor.cpp/l:..?..?reconstructor?reconstructor.cpp" caret="2651" fromTop="9" />
+      <File id="BD25FAB8-C214-45CC-9FCB-DBD676BD7F30/f:reconstructor.cpp/l:..?..?reconstructor?reconstructor.cpp" caret="3578" fromTop="14" />
+      <File id="BD25FAB8-C214-45CC-9FCB-DBD676BD7F30/f:reconstructor.cpp/l:..?..?reconstructor?reconstructor.cpp" caret="3876" fromTop="9" />
+      <File id="BD25FAB8-C214-45CC-9FCB-DBD676BD7F30/f:reconstructor.cpp/l:..?..?reconstructor?reconstructor.cpp" caret="4411" fromTop="23" />
+    </RecentEdits>
+  </RecentFiles>
+  <NAntValidationSettings>
+    <NAntPath value="" />
+  </NAntValidationSettings>
+  <UnitTestRunner>
+    <Providers />
+  </UnitTestRunner>
+  <UnitTestRunnerNUnit>
+    <NUnitInstallDir IsNull="False">
+    </NUnitInstallDir>
+    <UseAddins>Never</UseAddins>
+  </UnitTestRunnerNUnit>
+  <SettingsComponent>
+    <string />
+    <integer />
+    <boolean>
+      <setting name="SolutionAnalysisEnabled">False</setting>
+    </boolean>
+  </SettingsComponent>
+</Configuration>
