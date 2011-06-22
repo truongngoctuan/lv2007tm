@@ -1,0 +1,1058 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioProject
+	ProjectType="Visual C++"
+	Version="9.00"
+	Name="rgbd-people-tracker"
+	ProjectGUID="{66152B47-A6F8-4B0F-9052-F63A64B7CA8E}"
+	RootNamespace="rgbd-people-tracker"
+	Keyword="Win32Proj"
+	TargetFrameworkVersion="0"
+	>
+	<Platforms>
+		<Platform
+			Name="Win32"
+		/>
+	</Platforms>
+	<ToolFiles>
+	</ToolFiles>
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32"
+			OutputDirectory="Debug"
+			IntermediateDirectory="rgbd-people-tracker.dir\Debug"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				MkTypLibCompatible="false"
+				TargetEnvironment="1"
+				GenerateStublessProxies="true"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				Optimization="0"
+				InlineFunctionExpansion="0"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;..\..\nestk\deps\opencv\include;..\..\nestk\deps\opencv\include\opencv;..\..\nestk\deps\opencv\modules\core\include;..\..\nestk\deps\opencv\modules\imgproc\include;..\..\nestk\deps\opencv\modules\features2d\include;..\..\nestk\deps\opencv\modules\gpu\include;..\..\nestk\deps\opencv\modules\calib3d\include;..\..\nestk\deps\opencv\modules\objdetect\include;..\..\nestk\deps\opencv\modules\video\include;..\..\nestk\deps\opencv\modules\highgui\include;..\..\nestk\deps\opencv\modules\ml\include;..\..\nestk\deps\opencv\modules\legacy\include;..\..\nestk\deps\opencv\modules\contrib\include;..\..\nestk\deps\opencv\modules\flann\include;C:\Qt\4.7.1\include;C:\Qt\4.7.1\include\QtOpenGL;C:\Qt\4.7.1\include\QtSvg;C:\Qt\4.7.1\include\QtGui;C:\Qt\4.7.1\include\QtXml;C:\Qt\4.7.1\include\QtNetwork;C:\Qt\4.7.1\include\QtCore;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\PrimeSense\NITE\Include&quot;;&quot;..\..\nestk\deps\win32\glut-msvc&quot;;..\..\nestk\deps\glew\include;..\..;.;&quot;..\..\people-tracker&quot;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;QT_DEBUG;CMAKE_INTDIR=\&quot;Debug\&quot;"
+				ExceptionHandling="1"
+				BasicRuntimeChecks="3"
+				RuntimeLibrary="3"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="Debug"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="..\bin\Debug/rgbd-people-tracker.pdb"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				CompileAs="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;QT_DEBUG;CMAKE_INTDIR=\&quot;Debug\&quot;"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;..\..\nestk\deps\opencv\include;..\..\nestk\deps\opencv\include\opencv;..\..\nestk\deps\opencv\modules\core\include;..\..\nestk\deps\opencv\modules\imgproc\include;..\..\nestk\deps\opencv\modules\features2d\include;..\..\nestk\deps\opencv\modules\gpu\include;..\..\nestk\deps\opencv\modules\calib3d\include;..\..\nestk\deps\opencv\modules\objdetect\include;..\..\nestk\deps\opencv\modules\video\include;..\..\nestk\deps\opencv\modules\highgui\include;..\..\nestk\deps\opencv\modules\ml\include;..\..\nestk\deps\opencv\modules\legacy\include;..\..\nestk\deps\opencv\modules\contrib\include;..\..\nestk\deps\opencv\modules\flann\include;C:\Qt\4.7.1\include;C:\Qt\4.7.1\include\QtOpenGL;C:\Qt\4.7.1\include\QtSvg;C:\Qt\4.7.1\include\QtGui;C:\Qt\4.7.1\include\QtXml;C:\Qt\4.7.1\include\QtNetwork;C:\Qt\4.7.1\include\QtCore;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\Prime Sense\NITE\Include&quot;;..\..\nestk\deps\win32\glut-msvc;..\..\nestk\deps\glew\include;..\..;.;..\..\people-tracker;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkLibraryDependencies="false"
+				AdditionalOptions=" /STACK:10000000 /machine:X86 /debug"
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\Debug\nestk.lib C:\Qt\4.7.1\lib\QtOpenGLd4.lib C:\Qt\4.7.1\lib\QtSvgd4.lib C:\Qt\4.7.1\lib\QtGuid4.lib C:\Qt\4.7.1\lib\QtXmld4.lib C:\Qt\4.7.1\lib\QtNetworkd4.lib C:\Qt\4.7.1\lib\QtCored4.lib ..\lib\Debug\glew.lib ..\..\nestk\deps\win32\glut-msvc\glut32.lib glu32.lib opengl32.lib opencv_core220d.lib opencv_imgproc220d.lib opencv_features2d220d.lib opencv_gpu220d.lib opencv_calib3d220d.lib opencv_objdetect220d.lib opencv_video220d.lib opencv_highgui220d.lib opencv_ml220d.lib opencv_legacy220d.lib opencv_contrib220d.lib opencv_flann220d.lib ..\..\nestk\deps\win32\libusb-1.0\lib\msvc\libusb.lib OpenNI.lib XnVNite.lib winmm.lib "
+				OutputFile="..\bin\Debug\rgbd-people-tracker.exe"
+				Version="0.0"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="..\lib\$(OutDir),..\lib,&quot;c:\Program Files (x86)\OpenNI\Lib\$(OutDir)&quot;,&quot;c:\Program Files (x86)\OpenNI\Lib&quot;,&quot;C:\Program Files (x86)\Prime Sense\NITE\Lib\$(OutDir)&quot;,&quot;C:\Program Files (x86)\Prime Sense\NITE\Lib&quot;"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\bin\Debug/rgbd-people-tracker.pdb"
+				SubSystem="1"
+				ImportLibrary="..\bin\Debug\rgbd-people-tracker.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32"
+			OutputDirectory="Release"
+			IntermediateDirectory="rgbd-people-tracker.dir\Release"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				MkTypLibCompatible="false"
+				TargetEnvironment="1"
+				GenerateStublessProxies="true"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				Optimization="2"
+				InlineFunctionExpansion="2"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;..\..\nestk\deps\opencv\include;..\..\nestk\deps\opencv\include\opencv;..\..\nestk\deps\opencv\modules\core\include;..\..\nestk\deps\opencv\modules\imgproc\include;..\..\nestk\deps\opencv\modules\features2d\include;..\..\nestk\deps\opencv\modules\gpu\include;..\..\nestk\deps\opencv\modules\calib3d\include;..\..\nestk\deps\opencv\modules\objdetect\include;..\..\nestk\deps\opencv\modules\video\include;..\..\nestk\deps\opencv\modules\highgui\include;..\..\nestk\deps\opencv\modules\ml\include;..\..\nestk\deps\opencv\modules\legacy\include;..\..\nestk\deps\opencv\modules\contrib\include;..\..\nestk\deps\opencv\modules\flann\include;C:\Qt\4.7.1\include;C:\Qt\4.7.1\include\QtOpenGL;C:\Qt\4.7.1\include\QtSvg;C:\Qt\4.7.1\include\QtGui;C:\Qt\4.7.1\include\QtXml;C:\Qt\4.7.1\include\QtNetwork;C:\Qt\4.7.1\include\QtCore;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\Prime Sense\NITE\Include&quot;;..\..\nestk\deps\win32\glut-msvc;..\..\nestk\deps\glew\include;..\..;.;..\..\people-tracker;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;QT_NO_DEBUG;CMAKE_INTDIR=\&quot;Release\&quot;"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="Release"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="..\bin\Release/rgbd-people-tracker.pdb"
+				WarningLevel="3"
+				CompileAs="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;QT_NO_DEBUG;CMAKE_INTDIR=\&quot;Release\&quot;"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;..\..\nestk\deps\opencv\include;..\..\nestk\deps\opencv\include\opencv;..\..\nestk\deps\opencv\modules\core\include;..\..\nestk\deps\opencv\modules\imgproc\include;..\..\nestk\deps\opencv\modules\features2d\include;..\..\nestk\deps\opencv\modules\gpu\include;..\..\nestk\deps\opencv\modules\calib3d\include;..\..\nestk\deps\opencv\modules\objdetect\include;..\..\nestk\deps\opencv\modules\video\include;..\..\nestk\deps\opencv\modules\highgui\include;..\..\nestk\deps\opencv\modules\ml\include;..\..\nestk\deps\opencv\modules\legacy\include;..\..\nestk\deps\opencv\modules\contrib\include;..\..\nestk\deps\opencv\modules\flann\include;C:\Qt\4.7.1\include;C:\Qt\4.7.1\include\QtOpenGL;C:\Qt\4.7.1\include\QtSvg;C:\Qt\4.7.1\include\QtGui;C:\Qt\4.7.1\include\QtXml;C:\Qt\4.7.1\include\QtNetwork;C:\Qt\4.7.1\include\QtCore;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\Prime Sense\NITE\Include&quot;;..\..\nestk\deps\win32\glut-msvc;..\..\nestk\deps\glew\include;..\..;.;..\..\people-tracker;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkLibraryDependencies="false"
+				AdditionalOptions=" /STACK:10000000 /machine:X86"
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\Release\nestk.lib C:\Qt\4.7.1\lib\QtOpenGL4.lib C:\Qt\4.7.1\lib\QtSvg4.lib C:\Qt\4.7.1\lib\QtGui4.lib C:\Qt\4.7.1\lib\QtXml4.lib C:\Qt\4.7.1\lib\QtNetwork4.lib C:\Qt\4.7.1\lib\QtCore4.lib ..\lib\Release\glew.lib ..\..\nestk\deps\win32\glut-msvc\glut32.lib glu32.lib opengl32.lib opencv_core220.lib opencv_imgproc220.lib opencv_features2d220.lib opencv_gpu220.lib opencv_calib3d220.lib opencv_objdetect220.lib opencv_video220.lib opencv_highgui220.lib opencv_ml220.lib opencv_legacy220.lib opencv_contrib220.lib opencv_flann220.lib ..\..\nestk\deps\win32\libusb-1.0\lib\msvc\libusb.lib OpenNI.lib XnVNite.lib winmm.lib "
+				OutputFile="..\bin\Release\rgbd-people-tracker.exe"
+				Version="0.0"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\lib\$(OutDir),..\lib,&quot;c:\Program Files (x86)\OpenNI\Lib\$(OutDir)&quot;,&quot;c:\Program Files (x86)\OpenNI\Lib&quot;,&quot;C:\Program Files (x86)\Prime Sense\NITE\Lib\$(OutDir)&quot;,&quot;C:\Program Files (x86)\Prime Sense\NITE\Lib&quot;"
+				ProgramDatabaseFile="..\bin\Release/rgbd-people-tracker.pdb"
+				SubSystem="1"
+				ImportLibrary="..\bin\Release\rgbd-people-tracker.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="MinSizeRel|Win32"
+			OutputDirectory="MinSizeRel"
+			IntermediateDirectory="rgbd-people-tracker.dir\MinSizeRel"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				MkTypLibCompatible="false"
+				TargetEnvironment="1"
+				GenerateStublessProxies="true"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				Optimization="1"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;..\..\nestk\deps\opencv\include;..\..\nestk\deps\opencv\include\opencv;..\..\nestk\deps\opencv\modules\core\include;..\..\nestk\deps\opencv\modules\imgproc\include;..\..\nestk\deps\opencv\modules\features2d\include;..\..\nestk\deps\opencv\modules\gpu\include;..\..\nestk\deps\opencv\modules\calib3d\include;..\..\nestk\deps\opencv\modules\objdetect\include;..\..\nestk\deps\opencv\modules\video\include;..\..\nestk\deps\opencv\modules\highgui\include;..\..\nestk\deps\opencv\modules\ml\include;..\..\nestk\deps\opencv\modules\legacy\include;..\..\nestk\deps\opencv\modules\contrib\include;..\..\nestk\deps\opencv\modules\flann\include;C:\Qt\4.7.1\include;C:\Qt\4.7.1\include\QtOpenGL;C:\Qt\4.7.1\include\QtSvg;C:\Qt\4.7.1\include\QtGui;C:\Qt\4.7.1\include\QtXml;C:\Qt\4.7.1\include\QtNetwork;C:\Qt\4.7.1\include\QtCore;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\Prime Sense\NITE\Include&quot;;..\..\nestk\deps\win32\glut-msvc;..\..\nestk\deps\glew\include;..\..;.;..\..\people-tracker;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;QT_NO_DEBUG;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="MinSizeRel"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="..\bin\MinSizeRel/rgbd-people-tracker.pdb"
+				WarningLevel="3"
+				CompileAs="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;QT_NO_DEBUG;CMAKE_INTDIR=\&quot;MinSizeRel\&quot;"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;..\..\nestk\deps\opencv\include;..\..\nestk\deps\opencv\include\opencv;..\..\nestk\deps\opencv\modules\core\include;..\..\nestk\deps\opencv\modules\imgproc\include;..\..\nestk\deps\opencv\modules\features2d\include;..\..\nestk\deps\opencv\modules\gpu\include;..\..\nestk\deps\opencv\modules\calib3d\include;..\..\nestk\deps\opencv\modules\objdetect\include;..\..\nestk\deps\opencv\modules\video\include;..\..\nestk\deps\opencv\modules\highgui\include;..\..\nestk\deps\opencv\modules\ml\include;..\..\nestk\deps\opencv\modules\legacy\include;..\..\nestk\deps\opencv\modules\contrib\include;..\..\nestk\deps\opencv\modules\flann\include;C:\Qt\4.7.1\include;C:\Qt\4.7.1\include\QtOpenGL;C:\Qt\4.7.1\include\QtSvg;C:\Qt\4.7.1\include\QtGui;C:\Qt\4.7.1\include\QtXml;C:\Qt\4.7.1\include\QtNetwork;C:\Qt\4.7.1\include\QtCore;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\Prime Sense\NITE\Include&quot;;..\..\nestk\deps\win32\glut-msvc;..\..\nestk\deps\glew\include;..\..;.;..\..\people-tracker;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkLibraryDependencies="false"
+				AdditionalOptions=" /STACK:10000000 /machine:X86"
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\MinSizeRel\nestk.lib C:\Qt\4.7.1\lib\QtOpenGL4.lib C:\Qt\4.7.1\lib\QtSvg4.lib C:\Qt\4.7.1\lib\QtGui4.lib C:\Qt\4.7.1\lib\QtXml4.lib C:\Qt\4.7.1\lib\QtNetwork4.lib C:\Qt\4.7.1\lib\QtCore4.lib ..\lib\MinSizeRel\glew.lib ..\..\nestk\deps\win32\glut-msvc\glut32.lib glu32.lib opengl32.lib opencv_core220.lib opencv_imgproc220.lib opencv_features2d220.lib opencv_gpu220.lib opencv_calib3d220.lib opencv_objdetect220.lib opencv_video220.lib opencv_highgui220.lib opencv_ml220.lib opencv_legacy220.lib opencv_contrib220.lib opencv_flann220.lib ..\..\nestk\deps\win32\libusb-1.0\lib\msvc\libusb.lib OpenNI.lib XnVNite.lib winmm.lib "
+				OutputFile="..\bin\MinSizeRel\rgbd-people-tracker.exe"
+				Version="0.0"
+				LinkIncremental="1"
+				AdditionalLibraryDirectories="..\lib\$(OutDir),..\lib,&quot;c:\Program Files (x86)\OpenNI\Lib\$(OutDir)&quot;,&quot;c:\Program Files (x86)\OpenNI\Lib&quot;,&quot;C:\Program Files (x86)\Prime Sense\NITE\Lib\$(OutDir)&quot;,&quot;C:\Program Files (x86)\Prime Sense\NITE\Lib&quot;"
+				ProgramDatabaseFile="..\bin\MinSizeRel/rgbd-people-tracker.pdb"
+				SubSystem="1"
+				ImportLibrary="..\bin\MinSizeRel\rgbd-people-tracker.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="RelWithDebInfo|Win32"
+			OutputDirectory="RelWithDebInfo"
+			IntermediateDirectory="rgbd-people-tracker.dir\RelWithDebInfo"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				MkTypLibCompatible="false"
+				TargetEnvironment="1"
+				GenerateStublessProxies="true"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				Optimization="2"
+				InlineFunctionExpansion="1"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;..\..\nestk\deps\opencv\include;..\..\nestk\deps\opencv\include\opencv;..\..\nestk\deps\opencv\modules\core\include;..\..\nestk\deps\opencv\modules\imgproc\include;..\..\nestk\deps\opencv\modules\features2d\include;..\..\nestk\deps\opencv\modules\gpu\include;..\..\nestk\deps\opencv\modules\calib3d\include;..\..\nestk\deps\opencv\modules\objdetect\include;..\..\nestk\deps\opencv\modules\video\include;..\..\nestk\deps\opencv\modules\highgui\include;..\..\nestk\deps\opencv\modules\ml\include;..\..\nestk\deps\opencv\modules\legacy\include;..\..\nestk\deps\opencv\modules\contrib\include;..\..\nestk\deps\opencv\modules\flann\include;C:\Qt\4.7.1\include;C:\Qt\4.7.1\include\QtOpenGL;C:\Qt\4.7.1\include\QtSvg;C:\Qt\4.7.1\include\QtGui;C:\Qt\4.7.1\include\QtXml;C:\Qt\4.7.1\include\QtNetwork;C:\Qt\4.7.1\include\QtCore;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\Prime Sense\NITE\Include&quot;;..\..\nestk\deps\win32\glut-msvc;..\..\nestk\deps\glew\include;..\..;.;..\..\people-tracker;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;QT_NO_DEBUG;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;"
+				ExceptionHandling="1"
+				RuntimeLibrary="2"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="RelWithDebInfo"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="..\bin\RelWithDebInfo/rgbd-people-tracker.pdb"
+				WarningLevel="3"
+				DebugInformationFormat="3"
+				CompileAs="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NDEBUG;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;QT_NO_DEBUG;CMAKE_INTDIR=\&quot;RelWithDebInfo\&quot;"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;..\..\nestk\deps\opencv\include;..\..\nestk\deps\opencv\include\opencv;..\..\nestk\deps\opencv\modules\core\include;..\..\nestk\deps\opencv\modules\imgproc\include;..\..\nestk\deps\opencv\modules\features2d\include;..\..\nestk\deps\opencv\modules\gpu\include;..\..\nestk\deps\opencv\modules\calib3d\include;..\..\nestk\deps\opencv\modules\objdetect\include;..\..\nestk\deps\opencv\modules\video\include;..\..\nestk\deps\opencv\modules\highgui\include;..\..\nestk\deps\opencv\modules\ml\include;..\..\nestk\deps\opencv\modules\legacy\include;..\..\nestk\deps\opencv\modules\contrib\include;..\..\nestk\deps\opencv\modules\flann\include;C:\Qt\4.7.1\include;C:\Qt\4.7.1\include\QtOpenGL;C:\Qt\4.7.1\include\QtSvg;C:\Qt\4.7.1\include\QtGui;C:\Qt\4.7.1\include\QtXml;C:\Qt\4.7.1\include\QtNetwork;C:\Qt\4.7.1\include\QtCore;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\Prime Sense\NITE\Include&quot;;..\..\nestk\deps\win32\glut-msvc;..\..\nestk\deps\glew\include;..\..;.;..\..\people-tracker;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkLibraryDependencies="false"
+				AdditionalOptions=" /STACK:10000000 /machine:X86 /debug"
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\RelWithDebInfo\nestk.lib C:\Qt\4.7.1\lib\QtOpenGL4.lib C:\Qt\4.7.1\lib\QtSvg4.lib C:\Qt\4.7.1\lib\QtGui4.lib C:\Qt\4.7.1\lib\QtXml4.lib C:\Qt\4.7.1\lib\QtNetwork4.lib C:\Qt\4.7.1\lib\QtCore4.lib ..\lib\RelWithDebInfo\glew.lib ..\..\nestk\deps\win32\glut-msvc\glut32.lib glu32.lib opengl32.lib opencv_core220.lib opencv_imgproc220.lib opencv_features2d220.lib opencv_gpu220.lib opencv_calib3d220.lib opencv_objdetect220.lib opencv_video220.lib opencv_highgui220.lib opencv_ml220.lib opencv_legacy220.lib opencv_contrib220.lib opencv_flann220.lib ..\..\nestk\deps\win32\libusb-1.0\lib\msvc\libusb.lib OpenNI.lib XnVNite.lib winmm.lib "
+				OutputFile="..\bin\RelWithDebInfo\rgbd-people-tracker.exe"
+				Version="0.0"
+				LinkIncremental="2"
+				AdditionalLibraryDirectories="..\lib\$(OutDir),..\lib,&quot;c:\Program Files (x86)\OpenNI\Lib\$(OutDir)&quot;,&quot;c:\Program Files (x86)\OpenNI\Lib&quot;,&quot;C:\Program Files (x86)\Prime Sense\NITE\Lib\$(OutDir)&quot;,&quot;C:\Program Files (x86)\Prime Sense\NITE\Lib&quot;"
+				GenerateDebugInformation="true"
+				ProgramDatabaseFile="..\bin\RelWithDebInfo/rgbd-people-tracker.pdb"
+				SubSystem="1"
+				ImportLibrary="..\bin\RelWithDebInfo\rgbd-people-tracker.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+		<Configuration
+			Name="Release,RelWithDebInfo|Win32"
+			OutputDirectory="Release,RelWithDebInfo"
+			IntermediateDirectory="rgbd-people-tracker.dir\Release,RelWithDebInfo"
+			ConfigurationType="1"
+			UseOfMFC="0"
+			ATLMinimizesCRunTimeLibraryUsage="false"
+			CharacterSet="2"
+			>
+			<Tool
+				Name="VCPreBuildEventTool"
+			/>
+			<Tool
+				Name="VCCustomBuildTool"
+			/>
+			<Tool
+				Name="VCXMLDataGeneratorTool"
+			/>
+			<Tool
+				Name="VCWebServiceProxyGeneratorTool"
+			/>
+			<Tool
+				Name="VCMIDLTool"
+				MkTypLibCompatible="false"
+				TargetEnvironment="1"
+				GenerateStublessProxies="true"
+				TypeLibraryName="$(InputName).tlb"
+				OutputDirectory="$(IntDir)"
+				HeaderFileName="$(InputName).h"
+				DLLDataFileName=""
+				InterfaceIdentifierFileName="$(InputName)_i.c"
+				ProxyFileName="$(InputName)_p.c"
+			/>
+			<Tool
+				Name="VCCLCompilerTool"
+				AdditionalOptions=" /Zm1000"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;..\..\nestk\deps\opencv\include;..\..\nestk\deps\opencv\include\opencv;..\..\nestk\deps\opencv\modules\core\include;..\..\nestk\deps\opencv\modules\imgproc\include;..\..\nestk\deps\opencv\modules\features2d\include;..\..\nestk\deps\opencv\modules\gpu\include;..\..\nestk\deps\opencv\modules\calib3d\include;..\..\nestk\deps\opencv\modules\objdetect\include;..\..\nestk\deps\opencv\modules\video\include;..\..\nestk\deps\opencv\modules\highgui\include;..\..\nestk\deps\opencv\modules\ml\include;..\..\nestk\deps\opencv\modules\legacy\include;..\..\nestk\deps\opencv\modules\contrib\include;..\..\nestk\deps\opencv\modules\flann\include;C:\Qt\4.7.1\include;C:\Qt\4.7.1\include\QtOpenGL;C:\Qt\4.7.1\include\QtSvg;C:\Qt\4.7.1\include\QtGui;C:\Qt\4.7.1\include\QtXml;C:\Qt\4.7.1\include\QtNetwork;C:\Qt\4.7.1\include\QtCore;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\Prime Sense\NITE\Include&quot;;..\..\nestk\deps\win32\glut-msvc;..\..\nestk\deps\glew\include;..\..;.;..\..\people-tracker;"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;CMAKE_INTDIR=\&quot;Release,RelWithDebInfo\&quot;"
+				ExceptionHandling="1"
+				RuntimeTypeInfo="true"
+				AssemblerListingLocation="Release,RelWithDebInfo"
+				ObjectFile="$(IntDir)\"
+				ProgramDataBaseFileName="..\bin\Release,RelWithDebInfo/rgbd-people-tracker.pdb"
+				WarningLevel="3"
+				CompileAs="2"
+			/>
+			<Tool
+				Name="VCManagedResourceCompilerTool"
+			/>
+			<Tool
+				Name="VCResourceCompilerTool"
+				PreprocessorDefinitions="WIN32;_WINDOWS;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;CMAKE_INTDIR=\&quot;Release,RelWithDebInfo\&quot;"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;..\..\nestk\deps\opencv\include;..\..\nestk\deps\opencv\include\opencv;..\..\nestk\deps\opencv\modules\core\include;..\..\nestk\deps\opencv\modules\imgproc\include;..\..\nestk\deps\opencv\modules\features2d\include;..\..\nestk\deps\opencv\modules\gpu\include;..\..\nestk\deps\opencv\modules\calib3d\include;..\..\nestk\deps\opencv\modules\objdetect\include;..\..\nestk\deps\opencv\modules\video\include;..\..\nestk\deps\opencv\modules\highgui\include;..\..\nestk\deps\opencv\modules\ml\include;..\..\nestk\deps\opencv\modules\legacy\include;..\..\nestk\deps\opencv\modules\contrib\include;..\..\nestk\deps\opencv\modules\flann\include;C:\Qt\4.7.1\include;C:\Qt\4.7.1\include\QtOpenGL;C:\Qt\4.7.1\include\QtSvg;C:\Qt\4.7.1\include\QtGui;C:\Qt\4.7.1\include\QtXml;C:\Qt\4.7.1\include\QtNetwork;C:\Qt\4.7.1\include\QtCore;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\Prime Sense\NITE\Include&quot;;..\..\nestk\deps\win32\glut-msvc;..\..\nestk\deps\glew\include;..\..;.;..\..\people-tracker;"
+			/>
+			<Tool
+				Name="VCPreLinkEventTool"
+			/>
+			<Tool
+				Name="VCLinkerTool"
+				LinkLibraryDependencies="false"
+				AdditionalOptions=" /STACK:10000000 /machine:X86"
+				AdditionalDependencies="$(NOINHERIT) kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib  ..\lib\Release,RelWithDebInfo\nestk.lib C:\Qt\4.7.1\lib\QtOpenGL4.lib C:\Qt\4.7.1\lib\QtSvg4.lib C:\Qt\4.7.1\lib\QtGui4.lib C:\Qt\4.7.1\lib\QtXml4.lib C:\Qt\4.7.1\lib\QtNetwork4.lib C:\Qt\4.7.1\lib\QtCore4.lib ..\lib\Release,RelWithDebInfo\glew.lib ..\..\nestk\deps\win32\glut-msvc\glut32.lib glu32.lib opengl32.lib opencv_core220.lib opencv_imgproc220.lib opencv_features2d220.lib opencv_gpu220.lib opencv_calib3d220.lib opencv_objdetect220.lib opencv_video220.lib opencv_highgui220.lib opencv_ml220.lib opencv_legacy220.lib opencv_contrib220.lib opencv_flann220.lib ..\..\nestk\deps\win32\libusb-1.0\lib\msvc\libusb.lib OpenNI.lib XnVNite.lib winmm.lib "
+				OutputFile="..\bin\Release,RelWithDebInfo\rgbd-people-tracker.exe"
+				Version="0.0"
+				AdditionalLibraryDirectories="..\lib\$(OutDir),..\lib,&quot;c:\Program Files (x86)\OpenNI\Lib\$(OutDir)&quot;,&quot;c:\Program Files (x86)\OpenNI\Lib&quot;,&quot;C:\Program Files (x86)\Prime Sense\NITE\Lib\$(OutDir)&quot;,&quot;C:\Program Files (x86)\Prime Sense\NITE\Lib&quot;"
+				ProgramDatabaseFile="..\bin\Release,RelWithDebInfo/rgbd-people-tracker.pdb"
+				SubSystem="1"
+				ImportLibrary="..\bin\Release,RelWithDebInfo\rgbd-people-tracker.lib"
+			/>
+			<Tool
+				Name="VCALinkTool"
+			/>
+			<Tool
+				Name="VCManifestTool"
+			/>
+			<Tool
+				Name="VCXDCMakeTool"
+			/>
+			<Tool
+				Name="VCBscMakeTool"
+			/>
+			<Tool
+				Name="VCFxCopTool"
+			/>
+			<Tool
+				Name="VCAppVerifierTool"
+			/>
+			<Tool
+				Name="VCPostBuildEventTool"
+			/>
+		</Configuration>
+	</Configurations>
+	<References>
+	</References>
+	<Files>
+		<Filter
+			Name="Source Files"
+			>
+			<File
+				RelativePath="..\..\people-tracker\FiltersWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\people-tracker\GuiController.cpp"
+				>
+			</File>
+			<File
+				RelativePath="moc_FiltersWindow.cxx"
+				>
+			</File>
+			<File
+				RelativePath="moc_GuiController.cxx"
+				>
+			</File>
+			<File
+				RelativePath="moc_PeopleTrackerWindow.cxx"
+				>
+			</File>
+			<File
+				RelativePath="moc_RawImagesWindow.cxx"
+				>
+			</File>
+			<File
+				RelativePath="..\..\people-tracker\people_tracker.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\people-tracker\PeopleTracker.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\people-tracker\PeopleTrackerWindow.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\..\people-tracker\RawImagesWindow.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			>
+			<File
+				RelativePath="..\..\people-tracker\FiltersWindow.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\people-tracker\GuiController.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\people-tracker\PeopleTracker.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\people-tracker\PeopleTrackerWindow.h"
+				>
+			</File>
+			<File
+				RelativePath="..\..\people-tracker\RawImagesWindow.h"
+				>
+			</File>
+			<File
+				RelativePath="ui_FiltersWindow.h"
+				>
+			</File>
+			<File
+				RelativePath="ui_PeopleTrackerWindow.h"
+				>
+			</File>
+			<File
+				RelativePath="ui_RawImagesWindow.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="CMake Rules"
+			>
+			<File
+				RelativePath="moc_FiltersWindow.cxx.rule"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_FiltersWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_FiltersWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\FiltersWindow.h;"
+						Outputs="moc_FiltersWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_FiltersWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_FiltersWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\FiltersWindow.h;"
+						Outputs="moc_FiltersWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="MinSizeRel|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_FiltersWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_FiltersWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\FiltersWindow.h;"
+						Outputs="moc_FiltersWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_FiltersWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_FiltersWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\FiltersWindow.h;"
+						Outputs="moc_FiltersWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release,RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_FiltersWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_FiltersWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\FiltersWindow.h;"
+						Outputs="moc_FiltersWindow.cxx"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="moc_GuiController.cxx.rule"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_GuiController.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_GuiController.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\GuiController.h;"
+						Outputs="moc_GuiController.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_GuiController.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_GuiController.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\GuiController.h;"
+						Outputs="moc_GuiController.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="MinSizeRel|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_GuiController.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_GuiController.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\GuiController.h;"
+						Outputs="moc_GuiController.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_GuiController.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_GuiController.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\GuiController.h;"
+						Outputs="moc_GuiController.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release,RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_GuiController.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_GuiController.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\GuiController.h;"
+						Outputs="moc_GuiController.cxx"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="moc_PeopleTrackerWindow.cxx.rule"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_PeopleTrackerWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_PeopleTrackerWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\PeopleTrackerWindow.h;"
+						Outputs="moc_PeopleTrackerWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_PeopleTrackerWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_PeopleTrackerWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\PeopleTrackerWindow.h;"
+						Outputs="moc_PeopleTrackerWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="MinSizeRel|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_PeopleTrackerWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_PeopleTrackerWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\PeopleTrackerWindow.h;"
+						Outputs="moc_PeopleTrackerWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_PeopleTrackerWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_PeopleTrackerWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\PeopleTrackerWindow.h;"
+						Outputs="moc_PeopleTrackerWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release,RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_PeopleTrackerWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_PeopleTrackerWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\PeopleTrackerWindow.h;"
+						Outputs="moc_PeopleTrackerWindow.cxx"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="moc_RawImagesWindow.cxx.rule"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_RawImagesWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_RawImagesWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\RawImagesWindow.h;"
+						Outputs="moc_RawImagesWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_RawImagesWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_RawImagesWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\RawImagesWindow.h;"
+						Outputs="moc_RawImagesWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="MinSizeRel|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_RawImagesWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_RawImagesWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\RawImagesWindow.h;"
+						Outputs="moc_RawImagesWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_RawImagesWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_RawImagesWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\RawImagesWindow.h;"
+						Outputs="moc_RawImagesWindow.cxx"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release,RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCustomBuildTool"
+						Description="Generating moc_RawImagesWindow.cxx"
+						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_RawImagesWindow.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+						AdditionalDependencies="..\..\people-tracker\RawImagesWindow.h;"
+						Outputs="moc_RawImagesWindow.cxx"
+					/>
+				</FileConfiguration>
+			</File>
+		</Filter>
+		<File
+			RelativePath="..\..\people-tracker\CMakeLists.txt"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Building Custom Rule C:/RGBDemo-0.5.0-Source/people-tracker/CMakeLists.txt"
+					CommandLine="&quot;C:\Program Files (x86)\CMake 2.8\bin\cmake.exe&quot; -H../.. -B.. --check-stamp-file C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker\CMakeFiles\generate.stamp&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\CMakeLists.txt;..\..\people-tracker\CMakeLists.txt;"
+					Outputs="CMakeFiles\generate.stamp"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Building Custom Rule C:/RGBDemo-0.5.0-Source/people-tracker/CMakeLists.txt"
+					CommandLine="&quot;C:\Program Files (x86)\CMake 2.8\bin\cmake.exe&quot; -H../.. -B.. --check-stamp-file C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker\CMakeFiles\generate.stamp&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\CMakeLists.txt;..\..\people-tracker\CMakeLists.txt;"
+					Outputs="CMakeFiles\generate.stamp"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="MinSizeRel|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Building Custom Rule C:/RGBDemo-0.5.0-Source/people-tracker/CMakeLists.txt"
+					CommandLine="&quot;C:\Program Files (x86)\CMake 2.8\bin\cmake.exe&quot; -H../.. -B.. --check-stamp-file C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker\CMakeFiles\generate.stamp&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\CMakeLists.txt;..\..\people-tracker\CMakeLists.txt;"
+					Outputs="CMakeFiles\generate.stamp"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="RelWithDebInfo|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Building Custom Rule C:/RGBDemo-0.5.0-Source/people-tracker/CMakeLists.txt"
+					CommandLine="&quot;C:\Program Files (x86)\CMake 2.8\bin\cmake.exe&quot; -H../.. -B.. --check-stamp-file C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker\CMakeFiles\generate.stamp&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\CMakeLists.txt;..\..\people-tracker\CMakeLists.txt;"
+					Outputs="CMakeFiles\generate.stamp"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release,RelWithDebInfo|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Building Custom Rule C:/RGBDemo-0.5.0-Source/people-tracker/CMakeLists.txt"
+					CommandLine="&quot;C:\Program Files (x86)\CMake 2.8\bin\cmake.exe&quot; -H../.. -B.. --check-stamp-file C:\RGBDemo-0.5.0-Source\visual2k8\people-tracker\CMakeFiles\generate.stamp&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\CMakeLists.txt;..\..\people-tracker\CMakeLists.txt;"
+					Outputs="CMakeFiles\generate.stamp"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\people-tracker\FiltersWindow.ui"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_FiltersWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_FiltersWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/FiltersWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\FiltersWindow.ui;"
+					Outputs="ui_FiltersWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_FiltersWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_FiltersWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/FiltersWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\FiltersWindow.ui;"
+					Outputs="ui_FiltersWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="MinSizeRel|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_FiltersWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_FiltersWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/FiltersWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\FiltersWindow.ui;"
+					Outputs="ui_FiltersWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="RelWithDebInfo|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_FiltersWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_FiltersWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/FiltersWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\FiltersWindow.ui;"
+					Outputs="ui_FiltersWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release,RelWithDebInfo|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_FiltersWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_FiltersWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/FiltersWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\FiltersWindow.ui;"
+					Outputs="ui_FiltersWindow.h"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\people-tracker\PeopleTrackerWindow.ui"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_PeopleTrackerWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_PeopleTrackerWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/PeopleTrackerWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\PeopleTrackerWindow.ui;"
+					Outputs="ui_PeopleTrackerWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_PeopleTrackerWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_PeopleTrackerWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/PeopleTrackerWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\PeopleTrackerWindow.ui;"
+					Outputs="ui_PeopleTrackerWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="MinSizeRel|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_PeopleTrackerWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_PeopleTrackerWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/PeopleTrackerWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\PeopleTrackerWindow.ui;"
+					Outputs="ui_PeopleTrackerWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="RelWithDebInfo|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_PeopleTrackerWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_PeopleTrackerWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/PeopleTrackerWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\PeopleTrackerWindow.ui;"
+					Outputs="ui_PeopleTrackerWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release,RelWithDebInfo|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_PeopleTrackerWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_PeopleTrackerWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/PeopleTrackerWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\PeopleTrackerWindow.ui;"
+					Outputs="ui_PeopleTrackerWindow.h"
+				/>
+			</FileConfiguration>
+		</File>
+		<File
+			RelativePath="..\..\people-tracker\RawImagesWindow.ui"
+			>
+			<FileConfiguration
+				Name="Debug|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_RawImagesWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_RawImagesWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/RawImagesWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\RawImagesWindow.ui;"
+					Outputs="ui_RawImagesWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_RawImagesWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_RawImagesWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/RawImagesWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\RawImagesWindow.ui;"
+					Outputs="ui_RawImagesWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="MinSizeRel|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_RawImagesWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_RawImagesWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/RawImagesWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\RawImagesWindow.ui;"
+					Outputs="ui_RawImagesWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="RelWithDebInfo|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_RawImagesWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_RawImagesWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/RawImagesWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\RawImagesWindow.ui;"
+					Outputs="ui_RawImagesWindow.h"
+				/>
+			</FileConfiguration>
+			<FileConfiguration
+				Name="Release,RelWithDebInfo|Win32"
+				>
+				<Tool
+					Name="VCCustomBuildTool"
+					Description="Generating ui_RawImagesWindow.h"
+					CommandLine="C:\Qt\4.7.1\bin\uic.exe -o C:/RGBDemo-0.5.0-Source/visual2k8/people-tracker/ui_RawImagesWindow.h C:/RGBDemo-0.5.0-Source/people-tracker/RawImagesWindow.ui&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
+					AdditionalDependencies="..\..\people-tracker\RawImagesWindow.ui;"
+					Outputs="ui_RawImagesWindow.h"
+				/>
+			</FileConfiguration>
+		</File>
+	</Files>
+	<Globals>
+	</Globals>
+</VisualStudioProject>
