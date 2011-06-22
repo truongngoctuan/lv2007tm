@@ -1,0 +1,149 @@
+﻿4 processors/cores detected.
+
+When threads are running, press enter to stop
+How many producers do you want? : 1
+How many consumers do you want? : 3
+Setting resolution to VGA
+0
+dequeue times: 0 still have 0 in queue
+[TIME] elapsed in undistort: 0 msecs
+[TIME] elapsed in compute_depth: 0 msecs
+1
+dequeue times: 1 still have 0 in queue
+[TIME] elapsed in undistort: 0 msecs
+[TIME] elapsed in compute_depth: 0 msecs
+[TIME] [Thread 0] elapsed in processImage: 749 msecs
+2
+dequeue times: 2 still have 0 in queue
+[TIME] elapsed in undistort: 0 msecs
+[TIME] elapsed in compute_depth: 0 msecs
+"filtered_keypoints.size(): 246"
+"keypoints.size(): 261"
+[TIME] [Thread 1] elapsed in processImage: 886 msecs
+3
+"image_features.locations().size(): 246"
+[TIME] [Thread 0] elapsed in pose_ok: 880 msecs
+[TIME] [Thread 2] elapsed in processImage: 1002 msecs
+"filtered_keypoints.size(): 238"
+"keypoints.size(): 257"
+"current_matches.size(): 128"
+"closest_view_index: 0"
+"best_matches.size(): 128"
+[TIME] [Thread 0] elapsed in saveCurrentFrame: 1195 msecs
+"m_surfels.size(): 255618"
+[TIME] [Thread 0] elapsed in addNewView: 3481 msecs
+[TIME] [Thread 0] elapsed in computeMesh: 248 msecs
+"error: 0.0815573"
+"image_features.locations().size(): 238"
+[TIME] [Thread 1] elapsed in pose_ok: 9464 msecs
+"filtered_keypoints.size(): 233"
+"keypoints.size(): 245"
+"current_matches.size(): 130"
+"closest_view_index: 1"
+"best_matches.size(): 130"
+[TIME] [Thread 1] elapsed in saveCurrentFrame: 1419 msecs
+[TIME] [Thread 0] elapsed in saveToPlyFile: 10363 msecs
+dequeue times: 3 still have 0 in queue
+[TIME] elapsed in undistort: 0 msecs
+[TIME] elapsed in compute_depth: 0 msecs
+"m_surfels.size(): 256180"
+[TIME] [Thread 1] elapsed in addNewView: 4477 msecs
+4
+[TIME] [Thread 1] elapsed in computeMesh: 332 msecs
+[TIME] [Thread 0] elapsed in processImage: 1116 msecs
+"error: 0.0559875"
+"image_features.locations().size(): 233"
+[TIME] [Thread 2] elapsed in pose_ok: 10966 msecs
+"filtered_keypoints.size(): 244"
+"keypoints.size(): 256"
+"current_matches.size(): 112"
+"closest_view_index: 2"
+"best_matches.size(): 112"
+[TIME] [Thread 2] elapsed in saveCurrentFrame: 1501 msecs
+"m_surfels.size(): 256288"
+[TIME] [Thread 2] elapsed in addNewView: 4868 msecs
+[TIME] [Thread 2] elapsed in computeMesh: 343 msecs
+[TIME] [Thread 1] elapsed in saveToPlyFile: 11642 msecs
+dequeue times: 4 still have 0 in queue
+[TIME] elapsed in undistort: 0 msecs
+[TIME] elapsed in compute_depth: 0 msecs
+5
+[TIME] [Thread 1] elapsed in processImage: 1010 msecs
+"error: 0.0788901"
+"image_features.locations().size(): 244"
+[TIME] [Thread 0] elapsed in pose_ok: 11907 msecs
+"filtered_keypoints.size(): 323"
+"keypoints.size(): 357"
+"current_matches.size(): 87"
+"closest_view_index: 3"
+"best_matches.size(): 87"
+[TIME] [Thread 0] elapsed in saveCurrentFrame: 1461 msecs
+"m_surfels.size(): 256119"
+[TIME] [Thread 0] elapsed in addNewView: 4793 msecs
+[TIME] [Thread 0] elapsed in computeMesh: 355 msecs
+[TIME] [Thread 2] elapsed in saveToPlyFile: 12364 msecs
+dequeue times: 5 still have 0 in queue
+[TIME] elapsed in undistort: 0 msecs
+[TIME] elapsed in compute_depth: 0 msecs
+6
+[TIME] [Thread 2] elapsed in processImage: 1139 msecs
+"error: 0.146894"
+"image_features.locations().size(): 323"
+[TIME] [Thread 1] elapsed in pose_ok: 10162 msecs
+"filtered_keypoints.size(): 360"
+"keypoints.size(): 436"
+[TIME] [Thread 1] elapsed in saveCurrentFrame: 1453 msecs
+"current_matches.size(): 108"
+"closest_view_index: 4"
+"best_matches.size(): 108"
+"m_surfels.size(): 254466"
+[TIME] [Thread 1] elapsed in addNewView: 4516 msecs
+[TIME] [Thread 1] elapsed in computeMesh: 315 msecs
+[TIME] [Thread 0] elapsed in saveToPlyFile: 12918 msecs
+dequeue times: 6 still have 0 in queue
+[TIME] elapsed in undistort: 0 msecs
+[TIME] elapsed in compute_depth: 0 msecs
+7
+[TIME] [Thread 0] elapsed in processImage: 1112 msecs
+"error: 0.212773"
+"image_features.locations().size(): 360"
+[TIME] [Thread 2] elapsed in pose_ok: 12347 msecs
+"filtered_keypoints.size(): 400"
+"keypoints.size(): 476"
+[TIME] [Thread 2] elapsed in saveCurrentFrame: 1373 msecs
+"current_matches.size(): 108"
+"closest_view_index: 5"
+"best_matches.size(): 108"
+[TIME] [Thread 1] elapsed in saveToPlyFile: 12188 msecs
+d"m_surfels.size(): 246644"
+equeue times: 7 still have 0 in queue
+[TIME] [Thread 2] elapsed in addNewView: 4782 msecs
+[TIME] elapsed in undistort: 0 msecs
+[TIME] elapsed in compute_depth: 0 msecs
+8
+[TIME] [Thread 2] elapsed in computeMesh: 355 msecs
+[TIME] [Thread 1] elapsed in processImage: 932 msecs
+"error: 0.129849"
+"image_features.locations().size(): 400"
+[TIME] [Thread 0] elapsed in pose_ok: 9103 msecs
+"filtered_keypoints.size(): 428"
+"keypoints.size(): 479"
+[TIME] [Thread 0] elapsed in saveCurrentFrame: 1916 msecs
+
+"current_matches.size(): 108"
+"closest_view_index: 6"
+"best_matches.size(): 108"
+"m_surfels.size(): 244153"
+[TIME] [Thread 0] elapsed in addNewView: 5954 msecs
+[TIME] [Thread 0] elapsed in computeMesh: 426 msecs
+[TIME] [Thread 2] elapsed in saveToPlyFile: 15358 msecs
+"error: 0.170891"
+"image_features.locations().size(): 428"
+[TIME] [Thread 1] elapsed in pose_ok: 13803 msecs
+[TIME] [Thread 1] elapsed in saveCurrentFrame: 1113 msecs
+"m_surfels.size(): 238388"
+[TIME] [Thread 1] elapsed in addNewView: 3338 msecs
+[TIME] [Thread 1] elapsed in computeMesh: 254 msecs
+[TIME] [Thread 0] elapsed in saveToPlyFile: 11428 msecs
+[TIME] [Thread 1] elapsed in saveToPlyFile: 8274 msecs
+Press any key to continue . . .
