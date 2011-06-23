@@ -38,7 +38,7 @@
 # include <ntk/utils/debug.h>
 # include <ntk/utils/opencv_utils.h>
 # include <ntk/utils/qt_utils.h>
-# include <ntk/thread/utils.h>
+//# include <ntk/thread/utils.h>
 # include <ntk/utils/stl.h>
 # include <ntk/utils/time.h>
 # include <ntk/utils/serializable.h>

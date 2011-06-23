@@ -22,7 +22,7 @@
 
 #include <ntk/core.h>
 #include <ntk/utils/debug.h>
-#include <ntk/utils/serializable.h>
+//#include <ntk/utils/serializable.h>
 #include <Eigen/Core>
 #include <Eigen/Geometry>
 

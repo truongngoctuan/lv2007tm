@@ -51,7 +51,8 @@ const NtkDebug& operator<<(const NtkDebug& d, const ntk::XmlSerializable& rhs)
 { 
   ntk::XMLNode e = ntk::XMLNode::createXMLTopNode("debug");
   rhs.fillXmlElement(e);
-  d.stringPtr()->append(e.createXMLString(true));
+  //d.stringPtr()->append(e.createXMLString(true));
+  cout<<e.createXMLString(true)<<endl;
   return d;
 }
 

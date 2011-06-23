@@ -22,7 +22,8 @@
 
 #include <ntk/core.h>
 #include <ntk/utils/debug.h>
-#include <ntk/utils/serializable.h>
+#include <sstream>
+//#include <ntk/utils/serializable.h>
 
 class QImage;
 
@@ -227,110 +228,114 @@ inline cv::Vec3b bgr_to_rgb(const cv::Vec3b& v)
 void adjustRectToImage(cv::Rect& rect, const cv::Size& image_size);
 
 }
-
-namespace cv     // FIXME: has to be put in its
-// own namespace to avoid ambiguities with std::ofstream << int
-{
-
-inline QTextStream& operator<<(QTextStream& output, const cv::Point2i& point)
-{
-  output << point.x << ntk::sep() << point.y;
-  return output;
-}
-
-inline QTextStream& operator>>(QTextStream& input, cv::Point2i& point)
-{
-  int x=0, y=0;
-  input >> x >> y;
-  point = cv::Point2i(x, y);
-  return input;
-}
-
-inline QTextStream& operator<<(QTextStream& output, const cv::Point2f& point)
-{
-  output << point.x << ntk::sep() << point.y;
-  return output;
-}
-
-inline  QTextStream& operator>>(QTextStream& input, cv::Point2f& point)
-{
-  float x=0, y=0;
-  input >> x >> y;
-  point = cv::Point2f(x, y);
-  return input;
-}
-
-inline QTextStream& operator<<(QTextStream& output, const cv::Point3f& point)
-{
-  output << point.x << ntk::sep() << point.y << ntk::sep() << point.z;
-  return output;
-}
-
-inline  QTextStream& operator>>(QTextStream& input, cv::Point3f& point)
-{
-  input >> point.x >> point.y >> point.z;
-  return input;
-}
-
-inline QTextStream& operator<<(QTextStream& output, const cv::Vec3f& point)
-{
-  output << point[0] << ntk::sep() << point[1] << ntk::sep() << point[2];
-  return output;
-}
-
-inline QTextStream& operator<<(QTextStream& output, const cv::Vec2f& point)
-{
-  output << point[0] << ntk::sep() << point[1];
-  return output;
-}
-
-inline QTextStream& operator>>(QTextStream& input, cv::Vec2f& point)
-{
-  input >> point[0] >> point[1];
-  return input;
-}
-
-inline QTextStream& operator>>(QTextStream& input, cv::Vec3f& point)
-{
-  double x=0,y=0,z=0;
-  input >> x >> y >> z;
-  point = cv::Vec3f(x,y,z);
-  return input;
-}
-
-template <class T>
-QTextStream& operator<<(QTextStream& output, const cv::Point_<T>& point)
-{
-  output << point.x << ntk::sep() << point.y;
-  return output;
-}
-
-template <class T>
-QTextStream& operator>>(QTextStream& input, cv::Point_<T>& point)
-{
-  T x=0,y=0;
-  input >> x >> y;
-  point = cv::Point_<T>(x,y);
-  return input;
-}
-
-template <class T>
-QTextStream& operator<<(QTextStream& output, const cv::Rect_<T>& r)
-{
-  output << r.x << ntk::sep() << r.y << ntk::sep() << r.width << ntk::sep() << r.height;
-  return output;
-}
-
-template <class T>
-QTextStream& operator>>(QTextStream& input, cv::Rect_<T>& r)
-{
-  T x=0,y=0,width=0,height=0;
-  input >> x >> y >> width >> height;
-  r = cv::Rect_<T>(x,y,width,height);
-  return input;
-}
-
-}
+//namespace ntk
+//{
+//	inline string sep() { return " ";}
+//}
+//namespace cv     // FIXME: has to be put in its
+//// own namespace to avoid ambiguities with std::ofstream << int
+//{
+//	  
+//
+//inline stringstream& operator<<(stringstream& output, const cv::Point2i& point)
+//{
+//  output << point.x << ntk::sep() << point.y;
+//  return output;
+//}
+//
+//inline stringstream& operator>>(stringstream& input, cv::Point2i& point)
+//{
+//  int x=0, y=0;
+//  input >> x >> y;
+//  point = cv::Point2i(x, y);
+//  return input;
+//}
+//
+//inline stringstream& operator<<(stringstream& output, const cv::Point2f& point)
+//{
+//  output << point.x << ntk::sep() << point.y;
+//  return output;
+//}
+//
+//inline  stringstream& operator>>(stringstream& input, cv::Point2f& point)
+//{
+//  float x=0, y=0;
+//  input >> x >> y;
+//  point = cv::Point2f(x, y);
+//  return input;
+//}
+//
+//inline stringstream& operator<<(stringstream& output, const cv::Point3f& point)
+//{
+//  output << point.x << ntk::sep() << point.y << ntk::sep() << point.z;
+//  return output;
+//}
+//
+//inline  stringstream& operator>>(stringstream& input, cv::Point3f& point)
+//{
+//  input >> point.x >> point.y >> point.z;
+//  return input;
+//}
+//
+//inline stringstream& operator<<(stringstream& output, const cv::Vec3f& point)
+//{
+//  output << point[0] << ntk::sep() << point[1] << ntk::sep() << point[2];
+//  return output;
+//}
+//
+//inline stringstream& operator<<(stringstream& output, const cv::Vec2f& point)
+//{
+//  output << point[0] << ntk::sep() << point[1];
+//  return output;
+//}
+//
+//inline stringstream& operator>>(stringstream& input, cv::Vec2f& point)
+//{
+//  input >> point[0] >> point[1];
+//  return input;
+//}
+//
+//inline stringstream& operator>>(stringstream& input, cv::Vec3f& point)
+//{
+//  double x=0,y=0,z=0;
+//  input >> x >> y >> z;
+//  point = cv::Vec3f(x,y,z);
+//  return input;
+//}
+//
+//template <class T>
+//stringstream& operator<<(stringstream& output, const cv::Point_<T>& point)
+//{
+//  output << point.x << ntk::sep() << point.y;
+//  return output;
+//}
+//
+//template <class T>
+//stringstream& operator>>(stringstream& input, cv::Point_<T>& point)
+//{
+//  T x=0,y=0;
+//  input >> x >> y;
+//  point = cv::Point_<T>(x,y);
+//  return input;
+//}
+//
+//template <class T>
+//stringstream& operator<<(stringstream& output, const cv::Rect_<T>& r)
+//{
+//  output << r.x << ntk::sep() << r.y << ntk::sep() << r.width << ntk::sep() << r.height;
+//  return output;
+//}
+//
+//template <class T>
+//stringstream& operator>>(stringstream& input, cv::Rect_<T>& r)
+//{
+//  T x=0,y=0,width=0,height=0;
+//  input >> x >> y >> width >> height;
+//  r = cv::Rect_<T>(x,y,width,height);
+//  return input;
+//}
+//
+//}
 
 namespace cv
 {

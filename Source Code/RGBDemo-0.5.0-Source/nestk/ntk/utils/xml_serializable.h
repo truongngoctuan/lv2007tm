@@ -26,6 +26,7 @@
 # include <ntk/utils/xml_parser.h>
 
 # include <iostream>
+#include <sstream>
 
 # include <QFileInfo>
 # include <QString>
@@ -94,8 +95,12 @@ namespace ntk
         if (!element.getAttribute(attr_name))
           ntk_throw_exception("Missing attribute: " + attr_name);
         QString s = element.getAttribute(attr_name);
-        QTextStream stream(&s);
-        stream >> value;
+        //QTextStream stream(&s);
+        //stream >> value;
+
+		stringstream stream;
+		stream<<s.toStdString();
+		stream >> value;
       }
 
       void loadFromXmlAttribute(const XMLNode& element, const char* attr_name, QString& value)
@@ -146,26 +151,99 @@ namespace ntk
         value = element.getText();
       }
 
-      template <typename Type>
-      void addXmlRawTextDataChild(XMLNode& element, const char* tag, const Type& value) const
-      {
-        QString s;
-        QTextStream stream(&s); stream << value;
+  //    template <typename Type>
+  //    void addXmlRawTextDataChild(XMLNode& element, const char* tag, const Type& value) const
+  //    {
+  //      //QString s;
+  //      //QTextStream stream(&s); stream << value;
 
+		//stringstream stream;
+		//stream<<value;
+
+		//QString s;
+		//s.append(stream.str().c_str());
+  //      XMLNode data_element = element.addChild(tag, 0);
+  //      setXmlRawTextData(data_element, s);
+  //    }
+
+	        void addXmlRawTextDataChild(XMLNode& element, const char* tag, const cv::Vec3f& value) const
+      {
+        //QString s;
+        //QTextStream stream(&s); stream << value;
+
+		stringstream stream;
+		//stream<<value;
+		stream << value[0] <<value[1] << value[2];
+
+		QString s;
+		s.append(stream.str().c_str());
         XMLNode data_element = element.addChild(tag, 0);
         setXmlRawTextData(data_element, s);
       }
 
-      template <typename Type>
-      void loadFromXmlRawTextDataChild(const XMLNode& element, const char* tag, Type& value)
+			      void addXmlRawTextDataChild(XMLNode& element, const char* tag, const cv::Vec2f& value) const
+      {
+        //QString s;
+        //QTextStream stream(&s); stream << value;
+
+		stringstream stream;
+		stream << value[0] << value[1];
+
+		QString s;
+		s.append(stream.str().c_str());
+        XMLNode data_element = element.addChild(tag, 0);
+        setXmlRawTextData(data_element, s);
+      }
+
+  //    template <typename Type>
+  //    void loadFromXmlRawTextDataChild(const XMLNode& element, const char* tag, Type& value)
+  //    {
+  //      XMLNode data_element = element.getChildNode(tag);
+  //      ntk_throw_exception_if(data_element.isEmpty(), "Could not find raw data for tag " + tag);
+
+  //      QString s;
+  //      loadFromXmlRawTextData(data_element, s);
+  //      //QTextStream stream(&s);
+  //      //stream >> value;
+
+		//stringstream stream;
+		//stream<<s.toStdString();
+		//stream >> value;
+  //    }
+
+	  void loadFromXmlRawTextDataChild(const XMLNode& element, const char* tag, cv::Vec3f& value)
       {
         XMLNode data_element = element.getChildNode(tag);
         ntk_throw_exception_if(data_element.isEmpty(), "Could not find raw data for tag " + tag);
 
         QString s;
         loadFromXmlRawTextData(data_element, s);
-        QTextStream stream(&s);
-        stream >> value;
+        //QTextStream stream(&s);
+        //stream >> value;
+
+		stringstream stream;
+		stream<<s.toStdString();
+
+		double x=0,y=0,z=0;
+		  stream >> x >> y >> z;
+		  value = cv::Vec3f(x,y,z);
+      }
+
+	  	  void loadFromXmlRawTextDataChild(const XMLNode& element, const char* tag, cv::Vec2f& value)
+      {
+        XMLNode data_element = element.getChildNode(tag);
+        ntk_throw_exception_if(data_element.isEmpty(), "Could not find raw data for tag " + tag);
+
+        QString s;
+        loadFromXmlRawTextData(data_element, s);
+        //QTextStream stream(&s);
+        //stream >> value;
+
+		stringstream stream;
+		stream<<s.toStdString();
+
+		stream >> value[0] >> value[1];
+
       }
 
       template <typename Type>

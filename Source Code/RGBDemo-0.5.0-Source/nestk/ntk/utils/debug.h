@@ -22,10 +22,11 @@
 
 # include <ntk/core.h>
 
-# include <QString>
-# include <QTextStream>
-# include <QDebug>
+//# include <QString>
+//# include <QTextStream>
+//# include <QDebug>
 #include <iostream>
+//#include <sstream>
 using namespace std;
 
 namespace ntk
@@ -38,23 +39,25 @@ class NtkDebug
 {
   public:
     virtual ~NtkDebug()
-    { qDebug() << s; 
+    { //qDebug() << s; 
 	}
 	//{ cout << s.; }
 
   public:
     void print(const ntk::XmlSerializable& rhs) const;   
 
-  public:
-    QString* stringPtr() const { return &s; }
+  //public:
+    //QString* stringPtr() const { return &s; }
 
-  private:
-    mutable QString s;
+  //private:
+    //mutable QString s;
 };
 
 #define NTK_DECLARE_DEBUG_OPERATOR(Type) \
 inline const NtkDebug& operator<<(const NtkDebug& d, Type rhs) \
-{ QTextStream stream(d.stringPtr()); stream << rhs; return d; }
+	{ cout<< rhs<<endl; return d; }
+//{ QTextStream stream(d.stringPtr()); stream << rhs; return d; }
+
 
 NTK_DECLARE_DEBUG_OPERATOR(bool)
 NTK_DECLARE_DEBUG_OPERATOR(short)
@@ -66,7 +69,7 @@ NTK_DECLARE_DEBUG_OPERATOR(unsigned long)
 NTK_DECLARE_DEBUG_OPERATOR(long long)
 NTK_DECLARE_DEBUG_OPERATOR(unsigned long long)
 NTK_DECLARE_DEBUG_OPERATOR(double)
-NTK_DECLARE_DEBUG_OPERATOR(const QString&)
+//NTK_DECLARE_DEBUG_OPERATOR(const QString&)
 NTK_DECLARE_DEBUG_OPERATOR(const char*)
 
 const NtkDebug& operator<<(const NtkDebug& d, const std::string& rhs);
