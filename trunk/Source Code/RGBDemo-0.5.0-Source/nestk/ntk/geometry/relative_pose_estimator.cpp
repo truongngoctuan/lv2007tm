@@ -395,6 +395,91 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image)
     return false;
 }
 
+boost::mutex mtcomputeNumMatchesWithPrevious;
+bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pose3D& current_pose_final)
+{
+  ntk_ensure(image.calibration(), "Image must be calibrated.");
+  if (!m_current_pose.isValid())
+  {
+    m_current_pose = *image.calibration()->depth_pose;
+  }
+
+  ntk_ensure(image.mappedDepth().data, "Image must have depth mapping.");
+  TimeCount tc_extractFromImage("extractFromImage", 2);
+  FeatureSet image_features;
+  image_features.extractFromImage(image, m_feature_parameters);
+  tc_extractFromImage.stop();
+
+  Pose3D new_pose = *image.calibration()->depth_pose;
+  Pose3D new_rgb_pose = new_pose;
+  new_rgb_pose.toRightCamera(image.calibration()->rgb_intrinsics,
+                             image.calibration()->R, image.calibration()->T);//?? dư??
+  bool pose_ok = true;
+
+  int closest_view_index = -1;
+	
+  boost::unique_lock<boost::mutex> lock(mtcomputeNumMatchesWithPrevious);
+  if (m_image_data.size() > 0)
+  {
+	  TimeCount tc_computeNumMatchesWithPrevious("computeNumMatchesWithPrevious", 2);
+    std::vector<cv::DMatch> best_matches;
+    closest_view_index = computeNumMatchesWithPrevious(image, image_features, best_matches);
+    ntk_dbg_print(closest_view_index, 1);
+    ntk_dbg_print(best_matches.size(), 1);
+
+    new_pose = m_image_data[closest_view_index].depth_pose;
+    new_rgb_pose = new_pose;
+    new_rgb_pose.toRightCamera(image.calibration()->rgb_intrinsics,
+                               image.calibration()->R, image.calibration()->T);
+	tc_computeNumMatchesWithPrevious.stop();
+
+	TimeCount tc_estimateDeltaPose("estimateDeltaPose", 2);
+    if (best_matches.size() > 0)
+    {
+      // Estimate the relative pose w.r.t the closest view.
+      if (!estimateDeltaPose(new_rgb_pose, image, image_features, best_matches, closest_view_index))
+        pose_ok = false;
+      new_pose = new_rgb_pose;
+      new_pose.toLeftCamera(image.calibration()->depth_intrinsics,
+                            image.calibration()->R, image.calibration()->T);
+
+    }
+    else
+    {
+      pose_ok = false;
+    }
+	tc_estimateDeltaPose.stop();
+  }
+  
+
+  if (pose_ok)
+  {
+    if (m_use_icp)
+      pose_ok &= optimizeWithICP(image, new_pose, closest_view_index);
+  }
+
+  if (pose_ok)
+  {
+    new_rgb_pose = new_pose;
+    new_rgb_pose.toRightCamera(image.calibration()->rgb_intrinsics,
+                               image.calibration()->R, image.calibration()->T);
+
+
+    ImageData image_data;
+    image.rgb().copyTo(image_data.color);
+    image_data.depth_pose = new_pose;
+    //m_current_pose = new_pose;
+	current_pose_final = new_pose;
+    image_features.compute3dLocation(new_rgb_pose);
+    m_features.push_back(image_features);
+    ntk_dbg_print(image_features.locations().size(), 1);
+    m_image_data.push_back(image_data);
+    return true;
+  }
+  else
+    return false;
+}
+
 void RelativePoseEstimatorFromImage::reset()
 {
   m_features.clear();

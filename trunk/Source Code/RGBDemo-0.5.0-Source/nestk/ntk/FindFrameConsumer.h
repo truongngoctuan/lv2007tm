@@ -17,13 +17,13 @@ using namespace boost;
 using namespace boost::this_thread;
 using namespace cv;
 
-RelativePoseEstimator* pose_estimator;
+RelativePoseEstimatorFromImage* pose_estimator;
 //SurfelsRGBDModeler modeler;
 //int iCurrentImageIndex;
 
 //boost::mutex m_mutex; 
 boost::mutex mtPoseEstimate;
-boost::mutex mtmodeler;
+//boost::mutex mtmodeler;
 //boost::mutex mtCurrentImageIndex;
 
 class FindFrameConsumer
@@ -93,11 +93,11 @@ public:
 			tc_rgbd_process.stop();
 
 			pose_ok = false;
-			mtPoseEstimate.lock();
+			//mtPoseEstimate.lock();
 			TimeCountThread tc_pose_ok(m_id, "pose_ok", 2);
-			pose_ok = pose_estimator->estimateNewPose(*m_last_image);
-			currentPose = pose_estimator->currentPose();
-			tc_pose_ok.stop();
+			pose_ok = pose_estimator->estimateNewPose(*m_last_image, currentPose);
+			//currentPose = pose_estimator->currentPose();
+			//tc_pose_ok.stop();
 
 			//if (pose_ok)
 			//{

@@ -25,6 +25,10 @@
 #include <ntk/geometry/pose_3d.h>
 #include <ntk/image/sift_gpu.h>
 #include <ntk/image/feature.h>
+#include <boost/thread.hpp>
+
+using namespace boost;
+using namespace boost::this_thread;
 
 #ifdef NESTK_USE_PCL
 #include <pcl/point_cloud.h>
@@ -110,6 +114,7 @@ public:
   }
 
   virtual bool estimateNewPose(const RGBDImage& image);
+  bool estimateNewPose(const RGBDImage& image, Pose3D& new_pose);
   virtual void reset();
 
 private:
