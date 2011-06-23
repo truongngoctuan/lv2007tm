@@ -6,8 +6,10 @@
 #include <sstream>
 #include "ntk/SynchronisedQueue.h"
 #include "ntk/UtilThread.h"
-#include <ntk/ntk.h>
+//#include <ntk/ntk.h>
 #include <ntk/camera/rgbd_frame_recorder.h>
+#include <ntk/camera/rgbd_processor.h>
+#include <ntk/utils/time.h>
 
 using namespace ntk;
 using namespace std;

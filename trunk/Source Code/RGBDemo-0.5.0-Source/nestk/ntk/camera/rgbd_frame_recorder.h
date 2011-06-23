@@ -22,8 +22,8 @@
 
 #include <ntk/core.h>
 
-#include <ntk/camera/rgbd_grabber.h>
-
+//#include <ntk/camera/rgbd_grabber.h>
+# include <ntk/camera/rgbd_image.h>
 #include <QDir>
 
 namespace ntk

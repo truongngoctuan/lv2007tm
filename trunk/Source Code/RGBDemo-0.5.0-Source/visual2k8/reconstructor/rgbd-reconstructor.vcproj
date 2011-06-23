@@ -500,10 +500,6 @@
 			Name="Source Files"
 			>
 			<File
-				RelativePath=".\file_grabber2.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\reconstructor\reconstructor.cpp"
 				>
 			</File>
@@ -511,10 +507,6 @@
 		<Filter
 			Name="Header Files"
 			>
-			<File
-				RelativePath=".\file_grabber2.h"
-				>
-			</File>
 		</Filter>
 		<Filter
 			Name="CMake Rules"

@@ -460,15 +460,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\thread\event.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\image\feature.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\camera\file_grabber.cpp"
 				>
 			</File>
 			<File
@@ -505,14 +497,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\nestk\ntk\mesh\mesh_viewer.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\camera\nite_rgbd_grabber.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\camera\opencv_grabber.cpp"
 				>
 			</File>
 			<File
@@ -561,10 +545,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\nestk\ntk\camera\rgbd_frame_recorder.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\camera\rgbd_grabber.cpp"
 				>
 			</File>
 			<File
@@ -764,15 +744,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\thread\event.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\image\feature.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\camera\file_grabber.h"
 				>
 			</File>
 			<File
@@ -820,19 +792,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\camera\nite_rgbd_grabber.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\camera\nite_rgbd_grabber_internals.hxx"
 				>
 			</File>
 			<File
 				RelativePath="..\..\..\nestk\ntk\ntk.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\camera\opencv_grabber.h"
 				>
 			</File>
 			<File
@@ -881,10 +845,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\nestk\ntk\camera\rgbd_frame_recorder.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\camera\rgbd_grabber.h"
 				>
 			</File>
 			<File

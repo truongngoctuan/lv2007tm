@@ -8,13 +8,13 @@
 #include <XnLog.h>
 #include <XnOS.h>
 #include <XnCppWrapper.h>
-# include <opencv/cxcore.h>
-# include <opencv/cv.h>
-# include <opencv/highgui.h>
+#include <opencv/cxcore.h>
+#include <opencv/cv.h>
+#include <opencv/highgui.h>
 #include "ntk/camera/nite_rgbd_grabber_internals.hxx"
 #include "ntk/geometry/pose_3d.h"
 
-#include <ntk/ntk.h>
+//#include <ntk/ntk.h>
 
 using namespace xn;
 using namespace std;
