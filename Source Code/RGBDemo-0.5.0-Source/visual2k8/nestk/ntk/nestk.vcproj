@@ -508,18 +508,6 @@
 				>
 			</File>
 			<File
-				RelativePath="thread\moc_event.cxx"
-				>
-			</File>
-			<File
-				RelativePath="gui\moc_image_widget.cxx"
-				>
-			</File>
-			<File
-				RelativePath="mesh\moc_mesh_viewer.cxx"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\camera\nite_rgbd_grabber.cpp"
 				>
 			</File>
@@ -628,50 +616,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\thread\utils.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/thread/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/thread/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="MinSizeRel|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/thread/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/thread/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release,RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/thread/utils.obj"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\numeric\utils.cpp"
 				>
 				<FileConfiguration
@@ -712,6 +656,50 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="$(IntDir)/numeric/utils.obj"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\nestk\ntk\thread\utils.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/thread/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/thread/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="MinSizeRel|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/thread/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/thread/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release,RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/thread/utils.obj"
 					/>
 				</FileConfiguration>
 			</File>
@@ -960,11 +948,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\numeric\utils.h"
+				RelativePath="..\..\..\nestk\ntk\thread\utils.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\thread\utils.h"
+				RelativePath="..\..\..\nestk\ntk\numeric\utils.h"
 				>
 			</File>
 			<File
@@ -979,183 +967,6 @@
 		<Filter
 			Name="CMake Rules"
 			>
-			<File
-				RelativePath="thread\moc_event.cxx.rule"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating thread/moc_event.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\thread&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_event.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\thread\event.h;"
-						Outputs="thread\moc_event.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating thread/moc_event.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\thread&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_event.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\thread\event.h;"
-						Outputs="thread\moc_event.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="MinSizeRel|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating thread/moc_event.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\thread&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_event.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\thread\event.h;"
-						Outputs="thread\moc_event.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating thread/moc_event.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\thread&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_event.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\thread\event.h;"
-						Outputs="thread\moc_event.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release,RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating thread/moc_event.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\thread&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_event.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\thread\event.h;"
-						Outputs="thread\moc_event.cxx"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="gui\moc_image_widget.cxx.rule"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating gui/moc_image_widget.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\gui&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_image_widget.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\gui\image_widget.h;"
-						Outputs="gui\moc_image_widget.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating gui/moc_image_widget.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\gui&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_image_widget.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\gui\image_widget.h;"
-						Outputs="gui\moc_image_widget.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="MinSizeRel|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating gui/moc_image_widget.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\gui&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_image_widget.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\gui\image_widget.h;"
-						Outputs="gui\moc_image_widget.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating gui/moc_image_widget.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\gui&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_image_widget.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\gui\image_widget.h;"
-						Outputs="gui\moc_image_widget.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release,RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating gui/moc_image_widget.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\gui&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_image_widget.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\gui\image_widget.h;"
-						Outputs="gui\moc_image_widget.cxx"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="mesh\moc_mesh_viewer.cxx.rule"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating mesh/moc_mesh_viewer.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\mesh&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_mesh_viewer.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\mesh\mesh_viewer.h;"
-						Outputs="mesh\moc_mesh_viewer.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating mesh/moc_mesh_viewer.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\mesh&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_mesh_viewer.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\mesh\mesh_viewer.h;"
-						Outputs="mesh\moc_mesh_viewer.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="MinSizeRel|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating mesh/moc_mesh_viewer.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\mesh&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_mesh_viewer.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\mesh\mesh_viewer.h;"
-						Outputs="mesh\moc_mesh_viewer.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating mesh/moc_mesh_viewer.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\mesh&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_mesh_viewer.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\mesh\mesh_viewer.h;"
-						Outputs="mesh\moc_mesh_viewer.cxx"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release,RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCustomBuildTool"
-						Description="Generating mesh/moc_mesh_viewer.cxx"
-						CommandLine="cd C:\RGBDemo-0.5.0-Source\visual2k8\nestk\ntk\mesh&#x0D;&#x0A;C:&#x0D;&#x0A;C:\Qt\4.7.1\bin\moc.exe @moc_mesh_viewer.cxx_parameters&#x0D;&#x0A;if errorlevel 1 goto :VCReportError&#x0D;&#x0A;"
-						AdditionalDependencies="..\..\..\nestk\ntk\mesh\mesh_viewer.h;"
-						Outputs="mesh\moc_mesh_viewer.cxx"
-					/>
-				</FileConfiguration>
-			</File>
 		</Filter>
 		<File
 			RelativePath="..\..\..\nestk\ntk\CMakeLists.txt"
