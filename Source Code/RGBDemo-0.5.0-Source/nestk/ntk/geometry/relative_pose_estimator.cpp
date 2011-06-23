@@ -321,8 +321,10 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image)
   }
 
   ntk_ensure(image.mappedDepth().data, "Image must have depth mapping.");
+  TimeCount tc_extractFromImage("extractFromImage", 2);
   FeatureSet image_features;
   image_features.extractFromImage(image, m_feature_parameters);
+  tc_extractFromImage.stop();
 
   Pose3D new_pose = *image.calibration()->depth_pose;
   Pose3D new_rgb_pose = new_pose;
@@ -332,8 +334,10 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image)
 
   int closest_view_index = -1;
 
+  
   if (m_image_data.size() > 0)
   {
+	  TimeCount tc_computeNumMatchesWithPrevious("computeNumMatchesWithPrevious", 2);
     std::vector<cv::DMatch> best_matches;
     closest_view_index = computeNumMatchesWithPrevious(image, image_features, best_matches);
     ntk_dbg_print(closest_view_index, 1);
@@ -343,7 +347,9 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image)
     new_rgb_pose = new_pose;
     new_rgb_pose.toRightCamera(image.calibration()->rgb_intrinsics,
                                image.calibration()->R, image.calibration()->T);
+	tc_computeNumMatchesWithPrevious.stop();
 
+	TimeCount tc_estimateDeltaPose("estimateDeltaPose", 2);
     if (best_matches.size() > 0)
     {
       // Estimate the relative pose w.r.t the closest view.
@@ -358,7 +364,9 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image)
     {
       pose_ok = false;
     }
+	tc_estimateDeltaPose.stop();
   }
+  
 
   if (pose_ok)
   {

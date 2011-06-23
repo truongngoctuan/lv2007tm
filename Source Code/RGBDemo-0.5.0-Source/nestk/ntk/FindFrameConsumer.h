@@ -18,13 +18,13 @@ using namespace boost::this_thread;
 using namespace cv;
 
 RelativePoseEstimator* pose_estimator;
-SurfelsRGBDModeler modeler;
-int iCurrentImageIndex;
+//SurfelsRGBDModeler modeler;
+//int iCurrentImageIndex;
 
-boost::mutex m_mutex; 
+//boost::mutex m_mutex; 
 boost::mutex mtPoseEstimate;
 boost::mutex mtmodeler;
-boost::mutex mtCurrentImageIndex;
+//boost::mutex mtCurrentImageIndex;
 
 class FindFrameConsumer
 {
@@ -42,22 +42,22 @@ public:
 		FeatureSetParams params ("SURF", "SURF64", true);
 		pose_estimator = new RelativePoseEstimatorFromImage(params, false);
 
-		modeler.setMinViewsPerSurfel(1);
+		//modeler.setMinViewsPerSurfel(1);
 
-		iCurrentImageIndex = 0;
+		//iCurrentImageIndex = 0;
 	}
 
-	static int GetCurrentImageIndex()
-	{
-		boost::unique_lock<boost::mutex> lock(mtCurrentImageIndex);
-		return iCurrentImageIndex;
-	}
+	//static int GetCurrentImageIndex()
+	//{
+	//	boost::unique_lock<boost::mutex> lock(mtCurrentImageIndex);
+	//	return iCurrentImageIndex;
+	//}
 
-	static void IncCurrentImageIndex()
-	{
-		boost::unique_lock<boost::mutex> lock(mtCurrentImageIndex);
-		iCurrentImageIndex++;
-	}
+	//static void IncCurrentImageIndex()
+	//{
+	//	boost::unique_lock<boost::mutex> lock(mtCurrentImageIndex);
+	//	iCurrentImageIndex++;
+	//}
 
 	// Constructor with id and the queue to use.
 	FindFrameConsumer(int id, SynchronisedQueue<RGBDImage *>* queue, 
@@ -78,10 +78,13 @@ public:
 	// The thread function reads data from the queue
 	void operator () ()
 	{
+		int ilast_image;
+		Pose3D currentPose;
+		bool pose_ok;
 		while (true)
 		{
 			//m_mutex.lock();
-			int ilast_image;
+			
 			RGBDImage * m_last_image = m_queue->Dequeue(ilast_image);
 			//m_mutex.unlock();
 
@@ -89,20 +92,21 @@ public:
 			m_processor->processImage(*m_last_image);
 			tc_rgbd_process.stop();
 
+			pose_ok = false;
 			mtPoseEstimate.lock();
 			TimeCountThread tc_pose_ok(m_id, "pose_ok", 2);
-			bool pose_ok = pose_estimator->estimateNewPose(*m_last_image);
-			Pose3D currentPose = pose_estimator->currentPose();
+			pose_ok = pose_estimator->estimateNewPose(*m_last_image);
+			currentPose = pose_estimator->currentPose();
 			tc_pose_ok.stop();
 
-			if (pose_ok)
-			{
-				FindFrameConsumer::IncCurrentImageIndex();
-				ilast_image = FindFrameConsumer::GetCurrentImageIndex();
-			}
+			//if (pose_ok)
+			//{
+			//	FindFrameConsumer::IncCurrentImageIndex();
+			//	ilast_image = FindFrameConsumer::GetCurrentImageIndex();
+			//}
 			mtPoseEstimate.unlock();
 
-			if (pose_ok)
+			if (true)
 			{
 				//cap nhat currentFrame
 
@@ -137,27 +141,6 @@ public:
 				string strDestinationFileName = format("d:\\test\\scene_mesh_%04d.ply", ilast_image);
 				current_modeler.currentMesh().saveToPlyFile(strDestinationFileName.c_str());
 				tc_saveToPlyFile.stop();
-
-				//mtmodeler.lock();
-				////{//tao file ply,...
-				//TimeCountThread tc_addNewView(m_id, "addNewView", 2);
-				//modeler.addNewView(*m_last_image, currentPose);
-				//tc_addNewView.stop();
-
-				//TimeCountThread tc_computeMesh(m_id, "computeMesh", 2);
-				//modeler.computeMesh();
-				//tc_computeMesh.stop();
-
-				//if (ilast_image % 10 == 0)
-				//{
-				//	TimeCountThread tc_saveToPlyFile(m_id, "saveToPlyFile", 2);
-				//	string strDestinationFileName = format("d:\\test\\scene_mesh_%04d.ply", ilast_image);
-				//		//frame_dir + "\\scene_mesh_" + format("%04d", grabber2->m_current_image_index) + ".ply";
-				//	//modeler.computeSurfaceMesh();
-				//	modeler.currentMesh().saveToPlyFile(strDestinationFileName.c_str());
-				//	tc_saveToPlyFile.stop();
-				//}
-				//mtmodeler.unlock();
 			}
 
 			delete m_last_image;
