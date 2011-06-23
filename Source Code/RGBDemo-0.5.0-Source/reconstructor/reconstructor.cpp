@@ -42,8 +42,8 @@
 
 #include <ntk/mesh/mesh_generator.h>
 #include <ntk/mesh/surfels_rgbd_modeler.h>
-#include "GuiController.h"
-#include "ModelAcquisitionController.h"
+//#include "GuiController.h"
+//#include "ModelAcquisitionController.h"
 
 #include <QApplication>
 #include <QMetaType>
