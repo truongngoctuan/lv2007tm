@@ -114,7 +114,7 @@ public:
 
 				m_frame_recorder->setFrameIndex(ilast_image);
 				std::string frame_dir = format("%s/view%04d", 
-				m_frame_recorder->directory().absolutePath().toStdString().c_str(), 
+				m_frame_recorder->directory().c_str(), 
 				ilast_image);
 
 				string NewFile = format("d:\\test\\color%04d.png", ilast_image);

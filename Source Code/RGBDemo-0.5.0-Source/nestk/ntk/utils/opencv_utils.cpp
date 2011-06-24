@@ -24,9 +24,9 @@
 #include <fstream>
 #include <iostream>
 
-#include <QImage>
-#include <QTemporaryFile>
-#include <QDir>
+//#include <QImage>
+//#include <QTemporaryFile>
+//#include <QDir>
 using namespace std;
 using namespace cv;
 
@@ -79,55 +79,55 @@ namespace ntk
     return out;
   }
 
-  cv::Mat1b qimage_to_opencv(const QImage& im)
-  {
-    QTemporaryFile f(QDir::tempPath() + "/ntk_XXXXXX.pgm");
-    bool ok = f.open(); if (!ok) qFatal("Cannot create temporary file.");
-    im.save(f.fileName(), "PGM");
-    return cv::imread(f.fileName().toStdString(), 0);
-  }
+  //cv::Mat1b qimage_to_opencv(const QImage& im)
+  //{
+  //  QTemporaryFile f(QDir::tempPath() + "/ntk_XXXXXX.pgm");
+  //  bool ok = f.open(); if (!ok) qFatal("Cannot create temporary file.");
+  //  im.save(f.fileName(), "PGM");
+  //  return cv::imread(f.fileName().toStdString(), 0);
+  //}
 
-  void opencv_to_qimage(QImage& qim, const cv::Mat1b& im)
-  {
-    qim = QImage(im.cols, im.rows, QImage::Format_RGB32);
-    for_all_rc(im)
-    {
-      int v = im(r,c);
-      qim.setPixel(c,r,qRgb(v,v,v));
-    }
-  }
+  //void opencv_to_qimage(QImage& qim, const cv::Mat1b& im)
+  //{
+  //  qim = QImage(im.cols, im.rows, QImage::Format_RGB32);
+  //  for_all_rc(im)
+  //  {
+  //    int v = im(r,c);
+  //    qim.setPixel(c,r,qRgb(v,v,v));
+  //  }
+  //}
 
-  void opencv_to_qimage(QImage& qim, const cv::Mat3b& im)
-  {
-    qim = QImage(im.cols, im.rows, QImage::Format_RGB32);
-    for_all_rc(im)
-    {
-      cv::Vec3b color = im(r,c);
-      qim.setPixel(c,r,qRgb(color[2],color[1],color[0]));
-    }
-  }
+  //void opencv_to_qimage(QImage& qim, const cv::Mat3b& im)
+  //{
+  //  qim = QImage(im.cols, im.rows, QImage::Format_RGB32);
+  //  for_all_rc(im)
+  //  {
+  //    cv::Vec3b color = im(r,c);
+  //    qim.setPixel(c,r,qRgb(color[2],color[1],color[0]));
+  //  }
+  //}
 
-  void opencv_to_qimage(QImage& qim, const cv::Mat4b& im)
-  {
-    qim = QImage(im.cols, im.rows, QImage::Format_ARGB32);
-    for_all_rc(im)
-    {
-      cv::Vec4b color = im(r,c);
-      qim.setPixel(c,r,qRgba(color[2],color[1],color[0], color[3]));
-    }
-  }
+  //void opencv_to_qimage(QImage& qim, const cv::Mat4b& im)
+  //{
+  //  qim = QImage(im.cols, im.rows, QImage::Format_ARGB32);
+  //  for_all_rc(im)
+  //  {
+  //    cv::Vec4b color = im(r,c);
+  //    qim.setPixel(c,r,qRgba(color[2],color[1],color[0], color[3]));
+  //  }
+  //}
 
-  cv::Mat4b qimage_argb_to_opencv(const QImage& im)
-  {
-    cv::Mat4b cv_im (im.height(), im.width());
-    for_all_rc(cv_im)
-    {
-      QRgb pixel = im.pixel(c, r);
-      cv::Vec4b color (qBlue(pixel), qGreen(pixel), qRed(pixel), qAlpha(pixel));
-      cv_im(r,c) = color;
-    }
-    return cv_im;
-  }
+  //cv::Mat4b qimage_argb_to_opencv(const QImage& im)
+  //{
+  //  cv::Mat4b cv_im (im.height(), im.width());
+  //  for_all_rc(cv_im)
+  //  {
+  //    QRgb pixel = im.pixel(c, r);
+  //    cv::Vec4b color (qBlue(pixel), qGreen(pixel), qRed(pixel), qAlpha(pixel));
+  //    cv_im(r,c) = color;
+  //  }
+  //  return cv_im;
+  //}
 
   void apply_mask(cv::Mat1b& im, const cv::Mat1b& mask)
   {
@@ -285,12 +285,12 @@ namespace ntk
   cv::Mat1f imread_Mat1f_raw(const std::string& filename)
   {
     ntk_throw_exception_if(sizeof(float) != 4, "Cannot use raw with sizeof(float) != 4");
-    ntk_throw_exception_if(QSysInfo::ByteOrder != QSysInfo::LittleEndian, "Cannot use raw with big endian");
+    //ntk_throw_exception_if(QSysInfo::ByteOrder != QSysInfo::LittleEndian, "Cannot use raw with big endian");
     std::ifstream f (filename.c_str());
     ntk_throw_exception_if(!f, "Could not open " + filename);
-    qint32 rows = -1, cols = -1;
-    f.read((char*)&rows, sizeof(qint32));
-    f.read((char*)&cols, sizeof(qint32));
+    int rows = -1, cols = -1;
+    f.read((char*)&rows, sizeof(int));
+    f.read((char*)&cols, sizeof(int));
     cv::Mat1f m(rows, cols);
 	f.read((char*)m.data, rows*cols*sizeof(float));
 	//float fTemp;
@@ -330,12 +330,12 @@ namespace ntk
   void imwrite_Mat1f_raw(const std::string& filename, const cv::Mat1f& m)
   {
     ntk_throw_exception_if(sizeof(float) != 4, "Cannot use raw with sizeof(float) != 4");
-    ntk_throw_exception_if(QSysInfo::ByteOrder != QSysInfo::LittleEndian, "Cannot use raw with big endian");
+    //ntk_throw_exception_if(QSysInfo::ByteOrder != QSysInfo::LittleEndian, "Cannot use raw with big endian");
     std::ofstream f (filename.c_str());
     ntk_throw_exception_if(!f, "Could not open " + filename);
-    qint32 rows = m.rows, cols = m.cols;
-    f.write((char*)&rows, sizeof(qint32));
-    f.write((char*)&cols, sizeof(qint32));
+    int rows = m.rows, cols = m.cols;
+    f.write((char*)&rows, sizeof(int));
+    f.write((char*)&cols, sizeof(int));
     f.write((char*)m.data, m.rows*m.cols*sizeof(float));
     ntk_throw_exception_if(f.bad(), "Failure writing " + filename);
   }

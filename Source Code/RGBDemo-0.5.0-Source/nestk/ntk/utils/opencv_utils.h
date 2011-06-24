@@ -25,7 +25,7 @@
 #include <sstream>
 //#include <ntk/utils/serializable.h>
 
-class QImage;
+//class QImage;
 
 # define for_all_rc(im) \
   for (int r = 0; r < (im).rows; ++r) \
@@ -157,11 +157,11 @@ void copyMatWithCast(cv::Mat_<ScalarType1>& dest, const cv::Mat_<ScalarType2>& s
   }
 }
 
-cv::Mat1b qimage_to_opencv(const QImage& im);
-void opencv_to_qimage(QImage& qim, const cv::Mat1b& im);
-void opencv_to_qimage(QImage& qim, const cv::Mat3b& im);
-cv::Mat4b qimage_argb_to_opencv(const QImage& im);
-void opencv_to_qimage(QImage& qim, const cv::Mat4b& im);
+//cv::Mat1b qimage_to_opencv(const QImage& im);
+//void opencv_to_qimage(QImage& qim, const cv::Mat1b& im);
+//void opencv_to_qimage(QImage& qim, const cv::Mat3b& im);
+//cv::Mat4b qimage_argb_to_opencv(const QImage& im);
+//void opencv_to_qimage(QImage& qim, const cv::Mat4b& im);
 cv::Mat4b toMat4b(const cv::Mat3b& im);
 cv::Mat3b toMat3b(const cv::Mat4b& im);
 
