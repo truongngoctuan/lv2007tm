@@ -48,8 +48,8 @@ RGBDCalibration :: ~RGBDCalibration()
 
 void RGBDCalibration :: loadFromFile(const char* filename)
 {
-  QFileInfo f (filename);
-  ntk_throw_exception_if(!f.exists(), "Could not find calibration file.");
+  //QFileInfo f (filename);
+  //ntk_throw_exception_if(!f.exists(), "Could not find calibration file.");
   cv::FileStorage calibration_file (filename, CV_STORAGE_READ);
   readMatrix(calibration_file, "rgb_intrinsics", rgb_intrinsics);
   readMatrix(calibration_file, "rgb_distortion", rgb_distortion);

@@ -22,27 +22,27 @@
 
 # include <ntk/core.h>
 # include <ntk/utils/debug.h>
-# include <QMutex>
-# include <QWaitCondition>
+//# include <QMutex>
+//# include <QWaitCondition>
 # include <iostream>
 # include <string>
 
 namespace ntk
 {
   
-  inline void sleep(int msecs)
-  {
-    // FIXME: really hacky!
-    QMutex mutex; mutex.lock();
-    QWaitCondition cond;
-    cond.wait(&mutex, msecs);
-    mutex.unlock();
-  }
+  //inline void sleep(int msecs)
+  //{
+  //  // FIXME: really hacky!
+  //  QMutex mutex; mutex.lock();
+  //  QWaitCondition cond;
+  //  cond.wait(&mutex, msecs);
+  //  mutex.unlock();
+  //}
 
   class Time
   {
   public:
-    static uint64 getMillisecondCounter() { return 1000.0*cv::getTickCount()/cv::getTickFrequency(); }
+    static unsigned long getMillisecondCounter() { return 1000.0*cv::getTickCount()/cv::getTickFrequency(); }
   };
 
   class TimeCount
@@ -55,18 +55,18 @@ namespace ntk
     {
     }
 
-    uint64 elapsedMsecs() const { return ntk::Time::getMillisecondCounter()-m_start; }
+    unsigned long elapsedMsecs() const { return ntk::Time::getMillisecondCounter()-m_start; }
 
     void stop(const std::string& marker = "")
     {
-      uint64 tstop = ntk::Time::getMillisecondCounter();
+      unsigned long tstop = ntk::Time::getMillisecondCounter();
       ntk_dbg(m_debug_level) << "[TIME] elapsed in " << m_name << marker << ": " << (float(tstop)-m_start) << " msecs";
 	  cout << "[TIME] elapsed in " << m_name << marker << ": " << (float(tstop)-m_start) << " msecs"<<endl;
     }
 
   private:
     std::string m_name;
-    uint64 m_start;
+    unsigned long m_start;
     int m_debug_level;
   };
 
@@ -82,18 +82,18 @@ namespace ntk
     {
     }
 
-    uint64 elapsedMsecs() const { return ntk::Time::getMillisecondCounter()-m_start; }
+    unsigned long elapsedMsecs() const { return ntk::Time::getMillisecondCounter()-m_start; }
 
     void stop(const std::string& marker = "")
     {
-      uint64 tstop = ntk::Time::getMillisecondCounter();
+      unsigned long tstop = ntk::Time::getMillisecondCounter();
       //ntk_dbg(m_debug_level) << "[TIME] elapsed in " << m_name << marker << ": " << (float(tstop)-m_start) << " msecs";
 	  cout << "[TIME] [Thread "<<m_iThread_Id<<"] elapsed in " << m_name << marker << ": " << (float(tstop)-m_start) << " msecs"<<endl;
     }
 
   private:
     std::string m_name;
-    uint64 m_start;
+    unsigned long m_start;
     int m_debug_level;
 	int m_iThread_Id;
   };

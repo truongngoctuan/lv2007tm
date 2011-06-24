@@ -41,7 +41,7 @@
 //# include <ntk/thread/utils.h>
 # include <ntk/utils/stl.h>
 # include <ntk/utils/time.h>
-# include <ntk/utils/serializable.h>
+//# include <ntk/utils/serializable.h>
 # include <ntk/utils/xml_serializable.h>
 
 # include <ntk/numeric/utils.h>

@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <boost/thread.hpp>
+#include <boost/date_time.hpp>
 #include <string>
 #include <sstream>
 #include "SynchronisedQueue.h"

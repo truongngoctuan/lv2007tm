@@ -31,7 +31,7 @@
 #include <sstream>
 #include <iomanip>
 
-#include <ntk/image/sift_gpu.h>
+//#include <ntk/image/sift_gpu.h>
 //#include <ntk/camera/opencv_grabber.h>
 //#include <ntk/camera/file_grabber.h>
 #include <ntk/camera/rgbd_frame_recorder.h>
