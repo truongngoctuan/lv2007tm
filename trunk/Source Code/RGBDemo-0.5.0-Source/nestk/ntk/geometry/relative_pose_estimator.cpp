@@ -29,16 +29,6 @@
 #include <ntk/utils/opencv_utils.h>
 #include <ntk/mesh/mesh.h>
 
-#ifdef NESTK_USE_PCL
-# include <pcl/registration/icp.h>
-# include <ntk/mesh/pcl_utils.h>
-# include <pcl/filters/voxel_grid.h>
-# include <ntk/mesh/pcl_utils.h>
-using namespace pcl;
-#endif
-
-//using namespace cv;
-
 namespace ntk
 {
 
@@ -487,88 +477,6 @@ void RelativePoseEstimatorFromImage::reset()
 }
 
 #ifdef NESTK_USE_PCL
-
-bool RelativePoseEstimatorFromImage::optimizeWithICP(const RGBDImage& image,
-                                                     Pose3D& depth_pose,
-                                                     int closest_view_index)
-{
-  const int min_ref_points = 100;
-
-  PointCloud<PointXYZ> cloud_source, cloud_target, cloud_reg;
-  bool pose_ok=false;
-
-  Pose3D new_depth_pose = depth_pose;
-  rgbdImageToPointCloud(cloud_source, image, new_depth_pose, 4);
-
-  // Using as reference points features points from views adjacent to the best
-  // matching one to keep it small.
-  std::vector<cv::Point3f> ref_points;
-  // Add points for adjacent views.
-  for (int i = closest_view_index - 1; i <= closest_view_index + 1; ++i)
-  {
-    if (i < 0 || i >= m_features.size()) continue;
-    for (int k = 0; k < m_features[i].locations().size(); ++k)
-      ref_points.push_back(m_features[i].locations()[k].p3d);
-  }
-
-  if (ref_points.size() < min_ref_points)
-  {
-    ntk_dbg(1) << "Not enough reference points, ignoring ICP.";
-    return true;
-  }
-
-  vectorToPointCloud(cloud_target, ref_points);
-
-  pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud_source_ptr = cloud_source.makeShared();
-  pcl::PointCloud<pcl::PointXYZ>::ConstPtr cloud_target_ptr = cloud_target.makeShared();
-
-  ntk_dbg_print(cloud_source.points.size(), 1);
-  ntk_dbg_print(cloud_target.points.size(), 1);
-
-  IterativeClosestPoint<PointXYZ, PointXYZ> reg;
-
-  PointCloud<PointXYZ> cloud_filtered_target;
-  PointCloud<PointXYZ> cloud_filtered_source;
-
-  // Simplify the point clouds.
-  VoxelGrid<PointXYZ> grid;
-  grid.setLeafSize (0.02, 0.02, 0.02);
-
-  grid.setInputCloud (cloud_target_ptr);
-  grid.filter (cloud_filtered_target);
-
-  grid.setInputCloud (cloud_source_ptr);
-  grid.filter (cloud_filtered_source);
-
-  reg.setInputCloud (cloud_filtered_target.makeShared() );
-  reg.setInputTarget (cloud_filtered_source.makeShared()  );
-
-  reg.setMaximumIterations (20);
-  reg.setTransformationEpsilon (1e-5);
-  reg.setMaxCorrespondenceDistance (0.01);
-
-  reg.align (cloud_reg);
-  if (!reg.hasConverged())
-  {
-    ntk_dbg(1) << "ICP did not converge, ignoring.";
-    return false;
-  }
-
-  Eigen::Matrix4f t = reg.getFinalTransformation ();
-  cv::Mat1f T(4,4);
-  //toOpencv(t,T);
-  for (int r = 0; r < 4; ++r)
-    for (int c = 0; c < 4; ++c)
-      T(r,c) = t(r,c);
-
-  Pose3D icp_pose;
-  icp_pose = new_depth_pose;
-  icp_pose.setCameraTransform(T);
-
-  new_depth_pose.applyTransformAfter(icp_pose);
-  depth_pose = new_depth_pose;
-  return true;
-}
 
 #else // NESTK_USE_PCL
 
