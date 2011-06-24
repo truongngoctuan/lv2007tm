@@ -24,7 +24,9 @@
 
 //#include <ntk/camera/rgbd_grabber.h>
 # include <ntk/camera/rgbd_image.h>
-#include <QDir>
+#include <sstream>
+#include <boost/filesystem.hpp> 
+using namespace std;
 
 namespace ntk
 {
@@ -59,10 +61,10 @@ public:
 
   /*! Change the parent directory. */
   void setDirectory(const std::string& directory);
-  const QDir& directory() const { return m_dir; }
+  const string& directory() const { return m_dir; }
 
 private:
-  QDir m_dir;
+  string m_dir;
   int m_frame_index;
   bool m_only_raw;
   bool m_use_binary_raw;

@@ -21,11 +21,6 @@
 
 #include <ntk/ntk.h>
 
-#include <QDir>
-
-#include <sys/stat.h>
-#include <sys/types.h>
-
 using namespace cv;
 
 namespace ntk
@@ -39,29 +34,27 @@ namespace ntk
 
   void RGBDFrameRecorder :: setDirectory(const std::string& directory)
   {
-    m_dir = QDir(directory.c_str());
+    m_dir = directory;
     m_frame_index = 0;
+	boost::filesystem::path p(m_dir); 
+    boost::filesystem::create_directory(p);
   }
 
   void RGBDFrameRecorder :: setUseBinaryRaw(bool use_it)
   {
-    if (QSysInfo::ByteOrder != QSysInfo::LittleEndian)
-    {
-      ntk_dbg(0) << "WARNING: cannot save images as binary raw, platform is not little endian";
-    }
-    else
-    {
       m_use_binary_raw = use_it;
-    }
   }
 
   void RGBDFrameRecorder :: saveCurrentFrame(const RGBDImage& image)
   {
-    std::string frame_dir = format("%s/view%04d", m_dir.absolutePath().toStdString().c_str(), m_frame_index);
+    std::string frame_dir = format("%s/view%04d", m_dir.c_str(), m_frame_index);
     std::string raw_frame_dir = format("%s/raw", frame_dir.c_str(), m_frame_index);
 
-    QDir dir (frame_dir.c_str());
-    dir.mkpath("raw");
+	boost::filesystem::path p(frame_dir); 
+    boost::filesystem::create_directory(p);
+
+	boost::filesystem::path p2(raw_frame_dir); 
+    boost::filesystem::create_directory(p2);
 
     std::string filename;
 

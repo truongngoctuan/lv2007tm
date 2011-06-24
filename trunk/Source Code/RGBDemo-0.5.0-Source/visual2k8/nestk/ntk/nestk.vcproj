@@ -556,10 +556,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\gui\screen_grabber.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\image\siftgpu\ShaderMan.cpp"
 				>
 			</File>
@@ -578,50 +574,6 @@
 			<File
 				RelativePath="..\..\..\nestk\ntk\mesh\surfels_rgbd_modeler.cpp"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\thread\utils.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/thread/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/thread/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="MinSizeRel|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/thread/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/thread/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release,RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/thread/utils.obj"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\nestk\ntk\numeric\utils.cpp"
@@ -664,6 +616,50 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="$(IntDir)/numeric/utils.obj"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\nestk\ntk\thread\utils.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/thread/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/thread/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="MinSizeRel|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/thread/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/thread/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release,RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/thread/utils.obj"
 					/>
 				</FileConfiguration>
 			</File>
@@ -840,10 +836,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\gui\screen_grabber.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\utils\serializable.h"
 				>
 			</File>
@@ -876,11 +868,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\numeric\utils.h"
+				RelativePath="..\..\..\nestk\ntk\thread\utils.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\thread\utils.h"
+				RelativePath="..\..\..\nestk\ntk\numeric\utils.h"
 				>
 			</File>
 			<File

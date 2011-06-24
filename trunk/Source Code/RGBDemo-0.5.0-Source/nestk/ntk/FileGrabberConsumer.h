@@ -59,7 +59,7 @@ public:
 			
 			m_frame_recorder->setFrameIndex(ilast_image);
 			std::string frame_dir = format("%s/view%04d", 
-				m_frame_recorder->directory().absolutePath().toStdString().c_str(), 
+				m_frame_recorder->directory().c_str(), 
 				ilast_image);
 			string NewFile = format("d:\\test\\color%04d.png", ilast_image);
 
@@ -71,21 +71,8 @@ public:
 
 			if (m_frame_recorder)
 			{
-				
 				m_frame_recorder->saveCurrentFrame(*m_last_image);
 				rename((frame_dir + "/raw/color.png").c_str(), NewFile.c_str());
-				    /*std::string frame_dir = format("%s/view%04d", m_dir.absolutePath().toStdString().c_str(), m_frame_index);
-    std::string raw_frame_dir = format("%s/raw", frame_dir.c_str(), m_frame_index);
-
-    QDir dir (frame_dir.c_str());
-    dir.mkpath("raw");
-
-    std::string filename;
-
-    if (!m_only_raw)
-    {
-      filename = cv::format("%s/color.png", frame_dir.c_str());
-	  */
 			}
 
 			delete m_last_image;
