@@ -36,7 +36,7 @@
 #include <ntk/geometry/polygon.h>
 #include <ntk/utils/xml_serializable.h>
 
-#include <QMatrix>
+//#include <QMatrix>
 
 namespace ntk
 {
@@ -242,12 +242,12 @@ class AffineTransformXmlSerializer : public XmlSerializable
     value_type& value;
 };
 
-inline QMatrix toQt(const ntk::AffineTransform& transform)
-{
-  return QMatrix(transform.mat00, transform.mat01,
-                 transform.mat10, transform.mat11,
-                 transform.mat02, transform.mat12);
-}
+//inline QMatrix toQt(const ntk::AffineTransform& transform)
+//{
+//  return QMatrix(transform.mat00, transform.mat01,
+//                 transform.mat10, transform.mat11,
+//                 transform.mat02, transform.mat12);
+//}
 
 } // ntk
 

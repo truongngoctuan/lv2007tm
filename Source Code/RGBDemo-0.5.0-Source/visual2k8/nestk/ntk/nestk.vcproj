@@ -536,10 +536,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\utils\qt_utils.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\geometry\relative_pose_estimator.cpp"
 				>
 			</File>
@@ -568,18 +564,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\image\sift.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\sift_gpu.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\SiftGPU.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\image\siftgpu\SiftPyramid.cpp"
 				>
 			</File>
@@ -594,50 +578,6 @@
 			<File
 				RelativePath="..\..\..\nestk\ntk\mesh\surfels_rgbd_modeler.cpp"
 				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\numeric\utils.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/numeric/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/numeric/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="MinSizeRel|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/numeric/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/numeric/utils.obj"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release,RelWithDebInfo|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						ObjectFile="$(IntDir)/numeric/utils.obj"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\..\..\nestk\ntk\thread\utils.cpp"
@@ -680,6 +620,50 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						ObjectFile="$(IntDir)/thread/utils.obj"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\..\..\nestk\ntk\numeric\utils.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/numeric/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/numeric/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="MinSizeRel|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/numeric/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/numeric/utils.obj"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release,RelWithDebInfo|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						ObjectFile="$(IntDir)/numeric/utils.obj"
 					/>
 				</FileConfiguration>
 			</File>
@@ -836,10 +820,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\utils\qt_utils.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\geometry\relative_pose_estimator.h"
 				>
 			</File>
@@ -872,18 +852,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\image\sift.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\sift_gpu.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\SiftGPU.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\image\siftgpu\SiftPyramid.h"
 				>
 			</File>
@@ -908,11 +876,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\thread\utils.h"
+				RelativePath="..\..\..\nestk\ntk\numeric\utils.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\numeric\utils.h"
+				RelativePath="..\..\..\nestk\ntk\thread\utils.h"
 				>
 			</File>
 			<File
