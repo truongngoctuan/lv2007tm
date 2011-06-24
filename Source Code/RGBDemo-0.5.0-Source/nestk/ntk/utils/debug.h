@@ -55,7 +55,7 @@ class NtkDebug
 
 #define NTK_DECLARE_DEBUG_OPERATOR(Type) \
 inline const NtkDebug& operator<<(const NtkDebug& d, Type rhs) \
-	{ cout<< rhs<<endl; return d; }
+	{ cout<< rhs; return d; }
 //{ QTextStream stream(d.stringPtr()); stream << rhs; return d; }
 
 
@@ -87,7 +87,7 @@ const NtkDebug& operator<<(const NtkDebug& d, const ntk::XmlSerializable& rhs);
 
 #ifndef NDEBUG
 # define ntk_dbg_print(value, level) \
-  ntk_dbg(level) << #value": " << value;
+  ntk_dbg(level) << #value": " << value<<"\n";
 #else
 # define ntk_dbg_print(value, level)
 #endif // ndef NDEBUG
