@@ -460,18 +460,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\FrameBufferObject.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\GlobalUtil.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\GLTexImage.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\numeric\levenberg_marquart_minimizer.cpp"
 				>
 			</File>
@@ -480,15 +468,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\mesh\mesh_generator.cpp"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\utils\opencv_utils.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\mesh\pcl_utils.cpp"
 				>
 			</File>
 			<File
@@ -505,14 +485,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\nestk\ntk\geometry\pose_3d.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\ProgramGLSL.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\ProgramGPU.cpp"
 				>
 			</File>
 			<File
@@ -533,10 +505,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\nestk\ntk\camera\rgbd_processor.cpp"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\ShaderMan.cpp"
 				>
 			</File>
 			<File
@@ -656,31 +624,11 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\FrameBufferObject.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\GlobalUtil.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\GLTexImage.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\numeric\levenberg_marquart_minimizer.h"
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\LiteWindow.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\mesh\mesh.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\mesh\mesh_generator.h"
 				>
 			</File>
 			<File
@@ -700,10 +648,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\..\..\nestk\ntk\mesh\pcl_utils.h"
-				>
-			</File>
-			<File
 				RelativePath="..\..\..\nestk\ntk\geometry\plane.h"
 				>
 			</File>
@@ -717,14 +661,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\nestk\ntk\geometry\pose_3d.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\ProgramGLSL.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\ProgramGPU.h"
 				>
 			</File>
 			<File
@@ -749,10 +685,6 @@
 			</File>
 			<File
 				RelativePath="..\..\..\nestk\ntk\utils\serializable.h"
-				>
-			</File>
-			<File
-				RelativePath="..\..\..\nestk\ntk\image\siftgpu\ShaderMan.h"
 				>
 			</File>
 			<File

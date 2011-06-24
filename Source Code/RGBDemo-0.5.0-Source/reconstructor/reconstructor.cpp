@@ -18,8 +18,8 @@
 */
 //#define NESTK_USE_PCL
 
-#include <ntk/ntk.h>
-#include <ntk/camera/calibration.h>
+///#include <ntk/ntk.h>
+//#include <ntk/camera/calibration.h>
 //#ifdef NESTK_USE_OPENNI
 //# include <ntk/camera/nite_rgbd_grabber.h>
 //#endif
@@ -34,11 +34,11 @@
 //#include <ntk/image/sift_gpu.h>
 //#include <ntk/camera/opencv_grabber.h>
 //#include <ntk/camera/file_grabber.h>
-#include <ntk/camera/rgbd_frame_recorder.h>
+//#include <ntk/camera/rgbd_frame_recorder.h>
 
-#include <ntk/mesh/mesh_generator.h>
-#include <ntk/mesh/surfels_rgbd_modeler.h>
-#include <ntk/numeric/levenberg_marquart_minimizer.h>
+//#include <ntk/mesh/mesh_generator.h>
+//#include <ntk/mesh/surfels_rgbd_modeler.h>
+//#include <ntk/numeric/levenberg_marquart_minimizer.h>
 #include <boost/thread.hpp>
 #include <string>
 #include <sstream>
