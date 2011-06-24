@@ -17,7 +17,7 @@
  * Author: Nicolas Burrus <nicolas.burrus@uc3m.es>, (C) 2010
  */
 
-# include <QDebug>
+//# include <QDebug>
 
 #include "xml_serializable.h"
 #include <ntk/ntk.h>
@@ -28,21 +28,26 @@ namespace ntk
 {
 
   void XmlSerializable ::
-  saveAsXml(const QFileInfo& fileinfo, const char* element_tag) const
+  saveAsXml(const string& fileinfo, const char* element_tag) const
   {
-    QString s = getAsXml(element_tag);
-    if (s.isNull()) ntk_throw_exception("Empty xml document.");
-    QFile file (fileinfo.absoluteFilePath());
-    qDebug() << fileinfo.absoluteFilePath();
-    file.open(QFile::WriteOnly);
-    ntk_throw_exception_if(!file.isWritable(),
-                           "Cannot write into file "
-                           + fileinfo.absoluteFilePath().toStdString());
-    file.write(s.toUtf8());
-    file.close();
+    string s = getAsXml(element_tag);
+	ofstream file(fileinfo.c_str(), ios_base::out);
+	file<<s;
+	file.close();
+
+	//QString s = getAsXml(element_tag);
+ //   if (s.isNull()) ntk_throw_exception("Empty xml document.");
+ //   QFile file (fileinfo.absoluteFilePath());
+ //   qDebug() << fileinfo.absoluteFilePath();
+ //   file.open(QFile::WriteOnly);
+ //   ntk_throw_exception_if(!file.isWritable(),
+ //                          "Cannot write into file "
+ //                          + fileinfo.absoluteFilePath().toStdString());
+ //   file.write(s.toUtf8());
+ //   file.close();
   }
   
-  QString XmlSerializable ::
+  string XmlSerializable ::
   getAsXml(const char* element_tag) const
   {
     XMLNode e = XMLNode::createXMLTopNode(element_tag);
@@ -50,22 +55,22 @@ namespace ntk
     return e.createXMLString(true);
   }
       
-  void XmlSerializable ::
-  loadFromXml(const QFileInfo& fileinfo, const char* element_tag, XmlContext* context)
-  {
-    ntk_throw_exception_if(!fileinfo.isFile(), "Xml file does not exist.");
-    XMLResults results;
-    XMLNode e = XMLNode::parseFile(fileinfo.absoluteFilePath().toUtf8(), element_tag, &results);
-    if (e.isEmpty())
-      ntk_throw_exception("Could not parse xml file: " + e.getError(results.error));
-    loadFromXml(e, element_tag, context);
-  }
+  //void XmlSerializable ::
+  //loadFromXml(const string& fileinfo, const char* element_tag, XmlContext* context)
+  //{
+  //  ntk_throw_exception_if(!fileinfo.isFile(), "Xml file does not exist.");
+  //  XMLResults results;
+  //  XMLNode e = XMLNode::parseFile(fileinfo.absoluteFilePath().toUtf8(), element_tag, &results);
+  //  if (e.isEmpty())
+  //    ntk_throw_exception("Could not parse xml file: " + e.getError(results.error));
+  //  loadFromXml(e, element_tag, context);
+  //}
   
   void XmlSerializable ::
-  loadFromXml(const QString& s, const char* element_tag, XmlContext* context)
+  loadFromXml(const string& s, const char* element_tag, XmlContext* context)
   {
     XMLResults results;
-    XMLNode e = XMLNode::parseString(s.toUtf8(), element_tag, &results);
+	XMLNode e = XMLNode::parseString(s.c_str(), element_tag, &results);
     if (e.isEmpty())
       ntk_throw_exception("Could not parse xml file: " + e.getError(results.error));
     loadFromXml(e, element_tag, context);

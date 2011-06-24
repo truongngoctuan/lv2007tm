@@ -21,15 +21,15 @@
 # define NTK_utils_xml_serializable_H
 
 # include <ntk/core.h>
-# include <ntk/utils/qt_utils.h>
+//# include <ntk/utils/qt_utils.h>
 # include <ntk/utils/serializable.h>
 # include <ntk/utils/xml_parser.h>
 
 # include <iostream>
 #include <sstream>
 
-# include <QFileInfo>
-# include <QString>
+//# include <QFileInfo>
+//# include <QString>
 
 using ntk::XMLNode;
 
@@ -50,11 +50,11 @@ namespace ntk
       virtual void loadFromXmlElement(const XMLNode& element, XmlContext* context)
       { ntk_assert(context == 0, "Context ignored."); loadFromXmlElement(element); }
 
-      virtual void saveAsXml(const QFileInfo& file, const char* element_tag = "root") const;
-      virtual QString getAsXml(const char* element_tag = "root") const;
+      virtual void saveAsXml(const string& file, const char* element_tag = "root") const;
+      virtual string getAsXml(const char* element_tag = "root") const;
 
-      virtual void loadFromXml(const QFileInfo& file, const char* element_tag = "root", XmlContext* context=0);
-      virtual void loadFromXml(const QString& s, const char* element_tag = "root", XmlContext* context=0);
+      virtual void loadFromXml(const string& file, const char* element_tag = "root", XmlContext* context=0);
+      //virtual void loadFromXml(const string& s, const char* element_tag = "root", XmlContext* context=0);
       virtual void loadFromXml(XMLNode& doc, const char* element_tag = "root", XmlContext* context=0);
 
     protected:
@@ -69,15 +69,19 @@ namespace ntk
       template <typename Type>
       void setXmlAttribute(XMLNode& element, const char* attr_name, const Type& value) const
       {
-        QString s;
-        QTextStream stream(&s); stream << value;
-        element.addAttribute(attr_name, s.toUtf8());
+        //QString s;
+        //QTextStream stream(&s); stream << value;
+        //element.addAttribute(attr_name, s.toUtf8());
+
+		  stringstream stream;
+		  stream <<value;
+		  element.addAttribute(attr_name, stream.str().c_str());
       }
 
-      void setXmlAttribute(XMLNode& element, const char* attr_name, const QString& value) const
-      {
-        element.addAttribute(attr_name, (const char*)value.toUtf8());
-      }
+    //  void setXmlAttribute(XMLNode& element, const char* attr_name, const string& value) const
+    //  {
+		  //element.addAttribute(attr_name, (const char*)value.c_str());
+    //  }
 
       void setXmlAttribute(XMLNode& element, const char* attr_name, const char* value) const
       {
@@ -94,22 +98,22 @@ namespace ntk
       {
         if (!element.getAttribute(attr_name))
           ntk_throw_exception("Missing attribute: " + attr_name);
-        QString s = element.getAttribute(attr_name);
+        string s = element.getAttribute(attr_name);
         //QTextStream stream(&s);
         //stream >> value;
 
 		stringstream stream;
-		stream<<s.toStdString();
+		stream<<s;
 		stream >> value;
       }
 
-      void loadFromXmlAttribute(const XMLNode& element, const char* attr_name, QString& value)
-      {
-        const char* cstr;
-        if (!(cstr = element.getAttribute(attr_name)))
-          ntk_throw_exception("Missing attribute: " + attr_name);
-        value = cstr;
-      }
+      //void loadFromXmlAttribute(const XMLNode& element, const char* attr_name, QString& value)
+      //{
+      //  const char* cstr;
+      //  if (!(cstr = element.getAttribute(attr_name)))
+      //    ntk_throw_exception("Missing attribute: " + attr_name);
+      //  value = cstr;
+      //}
 
       void loadFromXmlAttribute(const XMLNode& element, const char* attr_name, std::string& value)
       {
@@ -122,30 +126,38 @@ namespace ntk
       template <typename Type>
       void setXmlRawData(XMLNode& element, const Type& value) const
       {
-        QByteArray data;
-        { // block ensures data is flushed.
-          QDataStream stream(&data, QIODevice::WriteOnly | QIODevice::Unbuffered);
-          stream << value;
-        }
-        element.addText(data.toBase64().constData(), 0);
+        //QByteArray data;
+        //{ // block ensures data is flushed.
+        //  QDataStream stream(&data, QIODevice::WriteOnly | QIODevice::Unbuffered);
+        //  stream << value;
+        //}
+        //element.addText(data.toBase64().constData(), 0);
+
+		stringstream stream;
+		stream <<value;
+		element.addText(stream.str().c_str());
       }
 
       template <typename Type>
       void loadFromXmlRawData(const XMLNode& element, Type& value)
       {
-        QByteArray data = QByteArray::fromBase64(element.getText());
-        QDataStream stream(data);
-        stream >> value;
-        ntk_throw_exception_if(stream.status() != QDataStream::Ok, "Could not load binary data.");
+        //QByteArray data = QByteArray::fromBase64(element.getText());
+        //QDataStream stream(data);
+        //stream >> value;
+        //ntk_throw_exception_if(stream.status() != QDataStream::Ok, "Could not load binary data.");
+
+		stringstream stream;
+		stream <<element.getText();
+		element.addText(stream.str().c_str());
       }
 
-      void setXmlRawTextData(XMLNode& element, const QString& value) const
+      void setXmlRawTextData(XMLNode& element, const string& value) const
       {
         // FIXME: escape xml symbols.
-        element.addText(value.toUtf8(), 0);
+		  element.addText(value.c_str(), 0);
       }
 
-      void loadFromXmlRawTextData(const XMLNode& element, QString& value)
+      void loadFromXmlRawTextData(const XMLNode& element, string& value)
       {
         // FIXME: escape xml symbols.
         value = element.getText();
@@ -175,7 +187,7 @@ namespace ntk
 		//stream<<value;
 		stream << value[0] <<value[1] << value[2];
 
-		QString s;
+		string s;
 		s.append(stream.str().c_str());
         XMLNode data_element = element.addChild(tag, 0);
         setXmlRawTextData(data_element, s);
@@ -189,7 +201,7 @@ namespace ntk
 		stringstream stream;
 		stream << value[0] << value[1];
 
-		QString s;
+		string s;
 		s.append(stream.str().c_str());
         XMLNode data_element = element.addChild(tag, 0);
         setXmlRawTextData(data_element, s);
@@ -216,13 +228,13 @@ namespace ntk
         XMLNode data_element = element.getChildNode(tag);
         ntk_throw_exception_if(data_element.isEmpty(), "Could not find raw data for tag " + tag);
 
-        QString s;
+        string s;
         loadFromXmlRawTextData(data_element, s);
         //QTextStream stream(&s);
         //stream >> value;
 
 		stringstream stream;
-		stream<<s.toStdString();
+		stream<<s;
 
 		double x=0,y=0,z=0;
 		  stream >> x >> y >> z;
@@ -234,13 +246,13 @@ namespace ntk
         XMLNode data_element = element.getChildNode(tag);
         ntk_throw_exception_if(data_element.isEmpty(), "Could not find raw data for tag " + tag);
 
-        QString s;
+        string s;
         loadFromXmlRawTextData(data_element, s);
         //QTextStream stream(&s);
         //stream >> value;
 
 		stringstream stream;
-		stream<<s.toStdString();
+		stream<<s;
 
 		stream >> value[0] >> value[1];
 
