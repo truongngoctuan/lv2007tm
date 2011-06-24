@@ -19,8 +19,8 @@
 
 #include "feature.h"
 
-#include <ntk/image/sift_gpu.h>
-#include <ntk/image/sift.h>
+//#include <ntk/image/sift_gpu.h>
+//#include <ntk/image/sift.h>
 #include <ntk/utils/opencv_utils.h>
 #include <ntk/numeric/utils.h>
 
@@ -34,20 +34,20 @@ void FeatureSet :: extractFromImage(const RGBDImage& image,
 {
   m_descriptor_index.release();
 
-  if (params.detector_type == "GPUSIFT")
-  {
-    ntk_ensure(params.descriptor_type == "SIFT",
-               "Only SIFT descriptor are supported with GPUSIFT detector");
-    if (getSiftGPUInstance())
-      return extractFromImageUsingSiftGPU(image, params);
-    ntk_dbg(0) << "[WARNING] SIFT Gpu cannot be used";
-  }
-  else if (params.detector_type == "SIFTPP")
-  {
-    ntk_ensure(params.descriptor_type == "SIFT",
-               "Only SIFT descriptor are supported with SIFTPP detector");
-    return extractFromImageUsingSiftPP(image, params);
-  }
+  //if (params.detector_type == "GPUSIFT")
+  //{
+  //  ntk_ensure(params.descriptor_type == "SIFT",
+  //             "Only SIFT descriptor are supported with GPUSIFT detector");
+  //  if (getSiftGPUInstance())
+  //    return extractFromImageUsingSiftGPU(image, params);
+  //  ntk_dbg(0) << "[WARNING] SIFT Gpu cannot be used";
+  //}
+  //else if (params.detector_type == "SIFTPP")
+  //{
+  //  ntk_ensure(params.descriptor_type == "SIFT",
+  //             "Only SIFT descriptor are supported with SIFTPP detector");
+  //  return extractFromImageUsingSiftPP(image, params);
+  //}
 
   cv::FeatureDetector* detector = 0;
   if (params.detector_type == "FAST")
@@ -152,137 +152,137 @@ void FeatureSet :: extractFromImage(const RGBDImage& image,
     ((KeyPoint&)m_locations[i]) = filtered_keypoints[i];
   fillDepthData(image);
 }
-
-void FeatureSet :: extractFromImageUsingSiftGPU(const RGBDImage& image,
-                                                const FeatureSetParams& params)
-{
-  GPUSiftDetector detector;
-  m_descriptor_size = 128;
-
-  std::vector<float> descriptors;
-  std::vector<KeyPoint> keypoints;
-
-  detector(image.rgbAsGray(), Mat(), keypoints, descriptors);
-
-  m_locations.clear();
-
-  std::vector<bool> enabled_keypoints(keypoints.size(), true);
-  if (params.only_features_with_depth)
-  {
-    m_locations.reserve(keypoints.size());
-    foreach_idx(i, keypoints)
-    {
-      if (image.rgbPixelHasDepth(keypoints[i].pt.y, keypoints[i].pt.x))
-      {
-        FeatureLocation loc;
-        (KeyPoint&)loc = keypoints[i];
-        m_locations.push_back(loc);
-      }
-      else
-      {
-        enabled_keypoints[i] = false;
-      }
-    }
-  }
-  fillDepthData(image);
-
-  m_descriptors = cv::Mat1f(m_locations.size(), 128);
-  int enabled_index = 0;
-  for (int r = 0; r < descriptors.size()/128; ++r)
-  {
-    if (!enabled_keypoints[r])
-      continue;
-    std::copy(&descriptors[r*128],
-              &descriptors[r*128+128],
-              m_descriptors.ptr<float>(enabled_index));
-    ++enabled_index;
-  }
-
-  m_feature_type = Feature_SIFT;
-}
-
-void FeatureSet :: extractFromImageUsingSiftPP(const RGBDImage& image,
-                                               const FeatureSetParams& params)
-{
-  const int levels = 3;
-  int O = -1;
-  const int S = levels;
-  const int omin = -1;
-  float const sigman = .5 ;
-  float const sigma0 = 1.6 * powf(2.0f, 1.0f / S) ;
-  float threshold = 0.01; // closer to Lowe.
-  float edgeThreshold  = 10.0f;
-  int unnormalized = 0;
-  float magnif = 3.0;
-
-  VL::PgmBuffer buffer;
-  cv::Mat1f fim(image.rgbAsGray().size());
-  for_all_rc(fim) fim(r, c) = image.rgbAsGray()(r, c) / 255.0;
-
-  if(O < 1)
-  {
-    O = ntk::math::max
-        (int
-        (std::floor
-        (ntk::math::log2
-        (ntk::math::min(fim.cols,fim.rows))) - omin -3), 1);
-  }
-
-  VL::Sift sift(fim[0], fim.cols, fim.rows,
-                sigman, sigma0,
-                O, S,
-                omin, -1, S + 1) ;
-
-  sift.detectKeypoints(threshold, edgeThreshold);
-  sift.setNormalizeDescriptor(!unnormalized);
-  sift.setMagnification(magnif);
-
-  std::vector< std::vector<float> > descriptors;
-  m_locations.clear();
-
-  for (VL::Sift::KeypointsConstIter iter = sift.keypointsBegin();
-       iter != sift.keypointsEnd(); ++iter)
-  {
-    FeatureLocation new_location;
-
-    if (params.only_features_with_depth && !image.rgbPixelHasDepth(iter->y,iter->x))
-      continue;
-
-    // detect orientations
-    VL::float_t angles [4] ;
-    int nangles = sift.computeKeypointOrientations(angles, *iter) ;
-
-    // compute descriptors
-    for (int a = 0 ; a < nangles ; ++a)
-    {
-      new_location.pt.x = iter->x;
-      new_location.pt.y = iter->y;
-      new_location.size = iter->sigma*16;
-      new_location.octave = iter->o;
-      new_location.angle = angles[a];
-
-      /* compute descriptor */
-      VL::float_t descr_pt [128] ;
-      sift.computeKeypointDescriptor(descr_pt, *iter, angles[a]) ;
-
-      std::vector<float> desc_vec(128);
-      std::copy(descr_pt, descr_pt+128, desc_vec.begin());
-
-      m_locations.push_back(new_location);
-      descriptors.push_back(desc_vec);
-    } // next angle
-  } // next keypoint
-
-  m_descriptors.create(descriptors.size(), 128);
-  for_all_rc(m_descriptors)
-  {
-    m_descriptors(r,c) = descriptors[r][c];
-  }
-
-  fillDepthData(image);
-  m_feature_type = Feature_SIFT;
-  m_descriptor_size = 128;
-}
+//
+//void FeatureSet :: extractFromImageUsingSiftGPU(const RGBDImage& image,
+//                                                const FeatureSetParams& params)
+//{
+//  GPUSiftDetector detector;
+//  m_descriptor_size = 128;
+//
+//  std::vector<float> descriptors;
+//  std::vector<KeyPoint> keypoints;
+//
+//  detector(image.rgbAsGray(), Mat(), keypoints, descriptors);
+//
+//  m_locations.clear();
+//
+//  std::vector<bool> enabled_keypoints(keypoints.size(), true);
+//  if (params.only_features_with_depth)
+//  {
+//    m_locations.reserve(keypoints.size());
+//    foreach_idx(i, keypoints)
+//    {
+//      if (image.rgbPixelHasDepth(keypoints[i].pt.y, keypoints[i].pt.x))
+//      {
+//        FeatureLocation loc;
+//        (KeyPoint&)loc = keypoints[i];
+//        m_locations.push_back(loc);
+//      }
+//      else
+//      {
+//        enabled_keypoints[i] = false;
+//      }
+//    }
+//  }
+//  fillDepthData(image);
+//
+//  m_descriptors = cv::Mat1f(m_locations.size(), 128);
+//  int enabled_index = 0;
+//  for (int r = 0; r < descriptors.size()/128; ++r)
+//  {
+//    if (!enabled_keypoints[r])
+//      continue;
+//    std::copy(&descriptors[r*128],
+//              &descriptors[r*128+128],
+//              m_descriptors.ptr<float>(enabled_index));
+//    ++enabled_index;
+//  }
+//
+//  m_feature_type = Feature_SIFT;
+//}
+//
+//void FeatureSet :: extractFromImageUsingSiftPP(const RGBDImage& image,
+//                                               const FeatureSetParams& params)
+//{
+//  const int levels = 3;
+//  int O = -1;
+//  const int S = levels;
+//  const int omin = -1;
+//  float const sigman = .5 ;
+//  float const sigma0 = 1.6 * powf(2.0f, 1.0f / S) ;
+//  float threshold = 0.01; // closer to Lowe.
+//  float edgeThreshold  = 10.0f;
+//  int unnormalized = 0;
+//  float magnif = 3.0;
+//
+//  VL::PgmBuffer buffer;
+//  cv::Mat1f fim(image.rgbAsGray().size());
+//  for_all_rc(fim) fim(r, c) = image.rgbAsGray()(r, c) / 255.0;
+//
+//  if(O < 1)
+//  {
+//    O = ntk::math::max
+//        (int
+//        (std::floor
+//        (ntk::math::log2
+//        (ntk::math::min(fim.cols,fim.rows))) - omin -3), 1);
+//  }
+//
+//  VL::Sift sift(fim[0], fim.cols, fim.rows,
+//                sigman, sigma0,
+//                O, S,
+//                omin, -1, S + 1) ;
+//
+//  sift.detectKeypoints(threshold, edgeThreshold);
+//  sift.setNormalizeDescriptor(!unnormalized);
+//  sift.setMagnification(magnif);
+//
+//  std::vector< std::vector<float> > descriptors;
+//  m_locations.clear();
+//
+//  for (VL::Sift::KeypointsConstIter iter = sift.keypointsBegin();
+//       iter != sift.keypointsEnd(); ++iter)
+//  {
+//    FeatureLocation new_location;
+//
+//    if (params.only_features_with_depth && !image.rgbPixelHasDepth(iter->y,iter->x))
+//      continue;
+//
+//    // detect orientations
+//    VL::float_t angles [4] ;
+//    int nangles = sift.computeKeypointOrientations(angles, *iter) ;
+//
+//    // compute descriptors
+//    for (int a = 0 ; a < nangles ; ++a)
+//    {
+//      new_location.pt.x = iter->x;
+//      new_location.pt.y = iter->y;
+//      new_location.size = iter->sigma*16;
+//      new_location.octave = iter->o;
+//      new_location.angle = angles[a];
+//
+//      /* compute descriptor */
+//      VL::float_t descr_pt [128] ;
+//      sift.computeKeypointDescriptor(descr_pt, *iter, angles[a]) ;
+//
+//      std::vector<float> desc_vec(128);
+//      std::copy(descr_pt, descr_pt+128, desc_vec.begin());
+//
+//      m_locations.push_back(new_location);
+//      descriptors.push_back(desc_vec);
+//    } // next angle
+//  } // next keypoint
+//
+//  m_descriptors.create(descriptors.size(), 128);
+//  for_all_rc(m_descriptors)
+//  {
+//    m_descriptors(r,c) = descriptors[r][c];
+//  }
+//
+//  fillDepthData(image);
+//  m_feature_type = Feature_SIFT;
+//  m_descriptor_size = 128;
+//}
 
 void FeatureSet :: fillDepthData(const RGBDImage& image)
 {
