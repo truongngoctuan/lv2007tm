@@ -23,7 +23,7 @@
 #include <ntk/core.h>
 #include <ntk/camera/rgbd_image.h>
 #include <ntk/geometry/pose_3d.h>
-#include <ntk/image/sift_gpu.h>
+//#include <ntk/image/sift_gpu.h>
 #include <ntk/image/feature.h>
 #include <boost/thread.hpp>
 

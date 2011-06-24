@@ -258,7 +258,7 @@ int cc = 0;
 
 		//waitForNewEvent();
 	boost::this_thread::interruption_point();
-	::sleep(500);
+	::sleep(boost::posix_time::millisec(500));
 	if(!(m_queue->CheckNeedToEnqueue()))
 	{
 		continue;

@@ -27,8 +27,9 @@
 # include <algorithm>
 # include <iterator>
 # include <sstream>
+#include <boost/filesystem.hpp> 
 
-# include <QFileInfo>
+//# include <QFileInfo>
 
 template <class T>
 std::set<T> operator+(const std::set<T>& lhs, const std::set<T>& rhs)
@@ -93,12 +94,16 @@ atos(const T& t)
 
 inline bool is_file(const std::string& filename)
 {
-  return QFileInfo(filename.c_str()).isFile();
+	return boost::filesystem::is_regular_file(filename);
+  //return QFileInfo(filename.c_str()).isFile();
 }
 
 inline bool is_directory(const std::string& filename)
 {
-  return QFileInfo(filename.c_str()).isDir();
+	boost::filesystem::path p(filename); 
+	boost::filesystem::file_status s = boost::filesystem::status(p); 
+    return boost::filesystem::is_directory(s);
+  //return QFileInfo(filename.c_str()).isDir();
 }
 
 }
