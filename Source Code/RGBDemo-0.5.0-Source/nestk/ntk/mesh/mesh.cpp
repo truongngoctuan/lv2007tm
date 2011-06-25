@@ -107,92 +107,187 @@ namespace ntk
     return center;
   }
 
-  void Mesh::saveToPlyFile(const char* filename) const
+  
+  void SaveToPlyFile(const char* filename, 
+	  std::vector<cv::Point3f> vertices, std::vector<cv::Vec3b> colors)
   {
-    if (texture.data)
-      imwrite(cv::format("%s.texture.png", filename), texture);
-
+	  
     std::ofstream ply_file (filename);
     ply_file << "ply\n";
     ply_file << "format ascii 1.0\n";
     ply_file << "element vertex " << vertices.size() << "\n";
-    ply_file << "property float x\n";
-    ply_file << "property float y\n";
-    ply_file << "property float z\n";
+    ply_file << "property float32 x\n";
+    ply_file << "property float32 y\n";
+    ply_file << "property float32 z\n";
 
-    if (hasNormals())
-    {
-      ply_file << "property float nx\n";
-      ply_file << "property float ny\n";
-      ply_file << "property float nz\n";
-    }
+    //if (hasNormals())
+    //{
+    //  ply_file << "property float nx\n";
+    //  ply_file << "property float ny\n";
+    //  ply_file << "property float nz\n";
+    //}
 
-    if (hasTexcoords())
-    {
-      // put it twice, blender uses (s,t) and meshlab (u,v)
-      ply_file << "property float s\n";
-      ply_file << "property float t\n";
-    }
+    //if (hasTexcoords())
+    //{
+    //  // put it twice, blender uses (s,t) and meshlab (u,v)
+    //  ply_file << "property float s\n";
+    //  ply_file << "property float t\n";
+    //}
 
-    if (hasColors())
+    //if (hasColors())
     {
       ply_file << "property uchar red\n";
       ply_file << "property uchar green\n";
       ply_file << "property uchar blue\n";
     }
 
-    if (hasFaces())
-    {
-      ply_file << "element face " << faces.size() << "\n";
-      ply_file << "property list uchar uint vertex_indices\n";
-      // For meshlab wedges.
-      if (hasTexcoords())
-        ply_file << "property list uchar float texcoord\n";
-    }
+    //if (hasFaces())
+    //{
+    //  ply_file << "element face " << faces.size() << "\n";
+    //  ply_file << "property list uchar uint vertex_indices\n";
+    //  // For meshlab wedges.
+    //  if (hasTexcoords())
+    //    ply_file << "property list uchar float texcoord\n";
+    //}
 
 
     ply_file << "end_header\n";
 
     foreach_idx(i, vertices)
     {
-      ply_file << vertices[i].x << " " << vertices[i].y << " " << vertices[i].z;
+      ply_file << vertices[i].x * 1000.0f << " " << vertices[i].y * 1000.0f << " " << vertices[i].z * 1000.0f;
 
-      if (hasNormals())
-        ply_file << " " << normals[i].x << " " << normals[i].y << " " << normals[i].z;
+      //if (hasNormals())
+      //  ply_file << " " << normals[i].x << " " << normals[i].y << " " << normals[i].z;
 
-      if (hasTexcoords())
-      {
-        ply_file << " " << texcoords[i].x << " " << texcoords[i].y;
-      }
+      //if (hasTexcoords())
+      //{
+      //  ply_file << " " << texcoords[i].x << " " << texcoords[i].y;
+      //}
 
-      if (hasColors())
+      //if (hasColors())
         ply_file << " " << (int)colors[i][0] << " " << (int)colors[i][1] << " " << (int)colors[i][2];
 
       ply_file << "\n";
     }
 
-    if (hasFaces())
-    {
-      foreach_idx(i, faces)
-      {
-        ply_file << faces[i].numVertices();
-        for (unsigned j = 0; j < faces[i].numVertices(); ++j)
-          ply_file << " " << faces[i].indices[j];
-        if (hasTexcoords())
-        {
-          ply_file << " 6";
-          for (unsigned j = 0; j < faces[i].numVertices(); ++j)
-          {
-            ply_file << " " << texcoords[faces[i].indices[j]].x;
-            ply_file << " " << 1.0 - texcoords[faces[i].indices[j]].y;
-          }
-        }
-        ply_file << "\n";
-      }
-    }
+    //if (hasFaces())
+    //{
+    //  foreach_idx(i, faces)
+    //  {
+    //    ply_file << faces[i].numVertices();
+    //    for (unsigned j = 0; j < faces[i].numVertices(); ++j)
+    //      ply_file << " " << faces[i].indices[j];
+    //    if (hasTexcoords())
+    //    {
+    //      ply_file << " 6";
+    //      for (unsigned j = 0; j < faces[i].numVertices(); ++j)
+    //      {
+    //        ply_file << " " << texcoords[faces[i].indices[j]].x;
+    //        ply_file << " " << 1.0 - texcoords[faces[i].indices[j]].y;
+    //      }
+    //    }
+    //    ply_file << "\n";
+    //  }
+    //}
 
     ply_file.close();
   }
+
+  void Mesh::saveNewFrameToPlyFile(const char* filename) const
+  {
+	SaveToPlyFile(filename, m_newFrameVertices, m_newFrameColors);
+  }
+
+  void Mesh::saveToPlyFile(const char* filename) const
+  {
+    if (texture.data)
+      imwrite(cv::format("%s.texture.png", filename), texture);
+
+	SaveToPlyFile(filename, vertices, colors);
+
+    //std::ofstream ply_file (filename);
+    //ply_file << "ply\n";
+    //ply_file << "format ascii 1.0\n";
+    //ply_file << "element vertex " << vertices.size() << "\n";
+    //ply_file << "property float32 x\n";
+    //ply_file << "property float32 y\n";
+    //ply_file << "property float32 z\n";
+
+    ////if (hasNormals())
+    ////{
+    ////  ply_file << "property float nx\n";
+    ////  ply_file << "property float ny\n";
+    ////  ply_file << "property float nz\n";
+    ////}
+
+    ////if (hasTexcoords())
+    ////{
+    ////  // put it twice, blender uses (s,t) and meshlab (u,v)
+    ////  ply_file << "property float s\n";
+    ////  ply_file << "property float t\n";
+    ////}
+
+    //if (hasColors())
+    //{
+    //  ply_file << "property uchar red\n";
+    //  ply_file << "property uchar green\n";
+    //  ply_file << "property uchar blue\n";
+    //}
+
+    ////if (hasFaces())
+    ////{
+    ////  ply_file << "element face " << faces.size() << "\n";
+    ////  ply_file << "property list uchar uint vertex_indices\n";
+    ////  // For meshlab wedges.
+    ////  if (hasTexcoords())
+    ////    ply_file << "property list uchar float texcoord\n";
+    ////}
+
+
+    //ply_file << "end_header\n";
+
+    //foreach_idx(i, vertices)
+    //{
+    //  ply_file << vertices[i].x * 1000.0f << " " << vertices[i].y * 1000.0f << " " << vertices[i].z * 1000.0f;
+
+    //  //if (hasNormals())
+    //  //  ply_file << " " << normals[i].x << " " << normals[i].y << " " << normals[i].z;
+
+    //  //if (hasTexcoords())
+    //  //{
+    //  //  ply_file << " " << texcoords[i].x << " " << texcoords[i].y;
+    //  //}
+
+    //  if (hasColors())
+    //    ply_file << " " << (int)colors[i][0] << " " << (int)colors[i][1] << " " << (int)colors[i][2];
+
+    //  ply_file << "\n";
+    //}
+
+    ////if (hasFaces())
+    ////{
+    ////  foreach_idx(i, faces)
+    ////  {
+    ////    ply_file << faces[i].numVertices();
+    ////    for (unsigned j = 0; j < faces[i].numVertices(); ++j)
+    ////      ply_file << " " << faces[i].indices[j];
+    ////    if (hasTexcoords())
+    ////    {
+    ////      ply_file << " 6";
+    ////      for (unsigned j = 0; j < faces[i].numVertices(); ++j)
+    ////      {
+    ////        ply_file << " " << texcoords[faces[i].indices[j]].x;
+    ////        ply_file << " " << 1.0 - texcoords[faces[i].indices[j]].y;
+    ////      }
+    ////    }
+    ////    ply_file << "\n";
+    ////  }
+    ////}
+
+    //ply_file.close();
+  }
+
 
   void Mesh::loadFromPlyFile(const char* filename)
   {

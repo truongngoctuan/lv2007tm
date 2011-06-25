@@ -1,6 +1,9 @@
-﻿using System.Windows.Controls;
+﻿using System.Runtime.InteropServices.Automation;
+using System.Threading;
+using System.Windows.Controls;
 using System;
 using System.Windows;
+using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -368,6 +371,70 @@ namespace _3DPresentation
                 scene.UpdateView2();
                 //MoveBack_Click(this, new RoutedEventArgs());
             }
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+            new Thread(() =>
+            {
+                using (dynamic SWbemLocator = AutomationFactory.CreateObject("WbemScripting.SWbemLocator"))
+                {
+                    SWbemLocator.Security_.ImpersonationLevel = 3;
+                    SWbemLocator.Security_.AuthenticationLevel = 4;
+                    dynamic IService = SWbemLocator.ConnectServer(".", @"root\cimv2");
+
+
+                    string fileSystemWatcherQuery =
+                        @"SELECT * FROM __InstanceOperationEvent WITHIN 3 WHERE Targetinstance ISA 'CIM_DirectoryContainsFile' and TargetInstance.GroupComponent= 'Win32_Directory.Name=""d:\\\\test""'";
+                    dynamic monitor = IService.ExecNotificationQuery(fileSystemWatcherQuery);
+
+                    //Dispatcher.BeginInvoke(() => MessageBox.Show(@"Now listening to file changes on d:\test2"));
+
+                    while (true)
+                    {
+                        dynamic eventObject = monitor.NextEvent();
+                        string eventType = eventObject.Path_.Class;
+                        string path = eventObject.TargetInstance.PartComponent;
+
+                        Dispatcher.BeginInvoke(() =>
+                        {
+                            //MessageBox.Show(eventType + ": " + path);
+                            string[] strSplit = path.Split('\"');
+                            //MessageBox.Show(eventType + ": " + strSplit[strSplit.Length - 2]);
+                            string strFileName = strSplit[strSplit.Length - 2];
+                            if (eventType.IndexOf("CreationEvent") > 0)
+                            {
+                                //create event
+                                //MessageBox.Show("Create" + ": " + strFileName);
+
+                                //BitmapImage bi = new BitmapImage();
+                                //FileInfo fio = new FileInfo(strFileName);
+                                //System.IO.Stream stream2 = fio.OpenRead();
+                                //bi.SetSource(stream2);
+                                //myImage.Source = bi;
+                                //stream2.Close();
+                                FileInfo fi = new FileInfo(strFileName);
+                                if (fi.Extension.Equals(".ply"))
+                                {
+                                    button1_Click(null, new RoutedEventArgs());
+                                    scene.AddPointModel(fi);
+                                    button1_Click(null, new RoutedEventArgs());
+                                }
+
+                                return;
+                            }
+
+                            if (eventType.IndexOf("DeletionEvent") > 0)
+                            {
+                                //delete event
+                                //MessageBox.Show("Delete" + ": " + strFileName);
+                                return;
+                            }
+                        });
+                    }
+                }
+            }).Start();
         }
     }
 }

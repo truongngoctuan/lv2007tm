@@ -126,6 +126,7 @@ namespace ntk
     imwrite_normalized("debug_depth_mask.png", image.depthMask());
 
     // Surfel addition
+	m_surfelsNewFrame.clear();
     for (int r = 0; r < depth_im.rows; r += 1)
     for (int c = 0; c < depth_im.cols; c += 1)
     {
@@ -163,6 +164,7 @@ namespace ntk
       surfel.radius = 2 * ntk::math::sqrt1_2 * depth / (depth_pose.focalX() * camera_normal_z);
       surfel.n_views = 1;
       m_surfels.push_back(surfel);
+	  m_surfelsNewFrame.push_back(surfel);
     }
 
     ntk_dbg_print(m_surfels.size(), 1);
@@ -352,6 +354,12 @@ namespace ntk
   void SurfelsRGBDModeler :: computeMesh()
   {
     m_mesh.buildFromSurfels(m_surfels, m_min_views);
+  }
+
+    void SurfelsRGBDModeler :: computeNewFrameMesh()
+  {
+    //m_mesh.buildFromSurfels(m_surfels, m_min_views);
+	  m_mesh.buildFromSurfels(m_surfelsNewFrame, m_min_views);
   }
 
 } // ntk

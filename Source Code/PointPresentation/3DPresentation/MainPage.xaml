@@ -17,6 +17,7 @@
             <my:UDRMZControl x:Name="myUDRMZControl" Height="100" Margin="106,0,0,0" VerticalAlignment="Bottom"/>
             <ComboBox x:Name="cbLOD" Height="23" HorizontalAlignment="Right" Margin="0,100,6,0" VerticalAlignment="Top" Width="80" />
             <my:OpenFileControl x:Name="openFile" HorizontalAlignment="Right" Margin="0,150,6,0" VerticalAlignment="Top" />
+            <Button Height="40" Width="200" Margin="0,54,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click">Listen folder d:\\test</Button>
         </Grid>
     </theming:Theme>
 </UserControl>
