@@ -417,9 +417,7 @@ namespace _3DPresentation
                                 FileInfo fi = new FileInfo(strFileName);
                                 if (fi.Extension.Equals(".ply"))
                                 {
-                                    button1_Click(null, new RoutedEventArgs());
                                     scene.AddPointModel(fi);
-                                    button1_Click(null, new RoutedEventArgs());
                                 }
 
                                 return;
