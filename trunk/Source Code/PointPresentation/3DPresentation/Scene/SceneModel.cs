@@ -106,7 +106,7 @@ namespace _3DPresentation
 
             graphicsDevice.RasterizerState = new RasterizerState{
                 FillMode = FillMode.Solid,
-                CullMode = CullMode.CullCounterClockwiseFace
+                CullMode = CullMode.None
             };       
 
             foreach (MyModel myModel in myModels)
