@@ -81,7 +81,7 @@ namespace _3DPresentation.Models.PointModel
         public void Render(GraphicsDevice graphicsDevice)
         {
             for (int partitionIndex = 0; partitionIndex < pointManager.Partitions.Count; partitionIndex++)
-            //for (int partitionIndex = 0; partitionIndex < 1; partitionIndex++)
+            //for (int partitionIndex = 0; partitionIndex < 5; partitionIndex++)
             {
                 pointManager.RenderPartition(graphicsDevice, partitionIndex);
             }

@@ -71,12 +71,14 @@ namespace _3DPresentation
         }
         public PointModel AddPointModel(FileInfo file)
         {
+            bIsLoading = true;
             PointModel pointModel = PointModel.Import(file);
             if (pointModel != null)
             {
                 pointModel.InitBuffers(resourceDevice);
                 pointModels.Add(pointModel);
             }
+            bIsLoading = false;
             return pointModel;
         }
 
@@ -94,8 +96,11 @@ namespace _3DPresentation
             set;
         }
 
+        volatile bool bIsLoading = false;
         public void Draw(GraphicsDevice graphicsDevice, TimeSpan totalTime, Camera camera, Vector2 screenSize)
         {
+            if(bIsLoading)
+                return;
             _total_frames++;
             if ((DateTime.Now - _lastFPS).Seconds >= 1)
             {
@@ -133,6 +138,7 @@ namespace _3DPresentation
                 {                    
                     SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect.PointEffect, graphicsDevice, pointModel.WorldMatrix, camera, screenSize);
                     pointModel.Render(graphicsDevice);
+                    //break;
                 }
             }
         }

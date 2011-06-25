@@ -73,8 +73,6 @@ namespace _3DPresentation
             {
                 for (int col = 0; col < PartitionRealWidth + step - 1; col += step)
                 {
-                    if (col >= PartitionRealWidth)
-                        col = col;
                     try
                     {
                         if (((row / step) & 0x01) == 0)
