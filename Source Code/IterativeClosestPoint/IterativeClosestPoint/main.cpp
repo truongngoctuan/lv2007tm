@@ -52,9 +52,11 @@ int main()
 	// strName2 : name of a new node
 	// strPair : 
 	// useICP : 
-	myAlign.Align(strName1, strName2, strPair, false);
+	myAlign.Align(strName1, strName2, strPair);
 
 
+	// Finalize with ICP
+	//myAlign.FinalizeICP();
 	// print all matrix
 	myAlign.PrintResult();
 	return 0;

@@ -36,7 +36,7 @@ bool MyAlign::AddNode(std::string strFile, std::string strName)
 	return true;
 }
 
-bool MyAlign::Align(string strFixName, string strMovName, string strPair, bool runICP)
+bool MyAlign::Align(string strFixName, string strMovName, string strPair)
 {
 	MeshNode *pFixNode = editAlignPlugin.meshTree.find(strFixName);
 	MeshNode *pMovNode = editAlignPlugin.meshTree.find(strMovName);
@@ -57,10 +57,12 @@ bool MyAlign::Align(string strFixName, string strMovName, string strPair, bool r
 	}
 
 	pMovNode->glued = true;
-	if(runICP)
-	{
-		editAlignPlugin.process();
-	}
+	return true;
+}
+
+bool MyAlign::FinalizeICP()
+{
+	editAlignPlugin.process();
 	return true;
 }
 

@@ -14,8 +14,7 @@
             <Button Content="Start" Width="60" Height="40" Margin="0,10,10,0" Name="button1" Click="button1_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
             <TextBlock x:Name="myUIFPS" Text="UI FPS : " Height="20" HorizontalAlignment="Left" Margin="5,0,0,30" VerticalAlignment="Bottom" Width="120" FontSize="14" Foreground="Lime" FontWeight="Bold"/>
             <TextBlock x:Name="myDrawFPS" Text="Draw FPS : " Height="20" HorizontalAlignment="Left" Margin="5,0,0,10" VerticalAlignment="Bottom" Width="120" FontSize="14" Foreground="Lime" FontWeight="Bold" />
-            <my:UDRMZControl x:Name="myUDRMZControl" Height="100" Margin="106,0,0,0" VerticalAlignment="Bottom"/>
-            <ComboBox x:Name="cbLOD" Height="23" HorizontalAlignment="Right" Margin="0,100,6,0" VerticalAlignment="Top" Width="80" />
+            <my:UDRMZControl x:Name="myUDRMZControl" Height="100" Margin="106,0,0,0" VerticalAlignment="Bottom"/>            
             <my:OpenFileControl x:Name="openFile" HorizontalAlignment="Right" Margin="0,150,6,0" VerticalAlignment="Top" />
             <Button Height="40" Width="200" Margin="0,54,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click">Listen folder d:\\test</Button>
         </Grid>
