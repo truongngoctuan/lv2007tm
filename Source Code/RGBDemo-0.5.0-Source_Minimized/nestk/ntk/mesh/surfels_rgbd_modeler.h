@@ -40,11 +40,13 @@ public:
 public:
   virtual void addNewView(const RGBDImage& image, Pose3D& relative_pose);
   virtual void computeMesh();
+  void computeNewFrameMesh();
 
   virtual void reset() { RGBDModeler::reset(); m_surfels.clear(); }
 
 protected:
   std::vector<Surfel> m_surfels;
+  std::vector<Surfel> m_surfelsNewFrame;
   int m_min_views;
 };
 

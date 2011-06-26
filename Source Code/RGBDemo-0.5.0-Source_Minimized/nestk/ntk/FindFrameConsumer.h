@@ -20,12 +20,12 @@ using namespace boost::this_thread;
 using namespace cv;
 
 RelativePoseEstimatorFromImage* pose_estimator;
-//SurfelsRGBDModeler modeler;
+SurfelsRGBDModeler current_modeler;
 //int iCurrentImageIndex;
 
 //boost::mutex m_mutex; 
 boost::mutex mtPoseEstimate;
-//boost::mutex mtmodeler;
+boost::mutex mtmodeler;
 //boost::mutex mtCurrentImageIndex;
 
 class FindFrameConsumer
@@ -44,7 +44,7 @@ public:
 		FeatureSetParams params ("SURF", "SURF64", true);
 		pose_estimator = new RelativePoseEstimatorFromImage(params, false);
 
-		//modeler.setMinViewsPerSurfel(1);
+		current_modeler.setMinViewsPerSurfel(1);
 
 		//iCurrentImageIndex = 0;
 	}
@@ -128,21 +128,26 @@ public:
 				}
 
 				//{//tao file ply,...
-				SurfelsRGBDModeler current_modeler;
-				current_modeler.setMinViewsPerSurfel(1);
+				mtmodeler.lock();
+				//SurfelsRGBDModeler current_modeler;
+				//current_modeler.setMinViewsPerSurfel(1);
 
 				TimeCountThread tc_addNewView(m_id, "addNewView", 2);
 				current_modeler.addNewView(*m_last_image, currentPose);
 				tc_addNewView.stop();
 
 				TimeCountThread tc_computeMesh(m_id, "computeMesh", 2);
-				current_modeler.computeMesh();
+				//current_modeler.computeMesh();
+				current_modeler.computeNewFrameMesh();
 				tc_computeMesh.stop();
 
 				TimeCountThread tc_saveToPlyFile(m_id, "saveToPlyFile", 2);
-				string strDestinationFileName = format("d:\\test\\scene_mesh_%04d.ply", ilast_image);
+				string strDestinationFileName = format("d:\\scene_mesh_%04d.ply", ilast_image);
 				current_modeler.currentMesh().saveToPlyFile(strDestinationFileName.c_str());
+				//current_modeler.currentMesh().saveNewFrameToPlyFile(strDestinationFileName.c_str());
+				rename((strDestinationFileName).c_str(), format("d:\\test\\scene_mesh_%04d.ply", ilast_image).c_str());
 				tc_saveToPlyFile.stop();
+				mtmodeler.unlock();
 			}
 
 			delete m_last_image;
