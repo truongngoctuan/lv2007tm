@@ -68,9 +68,13 @@ namespace ntk
     std::vector<Face> faces;
     cv::Mat3b texture;
 
+	std::vector<cv::Point3f> m_newFrameVertices;
+    std::vector<cv::Vec3b> m_newFrameColors;
+
   public:
     void loadFromPlyFile(const char* filename);
     void saveToPlyFile(const char* filename) const;
+	void saveNewFrameToPlyFile(const char* filename) const;
     void buildFromSurfels(const std::vector<Surfel>& surfels, int min_views = 2);
     cv::Point3f centerize();
     void addCube(const cv::Point3f& center, const cv::Point3f& sizes);
