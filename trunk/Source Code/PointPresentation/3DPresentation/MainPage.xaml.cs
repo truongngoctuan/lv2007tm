@@ -42,11 +42,6 @@ namespace _3DPresentation
             myUDRMZControl.RotateUpClick += new RoutedEventHandler(RotateUp_Click);
             myUDRMZControl.RotateDownClick += new RoutedEventHandler(RotateDown_Click);
 
-            cbLOD.Items.Add(GlobalVars.LOD.LOW);
-            cbLOD.Items.Add(GlobalVars.LOD.MEDIUM);
-            cbLOD.Items.Add(GlobalVars.LOD.HIGH);
-            cbLOD.SelectionChanged += new SelectionChangedEventHandler(cbLOD_SelectionChanged);
-
             openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
 
             drawingSurface.Draw += new EventHandler<DrawEventArgs>(drawingSurface_Draw);

@@ -15,7 +15,8 @@ public:
 	~MyAlign(void);
 
 	bool AddNode(std::string strFile, std::string strName);
-	bool Align(std::string strFixName, std::string strMovName, std::string strPair, bool runICP);
+	bool Align(std::string strFixName, std::string strMovName, std::string strPair);
+	bool FinalizeICP();
 	bool SetBaseNode(std::string strName);
 	void PrintResult();
 };
