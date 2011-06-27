@@ -27,7 +27,6 @@ using namespace cv;
 
 namespace ntk
 {
-
   void SurfelsRGBDModeler :: addNewView(const RGBDImage& image, Pose3D& relative_pose)
   {
     const float update_max_normal_angle = 60;

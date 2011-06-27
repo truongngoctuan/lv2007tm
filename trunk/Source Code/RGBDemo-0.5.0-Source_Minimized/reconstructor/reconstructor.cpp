@@ -45,6 +45,7 @@
 #include <ntk/SynchronisedQueue.h>
 #include <ntk/FileGrabberProducer.h>
 #include <ntk/FindFrameConsumer.h>
+#include <ntk/ModeRecordGrabberProducer.h>
 
 using namespace std;
 using namespace boost;
@@ -101,9 +102,16 @@ int main (int argc, char** argv)
 
 	// Create producers
 	boost::thread_group producers;
-	FileGrabberProducer p(0, &queue);
-	p.initialize();
-	producers.create_thread(p);
+	//FileGrabberProducer p(0, &queue);
+	//p.initialize();
+	//producers.create_thread(p);
+
+	ModeRecordGrabberProducer p(0, &queue, "grab1");
+	ntk::RGBDCalibration* calib_data = new RGBDCalibration();
+	calib_data->loadFromFile("kineck_calibration.yml");
+	p.setCalibration(calib_data);
+		//p.initialize();
+		producers.create_thread(p);
 
 	// Create consumers
 	boost::thread_group consumers;

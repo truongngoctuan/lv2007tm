@@ -90,7 +90,8 @@ void FileGrabberProducer :: initialize()
 
 	m_ni_context.WaitAndUpdateAll();
 	estimateCalibration();
-
+	//m_calib_data = new RGBDCalibration();
+	//m_calib_data->loadFromFile("kinect_calibration.yml");
 	//run();
 }
 
