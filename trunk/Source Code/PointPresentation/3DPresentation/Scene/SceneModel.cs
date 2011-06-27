@@ -14,6 +14,7 @@ using _3DPresentation.Models.PointModel;
 using _3DPresentation.Effects.PointEffect;
 using _3DPresentation.Effects.MyBasicEffect;
 using _3DPresentation.Effects.NoEffect;
+using _3DPresentation.Models.FaceModel;
 
 namespace _3DPresentation
 {
@@ -34,12 +35,14 @@ namespace _3DPresentation
         List<MyModel> myModels;
         List<SimpleModel> simpleModels;
         List<PointModel> pointModels;
+        List<FaceModel> faceModels;
 
         public SceneModel(bool solidFaceColor = true)
         {
             myModels = new List<MyModel>();
             simpleModels = new List<SimpleModel>();
             pointModels = new List<PointModel>();
+            faceModels = new List<FaceModel>();
 
             noEffect = new NoEffect(resourceDevice);
             myBasicEffect = new MyBasicEffect(resourceDevice);
@@ -49,24 +52,30 @@ namespace _3DPresentation
 
         public MyModel AddMyModel(string imagePath, string depthmapPath, Vector3 position)
         {
+            bIsLoading = true;
             MyModel myModel = new MyModel(imagePath, depthmapPath, 640, 480);
             myModel.WorldMatrix = Matrix.CreateTranslation(position);
             myModel.Init(resourceDevice);
             myModels.Add(myModel);
+            bIsLoading = false;
             return myModel;
         }
         public SimpleModel AddSimpleModel(VertexPositionColor[] vertices, Vector3 position)
         {
+            bIsLoading = true;
             SimpleModel simpleModel = SimpleModel.CreateModel(resourceDevice, vertices);
             simpleModel.WorldMatrix = Matrix.CreateTranslation(position);
             simpleModel.RenderType = SimpleModel.Type.LineList;
             simpleModels.Add(simpleModel);
+            bIsLoading = false;
             return simpleModel;
         }
         public SimpleModel AddSimpleModel(SimpleModel simpleModel)
-        {            
+        {
+            bIsLoading = true;
             simpleModels.Add(simpleModel);
             simpleModel.RenderType = SimpleModel.Type.LineList;
+            bIsLoading = false;
             return simpleModel;
         }
         public PointModel AddPointModel(FileInfo file)
@@ -80,6 +89,19 @@ namespace _3DPresentation
             }
             bIsLoading = false;
             return pointModel;
+        }
+
+        public FaceModel AddFaceModel(FileInfo file)
+        {
+            bIsLoading = true;
+            FaceModel faceModel = FaceModel.Import(file);
+            if (faceModel != null)
+            {
+                faceModel.InitBuffers(resourceDevice);
+                faceModels.Add(faceModel);
+            }
+            bIsLoading = false;
+            return faceModel;
         }
 
         public int FPS
@@ -141,6 +163,16 @@ namespace _3DPresentation
                     //break;
                 }
             }
+
+            foreach (FaceModel faceModel in faceModels)
+            {
+                if (faceModel.IsVisible)
+                {
+                    SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect.MyBasicEffect, graphicsDevice, faceModel.WorldMatrix, camera, screenSize);
+                    faceModel.Render(graphicsDevice);
+                    //break;
+                }
+            }
         }
 
         private void SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect shaderEffect, GraphicsDevice graphicsDevice, Matrix world, Camera camera, Vector2 screenSize)
@@ -160,6 +192,16 @@ namespace _3DPresentation
                 myBasicEffect.Projection = camera.projection;
                 myBasicEffect.View = camera.view;
 
+                myBasicEffect.DiffuseIntensity1 = 1.0f;
+                myBasicEffect.DiffuseColor1 = GlobalVars.Green;
+                myBasicEffect.DiffuseSource1 = GlobalVars.Light1;
+
+                myBasicEffect.DiffuseIntensity2 = 0;
+                myBasicEffect.DiffuseIntensity3 = 0;
+                myBasicEffect.AmbientIntensity = 0.3f;
+
+                myBasicEffect.Device = graphicsDevice;
+                myBasicEffect.Apply();
                 // removed
             }
             else if (shaderEffect == _3DPresentation.GlobalVars.ShaderEffect.BasicEffect)

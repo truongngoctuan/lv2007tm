@@ -81,3 +81,12 @@ void MyAlign::PrintResult()
 {
 	editAlignPlugin.printMat();
 }
+
+void MyAlign::Export()
+{
+	for(int i = 0; i < editAlignPlugin.meshTree.nodeList.size(); i++)
+	{
+		MeshNode *p = editAlignPlugin.meshTree.nodeList.at(i);
+		baseIOPlugin.save("PLY", p->m->strName + "out.ply", *(p->m), 0);
+	}
+}

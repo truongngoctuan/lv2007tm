@@ -22,11 +22,23 @@ namespace _3DPresentation
             btOpen.Click += new RoutedEventHandler(btOpen_Click);
         }
 
+        public string Label
+        {
+            get
+            {
+                return btOpen.Content.ToString();
+            }
+            set
+            {
+                btOpen.Content = value;
+            }
+        }
+
         void btOpen_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = false;
-            dialog.Filter = "Text|*.txt|All Files|*.*";
+            dialog.Filter = "Model|*.ply|Text|*.txt|All Files|*.*";
             if(dialog.ShowDialog() == true)
             {
                 Dispatcher.BeginInvoke(new Action(() => { lbContent.Content = dialog.File.Name; }));

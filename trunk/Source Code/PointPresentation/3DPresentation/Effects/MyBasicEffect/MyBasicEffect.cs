@@ -62,7 +62,7 @@ namespace _3DPresentation.Effects.MyBasicEffect
         public Color DiffuseColor3 { get; set; }
         public float DiffuseIntensity3 { get; set; }
 
-        public Vector4 EnableLights { get; set; }
+        //public Vector4 EnableLights { get; set; }
         public float AmbientIntensity { get; set; }
 
         public override void Apply()

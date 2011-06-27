@@ -93,6 +93,9 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Effects\PointEffect\PointEffect.cs" />
+    <Compile Include="Models\FaceModel\FaceManager.cs" />
+    <Compile Include="Models\FaceModel\FaceModel.cs" />
+    <Compile Include="Models\FaceModel\FacePartition.cs" />
     <Compile Include="Models\PointModel\PointManager.cs" />
     <Compile Include="Models\PointModel\PointModel.cs" />
     <Compile Include="Models\PointModel\PointPartition.cs" />

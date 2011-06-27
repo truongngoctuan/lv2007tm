@@ -192,6 +192,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Logger.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\main.cpp"
 				>
 			</File>
@@ -243,6 +247,10 @@
 			</File>
 			<File
 				RelativePath=".\align_plugin\align\Guess.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Logger.h"
 				>
 			</File>
 			<File

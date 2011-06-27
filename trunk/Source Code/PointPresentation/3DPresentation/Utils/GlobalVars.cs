@@ -17,5 +17,7 @@ namespace _3DPresentation
         public enum ShaderEffect { NoEffect, MyBasicEffect, BasicEffect, PointEffect };
         public enum LOD { LOW = 5, MEDIUM = 3, HIGH = 1 };
         public static LOD LevelOfDetail = LOD.LOW;
+
+        public static Vector3 Light1 { get; set; }
     }
 }
