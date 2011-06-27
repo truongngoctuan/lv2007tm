@@ -385,8 +385,44 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image)
     return false;
 }
 
+void CalulatePairs(const Pose3D& depth_pose1, const Pose3D& depth_pose2,
+							   const FeatureSet& image_features1, const FeatureSet& image_features2,
+							   const std::vector<cv::DMatch>& best_matches,
+							   std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points)
+{
+	Pose3D Tempdepth_pose1 = depth_pose1;
+	Pose3D Tempdepth_pose2 = depth_pose2;
+
+	FeatureSet Tempimage_features1 = image_features1;
+	FeatureSet Tempimage_features2 = image_features2;
+	Tempimage_features1.compute3dLocation(Tempdepth_pose1);
+	Tempimage_features2.compute3dLocation(Tempdepth_pose2);
+
+	foreach_idx(i, best_matches)
+	{
+		const cv::DMatch& m = best_matches[i];
+		const FeatureSet& ref_set = Tempimage_features1;
+		const FeatureSet& img_set = Tempimage_features2;
+		const FeatureLocation& ref_loc = ref_set.locations()[m.trainIdx];
+		const FeatureLocation& img_loc = img_set.locations()[m.queryIdx];
+		//
+		////cv::Point3f img3d (img_loc.pt.x, img_loc.pt.y, img_loc.depth);
+		////2d --> 3d
+		//cv::Point3f ref3d = depth_pose1.unprojectFromImage(cv::Point2f(ref_loc.pt.x, ref_loc.pt.y), ref_loc.depth);
+		//cv::Point3f img3d = depth_pose2.unprojectFromImage(cv::Point2f(img_loc.pt.x, img_loc.pt.y), img_loc.depth);
+
+		//ref_points.push_back(ref3d);
+		//img_points.push_back(img3d);
+
+		ref_points.push_back(ref_loc.p3d);
+		img_points.push_back(img_loc.p3d);
+	}
+}
+
 boost::mutex mtcomputeNumMatchesWithPrevious;
-bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pose3D& current_pose_final)
+bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pose3D& current_pose_final, 
+													 std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points,
+													 int& closest_view_index)
 {
   ntk_ensure(image.calibration(), "Image must be calibrated.");
   if (!m_current_pose.isValid())
@@ -406,13 +442,13 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pos
                              image.calibration()->R, image.calibration()->T);//?? dư??
   bool pose_ok = true;
 
-  int closest_view_index = -1;
-	
+  closest_view_index = -1;
+	std::vector<cv::DMatch> best_matches;
   boost::unique_lock<boost::mutex> lock(mtcomputeNumMatchesWithPrevious);
   if (m_image_data.size() > 0)
   {
 	  TimeCount tc_computeNumMatchesWithPrevious("computeNumMatchesWithPrevious", 2);
-    std::vector<cv::DMatch> best_matches;
+    
     closest_view_index = computeNumMatchesWithPrevious(image, image_features, best_matches);
     ntk_dbg_print(closest_view_index, 1);
     ntk_dbg_print(best_matches.size(), 1);
@@ -439,8 +475,8 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pos
       pose_ok = false;
     }
 	tc_estimateDeltaPose.stop();
+
   }
-  
 
   if (pose_ok)
   {
@@ -464,6 +500,25 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pos
     m_features.push_back(image_features);
     ntk_dbg_print(image_features.locations().size(), 1);
     m_image_data.push_back(image_data);
+
+	if (closest_view_index != -1)
+	{//loai bo truogn hop dau tien ko co frame truoc do 
+
+		//tinh lai cai new_pose giong nhu trong ha`m addnewpose
+
+		Pose3D depth_pose2 = *image.calibration()->depth_pose;
+		depth_pose2.applyTransformBefore(m_image_data[closest_view_index].depth_pose);
+
+		Pose3D depth_pose22 = *image.calibration()->depth_pose;
+		depth_pose22.applyTransformBefore(current_pose_final);
+
+
+
+	CalulatePairs(depth_pose2, depth_pose22,
+							   m_features[closest_view_index], image_features,
+							   best_matches,
+							   ref_points, img_points);
+	}
     return true;
   }
   else
@@ -475,6 +530,7 @@ void RelativePoseEstimatorFromImage::reset()
   m_features.clear();
   m_image_data.clear();
 }
+
 
 #ifdef NESTK_USE_PCL
 

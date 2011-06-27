@@ -114,7 +114,9 @@ public:
   }
 
   virtual bool estimateNewPose(const RGBDImage& image);
-  bool estimateNewPose(const RGBDImage& image, Pose3D& new_pose);
+  bool estimateNewPose(const RGBDImage& image, Pose3D& new_pose,
+	  std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points,
+	  int& closest_view_index);
   virtual void reset();
 
 private:
