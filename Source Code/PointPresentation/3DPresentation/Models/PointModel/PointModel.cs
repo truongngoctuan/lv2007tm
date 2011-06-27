@@ -23,20 +23,21 @@ namespace _3DPresentation.Models.PointModel
             if (file.Extension.ToLower() == ".ply")
             {
                 using(StreamReader sr = file.OpenText())
-                {
-                    string ss = sr.ReadLine();
+                {                    
+                    string numVertex = "element vertex";
+                    int nPoints = 0;
                     try
                     {
-                        string temp = "element vertex";
-                        while (!ss.Contains(temp))
-                            ss = sr.ReadLine();
-                        
-                        ss = ss.Substring(temp.Length);
-                        int nPoints = int.Parse(ss);
-
+                        string ss = sr.ReadLine();
                         while (!ss.Contains("end_header"))
+                        {
+                            if (ss.Contains("element vertex"))
+                            {
+                                ss = ss.Substring(numVertex.Length);
+                                nPoints = int.Parse(ss);
+                            }
                             ss = sr.ReadLine();
-
+                        }
                         pointModel = Import_PLY(sr, nPoints); 
                     }
                     catch (IOException io)
@@ -69,6 +70,7 @@ namespace _3DPresentation.Models.PointModel
 
                 pointModel.pointManager.AddPoint(new Vector3(x, y, z), Color.FromNonPremultiplied(r, g, b, a));
             }
+
             pointModel.pointManager.End();
             return pointModel;
         }

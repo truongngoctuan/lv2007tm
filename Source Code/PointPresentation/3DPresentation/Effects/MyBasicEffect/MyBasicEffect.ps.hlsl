@@ -53,7 +53,7 @@ PixelToFrame main(VertexShaderOutput PSIn)
 		float lightIntensity = xDiffuseIntensity.x;
 		float3 lightDirection = normalize(PSIn.Position3D - (float3)xDiffuseSource1);
 		float factor = (dot(-lightDirection, PSIn.Normal));
-		factor *= (1 - pow(distance((float3)xDiffuseSource1, PSIn.Position3D) / lightIntensity, 2));
+		factor *= (1 - min(1, pow(distance((float3)xDiffuseSource1, PSIn.Position3D) / lightIntensity, 2)));
 		if(lightIntensity > 0.0f)
 		{
 			float4 diffuse = xDiffuseColor1 * factor;
@@ -66,7 +66,7 @@ PixelToFrame main(VertexShaderOutput PSIn)
 		float lightIntensity = xDiffuseIntensity.y;
 		float3 lightDirection = normalize(PSIn.Position3D - (float3)xDiffuseSource2);
 		float factor = (dot(-lightDirection, PSIn.Normal));
-		factor *= (1 - pow(distance((float3)xDiffuseSource2, PSIn.Position3D) / lightIntensity, 2));
+		factor *= (1 - min(1, pow(distance((float3)xDiffuseSource2, PSIn.Position3D) / lightIntensity, 2)));
 		if(lightIntensity > 0.0f)
 		{
 			float4 diffuse = xDiffuseColor2 * factor;
@@ -79,7 +79,7 @@ PixelToFrame main(VertexShaderOutput PSIn)
 		float lightIntensity = xDiffuseIntensity.z;
 		float3 lightDirection = normalize(PSIn.Position3D - (float3)xDiffuseSource3);
 		float factor = (dot(-lightDirection, PSIn.Normal));
-		factor *= (1 - pow(distance((float3)xDiffuseSource3, PSIn.Position3D) / lightIntensity, 2));
+		factor *= (1 - min(1, pow(distance((float3)xDiffuseSource3, PSIn.Position3D) / lightIntensity, 2)));
 		if(lightIntensity > 0.0f)
 		{
 			float4 diffuse = xDiffuseColor3 * factor;

@@ -19,4 +19,5 @@ public:
 	bool FinalizeICP();
 	bool SetBaseNode(std::string strName);
 	void PrintResult();
+	void Export();
 };

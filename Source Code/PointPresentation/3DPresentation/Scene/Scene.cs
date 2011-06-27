@@ -14,6 +14,7 @@ using _3DPresentation.Models;
 using System.Windows.Controls;
 using _3DPresentation.Models.PointModel;
 using System.IO;
+using _3DPresentation.Models.FaceModel;
 
 namespace _3DPresentation
 {
@@ -29,9 +30,11 @@ namespace _3DPresentation
         SceneModel sceneModel = new SceneModel(false);
         public Scene()
         {
-            camera.cameraPosition = new Vector3(0, 0, 1000);
-            camera.cameraTarget = new Vector3(0, 0, -1000);
+            camera.cameraPosition = new Vector3(0, 0, 2.0f);
+            camera.cameraTarget = new Vector3(0, 0, -1.0f);
             UpdateView2();
+
+            GlobalVars.Light1 = new Vector3(0, 0, -1.0f);
         }
 
         public void  Scene_Draw(object sender, DrawEventArgs e)
@@ -64,6 +67,10 @@ namespace _3DPresentation
         public PointModel AddPointModel(FileInfo file)
         {
             return sceneModel.AddPointModel(file);
+        }
+        public FaceModel AddFaceModel(FileInfo file)
+        {
+            return sceneModel.AddFaceModel(file);
         }
 
         #region NewUpdate
@@ -116,7 +123,7 @@ namespace _3DPresentation
             set
             {
                 // update the screen space transform every time the aspect ratio changes
-                camera.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 30000.0f);
+                camera.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 10.0f);
             }
         }       
             

@@ -31,6 +31,9 @@ namespace _3DPresentation
             //============================================================================           
             CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
+            openFile.Label = "PointCloud...";
+            openFile2.Label = "Model...";
+
             myUDRMZControl.MoveForwardClick += new RoutedEventHandler(MoveForward_Click);
             myUDRMZControl.MoveBackClick += new RoutedEventHandler(MoveBack_Click);
             myUDRMZControl.MoveLeftClick += new RoutedEventHandler(MoveLeft_Click);
@@ -43,9 +46,15 @@ namespace _3DPresentation
             myUDRMZControl.RotateDownClick += new RoutedEventHandler(RotateDown_Click);
 
             openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
+            openFile2.FileOpened += new OpenFileControl.FileOpenedHandler(openFile2_FileOpened);
 
             drawingSurface.Draw += new EventHandler<DrawEventArgs>(drawingSurface_Draw);
             drawingSurface.SizeChanged += new SizeChangedEventHandler(drawingSurface_SizeChanged);
+        }
+
+        void openFile2_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
+        {
+            scene.AddFaceModel(e.FileInfo);
         }
 
         void openFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
@@ -98,7 +107,7 @@ namespace _3DPresentation
                 _total_frames = 0;
                 _lastFPS = DateTime.Now;
             }
-            myUIFPS.Dispatcher.BeginInvoke(new Action(() => { myUIFPS.Text = "UIFPS : " + uiFPS; }));
+            //myUIFPS.Dispatcher.BeginInvoke(new Action(() => { myUIFPS.Text = "UIFPS : " + uiFPS; }));
             myDrawFPS.Dispatcher.BeginInvoke(new Action(() => { myDrawFPS.Text = "DrawFPS : " + scene.FPS; }));
         }
 
@@ -122,6 +131,11 @@ namespace _3DPresentation
         }
 
         #region NewMove
+        const float ForwardSpeed = 0.1f;
+        const float BackSpeed = 0.1f;
+        const float LeftSpeed = 0.01f;
+        const float RightSpeed = 0.1f;
+
         private void MoveForward_Click(object sender, RoutedEventArgs e)
         {
             //scene.Y += 10;
@@ -132,7 +146,7 @@ namespace _3DPresentation
                     CameraMovements cm = new CameraMovements();
                     cm.OnTickProcess = () =>
                     {
-                        cm.Move2(scene.CameraPosition, scene.CameraTarget, 50f, _3DPresentation.CameraMovements.MOVE.FORWARD);
+                        cm.Move2(scene.CameraPosition, scene.CameraTarget, ForwardSpeed, _3DPresentation.CameraMovements.MOVE.FORWARD);
                         scene.CameraPosition = CameraMovements.CameraResult;
                         scene.CameraTarget = CameraMovements.LookAtResult;
                         scene.UpdateView2();
@@ -156,7 +170,7 @@ namespace _3DPresentation
                     CameraMovements cm = new CameraMovements();
                     cm.OnTickProcess = () =>
                     {
-                        cm.Move2(scene.CameraPosition, scene.CameraTarget, 50f, _3DPresentation.CameraMovements.MOVE.BACK);
+                        cm.Move2(scene.CameraPosition, scene.CameraTarget, BackSpeed, _3DPresentation.CameraMovements.MOVE.BACK);
                         scene.CameraPosition = CameraMovements.CameraResult;
                         scene.CameraTarget = CameraMovements.LookAtResult;
                         scene.UpdateView2();
@@ -181,7 +195,7 @@ namespace _3DPresentation
                     CameraMovements cm = new CameraMovements();
                     cm.OnTickProcess = () =>
                     {
-                        cm.Move2(scene.CameraPosition, scene.CameraTarget, 50f, _3DPresentation.CameraMovements.MOVE.LEFT);
+                        cm.Move2(scene.CameraPosition, scene.CameraTarget, LeftSpeed, _3DPresentation.CameraMovements.MOVE.LEFT);
                         scene.CameraPosition = CameraMovements.CameraResult;
                         scene.CameraTarget = CameraMovements.LookAtResult;
                         scene.UpdateView2();
@@ -206,7 +220,7 @@ namespace _3DPresentation
                     CameraMovements cm = new CameraMovements();
                     cm.OnTickProcess = () =>
                     {
-                        cm.Move2(scene.CameraPosition, scene.CameraTarget, 50f, _3DPresentation.CameraMovements.MOVE.RIGHT);
+                        cm.Move2(scene.CameraPosition, scene.CameraTarget, RightSpeed, _3DPresentation.CameraMovements.MOVE.RIGHT);
                         scene.CameraPosition = CameraMovements.CameraResult;
                         scene.CameraTarget = CameraMovements.LookAtResult;
                         scene.UpdateView2();
@@ -345,27 +359,42 @@ namespace _3DPresentation
         {
             if (e.Key == Key.A)
             {
-                MoveLeft_Click(this, new RoutedEventArgs());
+                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X - LeftSpeed, GlobalVars.Light1.Y, GlobalVars.Light1.Z);
+                //MoveLeft_Click(this, new RoutedEventArgs());
             }
 
             if (e.Key == Key.D)
             {
-                MoveRight_Click(this, new RoutedEventArgs());
+                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X + LeftSpeed, GlobalVars.Light1.Y, GlobalVars.Light1.Z);
+                //MoveRight_Click(this, new RoutedEventArgs());
             }
 
             if (e.Key == Key.W)
-            {                
-                scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y + 10, scene.CameraPosition.Z);
-                scene.UpdateView2();
+            {
+                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y + LeftSpeed, GlobalVars.Light1.Z);
+                //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y + 10, scene.CameraPosition.Z);
+                //scene.UpdateView2();
                 //MoveForward_Click(this, new RoutedEventArgs());
             }
 
             if (e.Key == Key.S)
             {
-                scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y - 10, scene.CameraPosition.Z);
-                scene.UpdateView2();
+                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y - LeftSpeed, GlobalVars.Light1.Z);
+                //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y - 10, scene.CameraPosition.Z);
+                //scene.UpdateView2();
                 //MoveBack_Click(this, new RoutedEventArgs());
             }
+
+            if (e.Key == Key.Q)
+            {
+                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y, GlobalVars.Light1.Z - LeftSpeed);
+            }
+
+            if (e.Key == Key.E)
+            {
+                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y, GlobalVars.Light1.Z + LeftSpeed);
+            }
+            myUIFPS.Dispatcher.BeginInvoke(new Action(() => { myUIFPS.Text = "Light 1: " + GlobalVars.Light1.X.ToString("0.00") + " " + GlobalVars.Light1.Y.ToString("0.00") + " " + GlobalVars.Light1.Z.ToString("0.00"); }));
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
