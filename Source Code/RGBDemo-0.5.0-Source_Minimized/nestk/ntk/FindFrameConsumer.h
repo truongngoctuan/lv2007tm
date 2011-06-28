@@ -58,7 +58,7 @@ private:
 	string m_strRecordedFolderData;
 	string m_strPathCalibrationData;
 
-	
+	bool m_bSavePairs;
 public:
 	static void Init()
 	{
@@ -109,6 +109,8 @@ public:
 	void SaveFilePly(SurfelsRGBDModeler& modeler,
 		RGBDImage * m_last_image, int ilast_image, Pose3D currentPose, 
 		string strFileName, string strTempFileName);
+	void SavePairs(int closest_view_index, string strFileName,
+								  std::vector<cv::Point3f> ref_points, std::vector<cv::Point3f> img_points);
 
 	void SetSaveRawData(bool b) {m_bIsSaveRawData = b;}
 	void SetSaveMappedData(bool b) {m_bIsSaveMappedData = b;}
@@ -128,4 +130,7 @@ public:
 	string GetDestinationFolder() {return m_strDestinationFolder;}
 	string GetRecordedFolderData() {return m_strRecordedFolderData;}
 	string GetPathCalibrationData() {return m_strPathCalibrationData;}
+
+	void SetSavePairs(bool b) {m_bSavePairs = b;}
+	bool IsSavePairs() {return m_bSavePairs;}
 };

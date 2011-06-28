@@ -110,12 +110,13 @@ public:
   {
     // Force feature extraction to return only features with depth.
     m_feature_parameters.only_features_with_depth = true;
+	//m_image = null;
     reset();
   }
 
   virtual bool estimateNewPose(const RGBDImage& image);
   bool estimateNewPose(const RGBDImage& image, Pose3D& new_pose,
-	  std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points,
+	  //std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points,
 	  int& closest_view_index);
   virtual void reset();
 
@@ -144,6 +145,18 @@ private:
   std::vector< ImageData > m_image_data;
   FeatureSetParams m_feature_parameters;
   bool m_use_icp;
+
+  int m_closest_view_index;
+  std::vector<cv::DMatch> m_best_matches;
+  RGBDImage m_image;
+
+  void CalulatePairs(const Pose3D& depth_pose1, const Pose3D& depth_pose2,
+							   const FeatureSet& image_features1, const FeatureSet& image_features2,
+							   const std::vector<cv::DMatch>& best_matches,
+							   std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points);
+public:
+  void CalulatePairs(bool bIsAligned, 
+	  std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points);
 };
 
 } // ntk

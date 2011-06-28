@@ -55,9 +55,12 @@ void RecontructorController::RunFromKineck()
 	c.SetSaveRawData(m_bIsSaveRawData);
 	c.SetSaveMappedData(m_bIsSaveMappedData);
 
-		c.SetDestinationFolder(m_strDestinationFolder);
+	c.SetDestinationFolder(m_strDestinationFolder);
 	c.SetRecordedFolderData(m_strRecordedFolderData);
 	c.SetPathCalibrationData(m_strPathCalibrationData);
+
+	c.setFilterFlags(m_iSavePlyMode);
+	c.SetSavePairs(m_bSavePairs);
 
 	consumers.create_thread(c);
 
@@ -109,6 +112,7 @@ void RecontructorController::RunFromRecordedData()
 	c.SetRecordedFolderData(m_strRecordedFolderData);
 	c.SetPathCalibrationData(m_strPathCalibrationData);
 	c.setFilterFlags(m_iSavePlyMode);
+	c.SetSavePairs(m_bSavePairs);
 
 	consumers.create_thread(c);
 

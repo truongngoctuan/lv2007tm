@@ -9,7 +9,8 @@ int main (int argc, char** argv)
 	rc.SetPathCalibrationData("kineck_calibration.yml");
 	rc.SetLoadDataFromKineck(false);
 	rc.SetSaveFilePlyMode(RecontructorController::Flags::Notprocess, true);
-	rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
+	rc.SetSaveFilePlyMode(RecontructorController::Flags::NotDecreaseSameVertex, true);
+	rc.SetSavePairs(false);
 	rc.Run();
 
 	////from kineck

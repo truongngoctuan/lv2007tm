@@ -385,7 +385,7 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image)
     return false;
 }
 
-void CalulatePairs(const Pose3D& depth_pose1, const Pose3D& depth_pose2,
+void RelativePoseEstimatorFromImage::CalulatePairs(const Pose3D& depth_pose1, const Pose3D& depth_pose2,
 							   const FeatureSet& image_features1, const FeatureSet& image_features2,
 							   const std::vector<cv::DMatch>& best_matches,
 							   std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points)
@@ -421,7 +421,7 @@ void CalulatePairs(const Pose3D& depth_pose1, const Pose3D& depth_pose2,
 
 boost::mutex mtcomputeNumMatchesWithPrevious;
 bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pose3D& current_pose_final, 
-													 std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points,
+													 //std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points,
 													 int& closest_view_index)
 {
   ntk_ensure(image.calibration(), "Image must be calibrated.");
@@ -501,28 +501,47 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pos
     ntk_dbg_print(image_features.locations().size(), 1);
     m_image_data.push_back(image_data);
 
-	if (closest_view_index != -1)
-	{//loai bo truogn hop dau tien ko co frame truoc do 
+	m_closest_view_index = closest_view_index;
+	m_best_matches = best_matches;
+	m_image = image;
 
-		//tinh lai cai new_pose giong nhu trong ha`m addnewpose
-
-		Pose3D depth_pose2 = *image.calibration()->depth_pose;
-		depth_pose2.applyTransformBefore(m_image_data[closest_view_index].depth_pose);
-
-		Pose3D depth_pose22 = *image.calibration()->depth_pose;
-		depth_pose22.applyTransformBefore(current_pose_final);
-
-
-
-	CalulatePairs(depth_pose2, depth_pose22,
-							   m_features[closest_view_index], image_features,
-							   best_matches,
-							   ref_points, img_points);
-	}
     return true;
   }
   else
     return false;
+}
+
+void RelativePoseEstimatorFromImage::CalulatePairs(bool bIsAligned, 
+	  std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points)
+{
+	if (m_closest_view_index != -1)
+	{//loai bo truogn hop dau tien ko co frame truoc do 
+
+		//tinh lai cai new_pose giong nhu trong ha`m addnewpose
+		if (bIsAligned)
+		{
+			Pose3D depth_pose2 = *m_image.calibration()->depth_pose;
+			depth_pose2.applyTransformBefore(m_image_data[m_closest_view_index].depth_pose);
+
+			Pose3D depth_pose22 = *m_image.calibration()->depth_pose;
+			depth_pose22.applyTransformBefore(m_image_data[m_image_data.size() - 1].depth_pose);
+
+			CalulatePairs(depth_pose2, depth_pose22,
+				m_features[m_closest_view_index], m_features[m_image_data.size() - 1],
+				m_best_matches,
+				ref_points, img_points);
+		}
+		else
+		{
+			Pose3D depth_pose2 = *m_image.calibration()->depth_pose;
+			Pose3D depth_pose22 = *m_image.calibration()->depth_pose;
+
+			CalulatePairs(depth_pose2, depth_pose22,
+				m_features[m_closest_view_index], m_features[m_image_data.size() - 1],
+				m_best_matches,
+				ref_points, img_points);
+		}
+	}
 }
 
 void RelativePoseEstimatorFromImage::reset()
