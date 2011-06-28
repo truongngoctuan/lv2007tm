@@ -26,6 +26,7 @@
 //#include <ntk/image/sift_gpu.h>
 #include <ntk/image/feature.h>
 #include <boost/thread.hpp>
+#include <ntk/icp/FeaturePairFilter.cpp>
 
 using namespace boost;
 using namespace boost::this_thread;
@@ -144,11 +145,14 @@ private:
   std::vector < FeatureSet > m_features;
   std::vector< ImageData > m_image_data;
   FeatureSetParams m_feature_parameters;
+public:
   bool m_use_icp;
-
+private:
   int m_closest_view_index;
   std::vector<cv::DMatch> m_best_matches;
   RGBDImage m_image;
+  FeatureSet m_Newfeatures;
+  ImageData m_Newimage_data;
 
   void CalulatePairs(const Pose3D& depth_pose1, const Pose3D& depth_pose2,
 							   const FeatureSet& image_features1, const FeatureSet& image_features2,

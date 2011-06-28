@@ -10,7 +10,8 @@ int main (int argc, char** argv)
 	rc.SetLoadDataFromKineck(false);
 	rc.SetSaveFilePlyMode(RecontructorController::Flags::Notprocess, true);
 	rc.SetSaveFilePlyMode(RecontructorController::Flags::NotDecreaseSameVertex, true);
-	rc.SetSavePairs(false);
+	rc.SetSavePairs(true);
+	rc.SetUseICP(true);
 	rc.Run();
 
 	////from kineck

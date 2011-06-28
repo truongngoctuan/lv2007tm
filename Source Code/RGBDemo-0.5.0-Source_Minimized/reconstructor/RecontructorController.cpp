@@ -62,6 +62,8 @@ void RecontructorController::RunFromKineck()
 	c.setFilterFlags(m_iSavePlyMode);
 	c.SetSavePairs(m_bSavePairs);
 
+	c.SetUseICP(m_bUseICP);
+
 	consumers.create_thread(c);
 
 	//FIX ME: change this to sth like check signal end this thread
@@ -113,6 +115,7 @@ void RecontructorController::RunFromRecordedData()
 	c.SetPathCalibrationData(m_strPathCalibrationData);
 	c.setFilterFlags(m_iSavePlyMode);
 	c.SetSavePairs(m_bSavePairs);
+	c.SetUseICP(m_bUseICP);
 
 	consumers.create_thread(c);
 

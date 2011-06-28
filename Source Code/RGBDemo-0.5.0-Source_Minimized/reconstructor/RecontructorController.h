@@ -93,6 +93,8 @@ public:
 	void SetDestinationFolder(string str) {m_strDestinationFolder = str;}
 	void SetRecordedFolderData(string str) {m_strRecordedFolderData = str;}
 	void SetPathCalibrationData(string str) {m_strPathCalibrationData = str;}
+
+	void SetUseICP(bool b) {m_bUseICP = b;}
 public:
 	RecontructorController(void);
 	~RecontructorController(void);
