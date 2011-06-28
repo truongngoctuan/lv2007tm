@@ -15,6 +15,7 @@
 #include <ntk/ModeRecordGrabberProducer.h>
 
 #include <boost/filesystem.hpp> 
+#include "MyAlign.h"
 
 using namespace boost::filesystem;
 
