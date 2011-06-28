@@ -14,6 +14,10 @@
 #include <ntk/FindFrameConsumer.h>
 #include <ntk/ModeRecordGrabberProducer.h>
 
+#include <boost/filesystem.hpp> 
+
+using namespace boost::filesystem;
+
 using namespace std;
 using namespace boost;
 using namespace boost::this_thread;
@@ -66,6 +70,7 @@ private:
 	string m_strRecordedFolderData;
 	string m_strPathCalibrationData;
 
+	string m_strCommandFile;
 public: 
 	void SetLoadDataFromKineck(bool b) {
 		m_bIsFromKineck = b;

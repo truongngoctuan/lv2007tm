@@ -92,11 +92,14 @@ void FindFrameConsumer::operator () ()
 
 			if(this->hasFilterFlag(FindFrameConsumer::Flags::NotDecreaseSameVertex))
 			{
+				string strFileNotDecreaseV = format("%s\\NotDecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image);
 				SurfelsRGBDModeler modeler;
 				modeler.setMinViewsPerSurfel(1);
 				SaveFilePly(modeler, m_last_image, ilast_image, currentPose, 
-					format("%s\\NotDecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image),
+					strFileNotDecreaseV.c_str(),
 					format("d:\\NotDecreaseSameVertex_%04d.ply", ilast_image));
+
+				m_vtFileNameNotDecrease.push_back(strFileNotDecreaseV);
 			}
 
 			if(this->hasFilterFlag(FindFrameConsumer::Flags::DecreaseSameVertex))
@@ -110,6 +113,8 @@ void FindFrameConsumer::operator () ()
 		}
 
 		delete m_last_image;
+
+		SaveFileTotalNotDecreaseSameVertex(format("d:\\listply_%04d.txt", ilast_image));
 
 		// Make sure we can be interrupted
 		boost::this_thread::interruption_point();
@@ -153,5 +158,15 @@ void FindFrameConsumer::SavePairs(int closest_view_index, string strFileName,
 			ofs << img_points[i].x * 1000.0f<<" "<<img_points[i].y * 1000.0f<<" "<<img_points[i].z * 1000.0f<<endl;
 		}
 		ofs.close();
+	}
+}
+
+void FindFrameConsumer::SaveFileTotalNotDecreaseSameVertex(string strName)
+{
+	ofstream ofs((strName).c_str());
+	ofs<<m_vtFileNameNotDecrease.size()<<endl;
+	for (int i = 0; i < m_vtFileNameNotDecrease.size(); i++)
+	{
+		ofs<<m_vtFileNameNotDecrease[i]<<endl;
 	}
 }

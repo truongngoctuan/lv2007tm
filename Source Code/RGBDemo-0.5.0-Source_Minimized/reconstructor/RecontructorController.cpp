@@ -4,6 +4,7 @@ RecontructorController::RecontructorController(void)
 {
 	m_iSavePlyMode = 0;
 	//SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
+	m_strCommandFile = "d:\\cm.txt";
 }
 
 RecontructorController::~RecontructorController(void)
@@ -122,9 +123,30 @@ void RecontructorController::RunFromRecordedData()
 	//FIX ME: change this to sth like check signal end this thread
 	// Wait for enter (two times because the return from the 
 	// previous cin is still in the buffer)
-	getchar(); getchar();
+	//getchar(); getchar();
+
+	while (true)
+	{
+		if (boost::filesystem::exists(m_strCommandFile.c_str()))
+		{
+			ifstream ifs(m_strCommandFile.c_str());
+			string strcm;
+			ifs >>strcm;
+			if (strcm == "exit")
+			{
+				break;
+			}
+		}
+		else
+		{
+			::sleep(boost::posix_time::millisec(500));
+		}
+	}
 
 	// Interrupt the threads and stop them
+	//c.SaveFileTotalNotDecreaseSameVertex("d:\\asd.txt");
 	producers.interrupt_all(); producers.join_all();
 	consumers.interrupt_all(); consumers.join_all();
+
+	//c.SaveFileTotalNotDecreaseSameVertex("d:\\asd.txt");
 }
