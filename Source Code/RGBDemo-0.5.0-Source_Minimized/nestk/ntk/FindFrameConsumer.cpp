@@ -1,5 +1,5 @@
 ﻿
-#include "FindFrameConsumer.h"
+#include "FindFrameConsumer.h"z
 
 // The thread function reads data from the queue
 void FindFrameConsumer::operator () ()
@@ -114,7 +114,7 @@ void FindFrameConsumer::operator () ()
 
 		delete m_last_image;
 
-		SaveFileTotalNotDecreaseSameVertex(format("d:\\listply_%04d.txt", ilast_image));
+		SaveFileTotalNotDecreaseSameVertex("d:\\listply.txt");
 
 		// Make sure we can be interrupted
 		boost::this_thread::interruption_point();
