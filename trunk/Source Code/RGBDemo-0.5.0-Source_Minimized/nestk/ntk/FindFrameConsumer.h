@@ -13,6 +13,7 @@
 #include <ntk/utils/time.h>
 #include <ntk/camera/rgbd_processor.h>
 #include <fstream>
+#include <vector>
 
 using namespace ntk;
 using namespace std;
@@ -61,6 +62,8 @@ private:
 	bool m_bSavePairs;
 
 	bool m_bUseICP;
+
+	vector<string> m_vtFileNameNotDecrease;
 public:
 	static void Init()
 	{
@@ -138,4 +141,6 @@ public:
 
 	void SetUseICP(bool b) {m_bUseICP = b;}
 	bool IsUseICP() {return m_bUseICP;}
+
+	void SaveFileTotalNotDecreaseSameVertex(string strName);
 };
