@@ -20,15 +20,17 @@ using namespace boost;
 using namespace boost::this_thread;
 using namespace cv;
 
+//fix loi multi def
+//http://msdn.microsoft.com/en-us/library/72zdcz6f%28v=vs.71%29.aspx
+//http://cubicspot.blogspot.com/2007/06/solving-pesky-lnk2005-errors.html
 RelativePoseEstimatorFromImage* pose_estimator;
 //SurfelsRGBDModeler current_modeler;
-//int iCurrentImageIndex;
+int iCurrentImageIndex;
 
 //boost::mutex m_mutex; 
 boost::mutex mtPoseEstimate;
 boost::mutex mtmodeler;
-//boost::mutex mtCurrentImageIndex;
-
+boost::mutex mtCurrentImageIndex;
 class FindFrameConsumer
 {
 private:
@@ -39,6 +41,9 @@ private:
 	//boost::mutex mt;
 	RGBDFrameRecorder * m_frame_recorder;
 	ntk::RGBDProcessor* m_processor;
+
+	bool m_bIsSaveRawData;
+	bool m_bIsSaveMappedData;
 public:
 	static void Init()
 	{
@@ -50,17 +55,17 @@ public:
 		//iCurrentImageIndex = 0;
 	}
 
-	//static int GetCurrentImageIndex()
-	//{
-	//	boost::unique_lock<boost::mutex> lock(mtCurrentImageIndex);
-	//	return iCurrentImageIndex;
-	//}
+	static int GetCurrentImageIndex()
+	{
+		boost::unique_lock<boost::mutex> lock(mtCurrentImageIndex);
+		return iCurrentImageIndex;
+	}
 
-	//static void IncCurrentImageIndex()
-	//{
-	//	boost::unique_lock<boost::mutex> lock(mtCurrentImageIndex);
-	//	iCurrentImageIndex++;
-	//}
+	static void IncCurrentImageIndex()
+	{
+		boost::unique_lock<boost::mutex> lock(mtCurrentImageIndex);
+		iCurrentImageIndex++;
+	}
 
 	// Constructor with id and the queue to use.
 	FindFrameConsumer(int id, SynchronisedQueue<RGBDImage *>* queue, 
@@ -83,103 +88,11 @@ public:
 	}
 
 	// The thread function reads data from the queue
-	void operator () ()
-	{
-		int ilast_image;
-		Pose3D currentPose;
-		bool pose_ok;
-		while (true)
-		{
-			//m_mutex.lock();
-			
-			RGBDImage * m_last_image = m_queue->Dequeue(ilast_image);
-			//m_mutex.unlock();
+	void operator () ();
 
-			 std::vector<cv::Point3f> ref_points;
-			 std::vector<cv::Point3f> img_points;
-			 int closest_view_index = -1;
+	void SetSaveRawData(bool b) {m_bIsSaveRawData = b;}
+	void SetSaveMappedData(bool b) {m_bIsSaveMappedData = b;}
 
-			TimeCountThread tc_rgbd_process(m_id, "processImage", 2);
-			m_processor->processImage(*m_last_image);
-			tc_rgbd_process.stop();
-
-			pose_ok = false;
-			//mtPoseEstimate.lock();
-			TimeCountThread tc_pose_ok(m_id, "pose_ok", 2);
-			pose_ok = pose_estimator->estimateNewPose(*m_last_image, currentPose,
-				ref_points, img_points, closest_view_index);
-			//currentPose = pose_estimator->currentPose();
-			//tc_pose_ok.stop();
-
-			//if (pose_ok)
-			//{
-			//	FindFrameConsumer::IncCurrentImageIndex();
-			//	ilast_image = FindFrameConsumer::GetCurrentImageIndex();
-			//}
-			mtPoseEstimate.unlock();
-
-			if (pose_ok)
-			{
-				//cap nhat currentFrame
-
-				m_frame_recorder->setFrameIndex(ilast_image);
-				std::string frame_dir = format("%s/view%04d", 
-				m_frame_recorder->directory().c_str(), 
-				ilast_image);
-
-				string NewFile = format("d:\\test\\color%04d.png", ilast_image);
-				//save
-				if (m_frame_recorder)
-				{
-					TimeCountThread tc_saveCurrentFrame(m_id, "saveCurrentFrame", 2);
-					m_frame_recorder->saveCurrentFrame(*m_last_image);
-					//boost::copy_file((frame_dir + "/raw/color.png").c_str(), NewFile.c_str());
-					//rename((frame_dir + "/raw/color.png").c_str(), NewFile.c_str());
-					tc_saveCurrentFrame.stop();
-				}
-
-				//{//tao file ply,...
-				mtmodeler.lock();
-				SurfelsRGBDModeler current_modeler;
-				current_modeler.setMinViewsPerSurfel(1);
-
-				//relative pose là so với frame đầu tiên 
-				//chứ ko phải so với frame trước đó
-				TimeCountThread tc_addNewView(m_id, "addNewView", 2);
-				current_modeler.addNewView(*m_last_image, currentPose);
-				tc_addNewView.stop();
-
-				TimeCountThread tc_computeMesh(m_id, "computeMesh", 2);
-				//current_modeler.computeMesh();
-				current_modeler.computeNewFrameMesh();
-				tc_computeMesh.stop();
-
-				TimeCountThread tc_saveToPlyFile(m_id, "saveToPlyFile", 2);
-				string strDestinationFileName = format("d:\\scene_mesh_%04d.ply", ilast_image);
-				current_modeler.currentMesh().saveToPlyFile(strDestinationFileName.c_str());
-				//current_modeler.currentMesh().saveNewFrameToPlyFile(strDestinationFileName.c_str());
-				rename((strDestinationFileName).c_str(), format("d:\\test\\scene_mesh_%04d.ply", ilast_image).c_str());
-				tc_saveToPlyFile.stop();
-				mtmodeler.unlock();
-
-				//save pairs 3d
-				if (closest_view_index != -1)
-				{
-					std::ofstream ofs (format("d:\\test\\pairs_%04d_%04d.txt", closest_view_index, ilast_image).c_str());
-					ofs<<ref_points.size()<<endl;
-					for (int i = 0; i < ref_points.size(); i++)
-					{
-						ofs << ref_points[i].x * 1000.0f<<" "<<ref_points[i].y * 1000.0f<<" "<<ref_points[i].z * 1000.0f<< " ";
-						ofs << img_points[i].x * 1000.0f<<" "<<img_points[i].y * 1000.0f<<" "<<img_points[i].z * 1000.0f<<endl;
-					}
-					ofs.close();
-				}
-			}
-
-			delete m_last_image;
-
-			// Make sure we can be interrupted
-			boost::this_thread::interruption_point();
-		}
-	}
+	bool IsSaveRawData() {return m_bIsSaveRawData;}
+	bool IsSaveMappedData() {return m_bIsSaveMappedData;}
 };
