@@ -460,6 +460,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\..\..\nestk\ntk\icp\FeaturePairFilter.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\..\..\nestk\ntk\numeric\levenberg_marquart_minimizer.cpp"
 				>
 			</File>
@@ -734,6 +738,10 @@
 		</File>
 		<File
 			RelativePath="..\..\..\nestk\ntk\FindFrameConsumer.h"
+			>
+		</File>
+		<File
+			RelativePath=".\GloVar.h"
 			>
 		</File>
 		<File

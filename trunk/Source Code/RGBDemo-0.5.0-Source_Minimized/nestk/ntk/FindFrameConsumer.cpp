@@ -9,7 +9,8 @@ void FindFrameConsumer::operator () ()
 	{
 		m_frame_recorder->setSaveOnlyRaw(false);
 	}
-
+	
+	pose_estimator->m_use_icp = this->IsUseICP();
 	int ilast_image;
 	Pose3D currentPose;
 	bool pose_ok;

@@ -59,6 +59,8 @@ private:
 	string m_strPathCalibrationData;
 
 	bool m_bSavePairs;
+
+	bool m_bUseICP;
 public:
 	static void Init()
 	{
@@ -133,4 +135,7 @@ public:
 
 	void SetSavePairs(bool b) {m_bSavePairs = b;}
 	bool IsSavePairs() {return m_bSavePairs;}
+
+	void SetUseICP(bool b) {m_bUseICP = b;}
+	bool IsUseICP() {return m_bUseICP;}
 };
