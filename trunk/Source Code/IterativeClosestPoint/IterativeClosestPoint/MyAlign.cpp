@@ -49,7 +49,6 @@ bool MyAlign::Align(string strFixName, string strMovName, string strPair)
 
 	editAlignPlugin.meshTree.pBaseNode = pFixNode;
 	editAlignPlugin.meshTree.pCurrentNode = pMovNode;
-
 	
 	if(!editAlignPlugin.glueByPicking(strPair))
 	{
