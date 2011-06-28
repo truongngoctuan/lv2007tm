@@ -36,8 +36,8 @@ void FindFrameConsumer::operator () ()
 
 		if (pose_ok)
 		{
-			FindFrameConsumer::IncCurrentImageIndex();
 			ilast_image = FindFrameConsumer::GetCurrentImageIndex();
+			FindFrameConsumer::IncCurrentImageIndex();
 		}
 		//currentPose = pose_estimator->currentPose();
 		//tc_pose_ok.stop();
@@ -49,10 +49,10 @@ void FindFrameConsumer::operator () ()
 			//cap nhat currentFrame
 			m_frame_recorder->setFrameIndex(ilast_image);
 			std::string frame_dir = format("%s/view%04d", 
-				m_frame_recorder->directory().c_str(), 
+				this->GetRecordedFolderData(), 
 				ilast_image);
 
-			string NewFile = format("d:\\test\\color%04d.png", ilast_image);
+			string NewFile = format("%s\\color%04d.png", this->GetDestinationFolder().c_str(),ilast_image);
 			//save
 			if (this->IsSaveRawData() && m_frame_recorder)
 			{
@@ -62,47 +62,83 @@ void FindFrameConsumer::operator () ()
 				tc_saveCurrentFrame.stop();
 			}
 
-			//{//tao file ply,...
-			mtmodeler.lock();
-			SurfelsRGBDModeler current_modeler;
-			current_modeler.setMinViewsPerSurfel(1);
-
-			//relative pose là so với frame đầu tiên 
-			//chứ ko phải so với frame trước đó
-			TimeCountThread tc_addNewView(m_id, "addNewView", 2);
-			current_modeler.addNewView(*m_last_image, currentPose);
-			tc_addNewView.stop();
-
-			TimeCountThread tc_computeMesh(m_id, "computeMesh", 2);
-			//current_modeler.computeMesh();
-			current_modeler.computeNewFrameMesh();
-			tc_computeMesh.stop();
-
-			TimeCountThread tc_saveToPlyFile(m_id, "saveToPlyFile", 2);
-			string strDestinationFileName = format("d:\\scene_mesh_%04d.ply", ilast_image);
-			current_modeler.currentMesh().saveToPlyFile(strDestinationFileName.c_str());
-			//current_modeler.currentMesh().saveNewFrameToPlyFile(strDestinationFileName.c_str());
-			rename((strDestinationFileName).c_str(), format("d:\\test\\scene_mesh_%04d.ply", ilast_image).c_str());
-			tc_saveToPlyFile.stop();
-			mtmodeler.unlock();
-
-			//save pairs 3d
-			if (closest_view_index != -1)
+			if(this->hasFilterFlag(FindFrameConsumer::Flags::Notprocess))
 			{
-				std::ofstream ofs (format("d:\\test\\pairs_%04d_%04d.txt", closest_view_index, ilast_image).c_str());
-				ofs<<ref_points.size()<<endl;
-				for (int i = 0; i < ref_points.size(); i++)
-				{
-					ofs << ref_points[i].x * 1000.0f<<" "<<ref_points[i].y * 1000.0f<<" "<<ref_points[i].z * 1000.0f<< " ";
-					ofs << img_points[i].x * 1000.0f<<" "<<img_points[i].y * 1000.0f<<" "<<img_points[i].z * 1000.0f<<endl;
-				}
-				ofs.close();
+				SurfelsRGBDModeler modeler;
+				modeler.setMinViewsPerSurfel(1);
+				SaveFilePly(modeler, m_last_image, ilast_image, *(m_last_image->calibration()->depth_pose), 
+					format("%s\\Notprocess_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image),
+					format("d:\\Notprocess_%04d.ply", ilast_image));
 			}
+
+			if(this->hasFilterFlag(FindFrameConsumer::Flags::NotDecreaseSameVertex))
+			{
+				SurfelsRGBDModeler modeler;
+				modeler.setMinViewsPerSurfel(1);
+				SaveFilePly(modeler, m_last_image, ilast_image, currentPose, 
+					format("%s\\NotDecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image),
+					format("d:\\NotDecreaseSameVertex_%04d.ply", ilast_image));
+
+				//save pairs 3d
+				SavePairs(closest_view_index, format("%s\\NotDecreaseSameVertexPairs_%04d_%04d.txt", this->GetDestinationFolder().c_str(), closest_view_index, ilast_image),
+									  ref_points, img_points);
+			}
+
+			if(this->hasFilterFlag(FindFrameConsumer::Flags::DecreaseSameVertex))
+			{
+				mtmodeler.lock();
+				SaveFilePly(current_modeler, m_last_image, ilast_image, currentPose, 
+					format("%s\\DecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image),
+					format("d:\\DecreaseSameVertex_%04d.ply", ilast_image));
+				mtmodeler.unlock();
+			}
+
+			
 		}
 
 		delete m_last_image;
 
 		// Make sure we can be interrupted
 		boost::this_thread::interruption_point();
+	}
+}
+
+void FindFrameConsumer::SaveFilePly(SurfelsRGBDModeler& modeler,
+									RGBDImage * m_last_image, int ilast_image, Pose3D currentPose,
+									string strFileName, string strTempFileName)
+{
+	//relative pose là so với frame đầu tiên 
+	//chứ ko phải so với frame trước đó
+	TimeCountThread tc_addNewView(m_id, "addNewView", 2);
+	modeler.addNewView(*m_last_image, currentPose);
+	tc_addNewView.stop();
+
+	TimeCountThread tc_computeMesh(m_id, "computeMesh", 2);
+	//current_modeler.computeMesh();
+	modeler.computeNewFrameMesh();
+	tc_computeMesh.stop();
+
+	TimeCountThread tc_saveToPlyFile(m_id, "saveToPlyFile", 2);
+	modeler.currentMesh().saveToPlyFile(strTempFileName.c_str());
+	//current_modeler.currentMesh().saveNewFrameToPlyFile(strDestinationFileName.c_str());
+	rename(strTempFileName.c_str(), strFileName.c_str());
+	tc_saveToPlyFile.stop();
+	
+}
+
+void FindFrameConsumer::SavePairs(int closest_view_index, string strFileName,
+								  std::vector<cv::Point3f> ref_points, std::vector<cv::Point3f> img_points)
+{
+	//save pairs 3d
+	if (closest_view_index != -1)
+	{
+		std::ofstream ofs (format("%s\\pairs_%04d_%04d.txt", this->GetDestinationFolder().c_str(), closest_view_index, ilast_image).c_str());
+		ofs<<ref_points.size()<<endl;
+		for (int i = 0; i < ref_points.size(); i++)
+		{
+			ofs << ref_points[i].x * 1000.0f<<" "<<ref_points[i].y * 1000.0f<<" "<<ref_points[i].z * 1000.0f<< " ";
+			ofs << img_points[i].x * 1000.0f<<" "<<img_points[i].y * 1000.0f<<" "<<img_points[i].z * 1000.0f<<endl;
+		}
+		ofs.close();
 	}
 }

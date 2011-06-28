@@ -8,6 +8,8 @@ int main (int argc, char** argv)
 	rc.SetRecordedFolderData("grab1");
 	rc.SetPathCalibrationData("kineck_calibration.yml");
 	rc.SetLoadDataFromKineck(false);
+	rc.SetSaveFilePlyMode(RecontructorController::Flags::Notprocess, true);
+	rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
 	rc.Run();
 
 	////from kineck

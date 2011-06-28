@@ -24,7 +24,7 @@ using namespace cv;
 //http://msdn.microsoft.com/en-us/library/72zdcz6f%28v=vs.71%29.aspx
 //http://cubicspot.blogspot.com/2007/06/solving-pesky-lnk2005-errors.html
 RelativePoseEstimatorFromImage* pose_estimator;
-//SurfelsRGBDModeler current_modeler;
+SurfelsRGBDModeler current_modeler;
 int iCurrentImageIndex;
 
 //boost::mutex m_mutex; 
@@ -44,13 +44,28 @@ private:
 
 	bool m_bIsSaveRawData;
 	bool m_bIsSaveMappedData;
+
+	enum Flags {
+		NotDecreaseSameVertex = 0x1,
+		DecreaseSameVertex = 0x2,
+		Notprocess = 0x4
+		//SaveFinalPly = 0x8
+	};
+	int m_iSavePlyMode;
+	
+
+	string m_strDestinationFolder;
+	string m_strRecordedFolderData;
+	string m_strPathCalibrationData;
+
+	
 public:
 	static void Init()
 	{
 		FeatureSetParams params ("SURF", "SURF64", true);
 		pose_estimator = new RelativePoseEstimatorFromImage(params, false);
 
-		//current_modeler.setMinViewsPerSurfel(1);
+		current_modeler.setMinViewsPerSurfel(1);
 
 		//iCurrentImageIndex = 0;
 	}
@@ -85,14 +100,32 @@ public:
 		m_processor->setFilterFlag(RGBDProcessor::ComputeMapping, true);
 		//m_processor->setFilterFlag(RGBDProcessor::UndistortImages, true);
 		////m_processor->setFilterFlag(RGBDProcessor::NiteProcessor, false);
+
+		m_iSavePlyMode = 0x0;
 	}
 
 	// The thread function reads data from the queue
 	void operator () ();
+	void SaveFilePly(SurfelsRGBDModeler& modeler,
+		RGBDImage * m_last_image, int ilast_image, Pose3D currentPose, 
+		string strFileName, string strTempFileName);
 
 	void SetSaveRawData(bool b) {m_bIsSaveRawData = b;}
 	void SetSaveMappedData(bool b) {m_bIsSaveMappedData = b;}
 
 	bool IsSaveRawData() {return m_bIsSaveRawData;}
 	bool IsSaveMappedData() {return m_bIsSaveMappedData;}
+
+	void SetSaveFilePlyMode(Flags flag, bool enabled)
+	{ if (enabled) m_iSavePlyMode |= flag; else m_iSavePlyMode &= ~flag; }
+	bool hasFilterFlag(Flags flag) const { return m_iSavePlyMode&flag; }
+	void setFilterFlags(int flags) { m_iSavePlyMode = flags; }
+
+	void SetDestinationFolder(string str) {m_strDestinationFolder = str;}
+	void SetRecordedFolderData(string str) {m_strRecordedFolderData = str;}
+	void SetPathCalibrationData(string str) {m_strPathCalibrationData = str;}
+
+	string GetDestinationFolder() {return m_strDestinationFolder;}
+	string GetRecordedFolderData() {return m_strRecordedFolderData;}
+	string GetPathCalibrationData() {return m_strPathCalibrationData;}
 };
