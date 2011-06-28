@@ -81,7 +81,10 @@ public:
 		}
 	}
 
-	//normal noneed, setup in upper function
+	void SetSavePairs(bool b) {m_bSavePairs = b;}
+
+	//normal 
+	//noneed, setup in upper function
 	void SetSaveRawData(bool b) {m_bIsSaveRawData = b;}
 	void SetSaveMappedData(bool b) {m_bIsSaveMappedData = b;}
 	void SetSaveFilePlyMode(Flags flag, bool enabled)

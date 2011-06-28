@@ -32,7 +32,8 @@ void FindFrameConsumer::operator () ()
 		//mtPoseEstimate.lock();
 		TimeCountThread tc_pose_ok(m_id, "pose_ok", 2);
 		pose_ok = pose_estimator->estimateNewPose(*m_last_image, currentPose,
-			ref_points, img_points, closest_view_index);
+			//ref_points, img_points, 
+			closest_view_index);
 
 		if (pose_ok)
 		{
@@ -53,7 +54,7 @@ void FindFrameConsumer::operator () ()
 				ilast_image);
 
 			string NewFile = format("%s\\color%04d.png", this->GetDestinationFolder().c_str(),ilast_image);
-			//save
+			//save frame
 			if (this->IsSaveRawData() && m_frame_recorder)
 			{
 				TimeCountThread tc_saveCurrentFrame(m_id, "saveCurrentFrame", 2);
@@ -62,6 +63,23 @@ void FindFrameConsumer::operator () ()
 				tc_saveCurrentFrame.stop();
 			}
 
+			//----------------------------------------------------------------
+			//save pairs 3d
+			if(this->hasFilterFlag(FindFrameConsumer::Flags::Notprocess) && this->IsSavePairs())
+			{
+				pose_estimator->CalulatePairs(false, ref_points, img_points);
+				this->SavePairs(closest_view_index, format("%s\\NotprocessPairs_%04d_%04d.txt", this->GetDestinationFolder().c_str(), closest_view_index, ilast_image),
+									  ref_points, img_points);
+			}
+			if(this->hasFilterFlag(FindFrameConsumer::Flags::NotDecreaseSameVertex) && this->IsSavePairs())
+			{
+				pose_estimator->CalulatePairs(true, ref_points, img_points);
+				this->SavePairs(closest_view_index, format("%s\\NotDecreaseSameVertexPairs_%04d_%04d.txt", this->GetDestinationFolder().c_str(), closest_view_index, ilast_image),
+									  ref_points, img_points);
+			}
+
+			//----------------------------------------------------------------
+			//save ply
 			if(this->hasFilterFlag(FindFrameConsumer::Flags::Notprocess))
 			{
 				SurfelsRGBDModeler modeler;
@@ -78,10 +96,6 @@ void FindFrameConsumer::operator () ()
 				SaveFilePly(modeler, m_last_image, ilast_image, currentPose, 
 					format("%s\\NotDecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image),
 					format("d:\\NotDecreaseSameVertex_%04d.ply", ilast_image));
-
-				//save pairs 3d
-				SavePairs(closest_view_index, format("%s\\NotDecreaseSameVertexPairs_%04d_%04d.txt", this->GetDestinationFolder().c_str(), closest_view_index, ilast_image),
-									  ref_points, img_points);
 			}
 
 			if(this->hasFilterFlag(FindFrameConsumer::Flags::DecreaseSameVertex))
@@ -92,8 +106,6 @@ void FindFrameConsumer::operator () ()
 					format("d:\\DecreaseSameVertex_%04d.ply", ilast_image));
 				mtmodeler.unlock();
 			}
-
-			
 		}
 
 		delete m_last_image;
@@ -132,7 +144,7 @@ void FindFrameConsumer::SavePairs(int closest_view_index, string strFileName,
 	//save pairs 3d
 	if (closest_view_index != -1)
 	{
-		std::ofstream ofs (format("%s\\pairs_%04d_%04d.txt", this->GetDestinationFolder().c_str(), closest_view_index, ilast_image).c_str());
+		std::ofstream ofs (strFileName.c_str());
 		ofs<<ref_points.size()<<endl;
 		for (int i = 0; i < ref_points.size(); i++)
 		{
