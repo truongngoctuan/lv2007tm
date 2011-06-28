@@ -37,20 +37,20 @@ EditAlignPlugin::EditAlignPlugin() {
 
 
 int EPSILON = 1e-4;
-bool isNearEqual(float a, float b)
+bool isAlmostEqual(float a, float b)
 {
 	if(abs(a - b) > EPSILON)
 		return false;
 	return true;
 }
 
-bool edgeNearEqual(vcg::Point3f p1a, vcg::Point3f p1b, vcg::Point3f p2a, vcg::Point3f p2b)
+bool edgeAlmostEqual(vcg::Point3f p1a, vcg::Point3f p1b, vcg::Point3f p2a, vcg::Point3f p2b)
 {
-	if(!isNearEqual(p1a.X() - p1b.X(), p2a.X() - p2b.X()))
+	if(!isAlmostEqual(p1a.X() - p1b.X(), p2a.X() - p2b.X()))
 		return false;
-	if(!isNearEqual(p1a.Y() - p1b.Y(), p2a.Y() - p2b.Y()))
+	if(!isAlmostEqual(p1a.Y() - p1b.Y(), p2a.Y() - p2b.Y()))
 		return false;
-	if(!isNearEqual(p1a.Z() - p1b.Z(), p2a.Z() - p2b.Z()))
+	if(!isAlmostEqual(p1a.Z() - p1b.Z(), p2a.Z() - p2b.Z()))
 		return false;
 	return true;
 }
@@ -59,8 +59,8 @@ bool InitFeaturePairs(std::vector<vcg::Point3f> *fixPnt, std::vector<vcg::Point3
 {
 	std::ifstream in(strPairs.c_str());
 
-	int threshold = 0;
-	in >> threshold;
+	int threshold = 10;
+	//in >> threshold;
 	EPSILON = threshold;
 
 	int num;
@@ -95,27 +95,27 @@ bool InitFeaturePairs(std::vector<vcg::Point3f> *fixPnt, std::vector<vcg::Point3
 			if(i2 == i1)
 				continue;
 
-			if(!edgeNearEqual(pFix[i2], pFix[i1], pMove[i2], pMove[i1]))
+			if(!edgeAlmostEqual(pFix[i2], pFix[i1], pMove[i2], pMove[i1]))
 				continue;
 			for(int i3 = 0; i3 < num; i3++)
 			{
 				if(i3 == i1 || i3 == i2)
 					continue;
 
-				if(!edgeNearEqual(pFix[i3], pFix[i1], pMove[i3], pMove[i1]))
+				if(!edgeAlmostEqual(pFix[i3], pFix[i1], pMove[i3], pMove[i1]))
 					continue;
-				/*if(!edgeNearEqual(pFix[i3], pFix[i2], pMove[i3], pMove[i2]))
+				/*if(!edgeAlmostEqual(pFix[i3], pFix[i2], pMove[i3], pMove[i2]))
 					continue;*/
 				for(int i4 = 0; i4 < num; i4++)
 				{
 					if(i4 == i1 || i4 == i2 || i4 == i3)
 						continue;
 
-					if(!edgeNearEqual(pFix[i4], pFix[i1], pMove[i4], pMove[i1]))
+					if(!edgeAlmostEqual(pFix[i4], pFix[i1], pMove[i4], pMove[i1]))
 						continue;
-					/*if(!edgeNearEqual(pFix[i4], pFix[i2], pMove[i4], pMove[i2]))
+					/*if(!edgeAlmostEqual(pFix[i4], pFix[i2], pMove[i4], pMove[i2]))
 						continue;
-					if(!edgeNearEqual(pFix[i4], pFix[i3], pMove[i4], pMove[i3]))
+					if(!edgeAlmostEqual(pFix[i4], pFix[i3], pMove[i4], pMove[i3]))
 						continue;*/
 
 					found = true;
@@ -154,7 +154,7 @@ bool InitFeaturePairs(std::vector<vcg::Point3f> *fixPnt, std::vector<vcg::Point3
 			if(i == index1 || i == index2 || i == index3 || i == index4)
 				continue;
 
-			if(edgeNearEqual(pFix[index1], pFix[i], pMove[index1], pMove[i]))
+			if(edgeAlmostEqual(pFix[index1], pFix[i], pMove[index1], pMove[i]))
 			{
 				fixPnt->push_back(pFix[i]);
 				movePnt->push_back(pMove[i]);

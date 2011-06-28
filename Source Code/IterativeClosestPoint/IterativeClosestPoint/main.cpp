@@ -98,16 +98,12 @@ int main()
 	// strPair : 
 	// useICP : 
 	
-	bool bResult = true;
 	for(int i = 0; i < nPairs; i++)
 	{
 		clock_t estimateStart = clock();
-		bResult = myAlign.Align(getName(pFix[i]), getName(pMov[i]), strDirectory + '\\' + pPairs[i]);
+		myAlign.Align(getName(pFix[i]), getName(pMov[i]), strDirectory + '\\' + pPairs[i]);
 		printf("\Estimate Time elapsed: %f\n", ((double)clock() - estimateStart) / CLOCKS_PER_SEC);
-
-		if(bResult == false)
-			return 0;
-	}	
+	}
 	// Finalize with ICP
 	clock_t icpStart = clock();
 	myAlign.FinalizeICP();
