@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PLY_to_PCD", "PLY_to_PCD\PLY_to_PCD.vcproj", "{90F99E2A-0C36-4FD6-83B8-803637230DD5}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "PCD_to_PLY", "PCD_to_PLY\PCD_to_PLY.vcproj", "{6AF19019-3E10-43DA-AA99-1DF4B3DB832C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90F99E2A-0C36-4FD6-83B8-803637230DD5}.Debug|Win32.ActiveCfg = Debug|Win32
+		{90F99E2A-0C36-4FD6-83B8-803637230DD5}.Debug|Win32.Build.0 = Debug|Win32
+		{90F99E2A-0C36-4FD6-83B8-803637230DD5}.Release|Win32.ActiveCfg = Release|Win32
+		{90F99E2A-0C36-4FD6-83B8-803637230DD5}.Release|Win32.Build.0 = Release|Win32
+		{6AF19019-3E10-43DA-AA99-1DF4B3DB832C}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6AF19019-3E10-43DA-AA99-1DF4B3DB832C}.Debug|Win32.Build.0 = Debug|Win32
+		{6AF19019-3E10-43DA-AA99-1DF4B3DB832C}.Release|Win32.ActiveCfg = Release|Win32
+		{6AF19019-3E10-43DA-AA99-1DF4B3DB832C}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
