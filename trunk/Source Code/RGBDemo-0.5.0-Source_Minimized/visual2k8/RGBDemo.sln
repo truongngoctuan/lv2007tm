@@ -22,7 +22,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rgbd-reconstructor", "recon
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glew", "nestk\deps\glew\glew.vcproj", "{F8D96341-BB3D-43B2-913D-EA7AADBADA1D}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IterativeClosestPoint", "..\IterativeClosestPoint\IterativeClosestPoint.vcproj", "{337C57B0-CB55-4FEA-956C-1953307D2DFE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "icp", "icp\icp.vcproj", "{337C57B0-CB55-4FEA-956C-1953307D2DFE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
