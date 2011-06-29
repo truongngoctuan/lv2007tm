@@ -92,6 +92,8 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ClientFileAndDirectory.cs" />
+    <Compile Include="ClientPackage.cs" />
     <Compile Include="Effects\PointEffect\PointEffect.cs" />
     <Compile Include="Models\FaceModel\FaceManager.cs" />
     <Compile Include="Models\FaceModel\FaceModel.cs" />
@@ -102,6 +104,7 @@
     <Compile Include="OpenFileControl.xaml.cs">
       <DependentUpon>OpenFileControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="SharpGIS.UnZipper.cs" />
     <Compile Include="Utils\Camera.cs" />
     <Compile Include="CameraMovements.cs" />
     <Compile Include="ClientLog.cs" />
@@ -133,6 +136,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Content Include="recontructor\config\GlobalDefaults.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\modules.xml.linux">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\modules.xml.mac">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\XnVFeatures\FeatureExtraction.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\XnVFeatures\h.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\XnVFeatures\s.dat">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\XnVHandGenerator\Nite.ini">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\kineck_calibration.yml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -144,6 +171,69 @@
     <PixelShader Include="Effects\PointEffect\PointEffect.ps.hlsl" />
     <VertexShader Include="Effects\PointEffect\PointEffect.vs.hlsl" />
     <None Include="Properties\OutOfBrowserSettings.xml" />
+    <Content Include="recontructor\boost_date_time-vc90-mt-gd-1_46_1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\boost_filesystem-vc90-mt-gd-1_46_1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\boost_system-vc90-mt-gd-1_46_1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\boost_thread-vc90-mt-gd-1_46_1.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\NestkConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\Sample-Scene.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\Sample-Tracking.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\Sample-User.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\config\SamplesConfig.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\glew.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\icp.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\IterativeClosestPoint.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\opencv_core220.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\opencv_core220d.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\opencv_features2d220.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\opencv_features2d220d.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\opencv_flann220.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\opencv_flann220d.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\opencv_highgui220.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\opencv_highgui220d.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="recontructor\rgbd-reconstructor.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="themes\System.Windows.Controls.Theming.ExpressionDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

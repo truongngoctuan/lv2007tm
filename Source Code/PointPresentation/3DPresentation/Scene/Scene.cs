@@ -30,8 +30,8 @@ namespace _3DPresentation
         SceneModel sceneModel = new SceneModel(false);
         public Scene()
         {
-            camera.cameraPosition = new Vector3(0, 0, 2.0f);
-            camera.cameraTarget = new Vector3(0, 0, -1.0f);
+            camera.cameraPosition = new Vector3(0, 0, 1000.0f);
+            camera.cameraTarget = new Vector3(0, 0, -1000.0f);
             UpdateView2();
 
             GlobalVars.Light1 = new Vector3(0, 0, -1.0f);
@@ -123,7 +123,7 @@ namespace _3DPresentation
             set
             {
                 // update the screen space transform every time the aspect ratio changes
-                camera.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 10.0f);
+                camera.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 30000.0f);
             }
         }       
             

@@ -1,4 +1,6 @@
-﻿using System.Runtime.InteropServices.Automation;
+﻿using System.Net;
+using System.Reflection;
+using System.Runtime.InteropServices.Automation;
 using System.Threading;
 using System.Windows.Controls;
 using System;
@@ -7,6 +9,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework;
 using System.Windows.Input;
 using System.Windows.Media;
+using SharpGIS;
 using _3DPresentation.Models;
 using System.IO;
 using System.Collections.Generic;
@@ -18,6 +21,7 @@ namespace _3DPresentation
         private static int MAX_FRAME_RATE = 24;
         // init the 3D scene
         Scene scene = new Scene();
+        private string _strWorkingDirectory = "d:\\\\";
 
         public MainPage()
         {
@@ -50,6 +54,12 @@ namespace _3DPresentation
 
             drawingSurface.Draw += new EventHandler<DrawEventArgs>(drawingSurface_Draw);
             drawingSurface.SizeChanged += new SizeChangedEventHandler(drawingSurface_SizeChanged);
+        }
+
+        public string WorkingDirectory
+        {
+            get { return _strWorkingDirectory; }
+            set { _strWorkingDirectory = value; }
         }
 
         void openFile2_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
@@ -131,10 +141,10 @@ namespace _3DPresentation
         }
 
         #region NewMove
-        const float ForwardSpeed = 0.1f;
-        const float BackSpeed = 0.1f;
-        const float LeftSpeed = 0.01f;
-        const float RightSpeed = 0.1f;
+        const float ForwardSpeed = 100.0f;
+        const float BackSpeed = 100.0f;
+        const float LeftSpeed = 100.0f;
+        const float RightSpeed = 100.0f;
 
         private void MoveForward_Click(object sender, RoutedEventArgs e)
         {
@@ -399,6 +409,17 @@ namespace _3DPresentation
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            using (dynamic shell = AutomationFactory.CreateObject("WScript.Shell"))
+            {
+                string strQuery =
+                string.Format("cmd {0} {1} {2} {3} {4}",
+                              WorkingDirectory + "recontructor\\rgbd-reconstructor.exe",
+                              "player",
+                              "d:\\test",
+                              "d:\\\\grab1",
+                              WorkingDirectory + "recontructor\\kineck_calibration.yml");
+                shell.Run(strQuery);
+            }
 
             new Thread(() =>
             {
@@ -441,7 +462,11 @@ namespace _3DPresentation
                                 FileInfo fi = new FileInfo(strFileName);
                                 if (fi.Extension.Equals(".ply"))
                                 {
-                                    scene.AddPointModel(fi);
+                                    if (fi.Name.StartsWith("DecreaseSameVertex"))
+                                    { 
+                                        scene.AddPointModel(fi); 
+                                    }
+                                    
                                 }
 
                                 return;
@@ -457,6 +482,12 @@ namespace _3DPresentation
                     }
                 }
             }).Start();
+        }
+
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {//download pakage
+            ClientPackage ck = new ClientPackage();
+            ck.DownloadtoClient("/recontructor.zip", WorkingDirectory);
         }
     }
 }
