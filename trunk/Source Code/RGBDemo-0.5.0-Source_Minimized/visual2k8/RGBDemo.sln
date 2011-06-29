@@ -22,6 +22,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "rgbd-reconstructor", "recon
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "glew", "nestk\deps\glew\glew.vcproj", "{F8D96341-BB3D-43B2-913D-EA7AADBADA1D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IterativeClosestPoint", "..\IterativeClosestPoint\IterativeClosestPoint.vcproj", "{337C57B0-CB55-4FEA-956C-1953307D2DFE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -81,6 +83,16 @@ Global
 		{F8D96341-BB3D-43B2-913D-EA7AADBADA1D}.Release|Win32.Build.0 = Release|Win32
 		{F8D96341-BB3D-43B2-913D-EA7AADBADA1D}.RelWithDebInfo|Win32.ActiveCfg = RelWithDebInfo|Win32
 		{F8D96341-BB3D-43B2-913D-EA7AADBADA1D}.RelWithDebInfo|Win32.Build.0 = RelWithDebInfo|Win32
+		{337C57B0-CB55-4FEA-956C-1953307D2DFE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{337C57B0-CB55-4FEA-956C-1953307D2DFE}.Debug|Win32.Build.0 = Debug|Win32
+		{337C57B0-CB55-4FEA-956C-1953307D2DFE}.MinSizeRel|Win32.ActiveCfg = Release|Win32
+		{337C57B0-CB55-4FEA-956C-1953307D2DFE}.MinSizeRel|Win32.Build.0 = Release|Win32
+		{337C57B0-CB55-4FEA-956C-1953307D2DFE}.Release,RelWithDebInfo|Win32.ActiveCfg = Release|Win32
+		{337C57B0-CB55-4FEA-956C-1953307D2DFE}.Release,RelWithDebInfo|Win32.Build.0 = Release|Win32
+		{337C57B0-CB55-4FEA-956C-1953307D2DFE}.Release|Win32.ActiveCfg = Release|Win32
+		{337C57B0-CB55-4FEA-956C-1953307D2DFE}.Release|Win32.Build.0 = Release|Win32
+		{337C57B0-CB55-4FEA-956C-1953307D2DFE}.RelWithDebInfo|Win32.ActiveCfg = Release|Win32
+		{337C57B0-CB55-4FEA-956C-1953307D2DFE}.RelWithDebInfo|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
