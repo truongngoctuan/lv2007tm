@@ -68,6 +68,7 @@ private:
 	//2. recorded folder data, in this mode, do not save data back
 	//3. path of calibration data
 	string m_strDestinationFolder;
+	string m_strDestinationFolderTemp;
 	string m_strRecordedFolderData;
 	string m_strPathCalibrationData;
 
@@ -96,7 +97,9 @@ public:
 	void SetSaveFilePlyMode(Flags flag, bool enabled)
 	{ if (enabled) m_iSavePlyMode |= flag; else m_iSavePlyMode &= ~flag; }
 
-	void SetDestinationFolder(string str) {m_strDestinationFolder = str;}
+	void SetDestinationFolder(string str) {
+		m_strDestinationFolder = str;
+		m_strDestinationFolderTemp = m_strDestinationFolder + "\\temp";}
 	void SetRecordedFolderData(string str) {m_strRecordedFolderData = str;}
 	void SetPathCalibrationData(string str) {m_strPathCalibrationData = str;}
 

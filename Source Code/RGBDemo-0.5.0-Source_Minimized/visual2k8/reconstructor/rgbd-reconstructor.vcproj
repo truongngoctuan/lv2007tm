@@ -55,7 +55,7 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\PrimeSense\NITE\Include&quot;;..\..;.;..\..\reconstructor;&quot;C:\Program Files (x86)\boost\boost_1_46_1&quot;;C:\OpenCV2.2\include;..\..\vcglib\;..\..\IterativeClosestPoint\"
+				AdditionalIncludeDirectories="..\nestk\deps;..\..\nestk\deps;..\..\nestk;..\nestk;..\..\nestk\deps\include;..\..\nestk\deps\eigen;..;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\PrimeSense\NITE\Include&quot;;..\..;.;..\..\reconstructor;&quot;C:\Program Files (x86)\boost\boost_1_46_1&quot;;C:\OpenCV2.2\include;..\..\vcglib\;..\..\icp\"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;QT_DEBUG;CMAKE_INTDIR=\&quot;Debug\&quot;"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
@@ -497,7 +497,7 @@
 	<References>
 		<ProjectReference
 			ReferencedProjectIdentifier="{337C57B0-CB55-4FEA-956C-1953307D2DFE}"
-			RelativePathToProject="..\IterativeClosestPoint\IterativeClosestPoint.vcproj"
+			RelativePathToProject=".\icp\icp.vcproj"
 		/>
 	</References>
 	<Files>

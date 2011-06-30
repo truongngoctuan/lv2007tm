@@ -34,6 +34,14 @@ boost::mutex mtmodeler;
 boost::mutex mtCurrentImageIndex;
 class FindFrameConsumer
 {
+//public:
+//	FindFrameConsumer* pData;
+public:
+	void RunThread();
+	static void do_thread(void* param) {
+        static_cast<FindFrameConsumer*>(param)->RunThread();
+    }
+
 private:
 	int m_id;										// The id of the consumer
 	SynchronisedQueue<RGBDImage *>* m_queue;		// The queue to use
@@ -58,6 +66,7 @@ private:
 	string m_strDestinationFolder;
 	string m_strRecordedFolderData;
 	string m_strPathCalibrationData;
+	string m_strDestinationFolderTemp;
 
 	bool m_bSavePairs;
 
@@ -107,10 +116,12 @@ public:
 		////m_processor->setFilterFlag(RGBDProcessor::NiteProcessor, false);
 
 		m_iSavePlyMode = 0x0;
+		//pData = this;
 	}
 
 	// The thread function reads data from the queue
-	void operator () ();
+	//void operator () ();
+	
 	void SaveFilePly(SurfelsRGBDModeler& modeler,
 		RGBDImage * m_last_image, int ilast_image, Pose3D currentPose, 
 		string strFileName, string strTempFileName);
@@ -129,10 +140,12 @@ public:
 	void setFilterFlags(int flags) { m_iSavePlyMode = flags; }
 
 	void SetDestinationFolder(string str) {m_strDestinationFolder = str;}
+	void SetDestinationFolderTemp(string str) {m_strDestinationFolderTemp = str;}
 	void SetRecordedFolderData(string str) {m_strRecordedFolderData = str;}
 	void SetPathCalibrationData(string str) {m_strPathCalibrationData = str;}
 
 	string GetDestinationFolder() {return m_strDestinationFolder;}
+	string GetDestinationFolderTemp() {return m_strDestinationFolderTemp;}
 	string GetRecordedFolderData() {return m_strRecordedFolderData;}
 	string GetPathCalibrationData() {return m_strPathCalibrationData;}
 
