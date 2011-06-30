@@ -1,11 +1,13 @@
 ﻿#pragma once
 #include "RecontructorController.h"
 #include "MyAlign.h"
+#include "PCL_Write.h"
 #include <string>
 using namespace std;
 
 int main (int argc, char* argv[])
 {
+	PCL_Write::Auto("pcd.pcd");
 	string strMode = argv[1];
 	if (strMode == "player")
 	{
