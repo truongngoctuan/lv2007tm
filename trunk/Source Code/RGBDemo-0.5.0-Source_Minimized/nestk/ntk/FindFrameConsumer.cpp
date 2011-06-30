@@ -1,8 +1,8 @@
 ﻿
-#include "FindFrameConsumer.h"z
+#include "FindFrameConsumer.h"
 
 // The thread function reads data from the queue
-void FindFrameConsumer::operator () ()
+void FindFrameConsumer::RunThread()
 {
 	//init sth before run
 	if(this->IsSaveRawData() && this->IsSaveMappedData())
@@ -51,7 +51,7 @@ void FindFrameConsumer::operator () ()
 			//cap nhat currentFrame
 			m_frame_recorder->setFrameIndex(ilast_image);
 			std::string frame_dir = format("%s/view%04d", 
-				this->GetRecordedFolderData(), 
+				this->GetRecordedFolderData().c_str(), 
 				ilast_image);
 
 			string NewFile = format("%s\\color%04d.png", this->GetDestinationFolder().c_str(),ilast_image);
@@ -87,19 +87,18 @@ void FindFrameConsumer::operator () ()
 				modeler.setMinViewsPerSurfel(1);
 				SaveFilePly(modeler, m_last_image, ilast_image, *(m_last_image->calibration()->depth_pose), 
 					format("%s\\Notprocess_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image),
-					format("d:\\Notprocess_%04d.ply", ilast_image));
+					format("%s\\Notprocess_%04d.ply", this->GetDestinationFolderTemp().c_str(), ilast_image));
 			}
 
 			if(this->hasFilterFlag(FindFrameConsumer::Flags::NotDecreaseSameVertex))
 			{
-				string strFileNotDecreaseV = format("%s\\NotDecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image);
 				SurfelsRGBDModeler modeler;
 				modeler.setMinViewsPerSurfel(1);
 				SaveFilePly(modeler, m_last_image, ilast_image, currentPose, 
-					strFileNotDecreaseV.c_str(),
-					format("d:\\NotDecreaseSameVertex_%04d.ply", ilast_image));
+					format("%s\\NotDecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image),
+					format("%s\\NotDecreaseSameVertex_%04d.ply", this->GetDestinationFolderTemp().c_str(), ilast_image));
 
-				m_vtFileNameNotDecrease.push_back(strFileNotDecreaseV);
+				m_vtFileNameNotDecrease.push_back(format("%s\\NotDecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image));
 			}
 
 			if(this->hasFilterFlag(FindFrameConsumer::Flags::DecreaseSameVertex))
@@ -107,14 +106,14 @@ void FindFrameConsumer::operator () ()
 				mtmodeler.lock();
 				SaveFilePly(current_modeler, m_last_image, ilast_image, currentPose, 
 					format("%s\\DecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image),
-					format("d:\\DecreaseSameVertex_%04d.ply", ilast_image));
+					format("%s\\DecreaseSameVertex_%04d.ply", this->GetDestinationFolderTemp().c_str(), ilast_image));
 				mtmodeler.unlock();
 			}
 		}
 
 		delete m_last_image;
 
-		SaveFileTotalNotDecreaseSameVertex("d:\\listply.txt");
+		//SaveFileTotalNotDecreaseSameVertex("d:\\listply.txt");
 
 		// Make sure we can be interrupted
 		boost::this_thread::interruption_point();

@@ -4,32 +4,52 @@
 #include <string>
 using namespace std;
 
-int main (int argc, char** argv)
+int main (int argc, char* argv[])
 {
-	//fromrecord
-	RecontructorController rc;
-	rc.SetDestinationFolder("d:\\test");
-	rc.SetRecordedFolderData("grab1");
-	rc.SetPathCalibrationData("kineck_calibration.yml");
-	rc.SetLoadDataFromKineck(false);
-	//rc.SetSaveFilePlyMode(RecontructorController::Flags::Notprocess, true);
-	rc.SetSaveFilePlyMode(RecontructorController::Flags::NotDecreaseSameVertex, true);
-	rc.SetSavePairs(true);
-	rc.SetUseICP(true);
-	rc.Run();
+	string strMode = argv[1];
+	if (strMode == "player")
+	{
+		if (argc == 5)
+		{
+			string strDestinationFolder = argv[2];
+			string strRecordedFolderData = argv[3];
+			string strPathCalibrationData = argv[4];
 
-	//RecontructorController rc;
-	//rc.SetDestinationFolder("d:\\test");
-	//rc.SetRecordedFolderData("grab1");
-	//rc.SetPathCalibrationData("kineck_calibration.yml");
-	//rc.SetLoadDataFromKineck(true);
-	////rc.SetSaveFilePlyMode(RecontructorController::Flags::Notprocess, true);
-	//rc.SetSaveFilePlyMode(RecontructorController::Flags::NotDecreaseSameVertex, true);
-	//rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
-	//rc.SetSavePairs(true);
-	//rc.SetUseICP(true);
-	//rc.Run();
+			//fromrecord
+			RecontructorController rc;
+			rc.SetDestinationFolder(strDestinationFolder);
+			rc.SetRecordedFolderData(strRecordedFolderData);
+			rc.SetPathCalibrationData(strPathCalibrationData);
+			rc.SetLoadDataFromKineck(false);
+			//rc.SetSaveFilePlyMode(RecontructorController::Flags::Notprocess, true);
+			rc.SetSaveFilePlyMode(RecontructorController::Flags::NotDecreaseSameVertex, true);
+			rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
+			rc.SetSavePairs(true);
+			rc.SetUseICP(true);
+			rc.Run();
+		}
+	}
 
-	//MyAlign::Auto("script.txt", "D:\\");
+	if ( strMode == "kineck")
+	{
+		if (argc == 5)
+		{
+			string strDestinationFolder = argv[2];
+			string strRecordedFolderData = argv[3];
+
+			RecontructorController rc;
+			rc.SetDestinationFolder(strDestinationFolder);
+			rc.SetRecordedFolderData(strRecordedFolderData);
+			//rc.SetPathCalibrationData("kineck_calibration.yml");
+			rc.SetLoadDataFromKineck(true);
+			//rc.SetSaveFilePlyMode(RecontructorController::Flags::Notprocess, true);
+			rc.SetSaveFilePlyMode(RecontructorController::Flags::NotDecreaseSameVertex, true);
+			rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
+			rc.SetSavePairs(true);
+			rc.SetUseICP(true);
+			rc.Run();
+		}
+	}
+
 	return 0;
 }
