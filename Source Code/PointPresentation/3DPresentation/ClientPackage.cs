@@ -61,6 +61,7 @@ namespace _3DPresentation
             else
             {
                 ClientFileAndDirectory.UnZip(WorkingDirectory, e.Result);
+                MessageBox.Show("Download Done!");
             }
         }
     }

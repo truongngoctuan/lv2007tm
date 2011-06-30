@@ -21,7 +21,8 @@ namespace _3DPresentation
         private static int MAX_FRAME_RATE = 24;
         // init the 3D scene
         Scene scene = new Scene();
-        private string _strWorkingDirectory = "d:\\\\";
+        private string _strWorkingDirectory;
+        private string _strWorkingDirectoryTemp;
 
         public MainPage()
         {
@@ -59,7 +60,15 @@ namespace _3DPresentation
         public string WorkingDirectory
         {
             get { return _strWorkingDirectory; }
-            set { _strWorkingDirectory = value; }
+            set { _strWorkingDirectory = value;
+                WorkingDirectoryTemp = _strWorkingDirectory + "\\temp";
+            }
+        }
+
+        public string WorkingDirectoryTemp
+        {
+            get { return _strWorkingDirectoryTemp; }
+            set { _strWorkingDirectoryTemp = value; }
         }
 
         void openFile2_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
@@ -407,87 +416,141 @@ namespace _3DPresentation
             myUIFPS.Dispatcher.BeginInvoke(new Action(() => { myUIFPS.Text = "Light 1: " + GlobalVars.Light1.X.ToString("0.00") + " " + GlobalVars.Light1.Y.ToString("0.00") + " " + GlobalVars.Light1.Z.ToString("0.00"); }));
         }
 
+        void SetupWorkingDirectory()
+        {
+            WorkingDirectory = "d:\\\\test2";
+
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            using (dynamic shell = AutomationFactory.CreateObject("WScript.Shell"))
+            try
             {
-                string strQuery =
-                string.Format("cmd {0} {1} {2} {3} {4}",
-                              WorkingDirectory + "recontructor\\rgbd-reconstructor.exe",
-                              "player",
-                              "d:\\test",
-                              "d:\\\\grab1",
-                              WorkingDirectory + "recontructor\\kineck_calibration.yml");
-                shell.Run(strQuery);
-            }
+                SetupWorkingDirectory();
 
-            new Thread(() =>
-            {
-                using (dynamic SWbemLocator = AutomationFactory.CreateObject("WbemScripting.SWbemLocator"))
+                using (dynamic shell = AutomationFactory.CreateObject("WScript.Shell"))
                 {
-                    SWbemLocator.Security_.ImpersonationLevel = 3;
-                    SWbemLocator.Security_.AuthenticationLevel = 4;
-                    dynamic IService = SWbemLocator.ConnectServer(".", @"root\cimv2");
-
-
-                    string fileSystemWatcherQuery =
-                        @"SELECT * FROM __InstanceOperationEvent WITHIN 3 WHERE Targetinstance ISA 'CIM_DirectoryContainsFile' and TargetInstance.GroupComponent= 'Win32_Directory.Name=""d:\\\\test""'";
-                    dynamic monitor = IService.ExecNotificationQuery(fileSystemWatcherQuery);
-
-                    //Dispatcher.BeginInvoke(() => MessageBox.Show(@"Now listening to file changes on d:\test2"));
-
-                    while (true)
-                    {
-                        dynamic eventObject = monitor.NextEvent();
-                        string eventType = eventObject.Path_.Class;
-                        string path = eventObject.TargetInstance.PartComponent;
-
-                        Dispatcher.BeginInvoke(() =>
-                        {
-                            //MessageBox.Show(eventType + ": " + path);
-                            string[] strSplit = path.Split('\"');
-                            //MessageBox.Show(eventType + ": " + strSplit[strSplit.Length - 2]);
-                            string strFileName = strSplit[strSplit.Length - 2];
-                            if (eventType.IndexOf("CreationEvent") > 0)
-                            {
-                                //create event
-                                //MessageBox.Show("Create" + ": " + strFileName);
-
-                                //BitmapImage bi = new BitmapImage();
-                                //FileInfo fio = new FileInfo(strFileName);
-                                //System.IO.Stream stream2 = fio.OpenRead();
-                                //bi.SetSource(stream2);
-                                //myImage.Source = bi;
-                                //stream2.Close();
-                                FileInfo fi = new FileInfo(strFileName);
-                                if (fi.Extension.Equals(".ply"))
-                                {
-                                    if (fi.Name.StartsWith("DecreaseSameVertex"))
-                                    { 
-                                        scene.AddPointModel(fi); 
-                                    }
-                                    
-                                }
-
-                                return;
-                            }
-
-                            if (eventType.IndexOf("DeletionEvent") > 0)
-                            {
-                                //delete event
-                                //MessageBox.Show("Delete" + ": " + strFileName);
-                                return;
-                            }
-                        });
-                    }
+                    //player d:\\test2 d:\\grab1 d:\\kineck_calibration.yml
+                    string strQuery =
+                    string.Format("{0} {1} {2} {3} {4}",
+                                  WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
+                                  "player",
+                                  WorkingDirectory + "\\result",
+                                  WorkingDirectory + "\\recorded\\grab1",
+                                  WorkingDirectory + "\\recontructor\\kineck_calibration.yml");
+                    shell.Run(strQuery);
                 }
-            }).Start();
+
+                new Thread(() =>
+                {
+                    try
+                    {
+                        using (dynamic SWbemLocator = AutomationFactory.CreateObject("WbemScripting.SWbemLocator"))
+                        {
+                            SWbemLocator.Security_.ImpersonationLevel = 3;
+                            SWbemLocator.Security_.AuthenticationLevel = 4;
+                            dynamic IService = SWbemLocator.ConnectServer(".", @"root\cimv2");
+
+                            string strWatchFolder = (WorkingDirectory + "\\result").Replace(@"\", @"\\\\").Replace(@"\\\\\\\\", @"\\\\");
+                            //string strWatchFolder = (@"d:\\\\test2\\\\result");//.Replace(@"\", @"\\");
+
+                            string fileSystemWatcherQuery =
+                                string.Format(@"SELECT * FROM __InstanceOperationEvent WITHIN 3 WHERE Targetinstance ISA 'CIM_DirectoryContainsFile' and TargetInstance.GroupComponent= 'Win32_Directory.Name=""{0}""'",
+                                strWatchFolder);
+                            dynamic monitor = IService.ExecNotificationQuery(fileSystemWatcherQuery);
+
+                            //Dispatcher.BeginInvoke(() => MessageBox.Show(@"Now listening to file changes on d:\test2"));
+
+                            while (true)
+                            {
+                                dynamic eventObject = monitor.NextEvent();
+                                string eventType = eventObject.Path_.Class;
+                                string path = eventObject.TargetInstance.PartComponent;
+
+                                Dispatcher.BeginInvoke(() =>
+                                {
+                                    //MessageBox.Show(eventType + ": " + path);
+                                    string[] strSplit = path.Split('\"');
+                                    //MessageBox.Show(eventType + ": " + strSplit[strSplit.Length - 2]);
+                                    string strFileName = strSplit[strSplit.Length - 2];
+                                    if (eventType.IndexOf("CreationEvent") > 0)
+                                    {
+                                        //create event
+                                        //MessageBox.Show("Create" + ": " + strFileName);
+
+                                        //BitmapImage bi = new BitmapImage();
+                                        //FileInfo fio = new FileInfo(strFileName);
+                                        //System.IO.Stream stream2 = fio.OpenRead();
+                                        //bi.SetSource(stream2);
+                                        //myImage.Source = bi;
+                                        //stream2.Close();
+                                        FileInfo fi = new FileInfo(strFileName);
+                                        if (fi.Extension.Equals(".ply"))
+                                        {
+                                            if (fi.Name.StartsWith("DecreaseSameVertex"))
+                                            {
+                                                scene.AddPointModel(fi);
+                                            }
+
+                                        }
+
+                                        return;
+                                    }
+
+                                    if (eventType.IndexOf("DeletionEvent") > 0)
+                                    {
+                                        //delete event
+                                        //MessageBox.Show("Delete" + ": " + strFileName);
+                                        return;
+                                    }
+                                });
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        throw;
+                    }
+                    
+                }).Start();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {//download pakage
-            ClientPackage ck = new ClientPackage();
-            ck.DownloadtoClient("/recontructor.zip", WorkingDirectory);
+            try
+            {
+                SetupWorkingDirectory();
+                ClientPackage ck = new ClientPackage();
+                ck.DownloadtoClient("/recontructor.zip", WorkingDirectory);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+        }
+
+        private void Button_Click_2(object sender, RoutedEventArgs e)
+        {//stop c++ exe
+            try
+            {
+                string[] lines = { "exit" };
+                System.IO.File.WriteAllLines(WorkingDirectoryTemp + "\\cm.txt", lines);
+                ClientFileAndDirectory.MoveFile(WorkingDirectoryTemp + "\\cm.txt", WorkingDirectory + "\\result\\cm.txt");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+            
         }
     }
 }
