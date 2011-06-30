@@ -8,6 +8,6 @@ public:
 	~PCL_Write(void);
 
 public:
-	static __declspec(dllexport) bool Auto(std::string strPCDFile);
+	static __declspec(dllexport) bool Auto(const char * strPCDFile);
 };
 
