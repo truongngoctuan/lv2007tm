@@ -65,6 +65,14 @@ namespace _3DPresentation
             }
         }
 
+        public static void MoveFile(string strSource, string strDes)
+        {
+            using (dynamic fsoCom = AutomationFactory.CreateObject("Scripting.FileSystemObject"))
+            {
+                fsoCom.MoveFile(strSource, strDes);
+            }
+        }
+
         private static void ReadWriteStream(Stream readStream, Stream writeStream)
         {
             int Length = 256;
@@ -84,6 +92,7 @@ namespace _3DPresentation
         {
             try
             {
+                strWorkingDirectory += "\\";
                 UnZipper unzip = new UnZipper(sUnzip);
                     //string str = string.Empty;
                     //str += "___DIRECTORIES:___\n";
