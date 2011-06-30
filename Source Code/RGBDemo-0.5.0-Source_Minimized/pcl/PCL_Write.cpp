@@ -12,7 +12,7 @@ PCL_Write::~PCL_Write(void)
 {
 }
 
-bool PCL_Write::Auto(std::string strPCDFile)
+bool PCL_Write::Auto(const char *strPCDFile)
 {
 	pcl::PointCloud<pcl::PointXYZ> cloud;
 
@@ -29,7 +29,7 @@ bool PCL_Write::Auto(std::string strPCDFile)
     cloud.points[i].z = 1024 * rand () / (RAND_MAX + 1.0);
   }
 
-  pcl::io::savePCDFileASCII (strPCDFile.c_str(), cloud);
+  pcl::io::savePCDFileASCII (strPCDFile, cloud);
   std::cerr << "Saved " << cloud.points.size () << " data points to test_pcd.pcd." << std::endl;
 
   for (size_t i = 0; i < cloud.points.size (); ++i)
