@@ -15,15 +15,15 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="pcd_write.cpp">
+    <ClCompile Include="..\..\pcl\pcd_write.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PCL_Write.cpp">
+    <ClCompile Include="..\..\pcl\PCL_Write.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="PCL_Write.h">
+    <ClInclude Include="..\..\pcl\PCL_Write.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
