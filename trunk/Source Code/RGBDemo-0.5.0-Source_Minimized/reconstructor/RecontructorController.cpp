@@ -14,6 +14,8 @@ RecontructorController::~RecontructorController(void)
 
 void RecontructorController::Run()
 {
+	//MyAlign::Auto("d:\\test2\\result\\listply.txt", "d:\\test2\\result");
+	//return;
 	if (m_bIsFromKineck)
 	{
 		boost::filesystem3::remove_all(path(m_strDestinationFolder));
@@ -115,11 +117,47 @@ void RecontructorController::RunFromKineck()
 	consumers.remove_thread(&thc);
 	c->SaveFileTotalNotDecreaseSameVertex(m_strDestinationFolder + "\\listply.txt");
 
-	MyAlign::Auto(m_strDestinationFolder + "\\listply.txt", m_strDestinationFolder);
+	//MyAlign::Auto(m_strDestinationFolder + "\\listply.txt", m_strDestinationFolder);
+}
+
+void getrtMatrixFromFile(string str, cv::Vec3f& translation, cv::Mat1d& rotation_matrix)
+{
+	ifstream ifs (str.c_str());
+	ifs >>rotation_matrix[0][0]>>rotation_matrix[0][1]>>rotation_matrix[0][2]>>translation[0];
+	ifs >>rotation_matrix[1][0]>>rotation_matrix[1][1]>>rotation_matrix[1][2]>>translation[1];
+	ifs >>rotation_matrix[2][0]>>rotation_matrix[2][1]>>rotation_matrix[2][2]>>translation[2];
+	ifs.close();
 }
 
 void RecontructorController::RunFromRecordedData()
 {
+	//MyAlign::Auto("d:\\temp33\\listply.txt", "d:\\temp33");
+	//MyAlign::Auto(m_strDestinationFolder + "\\listply.txt", m_strDestinationFolder);
+
+//return;
+	//cv::Vec3f T1;
+	//cv::Mat1d R1(3, 3, 0.0f);
+	//getrtMatrixFromFile("d:\\temp33\\NotDecreaseSameVertex_0009.txt", T1, R1);
+
+	//cout <<R1[0][0]<<" "<<R1[0][1]<<" "<<R1[0][2]<<" "<<T1[0]<<endl;
+	//cout <<R1[1][0]<<" "<<R1[1][1]<<" "<<R1[1][2]<<" "<<T1[1]<<endl;
+	//cout <<R1[2][0]<<" "<<R1[2][1]<<" "<<R1[2][2]<<" "<<T1[2]<<endl;
+	//cout<<"--------------"<<endl;
+
+	//cv::Vec3f T2;
+	//cv::Mat1d R2(3, 3, 0.0f);
+	//getrtMatrixFromFile("d:\\temp33\\NotDecreaseSameVertex_0010.txt", T2, R2);
+
+	//cout <<R2[0][0]<<" "<<R2[0][1]<<" "<<R2[0][2]<<" "<<T2[0]<<endl;
+	//cout <<R2[1][0]<<" "<<R2[1][1]<<" "<<R2[1][2]<<" "<<T2[1]<<endl;
+	//cout <<R2[2][0]<<" "<<R2[2][1]<<" "<<R2[2][2]<<" "<<T2[2]<<endl;
+	//cout<<"--------------"<<endl;
+
+	//void Pose3D :: applyTransformBefore(const cv::Vec3f& translation, const cv::Mat1d& rotation_matrix)
+	//return;
+
+	//----------------------------------------------------
+
 	ntk_debug_level = 1;
 	// Display the number of processors/cores
 	cout<<boost::thread::hardware_concurrency()

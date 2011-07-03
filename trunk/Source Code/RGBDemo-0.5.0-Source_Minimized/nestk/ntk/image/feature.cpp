@@ -118,7 +118,8 @@ void FeatureSet :: extractFromImage(const RGBDImage& image,
   {
     foreach_idx(i, keypoints)
     {
-      if (image.rgbPixelHasDepth(keypoints[i].pt.y, keypoints[i].pt.x))
+      if (image.rgbPixelHasDepth(keypoints[i].pt.y, keypoints[i].pt.x) &&
+		  image.mappedDepth()(keypoints[i].pt.y, keypoints[i].pt.x) < 1.0f)
 		  //&& (rand() % 100 <= 30))//AddNewCode, bo bot 50% feature
         filtered_keypoints.push_back(keypoints[i]);
     }
@@ -146,6 +147,27 @@ void FeatureSet :: extractFromImage(const RGBDImage& image,
   default:
     ntk_assert(0, "Descriptor type not supported!");
   }
+
+ // //tntuan
+ // //loc bo cac diem >1,0f
+ // std::vector<cv::KeyPoint> filtered_keypoints2;
+ // filtered_keypoints2.reserve(filtered_keypoints.size());
+
+ //   foreach_idx(i, filtered_keypoints)
+ // {
+ //   if (image.rgbPixelHasDepth(filtered_keypoints[i].pt.y, filtered_keypoints[i].pt.x) &&
+	//	image.mappedDepth()(filtered_keypoints[i].pt.y, filtered_keypoints[i].pt.x) < 1.0f)
+ //   {
+	//	filtered_keypoints2.push_back(filtered_keypoints[i]);
+ //   }
+ // }
+	//ntk_dbg_print(filtered_keypoints2.size(), 1);
+
+ // m_locations.resize(filtered_keypoints2.size());
+ // foreach_idx(i, filtered_keypoints2)
+ //   ((KeyPoint&)m_locations[i]) = filtered_keypoints2[i];
+ // fillDepthData(image);
+	////end tntuan
 
   m_locations.resize(filtered_keypoints.size());
   foreach_idx(i, filtered_keypoints)

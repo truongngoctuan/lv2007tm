@@ -224,13 +224,15 @@ int RelativePoseEstimatorFromImage::computeNumMatchesWithPrevious(const RGBDImag
   int best_prev_image = 0;
   // If at least 30 matches have been found with one image, stop searching.
   // Start with the last one, more likely to have a similar point of view.
-  int min_i = (m_features.size() > 5) ? m_features.size() - 5 : 0;
+  //int min_i = (m_features.size() > 5) ? m_features.size() - 5 : 0;
+  int min_i = 0;
   for (int i = m_features.size()-1;
        i >= min_i && best_matches.size() < min_number_of_matches;
        --i)
   {
     std::vector<cv::DMatch> current_matches;
     m_features[i].matchWith(features, current_matches, 0.6*0.6);
+
     ntk_dbg_print(current_matches.size(), 1);
     if (current_matches.size() > best_matches.size())
     {
@@ -272,6 +274,10 @@ estimateDeltaPose(Pose3D& new_rgb_pose,
     const FeatureLocation& ref_loc = ref_set.locations()[m.trainIdx];
     const FeatureLocation& img_loc = image_features.locations()[m.queryIdx];
 
+	////tntuan
+	//if (ref_loc.depth > 1.0f || img_loc.depth > 1.0f)
+	//	continue;
+
     ntk_assert(ref_loc.depth > 0, "Match without depth, should not appear");
 
     cv::Point3f img3d (img_loc.pt.x,
@@ -282,7 +288,7 @@ estimateDeltaPose(Pose3D& new_rgb_pose,
     img_points.push_back(img3d);
   }
 
-  ntk_dbg_print(ref_points.size(), 2);
+  ntk_dbg_print(ref_points.size(), 1);
   if (ref_points.size() < 10)
   {
     ntk_dbg(2) << "Not enough matches with depth";
@@ -332,6 +338,16 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image)
     closest_view_index = computeNumMatchesWithPrevious(image, image_features, best_matches);
     ntk_dbg_print(closest_view_index, 1);
     ntk_dbg_print(best_matches.size(), 1);
+
+	////tntuan
+	//std::vector<cv::DMatch> filter_best_matches;
+	//for (int i = 0; i < best_matches.size(); i++)
+	//{
+	//	//best_matches[i].trainIdx;
+	//	image. best_matches[i].queryIdx
+	//}
+
+	//ntk_dbg_print(filter_best_matches.size(), 1);
 
     new_pose = m_image_data[closest_view_index].depth_pose;
     new_rgb_pose = new_pose;
