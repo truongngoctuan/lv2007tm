@@ -59,6 +59,10 @@ namespace ntk
       if (!is_yx_in_range(depth_im, r, c) || !image.depthMask()(r, c))
         continue;
 
+	  //FIX ME: 
+	  if (depth_im(r, c) > 1.0f) continue;
+
+
       Vec3f camera_normal = image.normal()(r, c);
       Vec3f world_normal = camera_to_world_normal_pose.cameraTransform(camera_normal);
       normalize(world_normal);
@@ -132,6 +136,10 @@ namespace ntk
       if (!image.depthMask()(r,c) || covered_pixels(r,c))
         continue;
       float depth = depth_im(r,c) + m_global_depth_offset;
+
+	  //FIX ME: 
+	  if (depth_im(r, c) > 1.0f) continue;
+
       Point3f p3d = depth_pose.unprojectFromImage(Point2f(c,r), depth);
       Point3f p_rgb = rgb_pose.projectToImage(p3d);
       if (!is_yx_in_range(image.rgb(), p_rgb.y, p_rgb.x))

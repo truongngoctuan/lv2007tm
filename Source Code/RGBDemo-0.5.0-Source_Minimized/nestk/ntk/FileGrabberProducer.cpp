@@ -49,6 +49,7 @@ void FileGrabberProducer :: initialize()
 		m_ni_rgb_generator.SetMapOutputMode(rgb_mode);
 	}
 
+	m_custom_bayer_decoding = true;
 	if (m_custom_bayer_decoding)
 	{
 		// Grayscale to get raw Bayer pattern.
