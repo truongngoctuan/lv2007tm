@@ -58,8 +58,8 @@ namespace _3DPresentation.Models.FaceModel
 
         public static FaceModel Import_PLY(StreamReader sr, int nPoints, int nFaces)
         {
-            FaceModel pointModel = new FaceModel();
-            pointModel.pointManager.Begin(nPoints);
+            FaceModel faceModel = new FaceModel();
+            faceModel.pointManager.Begin(nPoints, nFaces);
             for (int i = 0; i < nPoints; i++)
             {
                 string ss = sr.ReadLine();
@@ -76,7 +76,7 @@ namespace _3DPresentation.Models.FaceModel
                 int b = Convert.ToInt32(Items[5]);
                 int a = 255;
 
-                pointModel.pointManager.AddPoint(new Vector3(x, y, z), Color.FromNonPremultiplied(r, g, b, a));
+                faceModel.pointManager.AddPoint(new Vector3(x, y, z), Color.FromNonPremultiplied(r, g, b, a));
             }
 
             for (int i = 0; i < nFaces; i++)
@@ -91,11 +91,11 @@ namespace _3DPresentation.Models.FaceModel
                 int i2 = Convert.ToInt32(Items[2]);
                 int i3 = Convert.ToInt32(Items[3]);
 
-                pointModel.pointManager.AddIndice(i1, i2, i3);
+                faceModel.pointManager.AddIndice(i1, i2, i3);
             }
 
-            pointModel.pointManager.End();
-            return pointModel;
+            faceModel.pointManager.End();
+            return faceModel;
         }
 
         public void InitBuffers(GraphicsDevice graphicsDevice)
