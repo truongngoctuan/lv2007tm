@@ -22,7 +22,7 @@ namespace _3DPresentation.Models.PointModel
         }
 
         Random r = new Random();
-        public bool AddPoint(Vector3 point, Color color)
+        public bool AddPoint(Vector3 position, Color color)
         {
             if (Current >= PartitionSize * 4)
                 return false;
@@ -30,10 +30,10 @@ namespace _3DPresentation.Models.PointModel
             //color = new Color((float)r.NextDouble(), (float)r.NextDouble(), (float)r.NextDouble(), 1f);
             //point = new Vector3((float)r.NextDouble() - 0.5f, (float)r.NextDouble() - 0.5f, (float)r.NextDouble() - 0.5f);
 
-            Vertices[Current++] = new VertexPositionOffsetColor(point, new Vector2(-1f, -1f), color);
-            Vertices[Current++] = new VertexPositionOffsetColor(point, new Vector2(-1f, 1f), color);
-            Vertices[Current++] = new VertexPositionOffsetColor(point, new Vector2(1f, -1f), color);
-            Vertices[Current++] = new VertexPositionOffsetColor(point, new Vector2(1f, 1f), color);
+            Vertices[Current++] = new VertexPositionOffsetColor(position, new Vector2(-1.0f, -1.0f), color);
+            Vertices[Current++] = new VertexPositionOffsetColor(position, new Vector2(-1.0f, 1.0f), color);
+            Vertices[Current++] = new VertexPositionOffsetColor(position, new Vector2(1.0f, -1.0f), color);
+            Vertices[Current++] = new VertexPositionOffsetColor(position, new Vector2(1.0f, 1.0f), color);
             return true;
         }
 
