@@ -490,6 +490,14 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pos
       pose_ok = false;
     }
 
+	  if (pose_ok)
+  {
+    //if (m_use_icp)
+	  //if (m_closest_view_index != -1 && true)
+	  if(true)
+		pose_ok &= optimizeWithICP(image, new_pose, closest_view_index);
+  }
+
 	m_closest_view_index = closest_view_index;
 	m_best_matches = best_matches;
 	image.copyTo(m_image);
@@ -502,12 +510,7 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pos
 
   }
 
-  if (pose_ok)
-  {
-    //if (m_use_icp)
-	  if (m_closest_view_index != -1 && true)
-		pose_ok &= optimizeWithICP(image, new_pose, closest_view_index);
-  }
+
 
   if (pose_ok)
   {
@@ -518,6 +521,7 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pos
 
     ImageData image_data;
     image.rgb().copyTo(image_data.color);
+	image.mappedDepth().copyTo(image_data.depth);
     image_data.depth_pose = new_pose;
     //m_current_pose = new_pose;
 	current_pose_final = new_pose;
@@ -573,15 +577,142 @@ void RelativePoseEstimatorFromImage::reset()
   m_image_data.clear();
 }
 
+void rgbdImageToPointCloud(std::vector<Point3f>& points,
+						   const cv::Mat1f& depth,
+                           const Pose3D& pose)
+{
+  for (int r = 0; r < depth.rows; r++)
+  for (int c = 0; c < depth.cols; c++)
+  {
+    float d = depth(r,c);
+    if (d < 1e-5 || d > 1.0f)
+      continue;
+    Point3f p = pose.unprojectFromImage(Point2f(c,r),d);
+    points.push_back(p);
+  }
+}
+
+
+void PointCloudToPlyFiles2(std::vector<Point3f>& points,
+						  std::string strFileName)
+{
+	ofstream ply_file(strFileName.c_str());
+
+	ply_file << "ply\n";
+	ply_file << "format ascii 1.0\n";
+	ply_file << "element vertex " << points.size() << "\n";
+	ply_file << "property float32 x\n";
+	ply_file << "property float32 y\n";
+	ply_file << "property float32 z\n";
+	ply_file << "property uchar red\n";
+	ply_file << "property uchar green\n";
+	ply_file << "property uchar blue\n";
+	ply_file << "end_header\n";
+
+	foreach_idx(i, points)
+	{
+		ply_file << points[i].x * 1000.0f << " " << points[i].y * 1000.0f << " " << points[i].z * 1000.0f;
+		//ply_file << points[i].x << " " << points[i].y<< " " << points[i].z;
+
+		ply_file << " " << 0 << " " << 0 << " " << 0;
+
+		ply_file << "\n";
+	}
+
+	ply_file.close();
+}
+
+void getrtMatrixFromFile(string str, cv::Vec3f& translation, cv::Mat1d& rotation_matrix)
+{
+	ifstream ifs (str.c_str());
+	ifs >>rotation_matrix[0][0]>>rotation_matrix[0][1]>>rotation_matrix[0][2]>>translation[0];
+	ifs >>rotation_matrix[1][0]>>rotation_matrix[1][1]>>rotation_matrix[1][2]>>translation[1];
+	ifs >>rotation_matrix[2][0]>>rotation_matrix[2][1]>>rotation_matrix[2][2]>>translation[2];
+	ifs.close();
+}
+
+void getrtMatrixFromFile(string str, cv::Mat1f& H)
+{
+	ifstream ifs (str.c_str());
+	ifs >>H[0][0]>>H[0][1]>>H[0][2]>>H[0][3];
+	ifs >>H[1][0]>>H[1][1]>>H[1][2]>>H[1][3];
+	ifs >>H[2][0]>>H[2][1]>>H[2][2]>>H[2][3];
+	ifs >>H[3][0]>>H[3][1]>>H[3][2]>>H[3][3];
+	ifs.close();
+}
+
 bool RelativePoseEstimatorFromImage::optimizeWithICP(const RGBDImage& image, Pose3D& depth_pose, int closest_view_index)
 {
 	std::vector<cv::Point3f> ref_points;
 	std::vector<cv::Point3f> img_points;
 	CalulatePairs(false, ref_points, img_points);
-
 	//filter get 4 pairs
-	return InitFeaturePairs(ref_points, img_points);
+	//return InitFeaturePairs(ref_points, img_points);
 	//do icp, 
 	//update depth_pose
+	
+	std::vector<Point3f> pts1;
+	std::vector<Point3f> pts2;
+	depth_pose.toRightCamera(image.calibration()->rgb_intrinsics,
+                             image.calibration()->R, image.calibration()->T);
+
+	Pose3D depth_pose1 = m_image_data[closest_view_index].depth_pose;
+
+	depth_pose1.toRightCamera(image.calibration()->rgb_intrinsics,
+                             image.calibration()->R, image.calibration()->T);
+
+
+	rgbdImageToPointCloud(pts1, m_image_data[closest_view_index].depth, depth_pose1);
+	rgbdImageToPointCloud(pts2, image.mappedDepth(), depth_pose);
+	
+	PointCloudToPlyFiles2(pts1, "temp1.ply");
+	PointCloudToPlyFiles2(pts2, "temp2.ply");
+
+	ofstream ofs("listplytemp.txt");
+	ofs<<2<<endl;
+	ofs<<"temp1.ply"<<endl;
+	ofs<<"temp2.ply"<<endl;
+
+	bool result = MyAlign::Auto("listplytemp.txt", "config");
+
+	if (result)
+	{
+		//cap nhat pose
+		cv::Mat1f H1(4, 4), H2(4, 4);
+		getrtMatrixFromFile("config\\temp1.txt", H1);
+		getrtMatrixFromFile("config\\temp2.txt", H2);
+
+		cout <<H2[0][0]<<" "<<H2[0][1]<<" "<<H2[0][2]<<" "<<H2[0][3]<<endl;
+		cout <<H2[1][0]<<" "<<H2[1][1]<<" "<<H2[1][2]<<" "<<H2[1][3]<<endl;
+		cout <<H2[2][0]<<" "<<H2[2][1]<<" "<<H2[2][2]<<" "<<H2[2][3]<<endl;
+		cout <<H2[3][0]<<" "<<H2[3][1]<<" "<<H2[3][2]<<" "<<H2[3][3]<<endl;
+		cout<<"--------------"<<endl;
+
+		cv::Vec3f translation;
+		cv::Mat1d rotation_matrix(3, 3, 0.0f);
+		getrtMatrixFromFile("config\\temp2.txt", translation, rotation_matrix);
+
+		translation[0] = translation[0] / 1000.0f;
+		translation[1] = translation[1] / 1000.0f;
+		translation[2] = translation[2] / 1000.0f;
+
+
+		cout <<rotation_matrix[0][0]<<" "<<rotation_matrix[0][1]<<" "<<rotation_matrix[0][2]<<" "<<translation[0]<<endl;
+		cout <<rotation_matrix[1][0]<<" "<<rotation_matrix[1][1]<<" "<<rotation_matrix[1][2]<<" "<<translation[1]<<endl;
+		cout <<rotation_matrix[2][0]<<" "<<rotation_matrix[2][1]<<" "<<rotation_matrix[2][2]<<" "<<translation[2]<<endl;
+
+  depth_pose.applyTransformAfter(translation, rotation_matrix);
+
+  depth_pose.toLeftCamera(image.calibration()->depth_intrinsics,
+                            image.calibration()->R, image.calibration()->T);
+  depth_pose1.toLeftCamera(image.calibration()->depth_intrinsics,
+                            image.calibration()->R, image.calibration()->T);
+	}
+	else
+	{
+		cout<<" --optimizeWithICP false"<<endl;
+	}
+
+	return result;
 }
 } // ntk
