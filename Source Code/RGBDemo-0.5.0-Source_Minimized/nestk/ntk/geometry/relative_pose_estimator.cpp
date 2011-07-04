@@ -587,7 +587,7 @@ void rgbdImageToPointCloud(std::vector<Point3f>& points,
     float d = depth(r,c);
     if (d < 1e-5 || d > 1.0f)
       continue;
-    Point3f p = pose.unprojectFromImage(Point2f(c,r),d);
+    Point3f p = pose.unprojectFromImage(Point2f(c,r),d * 1000.0f);
     points.push_back(p);
   }
 }
@@ -611,8 +611,8 @@ void PointCloudToPlyFiles2(std::vector<Point3f>& points,
 
 	foreach_idx(i, points)
 	{
-		ply_file << points[i].x * 1000.0f << " " << points[i].y * 1000.0f << " " << points[i].z * 1000.0f;
-		//ply_file << points[i].x << " " << points[i].y<< " " << points[i].z;
+		//ply_file << points[i].x * 1000.0f << " " << points[i].y * 1000.0f << " " << points[i].z * 1000.0f;
+		ply_file << points[i].x << " " << points[i].y<< " " << points[i].z;
 
 		ply_file << " " << 0 << " " << 0 << " " << 0;
 
@@ -650,63 +650,112 @@ bool RelativePoseEstimatorFromImage::optimizeWithICP(const RGBDImage& image, Pos
 	//return InitFeaturePairs(ref_points, img_points);
 	//do icp, 
 	//update depth_pose
-	
-	std::vector<Point3f> pts1;
-	std::vector<Point3f> pts2;
-	depth_pose.toRightCamera(image.calibration()->rgb_intrinsics,
-                             image.calibration()->R, image.calibration()->T);
+	//
+	//std::vector<Point3f> pts1;
+	//std::vector<Point3f> pts2;
+	////depth_pose.toRightCamera(image.calibration()->rgb_intrinsics,
+ ////                            image.calibration()->R, image.calibration()->T);
 
-	Pose3D depth_pose1 = m_image_data[closest_view_index].depth_pose;
+	//Pose3D depth_pose1 = m_image_data[closest_view_index].depth_pose;
 
-	depth_pose1.toRightCamera(image.calibration()->rgb_intrinsics,
-                             image.calibration()->R, image.calibration()->T);
+	////depth_pose1.toRightCamera(image.calibration()->rgb_intrinsics,
+ ////                            image.calibration()->R, image.calibration()->T);
 
 
-	rgbdImageToPointCloud(pts1, m_image_data[closest_view_index].depth, depth_pose1);
-	rgbdImageToPointCloud(pts2, image.mappedDepth(), depth_pose);
-	
-	PointCloudToPlyFiles2(pts1, "temp1.ply");
-	PointCloudToPlyFiles2(pts2, "temp2.ply");
+	//rgbdImageToPointCloud(pts1, m_image_data[closest_view_index].depth, depth_pose1);
+	//rgbdImageToPointCloud(pts2, image.mappedDepth(), depth_pose);
+	//
+	//PointCloudToPlyFiles2(pts1, "temp1.ply");
+	//PointCloudToPlyFiles2(pts2, "temp2.ply");
 
+	//ofstream ofs("listplytemp.txt");
+	//ofs<<2<<endl;
+	//ofs<<"temp1.ply"<<endl;
+	//ofs<<"temp2.ply"<<endl;
+
+	//bool result = MyAlign::Auto("listplytemp.txt", "config");
+
+	//if (result)
+	//{
+	//	//cap nhat pose
+	//	cv::Mat1f H1(4, 4), H2(4, 4);
+	//	getrtMatrixFromFile("config\\temp1.txt", H1);
+	//	getrtMatrixFromFile("config\\temp2.txt", H2);
+
+	//	cout <<H2[0][0]<<" "<<H2[0][1]<<" "<<H2[0][2]<<" "<<H2[0][3]<<endl;
+	//	cout <<H2[1][0]<<" "<<H2[1][1]<<" "<<H2[1][2]<<" "<<H2[1][3]<<endl;
+	//	cout <<H2[2][0]<<" "<<H2[2][1]<<" "<<H2[2][2]<<" "<<H2[2][3]<<endl;
+	//	cout <<H2[3][0]<<" "<<H2[3][1]<<" "<<H2[3][2]<<" "<<H2[3][3]<<endl;
+	//	cout<<"--------------"<<endl;
+
+	//	cv::Vec3f translation;
+	//	cv::Mat1d rotation_matrix(3, 3, 0.0f);
+	//	getrtMatrixFromFile("config\\temp2.txt", translation, rotation_matrix);
+
+	//	//translation[0] = translation[0] / 1000.0f;
+	//	//translation[1] = translation[1] / 1000.0f;
+	//	//translation[2] = translation[2] / 1000.0f;
+
+
+	//	cout <<rotation_matrix[0][0]<<" "<<rotation_matrix[0][1]<<" "<<rotation_matrix[0][2]<<" "<<translation[0]<<endl;
+	//	cout <<rotation_matrix[1][0]<<" "<<rotation_matrix[1][1]<<" "<<rotation_matrix[1][2]<<" "<<translation[1]<<endl;
+	//	cout <<rotation_matrix[2][0]<<" "<<rotation_matrix[2][1]<<" "<<rotation_matrix[2][2]<<" "<<translation[2]<<endl;
+
+ // depth_pose.applyTransformAfter(translation, rotation_matrix);
+
+ // //depth_pose.toLeftCamera(image.calibration()->depth_intrinsics,
+ // //                          image.calibration()->R, image.calibration()->T);
+ // //depth_pose1.toLeftCamera(image.calibration()->depth_intrinsics,
+ // //                          image.calibration()->R, image.calibration()->T);
+
+
+	//}
+	//else
+	//{
+	//	cout<<" --optimizeWithICP false"<<endl;
+	//}
+
+	int i = 0;
 	ofstream ofs("listplytemp.txt");
-	ofs<<2<<endl;
-	ofs<<"temp1.ply"<<endl;
-	ofs<<"temp2.ply"<<endl;
+	ofs<<m_image_data.size() + 1<<endl;
+	for (i = 0; i < m_image_data.size(); i++)
+	{
+		std::vector<Point3f> pts1;
+		Pose3D depth_pose1 = m_image_data[i].depth_pose;
+		rgbdImageToPointCloud(pts1, m_image_data[i].depth, depth_pose1);
+		PointCloudToPlyFiles2(pts1, cv::format("temp%d.ply", i));
+
+		ofs<<cv::format("temp%d.ply", i)<<endl;
+	}
+
+	std::vector<Point3f> pts2;
+	rgbdImageToPointCloud(pts2, image.mappedDepth(), depth_pose);
+	PointCloudToPlyFiles2(pts2, cv::format("temp%d.ply", i));
+
+	ofs<<cv::format("temp%d.ply", i)<<endl;
+	ofs.close();
 
 	bool result = MyAlign::Auto("listplytemp.txt", "config");
 
 	if (result)
 	{
-		//cap nhat pose
-		cv::Mat1f H1(4, 4), H2(4, 4);
-		getrtMatrixFromFile("config\\temp1.txt", H1);
-		getrtMatrixFromFile("config\\temp2.txt", H2);
-
-		cout <<H2[0][0]<<" "<<H2[0][1]<<" "<<H2[0][2]<<" "<<H2[0][3]<<endl;
-		cout <<H2[1][0]<<" "<<H2[1][1]<<" "<<H2[1][2]<<" "<<H2[1][3]<<endl;
-		cout <<H2[2][0]<<" "<<H2[2][1]<<" "<<H2[2][2]<<" "<<H2[2][3]<<endl;
-		cout <<H2[3][0]<<" "<<H2[3][1]<<" "<<H2[3][2]<<" "<<H2[3][3]<<endl;
-		cout<<"--------------"<<endl;
-
+		//update all 
 		cv::Vec3f translation;
 		cv::Mat1d rotation_matrix(3, 3, 0.0f);
-		getrtMatrixFromFile("config\\temp2.txt", translation, rotation_matrix);
+		for (i = 0; i < m_image_data.size(); i++)
+		{
+			getrtMatrixFromFile(cv::format("config\\temp%d.txt", i), translation, rotation_matrix);
+			m_image_data[i].depth_pose.applyTransformAfter(translation, rotation_matrix);
 
-		translation[0] = translation[0] / 1000.0f;
-		translation[1] = translation[1] / 1000.0f;
-		translation[2] = translation[2] / 1000.0f;
+			Pose3D new_rgb_pose = m_image_data[i].depth_pose;
+			new_rgb_pose.toRightCamera(image.calibration()->rgb_intrinsics,
+				image.calibration()->R, image.calibration()->T);
+			m_features[i].compute3dLocation(new_rgb_pose);
+		}
 
+		getrtMatrixFromFile(cv::format("config\\temp%d.txt", i), translation, rotation_matrix);
+		depth_pose.applyTransformAfter(translation, rotation_matrix);
 
-		cout <<rotation_matrix[0][0]<<" "<<rotation_matrix[0][1]<<" "<<rotation_matrix[0][2]<<" "<<translation[0]<<endl;
-		cout <<rotation_matrix[1][0]<<" "<<rotation_matrix[1][1]<<" "<<rotation_matrix[1][2]<<" "<<translation[1]<<endl;
-		cout <<rotation_matrix[2][0]<<" "<<rotation_matrix[2][1]<<" "<<rotation_matrix[2][2]<<" "<<translation[2]<<endl;
-
-  depth_pose.applyTransformAfter(translation, rotation_matrix);
-
-  depth_pose.toLeftCamera(image.calibration()->depth_intrinsics,
-                            image.calibration()->R, image.calibration()->T);
-  depth_pose1.toLeftCamera(image.calibration()->depth_intrinsics,
-                            image.calibration()->R, image.calibration()->T);
 	}
 	else
 	{

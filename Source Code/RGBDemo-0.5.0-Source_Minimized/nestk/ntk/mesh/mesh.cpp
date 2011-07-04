@@ -155,7 +155,8 @@ namespace ntk
 
     foreach_idx(i, vertices)
     {
-      ply_file << vertices[i].x * 1000.0f << " " << vertices[i].y * 1000.0f << " " << vertices[i].z * 1000.0f;
+      //ply_file << vertices[i].x * 1000.0f << " " << vertices[i].y * 1000.0f << " " << vertices[i].z * 1000.0f;
+		ply_file << vertices[i].x<< " " << vertices[i].y << " " << vertices[i].z;
 
       //if (hasNormals())
       //  ply_file << " " << normals[i].x << " " << normals[i].y << " " << normals[i].z;

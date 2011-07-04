@@ -54,7 +54,7 @@
 				AdditionalOptions=" /Zm1000"
 				Optimization="0"
 				InlineFunctionExpansion="0"
-				AdditionalIncludeDirectories="..\deps;..\..\..\nestk\deps;..\..\..\nestk\deps\include;..\..\..\nestk\deps\eigen;..\..;&quot;c:\Program Files\OpenNI\Include&quot;;&quot;C:\Program Files\PrimeSense\NITE\Include&quot;;..\..\..\nestk;..;&quot;C:\Program Files\boost\boost_1_46_1&quot;;C:\OpenCV2.2\include"
+				AdditionalIncludeDirectories="..\deps;..\..\..\nestk\deps;..\..\..\nestk\deps\include;..\..\..\nestk\deps\eigen;..\..;&quot;c:\Program Files (x86)\OpenNI\Include&quot;;&quot;C:\Program Files (x86)\PrimeSense\NITE\Include&quot;;..\..\..\nestk;..;&quot;C:\Program Files (x86)\boost\boost_1_46_1&quot;;C:\OpenCV2.2\include;..\..\..\icp\;..\..\..\vcglib\"
 				PreprocessorDefinitions="WIN32;_WINDOWS;_DEBUG;NESTK_USE_QT;QT_DLL;QT_OPENGL_LIB;QT_SVG_LIB;QT_GUI_LIB;QT_XML_LIB;QT_NETWORK_LIB;QT_CORE_LIB;NESTK_USE_OPENNI;NESTK_USE_GLEW;QT_DEBUG;CMAKE_INTDIR=\&quot;Debug\&quot;"
 				ExceptionHandling="1"
 				BasicRuntimeChecks="3"
