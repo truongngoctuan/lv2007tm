@@ -27,6 +27,7 @@
 #include <ntk/image/feature.h>
 #include <boost/thread.hpp>
 #include <ntk/icp/FeaturePairFilter.cpp>
+#include "MyAlign.h"
 
 using namespace boost;
 using namespace boost::this_thread;
@@ -126,6 +127,7 @@ private:
   {
     Pose3D depth_pose;
     cv::Mat3b color;
+	cv::Mat1f depth;
   };
 
 private:
