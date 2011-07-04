@@ -27,6 +27,52 @@ using namespace cv;
 
 namespace ntk
 {
+	void SurfelsRGBDModeler :: addNewView2(const ntk::RGBDCalibration& calibration, const cv::Mat1f& depth_im, const cv::Mat3b color,
+		Pose3D& relative_pose)
+  {
+    const float update_max_normal_angle = 60;
+    const float update_max_dist = 0.1;
+
+    Pose3D rgb_pose = *calibration.rgb_pose;
+    Pose3D depth_pose = *calibration.depth_pose;
+    depth_pose.applyTransformBefore(relative_pose);
+    rgb_pose.applyTransformBefore(relative_pose);
+
+    Pose3D world_to_camera_normal_pose;
+    world_to_camera_normal_pose.applyTransformBefore(relative_pose);
+    Pose3D camera_to_world_normal_pose = world_to_camera_normal_pose; camera_to_world_normal_pose.invert();
+
+    Mat1b covered_pixels (depth_im.size());
+    covered_pixels = 0;
+
+    // Surfel addition
+	//m_surfelsNewFrame.clear();
+    for (int r = 0; r < depth_im.rows; r += 1)
+    for (int c = 0; c < depth_im.cols; c += 1)
+    {
+      float depth = depth_im(r,c) + m_global_depth_offset;
+
+	  //FIX ME: 
+	  if (depth_im(r, c) <= 0 || depth_im(r, c) > 1.0f) continue;
+
+      Point3f p3d = depth_pose.unprojectFromImage(Point2f(c,r), depth * 1000.0f);
+      Point3f p_rgb = rgb_pose.projectToImage(p3d);
+      if (!is_yx_in_range(color, p_rgb.y, p_rgb.x))
+        continue;
+      cv::Vec3b rgb_color = bgr_to_rgb(color(p_rgb.y, p_rgb.x));
+
+      Surfel surfel;
+      surfel.location = p3d;
+      surfel.color = rgb_color;
+	  surfel.n_views = 1;
+
+      m_surfels.push_back(surfel);
+	  //m_surfelsNewFrame.push_back(surfel);
+    }
+
+    ntk_dbg_print(m_surfels.size(), 1);
+  }
+
   void SurfelsRGBDModeler :: addNewView(const RGBDImage& image, Pose3D& relative_pose)
   {
     const float update_max_normal_angle = 60;
@@ -103,7 +149,7 @@ namespace ntk
       // Compatible surfel found.
       const float depth = depth_im(r,c) + m_global_depth_offset;
 
-      Point3f p3d = depth_pose.unprojectFromImage(Point2f(c,r), depth);
+      Point3f p3d = depth_pose.unprojectFromImage(Point2f(c,r), depth * 1000.0f);
       Point3f p_rgb = rgb_pose.projectToImage(p3d);
       if (!is_yx_in_range(image.rgb(), p_rgb.y, p_rgb.x))
         continue;
@@ -140,7 +186,7 @@ namespace ntk
 	  //FIX ME: 
 	  if (depth_im(r, c) > 1.0f) continue;
 
-      Point3f p3d = depth_pose.unprojectFromImage(Point2f(c,r), depth);
+      Point3f p3d = depth_pose.unprojectFromImage(Point2f(c,r), depth * 1000.0f);
       Point3f p_rgb = rgb_pose.projectToImage(p3d);
       if (!is_yx_in_range(image.rgb(), p_rgb.y, p_rgb.x))
         continue;

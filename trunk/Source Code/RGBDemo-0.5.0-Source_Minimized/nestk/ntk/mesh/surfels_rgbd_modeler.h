@@ -39,6 +39,8 @@ public:
 
 public:
   virtual void addNewView(const RGBDImage& image, Pose3D& relative_pose);
+  void addNewView2(const ntk::RGBDCalibration& calibration, const cv::Mat1f& depth_im, const cv::Mat3b color,
+		Pose3D& relative_pose);
   virtual void computeMesh();
   void computeNewFrameMesh();
 
@@ -61,6 +63,7 @@ public:
 
 public:
   virtual void addNewView(const RGBDImage& image, Pose3D& relative_pose);
+  
 
 protected:
   Pose3D fixRelativePose(const RGBDImage& image, const Pose3D& relative_pose);

@@ -326,7 +326,7 @@ void FeatureSet :: compute3dLocation(const Pose3D& pose)
     FeatureLocation& loc = m_locations[i];
     if (!loc.has_depth)
       continue;
-    loc.p3d = pose.unprojectFromImage(loc.pt, loc.depth);
+    loc.p3d = pose.unprojectFromImage(loc.pt, loc.depth * 1000.0f);
   }
 }
 

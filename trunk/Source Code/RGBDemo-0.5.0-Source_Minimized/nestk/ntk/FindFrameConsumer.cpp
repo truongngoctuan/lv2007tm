@@ -101,6 +101,23 @@ void FindFrameConsumer::RunThread()
 				m_vtFileNameNotDecrease.push_back(format("%s\\NotDecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image));
 			}
 
+			if(true)
+			{
+				SurfelsRGBDModeler modeler;
+				modeler.setMinViewsPerSurfel(1);
+				pose_estimator->m_image_data;
+				for (int i = 0; i < pose_estimator->m_image_data.size(); i++)
+				{
+					modeler.addNewView2(*(m_last_image->calibration()),
+						pose_estimator->m_image_data[i].depth, 
+						pose_estimator->m_image_data[i].color, 
+						pose_estimator->m_image_data[i].depth_pose);
+				}
+				modeler.computeMesh();
+				modeler.currentMesh().saveToPlyFile(format("%s\\All_%04d.ply", this->GetDestinationFolderTemp().c_str(), ilast_image).c_str());
+				rename(format("%s\\All_%04d.ply", this->GetDestinationFolderTemp().c_str(), ilast_image).c_str(), format("%s\\All_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image).c_str());
+			}
+
 			if(this->hasFilterFlag(FindFrameConsumer::Flags::DecreaseSameVertex))
 			{
 				mtmodeler.lock();
