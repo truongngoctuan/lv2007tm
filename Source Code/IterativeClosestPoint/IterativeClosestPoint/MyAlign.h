@@ -17,7 +17,10 @@ public:
 	bool AddNode(std::string strFile, std::string strName);
 	bool Align(std::string strFixName, std::string strMovName, std::string strPair);
 	bool FinalizeICP();
+	bool FinalizeICP2();
 	bool SetBaseNode(std::string strName);
-	void PrintResult();
+	void PrintResult(std::string strResultDir);
 	void Export();
+
+	static __declspec(dllexport) bool Auto(std::string strScriptFile, std::string strResultDir);
 };

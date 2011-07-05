@@ -6,7 +6,7 @@ using namespace std;
 
 int main()
 {
-	MyAlign::Auto("script.txt", "final.ply");
+	MyAlign::Auto("script.txt", "D:\\test");
 }
 
 /*
