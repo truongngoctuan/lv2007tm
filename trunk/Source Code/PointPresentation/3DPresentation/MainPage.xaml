@@ -17,6 +17,7 @@
             <my:UDRMZControl x:Name="myUDRMZControl" Height="100" Margin="106,0,0,0" VerticalAlignment="Bottom"/>            
             <my:OpenFileControl x:Name="openFile" HorizontalAlignment="Right" Margin="0,200,6,0" VerticalAlignment="Top" />
             <my:OpenFileControl x:Name="openFile2" HorizontalAlignment="Right" Margin="0,235,6,0" VerticalAlignment="Top" />
+            <my:OpenFileControl x:Name="openFile3" HorizontalAlignment="Right" Margin="0,270,6,0" VerticalAlignment="Top" />
             <Button Height="30" Width="200" Margin="0,60,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click_1">Download contructor package!</Button>
             <Button Height="30" Width="200" Margin="0,100,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click">Listen folder d:\\test</Button>
             <Button Height="30" Width="200" Margin="0,140,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click_2">Stop</Button>

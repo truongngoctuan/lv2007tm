@@ -71,6 +71,7 @@ PixelToFrame main(VertexShaderOutput PSIn)
 		{
 			float4 diffuse = xDiffuseColor2 * factor;
 			effectColor = (diffuse + effectColor);
+			//baseColor = float4(0.0f, 1.0f, 0.0f, 1.0f);
 		}
 	}
 
@@ -84,13 +85,14 @@ PixelToFrame main(VertexShaderOutput PSIn)
 		{
 			float4 diffuse = xDiffuseColor3 * factor;
 			effectColor = (diffuse + effectColor);
+			//baseColor = float4(0.0f, 0.0f, 1.0f, 1.0f);
 		}
 	}
 
 	effectColor = saturate(effectColor);
-	Output.Color = saturate(baseColor * effectColor);
+	Output.Color = (baseColor * effectColor);
 
-	//if(PSIn.Position3D.z > -1000)
+	//if(PSIn.Position3D.z > -5000)
 		//Output.Color = 1.0;
 	//Output.Color = effectColor;
 	// Apply

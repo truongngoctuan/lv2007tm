@@ -42,9 +42,7 @@ VertexShaderOutput main(VertexData vertex)
     Output.Position = mul(float4(vertex.Position,1), xWorldViewProjection);
     Output.Color = vertex.Color;
 
-	Output.Normal = normalize(mul(normalize(vertex.Normal), (float3x3)xWorld));    
+	Output.Normal = normalize(mul(vertex.Normal, (float3x3)xWorld));    
 	Output.Position3D = mul(vertex.Position, xWorld); //doesn't work with translation, fix later
-	//if(xWorld.z > 1000)
-		//Output.Color = 1;
     return Output;
 }

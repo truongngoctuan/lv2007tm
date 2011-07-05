@@ -30,8 +30,8 @@ namespace _3DPresentation
         SceneModel sceneModel = new SceneModel(false);
         public Scene()
         {
-            camera.cameraPosition = new Vector3(0, 0, 1000.0f);
-            camera.cameraTarget = new Vector3(0, 0, -1000.0f);
+            camera.cameraPosition = new Vector3(0, 0, 1.0f);
+            camera.cameraTarget = new Vector3(0, 0, -1.0f);
             UpdateView2();
 
             GlobalVars.Light1 = new Vector3(0, 0, -1.0f);
@@ -71,6 +71,11 @@ namespace _3DPresentation
         public FaceModel AddFaceModel(FileInfo file)
         {
             return sceneModel.AddFaceModel(file);
+        }
+
+        public FaceModel AddLightModel(FileInfo file)
+        {
+            return sceneModel.AddLightModel(file);
         }
 
         #region NewUpdate
@@ -123,7 +128,7 @@ namespace _3DPresentation
             set
             {
                 // update the screen space transform every time the aspect ratio changes
-                camera.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 1.0f, 30000.0f);
+                camera.projection = Matrix.CreatePerspectiveFieldOfView(MathHelper.PiOver4, value, 0.1f, 10.0f);
             }
         }       
             

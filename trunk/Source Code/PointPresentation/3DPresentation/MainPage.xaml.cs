@@ -1,18 +1,17 @@
-﻿using System.Net;
+﻿using System;
+using System.IO;
+using System.Collections.Generic;
+using System.Net;
 using System.Reflection;
 using System.Runtime.InteropServices.Automation;
 using System.Threading;
 using System.Windows.Controls;
-using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework;
 using System.Windows.Input;
-using System.Windows.Media;
 using SharpGIS;
-using _3DPresentation.Models;
-using System.IO;
-using System.Collections.Generic;
+
 
 namespace _3DPresentation
 {
@@ -34,10 +33,11 @@ namespace _3DPresentation
             //======== Add Models to Scene ===============================================
             scene.AddSimpleModel(CreateAxisModel(), Vector3.Zero);            
             //============================================================================           
-            CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+            System.Windows.Media.CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
             openFile.Label = "PointCloud...";
             openFile2.Label = "Model...";
+            openFile3.Label = "Light...";
 
             myUDRMZControl.MoveForwardClick += new RoutedEventHandler(MoveForward_Click);
             myUDRMZControl.MoveBackClick += new RoutedEventHandler(MoveBack_Click);
@@ -52,6 +52,7 @@ namespace _3DPresentation
 
             openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
             openFile2.FileOpened += new OpenFileControl.FileOpenedHandler(openFile2_FileOpened);
+            openFile3.FileOpened += new OpenFileControl.FileOpenedHandler(openFile3_FileOpened);
 
             drawingSurface.Draw += new EventHandler<DrawEventArgs>(drawingSurface_Draw);
             drawingSurface.SizeChanged += new SizeChangedEventHandler(drawingSurface_SizeChanged);
@@ -69,6 +70,13 @@ namespace _3DPresentation
         {
             get { return _strWorkingDirectoryTemp; }
             set { _strWorkingDirectoryTemp = value; }
+        }
+
+        void openFile3_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
+        {
+            Models.FaceModel.FaceModel light = scene.AddLightModel(e.FileInfo);
+            light.WorldMatrix *= Matrix.CreateTranslation(GlobalVars.Light1);
+            light.WorldMatrix *= Matrix.CreateScale(1000.0f);
         }
 
         void openFile2_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
@@ -150,10 +158,10 @@ namespace _3DPresentation
         }
 
         #region NewMove
-        const float ForwardSpeed = 100.0f;
-        const float BackSpeed = 100.0f;
-        const float LeftSpeed = 100.0f;
-        const float RightSpeed = 100.0f;
+        const float ForwardSpeed = 0.1f;
+        const float BackSpeed = 0.1f;
+        const float LeftSpeed = 0.01f;//100.0f;
+        const float RightSpeed = 0.1f;
 
         private void MoveForward_Click(object sender, RoutedEventArgs e)
         {
@@ -374,44 +382,192 @@ namespace _3DPresentation
         }
         #endregion
 
+        int controlLight = 0;
         private void LayoutRoot_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.A)
+        {            
+            if (e.Key == Key.NumPad1)
             {
-                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X - LeftSpeed, GlobalVars.Light1.Y, GlobalVars.Light1.Z);
-                //MoveLeft_Click(this, new RoutedEventArgs());
+                GlobalVars.EnableLights = new Vector4(1.0f, GlobalVars.EnableLights.Y, GlobalVars.EnableLights.Z, GlobalVars.EnableLights.W);
+                controlLight = 1;
+            }
+            if (e.Key == Key.NumPad2)
+            {
+                GlobalVars.EnableLights = new Vector4(GlobalVars.EnableLights.X, 1.0f, GlobalVars.EnableLights.Z, GlobalVars.EnableLights.W);
+                controlLight = 2;
+            }
+            if (e.Key == Key.NumPad3)
+            {
+                GlobalVars.EnableLights = new Vector4(GlobalVars.EnableLights.X, GlobalVars.EnableLights.Y, 1.0f, GlobalVars.EnableLights.W);
+                controlLight = 3;
+            }
+            if (e.Key == Key.NumPad4)
+            {
+                GlobalVars.EnableLights = new Vector4(GlobalVars.EnableLights.X, GlobalVars.EnableLights.Y, GlobalVars.EnableLights.Z, 1.0f);
+                controlLight = 4;
             }
 
-            if (e.Key == Key.D)
+            if (controlLight == 1)
             {
-                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X + LeftSpeed, GlobalVars.Light1.Y, GlobalVars.Light1.Z);
-                //MoveRight_Click(this, new RoutedEventArgs());
+                if (e.Key == Key.A)
+                {
+                    GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X - LeftSpeed, GlobalVars.Light1.Y, GlobalVars.Light1.Z);
+                    //MoveLeft_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.D)
+                {
+                    GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X + LeftSpeed, GlobalVars.Light1.Y, GlobalVars.Light1.Z);
+                    //MoveRight_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.W)
+                {
+                    GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y + LeftSpeed, GlobalVars.Light1.Z);
+                    //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y + 10, scene.CameraPosition.Z);
+                    //scene.UpdateView2();
+                    //MoveForward_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.S)
+                {
+                    GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y - LeftSpeed, GlobalVars.Light1.Z);
+                    //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y - 10, scene.CameraPosition.Z);
+                    //scene.UpdateView2();
+                    //MoveBack_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.Q)
+                {
+                    GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y, GlobalVars.Light1.Z - LeftSpeed);
+                }
+
+                if (e.Key == Key.E)
+                {
+                    GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y, GlobalVars.Light1.Z + LeftSpeed);
+                }
             }
 
-            if (e.Key == Key.W)
+            if (controlLight == 2)
             {
-                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y + LeftSpeed, GlobalVars.Light1.Z);
-                //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y + 10, scene.CameraPosition.Z);
-                //scene.UpdateView2();
-                //MoveForward_Click(this, new RoutedEventArgs());
+                if (e.Key == Key.A)
+                {
+                    GlobalVars.Light2 = new Vector3(GlobalVars.Light2.X - LeftSpeed, GlobalVars.Light2.Y, GlobalVars.Light2.Z);
+                    //MoveLeft_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.D)
+                {
+                    GlobalVars.Light2 = new Vector3(GlobalVars.Light2.X + LeftSpeed, GlobalVars.Light2.Y, GlobalVars.Light2.Z);
+                    //MoveRight_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.W)
+                {
+                    GlobalVars.Light2 = new Vector3(GlobalVars.Light2.X, GlobalVars.Light2.Y + LeftSpeed, GlobalVars.Light2.Z);
+                    //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y + 10, scene.CameraPosition.Z);
+                    //scene.UpdateView2();
+                    //MoveForward_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.S)
+                {
+                    GlobalVars.Light2 = new Vector3(GlobalVars.Light2.X, GlobalVars.Light2.Y - LeftSpeed, GlobalVars.Light2.Z);
+                    //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y - 10, scene.CameraPosition.Z);
+                    //scene.UpdateView2();
+                    //MoveBack_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.Q)
+                {
+                    GlobalVars.Light2 = new Vector3(GlobalVars.Light2.X, GlobalVars.Light2.Y, GlobalVars.Light2.Z - LeftSpeed);
+                }
+
+                if (e.Key == Key.E)
+                {
+                    GlobalVars.Light2 = new Vector3(GlobalVars.Light2.X, GlobalVars.Light2.Y, GlobalVars.Light2.Z + LeftSpeed);
+                }
             }
 
-            if (e.Key == Key.S)
+            if (controlLight == 3)
             {
-                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y - LeftSpeed, GlobalVars.Light1.Z);
-                //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y - 10, scene.CameraPosition.Z);
-                //scene.UpdateView2();
-                //MoveBack_Click(this, new RoutedEventArgs());
+                if (e.Key == Key.A)
+                {
+                    GlobalVars.Light3 = new Vector3(GlobalVars.Light3.X - LeftSpeed, GlobalVars.Light3.Y, GlobalVars.Light3.Z);
+                    //MoveLeft_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.D)
+                {
+                    GlobalVars.Light3 = new Vector3(GlobalVars.Light3.X + LeftSpeed, GlobalVars.Light3.Y, GlobalVars.Light3.Z);
+                    //MoveRight_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.W)
+                {
+                    GlobalVars.Light3 = new Vector3(GlobalVars.Light3.X, GlobalVars.Light3.Y + LeftSpeed, GlobalVars.Light3.Z);
+                    //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y + 10, scene.CameraPosition.Z);
+                    //scene.UpdateView2();
+                    //MoveForward_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.S)
+                {
+                    GlobalVars.Light3 = new Vector3(GlobalVars.Light3.X, GlobalVars.Light3.Y - LeftSpeed, GlobalVars.Light3.Z);
+                    //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y - 10, scene.CameraPosition.Z);
+                    //scene.UpdateView2();
+                    //MoveBack_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.Q)
+                {
+                    GlobalVars.Light3 = new Vector3(GlobalVars.Light3.X, GlobalVars.Light3.Y, GlobalVars.Light3.Z - LeftSpeed);
+                }
+
+                if (e.Key == Key.E)
+                {
+                    GlobalVars.Light3 = new Vector3(GlobalVars.Light3.X, GlobalVars.Light3.Y, GlobalVars.Light3.Z + LeftSpeed);
+                }
             }
 
-            if (e.Key == Key.Q)
+            if (controlLight == 4)
             {
-                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y, GlobalVars.Light1.Z - LeftSpeed);
-            }
+                if (e.Key == Key.A)
+                {
+                    GlobalVars.Light4 = new Vector3(GlobalVars.Light4.X - LeftSpeed, GlobalVars.Light4.Y, GlobalVars.Light4.Z);
+                    //MoveLeft_Click(this, new RoutedEventArgs());
+                }
 
-            if (e.Key == Key.E)
-            {
-                GlobalVars.Light1 = new Vector3(GlobalVars.Light1.X, GlobalVars.Light1.Y, GlobalVars.Light1.Z + LeftSpeed);
+                if (e.Key == Key.D)
+                {
+                    GlobalVars.Light4 = new Vector3(GlobalVars.Light4.X + LeftSpeed, GlobalVars.Light4.Y, GlobalVars.Light4.Z);
+                    //MoveRight_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.W)
+                {
+                    GlobalVars.Light4 = new Vector3(GlobalVars.Light4.X, GlobalVars.Light4.Y + LeftSpeed, GlobalVars.Light4.Z);
+                    //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y + 10, scene.CameraPosition.Z);
+                    //scene.UpdateView2();
+                    //MoveForward_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.S)
+                {
+                    GlobalVars.Light4 = new Vector3(GlobalVars.Light4.X, GlobalVars.Light4.Y - LeftSpeed, GlobalVars.Light4.Z);
+                    //scene.CameraPosition = new Vector3(scene.CameraPosition.X, scene.CameraPosition.Y - 10, scene.CameraPosition.Z);
+                    //scene.UpdateView2();
+                    //MoveBack_Click(this, new RoutedEventArgs());
+                }
+
+                if (e.Key == Key.Q)
+                {
+                    GlobalVars.Light4 = new Vector3(GlobalVars.Light4.X, GlobalVars.Light4.Y, GlobalVars.Light4.Z - LeftSpeed);
+                }
+
+                if (e.Key == Key.E)
+                {
+                    GlobalVars.Light4 = new Vector3(GlobalVars.Light4.X, GlobalVars.Light4.Y, GlobalVars.Light4.Z + LeftSpeed);
+                }
             }
             myUIFPS.Dispatcher.BeginInvoke(new Action(() => { myUIFPS.Text = "Light 1: " + GlobalVars.Light1.X.ToString("0.00") + " " + GlobalVars.Light1.Y.ToString("0.00") + " " + GlobalVars.Light1.Z.ToString("0.00"); }));
         }

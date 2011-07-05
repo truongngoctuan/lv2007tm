@@ -131,6 +131,7 @@ namespace _3DPresentation.Models.FaceModel
                     partition = Partitions[iCurrentPartition];
                 }
             }
+            Nodes = null;
 
             foreach (FacePartition par in Partitions)
                 par.InitNormals();

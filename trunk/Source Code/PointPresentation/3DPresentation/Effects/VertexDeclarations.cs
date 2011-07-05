@@ -37,11 +37,16 @@ public struct VertexPositionNormalColor
         Color = color;
     }
 
+    public void AddNormal(Vector3 normal)
+    {
+        Normal += normal;
+    }
+
     public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration(
         new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
         new VertexElement(sizeof(float) * 3, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
         new VertexElement(sizeof(float) * (3 + 3), VertexElementFormat.Color, VertexElementUsage.Color, 0)
-        );
+    );
 }
 
 public struct VertexPositionOffsetColor
