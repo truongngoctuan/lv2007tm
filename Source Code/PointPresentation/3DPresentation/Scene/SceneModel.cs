@@ -49,6 +49,8 @@ namespace _3DPresentation
             lightModels = new List<FaceModel>();
 
             noEffect = new NoEffect(resourceDevice);
+            noEffect.DiffuseTexture = Util.LoadTexture("Images/4.jpg", resourceDevice);
+
             myBasicEffect = new MyBasicEffect(resourceDevice);
             basicEffect = new BasicEffect(resourceDevice);
             pointEffect = new PointEffect(resourceDevice);
@@ -173,12 +175,6 @@ namespace _3DPresentation
                 }
             }
 
-            graphicsDevice.RasterizerState = new RasterizerState
-            {
-                FillMode = FillMode.Solid,
-                CullMode = CullMode.None
-            };
-
             foreach (MyModel myModel in myModels)
             {
                 if (myModel.IsVisible)
@@ -229,7 +225,7 @@ namespace _3DPresentation
                 noEffect.World = world;
                 noEffect.Projection = camera.projection;
                 noEffect.View = camera.view;
-
+                
                 noEffect.Device = graphicsDevice;
                 noEffect.Apply();
             }

@@ -152,6 +152,7 @@
     <PixelShader Include="Effects\FourPointLights\FourPointLights.ps.hlsl" />
     <None Include="Properties\OutOfBrowserSettings.xml" />
     <Resource Include="Images\3.jpg" />
+    <Resource Include="Images\4.jpg" />
     <Content Include="themes\System.Windows.Controls.Theming.ExpressionDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
