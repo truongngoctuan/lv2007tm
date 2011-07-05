@@ -1,4 +1,8 @@
 #include "MyAlign.h"
+#include <Windows.h>
+#include <time.h>
+#include <fstream>
+using namespace std;
 
 MyAlign::MyAlign(void)
 {
@@ -61,8 +65,17 @@ bool MyAlign::Align(string strFixName, string strMovName, string strPair)
 
 bool MyAlign::FinalizeICP()
 {
-	editAlignPlugin.process();
-	return true;
+	return editAlignPlugin.process();
+}
+
+bool MyAlign::FinalizeICP2()
+{
+	for(int i = 0; i < editAlignPlugin.meshTree.nodeList.size(); i++)
+	{
+		MeshNode *p = editAlignPlugin.meshTree.nodeList.at(i);
+		p->glued = true;
+	}
+	return editAlignPlugin.process();
 }
 
 bool MyAlign::SetBaseNode(std::string strName)
@@ -76,9 +89,9 @@ bool MyAlign::SetBaseNode(std::string strName)
 	return false;
 }
 
-void MyAlign::PrintResult()
+void MyAlign::PrintResult(std::string strResultDir)
 {
-	editAlignPlugin.printMat();
+	editAlignPlugin.printMat(strResultDir);
 }
 
 void MyAlign::Export()
@@ -86,6 +99,130 @@ void MyAlign::Export()
 	for(int i = 0; i < editAlignPlugin.meshTree.nodeList.size(); i++)
 	{
 		MeshNode *p = editAlignPlugin.meshTree.nodeList.at(i);
-		baseIOPlugin.save("PLY", p->m->strName + "out.ply", *(p->m), 0);
+		baseIOPlugin.save("PLY", "d:\\" + p->m->strName + "out.ply", *(p->m), 0);
 	}
 }
+string ExePath() {
+    char buffer[MAX_PATH];
+    GetModuleFileNameA( NULL, buffer, MAX_PATH );
+    string::size_type pos = string( buffer ).find_last_of( "\\/" );
+    return string( buffer ).substr( 0, pos);
+}
+
+
+string getName(string strFile)
+{
+	string strName;
+	int lastBackSlash = strFile.find_last_of('\\');
+	int lastDot = strFile.find_last_of('.');
+	if(lastBackSlash == -1)
+	{
+		strName = strFile.substr(0, lastDot);
+	}
+	else
+	{
+		strName = strFile.substr(lastBackSlash + 1, lastDot - lastBackSlash - 1);
+	}
+	return strName;
+}
+
+bool ReadScript(string strScript, int &nPointClouds, int &nPairs, string **pPointClouds, string **pFix, string **pMov, string **pPairs)
+{
+	try
+	{
+		ifstream in(strScript.c_str());
+
+		nPointClouds = 0;
+		in >> nPointClouds;
+		*pPointClouds = new string [nPointClouds];
+		string strPointCloud;
+		for(int i = 0; i < nPointClouds; i++)
+		{
+			in >> (*pPointClouds)[i];
+		}
+
+		nPairs = 0;
+		in >> nPairs;
+		*pFix = new string [nPairs];
+		*pMov = new string [nPairs];
+		*pPairs = new string [nPairs];
+		for(int i = 0; i < nPairs; i++)
+		{
+			in >> (*pFix)[i];
+			in >> (*pMov)[i];
+			in >> (*pPairs)[i];
+		}
+		in.close();
+	}
+	catch(...)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool ReadScript2(string strScript, int &nPointClouds, string **pPointClouds)
+{
+	try
+	{
+		ifstream in(strScript.c_str());
+
+		nPointClouds = 0;
+		in >> nPointClouds;
+		*pPointClouds = new string [nPointClouds];
+		string strPointCloud;
+		for(int i = 0; i < nPointClouds; i++)
+		{
+			in >> (*pPointClouds)[i];
+		}
+		in.close();
+	}
+	catch(...)
+	{
+		return false;
+	}
+	return true;
+}
+
+
+bool MyAlign::Auto(std::string strScriptFile, std::string strResultDir)
+{
+	string strDirectory = ExePath();
+	//string strScript = strDirectory + '\\' + strScriptFile;
+	string strScript = strScriptFile;
+
+	int nPointClouds, nPairs;
+	string *pPointClouds = NULL;
+
+	if(!ReadScript2(strScript, nPointClouds, &pPointClouds))
+	{
+		printf("Error reading script.txt\n");
+		return false;
+	}
+	
+	MyAlign myAlign;
+	for(int i = 0; i < nPointClouds; i++)
+	{
+		clock_t addNodeStart = clock();
+		//string strModel = strDirectory + '\\' + pPointClouds[i];
+		string strModel = pPointClouds[i];
+		myAlign.AddNode(strModel, getName(pPointClouds[i]));
+		printf("\tAdd Nodes Time elapsed: %f\n", ((double)clock() - addNodeStart) / CLOCKS_PER_SEC);
+	}
+
+	// start node
+	myAlign.SetBaseNode(getName(pPointClouds[0]));
+
+	// Finalize with ICP
+	clock_t icpStart = clock();
+	bool bFinalized = myAlign.FinalizeICP2();
+	printf("\tICP Time elapsed: %f\n", ((double)clock() - icpStart) / CLOCKS_PER_SEC);
+
+	// print all matrix
+	myAlign.PrintResult(strResultDir);
+	//myAlign.Export();
+
+	if(pPointClouds)
+		delete[] pPointClouds;
+	return bFinalized;
+}	
