@@ -28,14 +28,14 @@ namespace _3DPresentation
         BitmapImage bitmapImage;
         private void BeginAnimation()
         {
-            WriteableBitmap capture = new WriteableBitmap(LayoutRoot, new System.Windows.Media.ScaleTransform());
+            WriteableBitmap capture = new WriteableBitmap(image, new System.Windows.Media.ScaleTransform());
             System.Windows.Media.ImageBrush imageBrush = new System.Windows.Media.ImageBrush();
             imageBrush.ImageSource = capture;
             transitionEffect.OldImage = imageBrush;
 
             //image.Source = getNextBitmapImage();
             //image.Effect = transitionEffect;
-            image.Effect = transitionEffect;
+            button1.Effect = transitionEffect;
 
             #region WPF ShaderEffect Animation
             /*
@@ -188,7 +188,8 @@ namespace _3DPresentation
         bool isDraw = false;
         bool isStart = false;
         private void button1_Click(object sender, RoutedEventArgs e)
-        {            
+        {
+            BeginAnimation();
             isDraw = !isDraw;
             if (isDraw)
             {
@@ -200,8 +201,7 @@ namespace _3DPresentation
             {
                 button1.Content = "Start";
                 isStart = false;
-            }
-            BeginAnimation();
+            }            
             drawingSurface.Invalidate();
         }
 

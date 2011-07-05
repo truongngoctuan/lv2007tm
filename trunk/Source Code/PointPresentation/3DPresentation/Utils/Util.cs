@@ -2,12 +2,30 @@
 using System.IO;
 using System.Windows;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System.Windows.Media.Imaging;
 
 
 namespace _3DPresentation
 {
     public class Util
     {
+        public static Texture2D LoadTexture(string resource, GraphicsDevice gd)
+        {
+            // MUST BE CALL ON MAIN THREAD (or UI THREAD) ---- cause new an BitmapImage element
+            //var stream = Application.GetResourceStream(new Uri(resource, UriKind.Relative)).Stream;
+            var stream = Utils.Global.GetStream(resource);
+            var bmp = new BitmapImage();
+            bmp.SetSource(stream);
+            Texture2D res = new Texture2D(gd, bmp.PixelWidth, bmp.PixelHeight, false, SurfaceFormat.Color);
+            bmp.CopyTo(res);
+            return res;
+        }
+        public static string AssemblyName = "3DPresentation";
+        public static Stream GetStream(string path)
+        {
+            return GetStream(AssemblyName, path);
+        }
         public static Stream GetStream(string assembly, string path)
         {
             string uri = string.Format(@"/{0};component/{1}", assembly, path);
