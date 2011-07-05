@@ -14,10 +14,15 @@ namespace _3DPresentation
         public static Color White = Color.FromNonPremultiplied(255, 255, 255, 255);
         public static Color Cyan = Color.FromNonPremultiplied(0, 255, 255, 255);
 
-        public enum ShaderEffect { NoEffect, MyBasicEffect, BasicEffect, PointEffect };
+        public enum ShaderEffect { NoEffect, MyBasicEffect, BasicEffect, PointEffect, FourPointLights };
         public enum LOD { LOW = 5, MEDIUM = 3, HIGH = 1 };
         public static LOD LevelOfDetail = LOD.LOW;
 
         public static Vector3 Light1 { get; set; }
+        public static Vector3 Light2 { get; set; }
+        public static Vector3 Light3 { get; set; }
+        public static Vector3 Light4 { get; set; }
+
+        public static Vector4 EnableLights { get; set; }
     }
 }

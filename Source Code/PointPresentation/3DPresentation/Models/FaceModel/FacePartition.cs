@@ -9,8 +9,12 @@ namespace _3DPresentation.Models.FaceModel
     public class FacePartition
     {
         public int ID;
-        public List<VertexPositionNormalColor> Vertices;
-        public List<ushort> Indices;
+        public List<VertexPositionNormalColor> VerticesList;        
+        public List<ushort> IndicesList;
+
+        public VertexPositionNormalColor[] Vertices;
+        public ushort[] Indices;
+
         public int PartitionSize;
         private int Current;
         public VertexBuffer VertexBuffer;
@@ -26,8 +30,8 @@ namespace _3DPresentation.Models.FaceModel
             PartitionSize = partitionSize;
             ID = id;
             Current = 0;
-            Vertices = new List<VertexPositionNormalColor>();
-            Indices = new List<ushort>();
+            VerticesList = new List<VertexPositionNormalColor>();
+            IndicesList = new List<ushort>();
         }
 
         public bool IsFull()
@@ -39,8 +43,8 @@ namespace _3DPresentation.Models.FaceModel
 
         public int AddPoint(Vector3 point, Color color)
         {
-            Vertices.Add(new VertexPositionNormalColor(point, color, new Vector3(0, 0, 0)));
-            return Vertices.Count - 1;
+            VerticesList.Add(new VertexPositionNormalColor(point, color, new Vector3(0, 0, 0)));
+            return VerticesList.Count - 1;
         }
 
         public bool AddIndice(int i1, int i2, int i3)
@@ -48,30 +52,39 @@ namespace _3DPresentation.Models.FaceModel
             if (i1 >= this.PartitionSize || i2 >= this.PartitionSize || i3 >= this.PartitionSize)
                 return false;
 
-            Indices.Add(Convert.ToUInt16(i1));
-            Indices.Add(Convert.ToUInt16(i2));
-            Indices.Add(Convert.ToUInt16(i3));
+            IndicesList.Add(Convert.ToUInt16(i1));
+            IndicesList.Add(Convert.ToUInt16(i2));
+            IndicesList.Add(Convert.ToUInt16(i3));
             Current++;
             return true;
         }
 
         public void InitNormals()
         {
-            for (int i = 0; i < Indices.Count / 3; i++)
+            // MUST CONVERT TO ARRAY
+            // - VertexPositionNormalColor is a struct => VerticesList[i] : only return a copy of the actual Vertex in List
+            //      => any modification'll only affect the copy, not the real one. 
+            Vertices = VerticesList.ToArray();
+
+            // release the memory
+            VerticesList.Clear(); 
+            VerticesList = null;
+
+            for (int i = 0; i < IndicesList.Count / 3; i++)
             {
-                int i1 = Indices[i];
-                int i2 = Indices[i + 1];
-                int i3 = Indices[i + 2];
+                int i1 = IndicesList[i * 3];
+                int i2 = IndicesList[i * 3 + 1];
+                int i3 = IndicesList[i * 3 + 2];
                 Vector3 v1 = Vertices[i2].Position - Vertices[i1].Position;
                 Vector3 v2 = Vertices[i3].Position - Vertices[i1].Position;
                 Vector3 normal = Vector3.Cross(v2, v1);
 
-                Vertices[i1].AddNormal(normal);
-                Vertices[i2].AddNormal(normal);
-                Vertices[i3].AddNormal(normal);
+                Vertices[i1].Normal += normal;
+                Vertices[i2].Normal += normal;
+                Vertices[i3].Normal += normal;
             }
 
-            for (int i = 0; i < Vertices.Count; i++)
+            for (int i = 0; i < Vertices.Length; i++)
             {
                 Vertices[i].Normal.Normalize();
             }
@@ -79,19 +92,26 @@ namespace _3DPresentation.Models.FaceModel
 
         public void InitBuffers(GraphicsDevice graphicsDevice)
         {
-            if ((Vertices.Count == 0) || (Indices.Count < 3))
+            if ((Vertices.Length == 0) || (IndicesList.Count < 3))
             {
                 IsValid = false;
                 return;
             }
-                
-            VertexBuffer = new VertexBuffer(graphicsDevice, VertexPositionNormalColor.VertexDeclaration, Vertices.Count, BufferUsage.WriteOnly);
-            VertexBuffer.SetData(0, Vertices.ToArray(), 0, Vertices.Count, 0);
 
-            IndexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, Indices.Count, BufferUsage.WriteOnly);
-            IndexBuffer.SetData(0, Indices.ToArray(), 0, Indices.Count);
+            VertexBuffer = new VertexBuffer(graphicsDevice, VertexPositionNormalColor.VertexDeclaration, Vertices.Length, BufferUsage.WriteOnly);
+            VertexBuffer.SetData(0, Vertices, 0, Vertices.Length, 0);
+
+            // optional
+            Indices = IndicesList.ToArray();
+            IndicesList.Clear(); 
+            IndicesList = null;
+
+            IndexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, Indices.Length, BufferUsage.WriteOnly);
+            IndexBuffer.SetData(0, Indices, 0, Indices.Length);
 
             IsValid = true;
+            Vertices = null;
+            Indices = null;
         }
 
         public IndexBuffer GetIndexBuffer()

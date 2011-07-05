@@ -15,6 +15,7 @@ using _3DPresentation.Effects.PointEffect;
 using _3DPresentation.Effects.MyBasicEffect;
 using _3DPresentation.Effects.NoEffect;
 using _3DPresentation.Models.FaceModel;
+using _3DPresentation.Effects.FourPointLights;
 
 namespace _3DPresentation
 {
@@ -31,11 +32,13 @@ namespace _3DPresentation
         BasicEffect basicEffect;
         MyBasicEffect myBasicEffect;
         PointEffect pointEffect;
+        FourPointLights fourPointLightsEffect;
         
         List<MyModel> myModels;
         List<SimpleModel> simpleModels;
         List<PointModel> pointModels;
         List<FaceModel> faceModels;
+        List<FaceModel> lightModels;
 
         public SceneModel(bool solidFaceColor = true)
         {
@@ -43,11 +46,13 @@ namespace _3DPresentation
             simpleModels = new List<SimpleModel>();
             pointModels = new List<PointModel>();
             faceModels = new List<FaceModel>();
+            lightModels = new List<FaceModel>();
 
             noEffect = new NoEffect(resourceDevice);
             myBasicEffect = new MyBasicEffect(resourceDevice);
             basicEffect = new BasicEffect(resourceDevice);
             pointEffect = new PointEffect(resourceDevice);
+            fourPointLightsEffect = new FourPointLights(resourceDevice);
         }
 
         public MyModel AddMyModel(string imagePath, string depthmapPath, Vector3 position)
@@ -104,6 +109,19 @@ namespace _3DPresentation
             return faceModel;
         }
 
+        public FaceModel AddLightModel(FileInfo file)
+        {
+            bIsLoading = true;
+            FaceModel lightModel = FaceModel.Import(file);
+            if (lightModel != null)
+            {
+                lightModel.InitBuffers(resourceDevice);
+                lightModels.Add(lightModel);
+            }
+            bIsLoading = false;
+            return lightModel;
+        }
+
         public int FPS
         {
             get;
@@ -134,16 +152,7 @@ namespace _3DPresentation
             graphicsDevice.RasterizerState = new RasterizerState{
                 FillMode = FillMode.Solid,
                 CullMode = CullMode.None
-            };       
-
-            foreach (MyModel myModel in myModels)
-            {
-                if (myModel.IsVisible)
-                {
-                    SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect.NoEffect, graphicsDevice, myModel.WorldMatrix, camera, screenSize);
-                    myModel.Render(graphicsDevice);
-                }
-            }
+            };            
 
             foreach (SimpleModel simpleModel in simpleModels)
             {
@@ -164,13 +173,51 @@ namespace _3DPresentation
                 }
             }
 
+            graphicsDevice.RasterizerState = new RasterizerState
+            {
+                FillMode = FillMode.Solid,
+                CullMode = CullMode.None
+            };
+
+            foreach (MyModel myModel in myModels)
+            {
+                if (myModel.IsVisible)
+                {
+                    SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect.NoEffect, graphicsDevice, myModel.WorldMatrix, camera, screenSize);
+                    myModel.Render(graphicsDevice);
+                }
+            }
+
             foreach (FaceModel faceModel in faceModels)
             {
                 if (faceModel.IsVisible)
                 {
-                    SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect.MyBasicEffect, graphicsDevice, faceModel.WorldMatrix, camera, screenSize);
+                    SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect.FourPointLights, graphicsDevice, faceModel.WorldMatrix, camera, screenSize);
                     faceModel.Render(graphicsDevice);
                     //break;
+                }
+            }
+
+            int count = 1;
+            foreach (FaceModel lightModel in lightModels)
+            {
+                if (lightModel.IsVisible)
+                {
+                    Matrix mat = Matrix.CreateScale(1.0f);
+                    if(count == 1)
+                    mat *= Matrix.CreateTranslation(GlobalVars.Light1);
+                    else if (count == 2)
+                        mat *= Matrix.CreateTranslation(GlobalVars.Light2);
+                    else if (count == 3)
+                        mat *= Matrix.CreateTranslation(GlobalVars.Light3);
+                    else if (count == 4)
+                        mat *= Matrix.CreateTranslation(GlobalVars.Light4);
+                    lightModel.WorldMatrix = mat;
+
+                    SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect.NoEffect, graphicsDevice, lightModel.WorldMatrix, camera, screenSize);
+                    lightModel.Render(graphicsDevice);
+                    //break;
+                    count++;
                 }
             }
         }
@@ -198,7 +245,7 @@ namespace _3DPresentation
 
                 myBasicEffect.DiffuseIntensity2 = 0;
                 myBasicEffect.DiffuseIntensity3 = 0;
-                myBasicEffect.AmbientIntensity = 0.3f;
+                myBasicEffect.AmbientIntensity = 0.5f;
 
                 myBasicEffect.Device = graphicsDevice;
                 myBasicEffect.Apply();
@@ -227,6 +274,37 @@ namespace _3DPresentation
 
                 pointEffect.Device = graphicsDevice;
                 pointEffect.Apply();
+            }
+            else if (shaderEffect == GlobalVars.ShaderEffect.FourPointLights)
+            {
+                fourPointLightsEffect.World = world;
+                fourPointLightsEffect.Projection = camera.projection;
+                fourPointLightsEffect.View = camera.view;
+
+                fourPointLightsEffect.AmbientLight = Color.FromNonPremultiplied(255, 255, 255, 50);
+                
+                fourPointLightsEffect.LightSource1 = GlobalVars.Light1;
+                fourPointLightsEffect.LightColor1 = GlobalVars.White;
+                if(GlobalVars.EnableLights.X > 0)
+                fourPointLightsEffect.EnableLight1 = true;
+
+                fourPointLightsEffect.LightSource2 = GlobalVars.Light2;
+                fourPointLightsEffect.LightColor2 = GlobalVars.Red;
+                if (GlobalVars.EnableLights.Y > 0)
+                fourPointLightsEffect.EnableLight2 = true;
+
+                fourPointLightsEffect.LightSource3 = GlobalVars.Light3;
+                fourPointLightsEffect.LightColor3 = GlobalVars.Green;
+                if (GlobalVars.EnableLights.Z > 0)
+                fourPointLightsEffect.EnableLight3 = true;
+
+                fourPointLightsEffect.LightSource4 = GlobalVars.Light4;
+                fourPointLightsEffect.LightColor4 = GlobalVars.Blue;
+                if (GlobalVars.EnableLights.W > 0)
+                fourPointLightsEffect.EnableLight4 = true;
+
+                fourPointLightsEffect.Device = graphicsDevice;
+                fourPointLightsEffect.Apply();
             }
         }
     }
