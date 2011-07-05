@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework;
 using System.Windows.Input;
 using SharpGIS;
+using ShaderEffectsLibrary;
 
 
 namespace _3DPresentation
@@ -23,8 +24,54 @@ namespace _3DPresentation
         private string _strWorkingDirectory;
         private string _strWorkingDirectoryTemp;
 
+        TransitionEffect transitionEffect;
+        BitmapImage bitmapImage;
+        private void BeginAnimation()
+        {
+            WriteableBitmap capture = new WriteableBitmap(LayoutRoot, new System.Windows.Media.ScaleTransform());
+            System.Windows.Media.ImageBrush imageBrush = new System.Windows.Media.ImageBrush();
+            imageBrush.ImageSource = capture;
+            transitionEffect.OldImage = imageBrush;
+
+            //image.Source = getNextBitmapImage();
+            //image.Effect = transitionEffect;
+            image.Effect = transitionEffect;
+
+            #region WPF ShaderEffect Animation
+            /*
+            DoubleAnimation da = new DoubleAnimation();
+            da.From = 0;
+            da.To = 1;
+            da.Duration = TimeSpan.FromSeconds(3);
+            //da.AutoReverse = true;
+            //da.RepeatBehavior = RepeatBehavior.Forever;
+            transitionEffect.BeginAnimation(TransitionEffect.ProgressProperty, da);
+             * */
+            #endregion
+
+            #region Silverlight ShaderEffect Animation
+
+            System.Windows.Media.Animation.DoubleAnimation da = new System.Windows.Media.Animation.DoubleAnimation();
+            da.From = 0;
+            da.To = 1;
+            da.Duration = TimeSpan.FromSeconds(3);
+            da.AutoReverse = true;
+            //da.RepeatBehavior = System.Windows.Media.Animation.RepeatBehavior.Forever;
+
+            //Storyboard st = (LayoutRoot.Resources)["st"] as Storyboard;
+            System.Windows.Media.Animation.Storyboard st = new System.Windows.Media.Animation.Storyboard();
+            System.Windows.Media.Animation.Storyboard.SetTarget(da, transitionEffect);
+            System.Windows.Media.Animation.Storyboard.SetTargetProperty(da, new PropertyPath(TransitionEffect.ProgressProperty));
+            st.Children.Add(da);
+            st.Begin();
+            
+            #endregion
+        }
         public MainPage()
         {
+            transitionEffect = new CircleRevealTransition();
+            bitmapImage = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Images/3.jpg")); 
+
             InitializeComponent();
             //Timeline.DesiredFrameRateProperty.OverrideMetadata(typeof(Timeline), new FrameworkPropertyMetadata { DefaultValue = 24 });
             // INGNORED
@@ -141,7 +188,7 @@ namespace _3DPresentation
         bool isDraw = false;
         bool isStart = false;
         private void button1_Click(object sender, RoutedEventArgs e)
-        {
+        {            
             isDraw = !isDraw;
             if (isDraw)
             {
@@ -154,6 +201,7 @@ namespace _3DPresentation
                 button1.Content = "Start";
                 isStart = false;
             }
+            BeginAnimation();
             drawingSurface.Invalidate();
         }
 

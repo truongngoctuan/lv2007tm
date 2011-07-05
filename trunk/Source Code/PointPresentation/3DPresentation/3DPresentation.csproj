@@ -112,6 +112,7 @@
     <Compile Include="Effects\MyBasicEffect\MyBasicEffect.cs" />
     <Compile Include="Effects\NoEffect\NoEffect.cs" />
     <Compile Include="Effects\VertexDeclarations.cs" />
+    <Compile Include="Utils\Global.cs" />
     <Compile Include="Utils\GlobalVars.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
@@ -150,6 +151,7 @@
     <VertexShader Include="Effects\FourPointLights\FourPointLights.vs.hlsl" />
     <PixelShader Include="Effects\FourPointLights\FourPointLights.ps.hlsl" />
     <None Include="Properties\OutOfBrowserSettings.xml" />
+    <Resource Include="Images\3.jpg" />
     <Content Include="themes\System.Windows.Controls.Theming.ExpressionDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -194,7 +196,12 @@
       <Visible>false</Visible>
     </AvailableItemName>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\ShaderEffectsLibrary\ShaderEffectsLibrary.csproj">
+      <Project>{A933FC48-0061-4994-881F-2146B5B407C3}</Project>
+      <Name>ShaderEffectsLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <UsingTask TaskName="ShaderBuildTask.ShaderCompile" AssemblyName="ShaderBuildTask, Version=1.0.3072.18169, Culture=neutral,&#xD;&#xA;PublicKeyToken=44e467d1687af125" />
   <Target Name="VertexShaderCompile" Condition="'@(VertexShader)' != '' " BeforeTargets="Build">
     <ShaderCompile Sources="@(VertexShader)" ShaderProfile="vs_2_0" IntermediateOutputPath="$(IntermediateOutputPath)">

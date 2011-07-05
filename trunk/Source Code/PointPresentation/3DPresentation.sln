@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DPresentation", "3DPresent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DPresentation.Web", "3DPresentation.Web\3DPresentation.Web.csproj", "{4038F6FC-5E12-44B5-AE91-149B00FC4D02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderEffectsLibrary", "ShaderEffectsLibrary\ShaderEffectsLibrary.csproj", "{A933FC48-0061-4994-881F-2146B5B407C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,6 +21,10 @@ Global
 		{4038F6FC-5E12-44B5-AE91-149B00FC4D02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4038F6FC-5E12-44B5-AE91-149B00FC4D02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4038F6FC-5E12-44B5-AE91-149B00FC4D02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A933FC48-0061-4994-881F-2146B5B407C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A933FC48-0061-4994-881F-2146B5B407C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A933FC48-0061-4994-881F-2146B5B407C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A933FC48-0061-4994-881F-2146B5B407C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
