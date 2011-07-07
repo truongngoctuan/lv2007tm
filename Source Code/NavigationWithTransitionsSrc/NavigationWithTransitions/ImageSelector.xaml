@@ -1,0 +1,578 @@
+﻿<!--
+/////////////////////////////////////////////////////////////////////////
+//
+//  ImageSelector.xaml
+//
+// 
+// © 2008 Microsoft Corporation. All Rights Reserved.
+//
+// This file is licensed as part of the Silverlight 2 SDK, for details look here: http://go.microsoft.com/fwlink/?LinkID=111970&clcid=0x409
+//
+///////////////////////////////////////////////////////////////////////////////
+-->
+<UserControl x:Class="NavigationWithTransitions.ImageSelector"
+        xmlns="http://schemas.microsoft.com/client/2007" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:ctl="clr-namespace:NavigationWithTransitions"
+        Width="800"
+        Height="200">
+  <Canvas Width='800' Height='200'>
+    <Canvas.Resources>
+            <Style x:Key="customButtonStyle" TargetType="Button">
+                <Setter Property="Padding" Value="0"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="Button">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Width="Auto" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+            <Storyboard x:Name='flowForward' Completed='onForwardFlowCompleted'>
+        <PointAnimation Storyboard.TargetName='pathFigure_centerImg' Storyboard.TargetProperty='StartPoint' From='250,15' To='330,5' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_centerImg' Storyboard.TargetProperty='Point' From='370,25' To='470,5' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_centerImg' Storyboard.TargetProperty='Point' From='370,95' To='470,145' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_centerImg' Storyboard.TargetProperty='Point' From='250,115' To='330,145' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_centerReflection' Storyboard.TargetProperty='StartPoint' From='250,120' To='330,155' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_centerReflection' Storyboard.TargetProperty='Point' From='370,100' To='470,155' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_centerReflection' Storyboard.TargetProperty='Point' From='370,170' To='490,195' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_centerReflection' Storyboard.TargetProperty='Point' From='250,190' To='310,195' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_rightImg1' Storyboard.TargetProperty='StartPoint' From='330,5' To='430,25' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_rightImg1' Storyboard.TargetProperty='Point' From='470,5' To='550,15' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_rightImg1' Storyboard.TargetProperty='Point' From='470,145' To='550,115' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_rightImg1' Storyboard.TargetProperty='Point' From='330,145' To='430,95' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_right1Reflection' Storyboard.TargetProperty='StartPoint' From='330,155' To='430,100' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_right1Reflection' Storyboard.TargetProperty='Point' From='470,155' To='550,120' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_right1Reflection' Storyboard.TargetProperty='Point' From='490,195' To='550,190' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_right1Reflection' Storyboard.TargetProperty='Point' From='310,195' To='430,170' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_rightImg2' Storyboard.TargetProperty='StartPoint' From='430,25' To='500,25' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_rightImg2' Storyboard.TargetProperty='Point' From='550,15' To='620,15' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_rightImg2' Storyboard.TargetProperty='Point' From='550,115' To='620,115' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_rightImg2' Storyboard.TargetProperty='Point' From='430,95' To='500,95' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_right2Reflection' Storyboard.TargetProperty='StartPoint' From='430,100' To='500,100' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_right2Reflection' Storyboard.TargetProperty='Point' From='550,120' To='620,120' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_right2Reflection' Storyboard.TargetProperty='Point' From='550,190' To='620,190' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_right2Reflection' Storyboard.TargetProperty='Point' From='430,170' To='500,170' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_rightImg3' Storyboard.TargetProperty='StartPoint' From='500,25' To='550,25' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_rightImg3' Storyboard.TargetProperty='Point' From='620,15' To='670,15' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_rightImg3' Storyboard.TargetProperty='Point' From='620,115' To='670,115' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_rightImg3' Storyboard.TargetProperty='Point' From='500,95' To='550,95' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_right3Reflection' Storyboard.TargetProperty='StartPoint' From='500,100' To='550,100' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_right3Reflection' Storyboard.TargetProperty='Point' From='620,120' To='670,120' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_right3Reflection' Storyboard.TargetProperty='Point' From='620,190' To='670,190' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_right3Reflection' Storyboard.TargetProperty='Point' From='500,170' To='550,170' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_leftImg1' Storyboard.TargetProperty='StartPoint' From='180,15' To='250,15' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_leftImg1' Storyboard.TargetProperty='Point' From='300,25' To='370,25' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_leftImg1' Storyboard.TargetProperty='Point' From='300,95' To='370,95' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_leftImg1' Storyboard.TargetProperty='Point' From='180,115' To='250,115' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_left1Reflection' Storyboard.TargetProperty='StartPoint' From='180,120' To='250,120' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_left1Reflection' Storyboard.TargetProperty='Point' From='300,100' To='370,100' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_left1Reflection' Storyboard.TargetProperty='Point' From='300,170' To='370,170' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_left1Reflection' Storyboard.TargetProperty='Point' From='180,190' To='250,190' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_leftImg2' Storyboard.TargetProperty='StartPoint' From='130,15' To='180,15' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_leftImg2' Storyboard.TargetProperty='Point' From='250,25' To='300,25' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_leftImg2' Storyboard.TargetProperty='Point' From='250,95' To='300,95' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_leftImg2' Storyboard.TargetProperty='Point' From='130,115' To='180,115' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_left2Reflection' Storyboard.TargetProperty='StartPoint' From='130,120' To='180,120' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_left2Reflection' Storyboard.TargetProperty='Point' From='250,100' To='300,100' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_left2Reflection' Storyboard.TargetProperty='Point' From='250,170' To='300,170' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_left2Reflection' Storyboard.TargetProperty='Point' From='130,190' To='180,190' Duration='0:0:0.5'/>
+      </Storyboard>
+
+      <Storyboard x:Name='flowBackward' Completed='onBackwardFlowCompleted'>
+        <PointAnimation Storyboard.TargetName='pathFigure_centerImg' Storyboard.TargetProperty='StartPoint' From='430,25' To='330,5' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_centerImg' Storyboard.TargetProperty='Point' From='550,15' To='470,5' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_centerImg' Storyboard.TargetProperty='Point' From='550,115' To='470,145' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_centerImg' Storyboard.TargetProperty='Point' From='430,95' To='330,145' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_centerReflection' Storyboard.TargetProperty='StartPoint' From='430,100' To='330,155' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_centerReflection' Storyboard.TargetProperty='Point' From='550,120' To='470,155' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_centerReflection' Storyboard.TargetProperty='Point' From='550,190' To='490,195' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_centerReflection' Storyboard.TargetProperty='Point' From='430,170' To='310,195' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_leftImg1' Storyboard.TargetProperty='StartPoint' From='330,5' To='250,15' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_leftImg1' Storyboard.TargetProperty='Point' From='470,5' To='370,25' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_leftImg1' Storyboard.TargetProperty='Point' From='470,145' To='370,95' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_leftImg1' Storyboard.TargetProperty='Point' From='330,145' To='250,115' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_left1Reflection' Storyboard.TargetProperty='StartPoint' From='330,155' To='250,120' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_left1Reflection' Storyboard.TargetProperty='Point' From='470,155' To='370,100' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_left1Reflection' Storyboard.TargetProperty='Point' From='490,195' To='370,170' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_left1Reflection' Storyboard.TargetProperty='Point' From='310,195' To='250,190' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_leftImg2' Storyboard.TargetProperty='StartPoint' From='250,15' To='180,15' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_leftImg2' Storyboard.TargetProperty='Point' From='370,25' To='300,25' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_leftImg2' Storyboard.TargetProperty='Point' From='370,95' To='300,95' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_leftImg2' Storyboard.TargetProperty='Point' From='250,115' To='180,115' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_left2Reflection' Storyboard.TargetProperty='StartPoint' From='250,120' To='180,120' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_left2Reflection' Storyboard.TargetProperty='Point' From='370,100' To='300,100' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_left2Reflection' Storyboard.TargetProperty='Point' From='370,170' To='300,170' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_left2Reflection' Storyboard.TargetProperty='Point' From='250,190' To='180,190' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_leftImg3' Storyboard.TargetProperty='StartPoint' From='180,15' To='130,15' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_leftImg3' Storyboard.TargetProperty='Point' From='300,25' To='250,25' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_leftImg3' Storyboard.TargetProperty='Point' From='300,95' To='250,95' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_leftImg3' Storyboard.TargetProperty='Point' From='180,115' To='130,115' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_left3Reflection' Storyboard.TargetProperty='StartPoint' From='180,120' To='130,120' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_left3Reflection' Storyboard.TargetProperty='Point' From='300,100' To='250,100' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_left3Reflection' Storyboard.TargetProperty='Point' From='300,170' To='250,170' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_left3Reflection' Storyboard.TargetProperty='Point' From='180,190' To='130,190' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_rightImg1' Storyboard.TargetProperty='StartPoint' From='500,25' To='430,25' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_rightImg1' Storyboard.TargetProperty='Point' From='620,15' To='550,15' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_rightImg1' Storyboard.TargetProperty='Point' From='620,115' To='550,115' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_rightImg1' Storyboard.TargetProperty='Point' From='500,95' To='430,95' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_right1Reflection' Storyboard.TargetProperty='StartPoint' From='500,100' To='430,100' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_right1Reflection' Storyboard.TargetProperty='Point' From='620,120' To='550,120' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_right1Reflection' Storyboard.TargetProperty='Point' From='620,190' To='550,190' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_right1Reflection' Storyboard.TargetProperty='Point' From='500,170' To='430,170' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_rightImg2' Storyboard.TargetProperty='StartPoint' From='550,25' To='500,25' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_rightImg2' Storyboard.TargetProperty='Point' From='670,15' To='620,15' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_rightImg2' Storyboard.TargetProperty='Point' From='670,115' To='620,115' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_rightImg2' Storyboard.TargetProperty='Point' From='550,95' To='500,95' Duration='0:0:0.5'/>
+
+        <PointAnimation Storyboard.TargetName='pathFigure_right2Reflection' Storyboard.TargetProperty='StartPoint' From='550,100' To='500,100' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line1_right2Reflection' Storyboard.TargetProperty='Point' From='670,120' To='620,120' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line2_right2Reflection' Storyboard.TargetProperty='Point' From='670,190' To='620,190' Duration='0:0:0.5'/>
+        <PointAnimation Storyboard.TargetName='line3_right2Reflection' Storyboard.TargetProperty='Point' From='550,170' To='500,170' Duration='0:0:0.5'/>
+      </Storyboard>
+    </Canvas.Resources>
+        <!--<Rectangle Canvas.Left='0' Canvas.Top='0' Width='800' Height='200'
+           RadiusX='15' RadiusY='15' Stroke="DarkMagenta" StrokeThickness='2'>
+      <Rectangle.Fill>
+        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="DarkSlateGray"/>
+            <GradientStop Offset="1.0" Color="Black"/>
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Rectangle.Fill>
+    </Rectangle>-->
+        <Image Width="800" Height="106" Stretch="Fill" Source="Images/ImageSelectorBgTop.png"></Image>
+        <Rectangle Width="800" Height="94" Fill="Black" Canvas.Top="106"> </Rectangle>
+            <Path Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure IsClosed="True" StartPoint="130,15">
+            <LineSegment Point="250,25"/>
+            <LineSegment Point="250,95"/>
+            <LineSegment Point="130,115"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="firstImgBrush" Stretch="Fill"/>
+      </Path.Fill>
+    </Path>
+    <Path Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure IsClosed="True" StartPoint="130,120">
+            <LineSegment Point="250,100"/>
+            <LineSegment Point="250,170"/>
+            <LineSegment Point="130,190"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="firstReflectionBrush" Stretch="Fill">
+          <ImageBrush.RelativeTransform>
+            <TransformGroup>
+              <ScaleTransform ScaleX="1" ScaleY="-1" />
+              <TranslateTransform Y="1" />
+            </TransformGroup>
+          </ImageBrush.RelativeTransform>
+        </ImageBrush>
+      </Path.Fill>
+      <Path.OpacityMask>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="#1F000000" />
+            <GradientStop Offset="1.0" Color="#00000000" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Path.OpacityMask>
+    </Path>
+
+    <Path x:Name="leftImg3" Stroke="White" MouseLeftButtonDown="OnImgClicked">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_leftImg3" IsClosed="True" StartPoint="130,15">
+            <LineSegment x:Name="line1_leftImg3" Point="250,25"/>
+            <LineSegment x:Name="line2_leftImg3" Point="250,95"/>
+            <LineSegment x:Name="line3_leftImg3" Point="130,115"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="leftImg3Brush" Stretch="Fill"/>
+      </Path.Fill>
+    </Path>
+    <Path x:Name="left3Reflection" Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_left3Reflection" IsClosed="True" StartPoint="130,120">
+            <LineSegment x:Name="line1_left3Reflection" Point="250,100"/>
+            <LineSegment x:Name="line2_left3Reflection" Point="250,170"/>
+            <LineSegment x:Name="line3_left3Reflection" Point="130,190"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="leftReflection3Brush" Stretch="Fill">
+          <ImageBrush.RelativeTransform>
+            <TransformGroup>
+              <ScaleTransform ScaleX="1" ScaleY="-1" />
+              <TranslateTransform Y="1" />
+            </TransformGroup>
+          </ImageBrush.RelativeTransform>
+        </ImageBrush>
+      </Path.Fill>
+      <Path.OpacityMask>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="#2F000000" />
+            <GradientStop Offset="1.0" Color="#00000000" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Path.OpacityMask>
+    </Path>
+
+    <Path x:Name="leftImg2" Stroke="White" MouseLeftButtonDown="OnImgClicked">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_leftImg2" IsClosed="True" StartPoint="180,15">
+            <LineSegment x:Name="line1_leftImg2" Point="300,25"/>
+            <LineSegment x:Name="line2_leftImg2" Point="300,95"/>
+            <LineSegment x:Name="line3_leftImg2" Point="180,115"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="leftImg2Brush" Stretch="Fill"/>
+      </Path.Fill>
+    </Path>
+    <Path x:Name="left2Reflection" Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_left2Reflection" IsClosed="True" StartPoint="180,120">
+            <LineSegment x:Name="line1_left2Reflection" Point="300,100"/>
+            <LineSegment x:Name="line2_left2Reflection" Point="300,170"/>
+            <LineSegment x:Name="line3_left2Reflection" Point="180,190"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="leftReflection2Brush" Stretch="Fill">
+          <ImageBrush.RelativeTransform>
+            <TransformGroup>
+              <ScaleTransform ScaleX="1" ScaleY="-1" />
+              <TranslateTransform Y="1" />
+            </TransformGroup>
+          </ImageBrush.RelativeTransform>
+        </ImageBrush>
+      </Path.Fill>
+      <Path.OpacityMask>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="#6F000000" />
+            <GradientStop Offset="1.0" Color="#00000000" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Path.OpacityMask>
+    </Path>
+
+    <Path x:Name="leftImg1" Stroke="White" MouseLeftButtonDown="OnImgClicked">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_leftImg1" IsClosed="True" StartPoint="250,15">
+            <LineSegment x:Name="line1_leftImg1" Point="370,25"/>
+            <LineSegment x:Name="line2_leftImg1" Point="370,95"/>
+            <LineSegment x:Name="line3_leftImg1" Point="250,115"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="leftImg1Brush" Stretch="Fill"/>
+      </Path.Fill>
+    </Path>
+    <Path x:Name="left1Reflection" Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_left1Reflection" IsClosed="True" StartPoint="250,120">
+            <LineSegment x:Name="line1_left1Reflection" Point="370,100"/>
+            <LineSegment x:Name="line2_left1Reflection" Point="370,170"/>
+            <LineSegment x:Name="line3_left1Reflection" Point="250,190"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="leftReflection1Brush" Stretch="Fill">
+          <ImageBrush.RelativeTransform>
+            <TransformGroup>
+              <ScaleTransform ScaleX="1" ScaleY="-1" />
+              <TranslateTransform Y="1" />
+            </TransformGroup>
+          </ImageBrush.RelativeTransform>
+        </ImageBrush>
+      </Path.Fill>
+      <Path.OpacityMask>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="#BF000000" />
+            <GradientStop Offset="1.0" Color="#00000000" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Path.OpacityMask>
+    </Path>
+
+    <Path Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure IsClosed="True" StartPoint="550,25">
+            <LineSegment Point="670,15"/>
+            <LineSegment Point="670,115"/>
+            <LineSegment Point="550,95"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="lastImgBrush" Stretch="Fill"/>
+      </Path.Fill>
+    </Path>
+    <Path Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure IsClosed="True" StartPoint="550,100">
+            <LineSegment Point="670,120"/>
+            <LineSegment Point="670,190"/>
+            <LineSegment Point="550,170"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="lastReflectionBrush" Stretch="Fill">
+          <ImageBrush.RelativeTransform>
+            <TransformGroup>
+              <ScaleTransform ScaleX="1" ScaleY="-1" />
+              <TranslateTransform Y="1" />
+            </TransformGroup>
+          </ImageBrush.RelativeTransform>
+        </ImageBrush>
+      </Path.Fill>
+      <Path.OpacityMask>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="#1F000000" />
+            <GradientStop Offset="1.0" Color="#00000000" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Path.OpacityMask>
+    </Path>
+
+    <Path x:Name="rightImg3" Stroke="White" MouseLeftButtonDown="OnImgClicked">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_rightImg3" IsClosed="True" StartPoint="550,25">
+            <LineSegment x:Name="line1_rightImg3" Point="670,15"/>
+            <LineSegment x:Name="line2_rightImg3" Point="670,115"/>
+            <LineSegment x:Name="line3_rightImg3" Point="550,95"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="rightImg3Brush" Stretch="Fill"/>
+      </Path.Fill>
+    </Path>
+    <Path x:Name="right3Reflection" Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_right3Reflection" IsClosed="True" StartPoint="550,100">
+            <LineSegment x:Name="line1_right3Reflection" Point="670,120"/>
+            <LineSegment x:Name="line2_right3Reflection" Point="670,190"/>
+            <LineSegment x:Name="line3_right3Reflection" Point="550,170"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="rightReflection3Brush" Stretch="Fill">
+          <ImageBrush.RelativeTransform>
+            <TransformGroup>
+              <ScaleTransform ScaleX="1" ScaleY="-1" />
+              <TranslateTransform Y="1" />
+            </TransformGroup>
+          </ImageBrush.RelativeTransform>
+        </ImageBrush>
+      </Path.Fill>
+      <Path.OpacityMask>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="#2F000000" />
+            <GradientStop Offset="1.0" Color="#00000000" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Path.OpacityMask>
+    </Path>
+
+    <Path x:Name="rightImg2" Stroke="White" MouseLeftButtonDown="OnImgClicked">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_rightImg2" IsClosed="True" StartPoint="500,25">
+            <LineSegment x:Name="line1_rightImg2" Point="620,15"/>
+            <LineSegment x:Name="line2_rightImg2" Point="620,115"/>
+            <LineSegment x:Name="line3_rightImg2" Point="500,95"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="rightImg2Brush" Stretch="Fill"/>
+      </Path.Fill>
+    </Path>
+    <Path x:Name="right2Reflection" Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_right2Reflection" IsClosed="True" StartPoint="500,100">
+            <LineSegment x:Name="line1_right2Reflection" Point="620,120"/>
+            <LineSegment x:Name="line2_right2Reflection" Point="620,190"/>
+            <LineSegment x:Name="line3_right2Reflection" Point="500,170"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="rightReflection2Brush" Stretch="Fill">
+          <ImageBrush.RelativeTransform>
+            <TransformGroup>
+              <ScaleTransform ScaleX="1" ScaleY="-1" />
+              <TranslateTransform Y="1" />
+            </TransformGroup>
+          </ImageBrush.RelativeTransform>
+        </ImageBrush>
+      </Path.Fill>
+      <Path.OpacityMask>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="#6F000000" />
+            <GradientStop Offset="1.0" Color="#00000000" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Path.OpacityMask>
+    </Path>
+
+    <Path x:Name="rightImg1" Stroke="White" MouseLeftButtonDown="OnImgClicked">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_rightImg1" IsClosed="True" StartPoint="430,25">
+            <LineSegment x:Name="line1_rightImg1" Point="550,15"/>
+            <LineSegment x:Name="line2_rightImg1" Point="550,115"/>
+            <LineSegment x:Name="line3_rightImg1" Point="430,95"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="rightImg1Brush" Stretch="Fill"/>
+      </Path.Fill>
+    </Path>
+    <Path x:Name="right1Reflection" Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_right1Reflection" IsClosed="True" StartPoint="430,100">
+            <LineSegment x:Name="line1_right1Reflection" Point="550,120"/>
+            <LineSegment x:Name="line2_right1Reflection" Point="550,190"/>
+            <LineSegment x:Name="line3_right1Reflection" Point="430,170"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="rightReflection1Brush" Stretch="Fill">
+          <ImageBrush.RelativeTransform>
+            <TransformGroup>
+              <ScaleTransform ScaleX="1" ScaleY="-1" />
+              <TranslateTransform Y="1" />
+            </TransformGroup>
+          </ImageBrush.RelativeTransform>
+        </ImageBrush>
+      </Path.Fill>
+      <Path.OpacityMask>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="#BF000000" />
+            <GradientStop Offset="1.0" Color="#00000000" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Path.OpacityMask>
+    </Path>
+
+    <Path x:Name="centerImg" Stroke="White" MouseLeftButtonDown="OnImgClicked">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_centerImg" IsClosed="True" StartPoint="330,5">
+            <LineSegment x:Name="line1_centerImg" Point="470,5"/>
+            <LineSegment x:Name="line2_centerImg" Point="470,145"/>
+            <LineSegment x:Name="line3_centerImg" Point="330,145"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="centerImgBrush" Stretch="Fill"/>
+      </Path.Fill>
+    </Path>
+    <Path x:Name="centerReflection" Stroke="White">
+      <Path.Data>
+        <PathGeometry>
+          <PathFigure x:Name="pathFigure_centerReflection" IsClosed="True" StartPoint="330,155">
+            <LineSegment x:Name="line1_centerReflection" Point="470,155"/>
+            <LineSegment x:Name="line2_centerReflection" Point="490,195"/>
+            <LineSegment x:Name="line3_centerReflection" Point="310,195"/>
+          </PathFigure>
+        </PathGeometry>
+      </Path.Data>
+      <Path.Fill>
+        <ImageBrush x:Name="centerReflectionBrush" Stretch="Fill">
+          <ImageBrush.RelativeTransform>
+            <TransformGroup>
+              <ScaleTransform ScaleX="1" ScaleY="-1" />
+              <TranslateTransform Y="1" />
+            </TransformGroup>
+          </ImageBrush.RelativeTransform>
+        </ImageBrush>
+      </Path.Fill>
+      <Path.OpacityMask>
+        <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+          <LinearGradientBrush.GradientStops>
+            <GradientStop Offset="0.0" Color="#FF000000" />
+            <GradientStop Offset="1.0" Color="#00000000" />
+          </LinearGradientBrush.GradientStops>
+        </LinearGradientBrush>
+      </Path.OpacityMask>
+    </Path>
+        <Button Canvas.Left="10" Width="50" Height="200" Style="{StaticResource customButtonStyle}" Click="btnBack_Click">
+                <Button.Content>
+                <Image Source="Images/wmp_left.png"></Image>
+            </Button.Content>
+        </Button>
+            <!--<ctl:RepeatButton Canvas.Left="10" Width="80" Height="200" Interval="600" Caption="" Click="btnBack_Click"/>-->
+    <!--<Path Data="M 40,100 L60,80 L60,120z" Fill="Yellow" IsHitTestVisible="False"/>-->
+
+        <Button Canvas.Left="710" Width="50" Height="200" Style="{StaticResource customButtonStyle}" Click="btnForward_Click">
+                <Image Source="Images/wmp.png"></Image>
+        </Button>
+        <!--<ctl:RepeatButton Canvas.Left="710" Width="80" Height="200" Interval="600" Caption="" Click="btnForward_Click"/>-->
+    <!--<Path Data="M 765,100 L745,80 L745,120z" Fill="Yellow" IsHitTestVisible="False"/>-->
+  </Canvas>
+</UserControl>
