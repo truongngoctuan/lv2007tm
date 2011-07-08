@@ -41,6 +41,12 @@
                     <TextBlock Foreground="White">Optimize</TextBlock>
                 </Button.Content>
             </Button>
+
+            <Button x:Name="btMatch2FrameManual" Style="{StaticResource customButtonNoStyle}" Click="btMatch2FrameManual_Click" Height="35" Margin="10,5,10,10">
+                <Button.Content>
+                    <TextBlock Foreground="White">Match 2 Frame Manual</TextBlock>
+                </Button.Content>
+            </Button>
         </StackPanel>
     </Border>
 </UserControl>

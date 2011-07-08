@@ -1,0 +1,53 @@
+﻿<controls:ChildWindow x:Class="_3DPresentation.Views.Editor.cwMatchModelManual"
+           xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+           xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+           xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
+                      xmlns:customControl="clr-namespace:_3DPresentation.Views.Editor"
+           Title="cwMatchModelManual">
+    <Grid x:Name="LayoutRoot" Margin="2">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal">
+            <Image Source="Images/j0182516.jpg" Width="400" Height="400"></Image>
+            <StackPanel Orientation="Vertical">
+                <Grid >
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                        <RowDefinition Height="Auto"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <customControl:SliderTextBox x:Name="RotateX" Grid.Row="0" Grid.Column="0"></customControl:SliderTextBox>
+                    <customControl:SliderTextBox x:Name="RotateY" Grid.Row="1" Grid.Column="0"></customControl:SliderTextBox>
+                    <customControl:SliderTextBox x:Name="RotateZ" Grid.Row="2" Grid.Column="0"></customControl:SliderTextBox>
+
+                    <customControl:SliderTextBox x:Name="TransateX" Grid.Row="3" Grid.Column="0"></customControl:SliderTextBox>
+                    <customControl:SliderTextBox x:Name="TransateY" Grid.Row="4" Grid.Column="0"></customControl:SliderTextBox>
+                    <customControl:SliderTextBox x:Name="TransateZ" Grid.Row="5" Grid.Column="0"></customControl:SliderTextBox>
+
+                    <customControl:SliderTextBox x:Name="ScaleX" Grid.Row="6" Grid.Column="0"></customControl:SliderTextBox>
+                    <customControl:SliderTextBox x:Name="ScaleY" Grid.Row="7" Grid.Column="0"></customControl:SliderTextBox>
+                    <customControl:SliderTextBox x:Name="ScaleZ" Grid.Row="8" Grid.Column="0"></customControl:SliderTextBox>
+                </Grid>
+                <CheckBox x:Name="cbPreview" IsChecked="True" HorizontalAlignment="Center" Checked="cbPreview_Checked">Preview</CheckBox>
+                <TextBlock x:Name="tblockValue" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+            </StackPanel>
+        </StackPanel>
+
+        <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,0,0" Grid.Row="1" />
+        <Button x:Name="OKButton" Content="OK" Click="OKButton_Click" Width="75" Height="23" HorizontalAlignment="Right" Margin="0,12,79,0" Grid.Row="1" />
+    </Grid>
+</controls:ChildWindow>
