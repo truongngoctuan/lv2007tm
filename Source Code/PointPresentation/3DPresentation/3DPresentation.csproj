@@ -71,11 +71,19 @@
       <HintPath>.\Microsoft.Xna.Framework.Math.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib" />
+    <Reference Include="SilverlightMessageBoxLibrary">
+      <HintPath>.\SilverlightMessageBoxLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
+    <Reference Include="System.Windows.Controls, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Data.Input, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35" />
+    <Reference Include="System.Windows.Controls.Layout.Toolkit">
+      <HintPath>.\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Controls.Navigation, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Theming.ExpressionDark">
       <HintPath>.\System.Windows.Controls.Theming.ExpressionDark.dll</HintPath>
     </Reference>
@@ -105,6 +113,7 @@
     <Compile Include="OpenFileControl.xaml.cs">
       <DependentUpon>OpenFileControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ReflectionShader.cs" />
     <Compile Include="SharpGIS.UnZipper.cs" />
     <Compile Include="Utils\Camera.cs" />
     <Compile Include="CameraMovements.cs" />
@@ -132,12 +141,44 @@
       <DependentUpon>UDRMZControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\Util.cs" />
+    <Compile Include="Views\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwOpenModel.xaml.cs">
+      <DependentUpon>cwOpenModel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwOptimize.xaml.cs">
+      <DependentUpon>cwOptimize.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwResetWorkSpace.xaml.cs">
+      <DependentUpon>cwResetWorkSpace.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwSaveModel.xaml.cs">
+      <DependentUpon>cwSaveModel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwSetupSDK.xaml.cs">
+      <DependentUpon>cwSetupSDK.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwSetupWorkSpace.xaml.cs">
+      <DependentUpon>cwSetupWorkSpace.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\ImageSelector.xaml.cs">
+      <DependentUpon>ImageSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ErrorWindowView.xaml.cs">
+      <DependentUpon>ErrorWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\EditorView.xaml.cs">
+      <DependentUpon>EditorView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <None Include="Reflection.fx" />
+    <Resource Include="Reflection.ps" />
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -146,13 +187,92 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="themes\CustomControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="themes\Styles.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="themes\TransitioningFrame.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\AboutView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwOpenModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwOptimize.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwResetWorkSpace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwSaveModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwSetupSDK.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwSetupWorkSpace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\ImageSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ErrorWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\EditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <PixelShader Include="Effects\PointEffect\PointEffect.ps.hlsl" />
     <VertexShader Include="Effects\PointEffect\PointEffect.vs.hlsl" />
     <VertexShader Include="Effects\FourPointLights\FourPointLights.vs.hlsl" />
     <PixelShader Include="Effects\FourPointLights\FourPointLights.ps.hlsl" />
-    <None Include="Properties\OutOfBrowserSettings.xml" />
+    <None Include="Properties\OutOfBrowserSettings.xml">
+      <SubType>Designer</SubType>
+    </None>
     <Resource Include="Images\3.jpg" />
     <Resource Include="Images\4.jpg" />
+    <Resource Include="Views\Editor\Images\ImageSelectorBgTop.png" />
+    <Resource Include="Views\Editor\Images\j0149013.jpg" />
+    <Resource Include="Views\Editor\Images\j0182516.jpg" />
+    <Resource Include="Views\Editor\Images\j0262524.jpg" />
+    <Resource Include="Views\Editor\Images\j0309223.jpg" />
+    <Resource Include="Views\Editor\Images\j0314059.jpg" />
+    <Resource Include="Views\Editor\Images\j0314069.jpg" />
+    <Resource Include="Views\Editor\Images\j0402444.jpg" />
+    <Resource Include="Views\Editor\Images\j0406500.jpg" />
+    <Resource Include="Views\Editor\Images\j0406702.jpg" />
+    <Resource Include="Views\Editor\Images\j0407544.jpg" />
+    <Resource Include="Views\Editor\Images\j0422769.jpg" />
+    <Resource Include="Views\Editor\Images\j0428653.jpg" />
+    <Resource Include="Views\Editor\Images\j0430836.jpg" />
+    <Resource Include="Views\Editor\Images\j0431767.jpg" />
+    <Resource Include="Views\Editor\Images\j0433157.jpg" />
+    <Resource Include="Views\Editor\Images\topbg_left.png" />
+    <Resource Include="Views\Editor\Images\topbg_mid.png" />
+    <Resource Include="Views\Editor\Images\topbg_right.png" />
+    <Resource Include="Views\Editor\Images\top_new_model.png" />
+    <Resource Include="Views\Editor\Images\top_pause.png" />
+    <Resource Include="Views\Editor\Images\top_play.png" />
+    <Resource Include="Views\Editor\Images\top_stop.png" />
+    <Resource Include="Views\Editor\Images\wmp.png" />
+    <Resource Include="Views\Editor\Images\wmp_left.png" />
     <Content Include="themes\System.Windows.Controls.Theming.ExpressionDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -203,6 +323,7 @@
       <Name>ShaderEffectsLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <UsingTask TaskName="ShaderBuildTask.ShaderCompile" AssemblyName="ShaderBuildTask, Version=1.0.3072.18169, Culture=neutral,&#xD;&#xA;PublicKeyToken=44e467d1687af125" />
   <Target Name="VertexShaderCompile" Condition="'@(VertexShader)' != '' " BeforeTargets="Build">
     <ShaderCompile Sources="@(VertexShader)" ShaderProfile="vs_2_0" IntermediateOutputPath="$(IntermediateOutputPath)">
