@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
                  xmlns:customControl="clr-namespace:_3DPresentation"
-                 xmlns:customControlEditor="clr-namespace:_3DPresentation.Editor"
+                 xmlns:customControlEditor="clr-namespace:_3DPresentation.Views.Editor"
 
     mc:Ignorable="d"
     Title="Home"
@@ -14,46 +14,7 @@
         <Image x:Name="currentImage"></Image>
         
         <!--object dock at top-->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
-            <Image Height="87" Source="Editor/Images/topbg_left.png"></Image>
-            <Grid>
-                <Button Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
-                    <Button.Content>
-                        <Image Width="50" Source="Editor/Images/top_new_model.png"></Image>
-                    </Button.Content>
-                    <!--<Button.Effect>
-                        <customControl:ReflectionShader ElementHeight="51">
-                        </customControl:ReflectionShader>
-                    </Button.Effect>-->
-                </Button>
-            <Image Height="87" Source="Editor/Images/topbg_mid.png"></Image>
-            </Grid>
-            <Grid>
-                <Button Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
-                    <Button.Content>
-                        <Image Width="50" Source="Editor/Images/top_play.png"></Image>
-                    </Button.Content>
-                    <!--<Button.Effect>
-                        <customControl:ReflectionShader ElementHeight="51">
-                        </customControl:ReflectionShader>
-                    </Button.Effect>-->
-                </Button>
-                <Image Height="87" Source="Editor/Images/topbg_mid.png"></Image>
-            </Grid>
-            <Grid>
-                <Button Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
-                    <Button.Content>
-                        <Image Width="50" Source="Editor/Images/top_stop.png"></Image>
-                    </Button.Content>
-                    <!--<Button.Effect>
-                        <customControl:ReflectionShader ElementHeight="51">
-                        </customControl:ReflectionShader>
-                    </Button.Effect>-->
-                </Button>
-                <Image Height="87" Source="Editor/Images/topbg_mid.png"></Image>
-            </Grid>
-            <Image Height="87" Source="Editor/Images/topbg_right.png"></Image>
-        </StackPanel>
+        <customControlEditor:EditorObjectDock></customControlEditor:EditorObjectDock>
         <!--coverflow at bottom-->
             <StackPanel Orientation="Horizontal" Width="1000" Height="200" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                     <Canvas Width="100" Height="200">
@@ -68,42 +29,6 @@
 
             </StackPanel>
         <!--toolbar at left-->
-            <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Margin="60,0,0,265" VerticalAlignment="Bottom" CornerRadius="4" Background="#66000000">
-            	<Border.Effect>
-            		<DropShadowEffect Opacity="0.57" ShadowDepth="8" BlurRadius="9"/>
-            	</Border.Effect>
-            	<StackPanel Margin="0,0,0,0" VerticalAlignment="Top" Width="177">
-                <Button x:Name="btSetupSDK" Style="{StaticResource customButtonNoStyle}" Click="btSetupSDK_Click" Height="35" Margin="10,10,10,5">
-                    <Button.Content>
-                        <TextBlock Foreground="White">Setup SDK</TextBlock>
-                    </Button.Content>
-                </Button>
-                <Button x:Name="btSetupWorkSpace" Style="{StaticResource customButtonNoStyle}" Click="btSetupWorkSpace_Click" Height="35" Margin="10,5">
-                <Button.Content>
-                        <TextBlock Foreground="White">Setup Enviroment</TextBlock>
-                </Button.Content>
-                </Button>
-                <Button x:Name="btResetWorkSpace" Style="{StaticResource customButtonNoStyle}" Click="btResetWorkSpace_Click" Height="35" Margin="10,5">
-                <Button.Content>
-                        <TextBlock Foreground="White">Reset workspace</TextBlock>
-                </Button.Content>
-                </Button>
-                <Button x:Name="btOpenModel" Style="{StaticResource customButtonNoStyle}" Click="btOpenModel_Click" Height="35" Margin="10,5">
-                <Button.Content>
-                        <TextBlock Foreground="White">Open</TextBlock>
-                </Button.Content>
-                </Button>
-                <Button x:Name="btSaveModel" Style="{StaticResource customButtonNoStyle}" Click="btSaveModel_Click" Height="35" Margin="10,5">
-                <Button.Content>
-                        <TextBlock Foreground="White">Save</TextBlock>
-                </Button.Content>
-                </Button>
-                <Button x:Name="btOptimize" Style="{StaticResource customButtonNoStyle}" Click="btOptimize_Click" Height="35" Margin="10,5,10,10">
-                <Button.Content>
-                        <TextBlock Foreground="White">Optimize</TextBlock>
-                </Button.Content>
-                </Button>
-            </StackPanel>
-            </Border>
+        <customControlEditor:EditorToolbar></customControlEditor:EditorToolbar>
     </Grid>
 </navigation:Page>

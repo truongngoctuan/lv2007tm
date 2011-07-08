@@ -162,6 +162,12 @@
     <Compile Include="Views\Editor\cwSetupWorkSpace.xaml.cs">
       <DependentUpon>cwSetupWorkSpace.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Editor\EditorObjectDock.xaml.cs">
+      <DependentUpon>EditorObjectDock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\EditorToolbar.xaml.cs">
+      <DependentUpon>EditorToolbar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Editor\ImageSelector.xaml.cs">
       <DependentUpon>ImageSelector.xaml</DependentUpon>
     </Compile>
@@ -226,6 +232,14 @@
     <Page Include="Views\Editor\cwSetupWorkSpace.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\EditorObjectDock.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Editor\EditorToolbar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Editor\ImageSelector.xaml">
       <Generator>MSBuild:Compile</Generator>

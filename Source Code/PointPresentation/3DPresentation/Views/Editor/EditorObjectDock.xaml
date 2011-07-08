@@ -1,0 +1,48 @@
+﻿<UserControl x:Class="_3DPresentation.Views.Editor.EditorObjectDock"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
+        <Image Height="87" Source="Images/topbg_left.png"></Image>
+        <Grid>
+            <Button x:Name="btNewCaptureModel" Click="btNewCaptureModel_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
+                <Button.Content>
+                    <Image Width="50" Source="Images/top_new_model.png"></Image>
+                </Button.Content>
+                <!--<Button.Effect>
+                        <customControl:ReflectionShader ElementHeight="51">
+                        </customControl:ReflectionShader>
+                    </Button.Effect>-->
+            </Button>
+            <Image Height="87" Source="Images/topbg_mid.png"></Image>
+        </Grid>
+        <Grid>
+            <Button x:Name="btPlay" Click="btPlay_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
+                <Button.Content>
+                    <Image Width="50" Source="Images/top_play.png"></Image>
+                </Button.Content>
+                <!--<Button.Effect>
+                        <customControl:ReflectionShader ElementHeight="51">
+                        </customControl:ReflectionShader>
+                    </Button.Effect>-->
+            </Button>
+            <Image Height="87" Source="Images/topbg_mid.png"></Image>
+        </Grid>
+        <Grid>
+            <Button x:Name="btStop" Click="btStop_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
+                <Button.Content>
+                    <Image Width="50" Source="Images/top_stop.png"></Image>
+                </Button.Content>
+                <!--<Button.Effect>
+                        <customControl:ReflectionShader ElementHeight="51">
+                        </customControl:ReflectionShader>
+                    </Button.Effect>-->
+            </Button>
+            <Image Height="87" Source="Images/topbg_mid.png"></Image>
+        </Grid>
+        <Image Height="87" Source="Images/topbg_right.png"></Image>
+    </StackPanel>
+</UserControl>
