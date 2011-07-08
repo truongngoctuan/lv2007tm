@@ -1,3 +1,0 @@
-<param name="EnableGPUAcceleration" value="true" />
-<param name="enableFrameRateCounter" value="false" />
-<param name="MaxFrameRate" value="24" />
