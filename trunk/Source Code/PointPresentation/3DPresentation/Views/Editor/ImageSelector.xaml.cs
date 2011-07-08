@@ -20,7 +20,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace _3DPresentation.Editor
+namespace _3DPresentation.Views.Editor
 {
     public class ImageSelectedEventArgs : EventArgs
     {
@@ -76,7 +76,7 @@ namespace _3DPresentation.Editor
         public void SetImages(string[] imageUris)
         {
             imageArray = imageUris;
-            //if (imageArray.Length >= 7)
+            if (imageArray.Length >= 7)
             {
                 imageIndex = 0;
                 //System.Threading.Thread.Sleep(5000);
@@ -152,9 +152,22 @@ namespace _3DPresentation.Editor
                     brushIndex = 0;
                 }
             }
+
+            SetCurrentInfoFrame();
+        }
+
+        void SetCurrentInfoFrame()
+        {
+            tbCurrentFrameIndex.Text = imageIndex.ToString() + "/" + imageArray.Length.ToString() + " Frames.";
         }
 
         private int imageIndex = -1;
+
+        public int CurrentImageIndex
+        {
+            get { return imageIndex; }
+            //set { imageIndex = value; }
+        }
         private ImageBrush[] imageBrushArray;
         private ImageBrush[] reflectionBrushArray;
         private string[] imageArray;
