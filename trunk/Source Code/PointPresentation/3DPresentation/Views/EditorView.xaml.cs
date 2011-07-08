@@ -11,6 +11,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using _3DPresentation.Views.Editor;
+using System.Windows.Controls.Primitives;
+using System.Threading;
 
 namespace _3DPresentation
 {
@@ -46,48 +48,37 @@ namespace _3DPresentation
       }
       #endregion
 
+      private Popup simplePopup = new Popup();
+      void Child_MouseLeave(object sender, MouseEventArgs e)
+      {
+          this.simplePopup.IsOpen = false;
+      }
+
       public EditorView()
     {
       InitializeComponent();
       toolbar.ParentEditor = this;
+      frameViewer.ParentView = this;
     }
 
     // Executes when the user navigates to this page.
     protected override void OnNavigatedTo(NavigationEventArgs e)
     {
     }
-
-    //CustomChildWindow cw = new CustomChildWindow();
-
-    private void Button_Click(object sender, RoutedEventArgs e)
-    {
-        //SilverlightMessageBoxLibrary.Message.InfoMessage("asdasd");
-        //SilverlightMessageBoxLibrary.CustomMessage asd = new SilverlightMessageBoxLibrary.CustomMessage("aaa", SilverlightMessageBoxLibrary.CustomMessage.MessageType.Confirm, null);
-        //asd.Show();
-
-        
-        //cw.Closed += new EventHandler(cw_Closed);
-        //cw.Show();
-    }
-
-    void cw_Closed(object sender, EventArgs e)
-    {
-        //throw new NotImplementedException();
-        //if ((bool)cw.DialogResult)
-        //{
-        //    SilverlightMessageBoxLibrary.Message.InfoMessage("Click Button OK");
-        //}
-        //else
-        //{
-        //    SilverlightMessageBoxLibrary.Message.InfoMessage("Click Button Cancel");
-        //}
-        //cw.Closed -= cw_Closed;
-    }
-
+      
+    
     void OnImageSelected(object sender, ImageSelectedEventArgs e)
     {
         currentImage.Source = e.Source;
-        int iSelectedImageIndex = frameViewer.CurrentImageIndex;
+        SimplePopupContent spc = new SimplePopupContent();
+        spc.ParentView = this;
+        spc.imgIndex = frameViewer.SelectedIndex;
+
+        this.simplePopup.Child = spc;
+        this.simplePopup.HorizontalOffset = frameViewer.ClickedPositionParent.X;
+        this.simplePopup.VerticalOffset = frameViewer.ClickedPositionParent.Y;
+        this.simplePopup.Child.MouseLeave += new MouseEventHandler(Child_MouseLeave);
+        this.simplePopup.IsOpen = true;
     }
 
     void imageSelector_Loaded(object sender, RoutedEventArgs e)
@@ -112,6 +103,33 @@ namespace _3DPresentation
                 //"Images/j0433157.jpg"
             });
     }
+
+    public void DeleteFrame(int iIndex)
+    {
+        //delete
+    }
+
+    public void AddFrame(int iIndex)
+    {
+        //add
+    }
+
+    #region Fixed - Reference
+    int iFixedImageIndex = -1;
+
+    public int FixedImageIndex
+    {
+        get { return iFixedImageIndex; }
+        set { iFixedImageIndex = value; }
+    }
+    int iReferenceImageIndex = -1;
+
+    public int ReferenceImageIndex
+    {
+        get { return iReferenceImageIndex; }
+        set { iReferenceImageIndex = value; }
+    }
+    #endregion
 
   }
 }

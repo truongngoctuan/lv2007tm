@@ -14,6 +14,19 @@ namespace _3DPresentation.Views.Editor
 {
     public partial class cwMatchModelManual : ChildWindow
     {
+        float _fRotateX = 0;
+        float _fRotateY = 0;
+        float _fRotateZ = 0;
+        float _fTranslateX = 0;
+        float _fTranslateY = 0;
+        float _fTranslateZ = 0;
+        float _fScaleX = 1;
+        float _fScaleY = 1;
+        float _fScaleZ = 1;
+
+        int iFixedImageIndex = -1;
+        int iReferenceImageIndex = -1;
+
         public cwMatchModelManual()
         {
             InitializeComponent();
@@ -43,17 +56,11 @@ namespace _3DPresentation.Views.Editor
             this.DialogResult = false;
         }
 
-        float _fRotateX = 0;
-        float _fRotateY = 0;
-        float _fRotateZ = 0;
-        float _fTranslateX = 0;
-        float _fTranslateY = 0;
-        float _fTranslateZ = 0;
-        float _fScaleX = 1;
-        float _fScaleY = 1;
-        float _fScaleZ = 1;
-
         #region ValueChange
+        public void Change()
+        {
+            tblockUpdateCounter.Text = (int.Parse(tblockUpdateCounter.Text) + 1).ToString();
+        }
         public void OnValueChange(string strKey, float fValue)
         {
             if (!(bool)cbPreview.IsChecked) return;
@@ -108,14 +115,14 @@ namespace _3DPresentation.Views.Editor
 
             tblockValue.Text = this.ToString();
         }
-
+        #endregion
         public override string ToString()
         {
             //return base.ToString();
-            return string.Format("{0} {1} {2}\n{3} {4} {5}\n{6} {7} {8}",
-                _fRotateX, _fRotateY, _fRotateZ, _fTranslateX, _fTranslateY, _fTranslateZ, _fScaleX, _fScaleY, _fScaleZ);
+            return string.Format("index1: {9}\nindex2: {10}\n{0} {1} {2}\n{3} {4} {5}\n{6} {7} {8}",
+                _fRotateX, _fRotateY, _fRotateZ, _fTranslateX, _fTranslateY, _fTranslateZ, _fScaleX, _fScaleY, _fScaleZ,
+                iFixedImageIndex, iReferenceImageIndex);
         }
-        #endregion
 
         private void cbPreview_Checked(object sender, RoutedEventArgs e)
         {
@@ -134,6 +141,14 @@ namespace _3DPresentation.Views.Editor
 
                 tblockValue.Text = this.ToString();
             }
+        }
+
+        public void SetInputData(int iFFIndex, int iRIndex)
+        {
+            iFixedImageIndex = iFFIndex;
+            iReferenceImageIndex = iRIndex;
+
+            tblockValue.Text = this.ToString();
         }
     }
 }

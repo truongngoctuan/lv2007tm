@@ -82,7 +82,7 @@ namespace _3DPresentation.Views.Editor
             //setup 2 parameter
             //catch result
             //recal
-
+            cwNew.SetInputData(ParentEditor.FixedImageIndex, ParentEditor.ReferenceImageIndex);
             cwNew.Show();
         }
     }

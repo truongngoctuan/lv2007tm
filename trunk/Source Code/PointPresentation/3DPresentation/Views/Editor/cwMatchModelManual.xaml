@@ -43,6 +43,7 @@
                     <customControl:SliderTextBox x:Name="ScaleZ" Grid.Row="8" Grid.Column="0"></customControl:SliderTextBox>
                 </Grid>
                 <CheckBox x:Name="cbPreview" IsChecked="True" HorizontalAlignment="Center" Checked="cbPreview_Checked">Preview</CheckBox>
+                <TextBlock x:Name="tblockUpdateCounter">0</TextBlock>
                 <TextBlock x:Name="tblockValue" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
             </StackPanel>
         </StackPanel>

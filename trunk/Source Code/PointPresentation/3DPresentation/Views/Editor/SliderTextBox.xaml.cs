@@ -52,6 +52,7 @@ namespace _3DPresentation.Views.Editor
 
         private void sd_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
+            _parent.Change();
             tbox.Text = ((int)sd.Value).ToString();
 
             this._parent.OnValueChange(strKey, (float)sd.Value);
@@ -59,6 +60,7 @@ namespace _3DPresentation.Views.Editor
 
         private void tbox_TextChanged(object sender, TextChangedEventArgs e)
         {
+            //_parent.Change();
             double iResult = 0;
             if (double.TryParse(tbox.Text, out iResult))
             {

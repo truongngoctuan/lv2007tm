@@ -57,13 +57,13 @@ namespace _3DPresentation.Views.Editor
             reflectionBrushArray[5] = rightReflection2Brush;
             reflectionBrushArray[6] = rightReflection3Brush;
 
-            leftImg3.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked);
-            leftImg2.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked);
-            leftImg1.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked);
-            rightImg3.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked);
-            rightImg2.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked);
-            rightImg1.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked);
-            centerImg.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked);
+            leftImg3.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked1);
+            leftImg2.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked2);
+            leftImg1.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked3);
+            rightImg3.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked7);
+            rightImg2.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked6);
+            rightImg1.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked5);
+            centerImg.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked4);
 
             btTestAdd.Click += new RoutedEventHandler(btTestAdd_Click);
         }
@@ -184,12 +184,55 @@ namespace _3DPresentation.Views.Editor
             }
         }
 
+        #region Clicked
+
+        void OnImgClicked1(object sender, MouseButtonEventArgs e)
+        {
+            SelectedIndex = (imageIndex + imageArray.Length - 3) % imageArray.Length;
+            OnImgClicked(sender, e);
+        }
+        void OnImgClicked2(object sender, MouseButtonEventArgs e)
+        {
+            SelectedIndex = (imageIndex + imageArray.Length - 2) % imageArray.Length;
+            OnImgClicked(sender, e);
+        }
+        void OnImgClicked3(object sender, MouseButtonEventArgs e)
+        {
+            SelectedIndex = (imageIndex + imageArray.Length - 1) % imageArray.Length;
+            OnImgClicked(sender, e);
+        }
+
+        void OnImgClicked4(object sender, MouseButtonEventArgs e)
+        {
+            SelectedIndex = imageIndex;
+            OnImgClicked(sender, e);
+        }
+
+        void OnImgClicked5(object sender, MouseButtonEventArgs e)
+        {
+            SelectedIndex = (imageIndex + imageArray.Length + 1) % imageArray.Length;
+            OnImgClicked(sender, e);
+        }
+        void OnImgClicked6(object sender, MouseButtonEventArgs e)
+        {
+            SelectedIndex = (imageIndex + imageArray.Length + 2) % imageArray.Length;
+            OnImgClicked(sender, e);
+        }
+        void OnImgClicked7(object sender, MouseButtonEventArgs e)
+        {
+            SelectedIndex = (imageIndex + imageArray.Length + 3) % imageArray.Length;
+            OnImgClicked(sender, e);
+        }
+
         void OnImgClicked(object sender, MouseButtonEventArgs e)
         {
             ImageSelectedEventArgs args = new ImageSelectedEventArgs();
             args.Source = (BitmapImage)((ImageBrush)((Path)sender).Fill).ImageSource;
             OnImageSelected(args);
+            ClickedPositionParent = e.GetPosition(_parent);
         }
+
+        #endregion
 
         void onForwardFlowCompleted(object sender, EventArgs e)
         {
@@ -289,5 +332,27 @@ namespace _3DPresentation.Views.Editor
         private ImageBrush[] imageBrushArray;
         private ImageBrush[] reflectionBrushArray;
         private string[] imageArray;
+        EditorView _parent;
+
+        public EditorView ParentView
+        {
+            get { return _parent; }
+            set { _parent = value; }
+        }
+        Point _pClickedPositionParent;
+
+        public Point ClickedPositionParent
+        {
+            get { return _pClickedPositionParent; }
+            set { _pClickedPositionParent = value; }
+        }
+
+        int iSelectedIndex = -1;
+
+        public int SelectedIndex
+        {
+            get { return iSelectedIndex; }
+            set { iSelectedIndex = value; }
+        }
     }
 }
