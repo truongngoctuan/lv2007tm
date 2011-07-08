@@ -632,18 +632,18 @@ namespace _3DPresentation
             {
                 SetupWorkingDirectory();
 
-                using (dynamic shell = AutomationFactory.CreateObject("WScript.Shell"))
-                {
-                    //player d:\\test2 d:\\grab1 d:\\kineck_calibration.yml
-                    string strQuery =
-                    string.Format("{0} {1} {2} {3} {4}",
-                                  WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
-                                  "player",
-                                  WorkingDirectory + "\\result",
-                                  WorkingDirectory + "\\recorded\\grab1",
-                                  WorkingDirectory + "\\recontructor\\kineck_calibration.yml");
-                    shell.Run(strQuery);
-                }
+                //using (dynamic shell = AutomationFactory.CreateObject("WScript.Shell"))
+                //{
+                //    //player d:\\test2 d:\\grab1 d:\\kineck_calibration.yml
+                //    string strQuery =
+                //    string.Format("{0} {1} {2} {3} {4}",
+                //                  WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
+                //                  "player",
+                //                  WorkingDirectory + "\\result",
+                //                  WorkingDirectory + "\\recorded\\grab3",
+                //                  WorkingDirectory + "\\recontructor\\kineck_calibration.yml");
+                //    shell.Run(strQuery);
+                //}
 
                 new Thread(() =>
                 {
@@ -691,7 +691,7 @@ namespace _3DPresentation
                                         FileInfo fi = new FileInfo(strFileName);
                                         if (fi.Extension.Equals(".ply"))
                                         {
-                                            if (fi.Name.StartsWith("DecreaseSameVertex"))
+                                            if (fi.Name.StartsWith("NotDecreaseSameVertex"))
                                             {
                                                 scene.AddPointModel(fi);
                                             }
