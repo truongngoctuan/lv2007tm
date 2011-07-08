@@ -97,19 +97,19 @@ namespace _3DPresentation
                 "Images/j0149013.jpg",
                 "Images/j0182516.jpg",
                 "Images/j0262524.jpg"
-                ,
-                "Images/j0309223.jpg",
-                "Images/j0314069.jpg",
-                "Images/j0402444.jpg",
-                "Images/j0406500.jpg",
-                "Images/j0406702.jpg",
-                "Images/j0407544.jpg",
-                "Images/j0422769.jpg",
-                "Images/j0428653.jpg",
-                "Images/j0314059.jpg",
-                "Images/j0430836.jpg",
-                "Images/j0431767.jpg",
-                "Images/j0433157.jpg"
+                //,
+                //"Images/j0309223.jpg",
+                //"Images/j0314069.jpg",
+                //"Images/j0402444.jpg",
+                //"Images/j0406500.jpg",
+                //"Images/j0406702.jpg",
+                //"Images/j0407544.jpg",
+                //"Images/j0422769.jpg",
+                //"Images/j0428653.jpg",
+                //"Images/j0314059.jpg",
+                //"Images/j0430836.jpg",
+                //"Images/j0431767.jpg",
+                //"Images/j0433157.jpg"
             });
     }
 
