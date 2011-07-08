@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Condition="'$(BuildingInsideVisualStudio)'=='true'">
+    <AvailableItemName Include="VertexShader">
+      <Visible>false</Visible>
+    </AvailableItemName>
+    <AvailableItemName Include="PixelShader">
+      <Visible>false</Visible>
+    </AvailableItemName>
+  </ItemGroup>
+  <UsingTask TaskName="ShaderBuildTask.ShaderCompile" AssemblyName="ShaderBuildTask, Version=1.0.3072.18169, Culture=neutral, PublicKeyToken=44e467d1687af125" />
+  <Target Name="VertexShaderCompile" Condition="'@(VertexShader)' != '' " BeforeTargets="BeforeBuild">
+    <ShaderCompile Sources="@(VertexShader)" ShaderProfile="vs_2_0" IntermediateOutputPath="$(IntermediateOutputPath)">
+      <Output TaskParameter="Outputs" ItemName="Resource" />
+    </ShaderCompile>
+  </Target>
+  <Target Name="PixelShaderCompile" Condition="'@(PixelShader)' != '' " BeforeTargets="BeforeBuild">
+    <ShaderCompile Sources="@(PixelShader)" ShaderProfile="ps_2_0" IntermediateOutputPath="$(IntermediateOutputPath)">
+      <Output TaskParameter="Outputs" ItemName="Resource" />
+    </ShaderCompile>
+  </Target>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{F34C514B-6146-4712-AFA6-1FBF4028F00E}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Babylon</RootNamespace>
+    <AssemblyName>Babylon</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>Babylon.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>
+    </SilverlightAppEntry>
+    <TestPageFileName>BabylonTestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>true</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject>
+    </LinkedServerProject>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Babylon.Toolbox, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Xna.Framework.Math, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Windows">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BabylonSurface.xaml.cs">
+      <DependentUpon>BabylonSurface.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Engine\Culling\BoundingBox.cs" />
+    <Compile Include="Engine\Culling\BoundingSphere.cs" />
+    <Compile Include="Engine\Collisions\CollisionPlane.cs" />
+    <Compile Include="Engine\Collisions\CollisionSystem.cs" />
+    <Compile Include="Engine\Collisions\Camera.Collisions.cs" />
+    <Compile Include="Engine\Collisions\Model.Collisions.cs" />
+    <Compile Include="Engine\Collisions\Scene.Collisions.cs" />
+    <Compile Include="Engine\Culling\BoundingInfo.cs" />
+    <Compile Include="Engine\Culling\Scene.Culling.cs" />
+    <Compile Include="Engine\Material\Root Effects\StandardEffect.cs" />
+    <Compile Include="Engine\Material\Root Effects\PerPixelEffect.cs" />
+    <Compile Include="Engine\Engine\Engine.cs" />
+    <Compile Include="Engine\Engine\Engine.Effects.cs" />
+    <Compile Include="Engine\Engine\Engine.Resources.cs" />
+    <Compile Include="Engine\Entities\Camera\Camera.cs" />
+    <Compile Include="Engine\Entities\Camera\Camera.Culling.cs" />
+    <Compile Include="Engine\Entities\Camera\Camera.IO.cs" />
+    <Compile Include="Engine\Entities\Entity.cs" />
+    <Compile Include="Engine\Entities\Light\Light.cs" />
+    <Compile Include="Engine\Entities\Light\Light.IO.cs" />
+    <Compile Include="Engine\Entities\Model\Model.cs" />
+    <Compile Include="Engine\Entities\Model\Model.IO.cs" />
+    <Compile Include="Engine\Entities\Model\SubModel.cs" />
+    <Compile Include="Engine\Entities\Targetable.cs" />
+    <Compile Include="Engine\Enums.cs" />
+    <Compile Include="Engine\Input\InputManager.cs" />
+    <Compile Include="Engine\IStreamableData.cs" />
+    <Compile Include="Engine\LoadEventArgs.cs" />
+    <Compile Include="Engine\Material\Material.cs" />
+    <Compile Include="Engine\Material\MultiMaterial.cs" />
+    <Compile Include="Engine\Material\Texture\LoadedTexture.cs" />
+    <Compile Include="Engine\Material\PerPixelMaterial\PerPixelMaterial.cs" />
+    <Compile Include="Engine\Material\PerPixelMaterial\PerPixelMaterial.IO.cs" />
+    <Compile Include="Engine\Material\StandardMaterial\StandardMaterial.IO.cs" />
+    <Compile Include="Engine\Material\Texture\Texture.cs" />
+    <Compile Include="Engine\Material\StandardMaterial\StandardMaterial.cs" />
+    <Compile Include="Engine\Material\Texture\Texture.IO.cs" />
+    <Compile Include="Engine\Math\MatrixLeftHanded.cs" />
+    <Compile Include="Engine\RootElement.cs" />
+    <Compile Include="Engine\Scene\Scene.IO.cs" />
+    <Compile Include="Engine\Scene\Scene.Render.cs" />
+    <Compile Include="Engine\Scene\Scene.Collections.cs" />
+    <Compile Include="Engine\Scene\Scene.cs" />
+    <Compile Include="Engine\Scene\Scene.Streaming.cs" />
+    <Compile Include="Engine\VertexTypes\VertexPositionNormalTexture2.cs" />
+    <Compile Include="Enums.cs" />
+    <Compile Include="Logger.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Strings.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="BabylonSurface.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Strings.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Strings.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <VertexShader Include="Engine\Shaders\pervertex.vs.hlsl" />
+    <None Include="BuildTask\ShaderBuildTaskSetup.msi" />
+    <PixelShader Include="Engine\Shaders\pervertex.ps.hlsl" />
+    <PixelShader Include="Engine\Shaders\perpixel.ps.hlsl" />
+    <VertexShader Include="Engine\Shaders\perpixel.vs.hlsl" />
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\OutOfBrowserSettings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Libs\Babylon.Toolbox.dll" />
+    <Content Include="Libs\Microsoft.Xna.Framework.Math.dll" />
+    <Content Include="Libs\PortableTPL.dll" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>
+    </PreBuildEvent>
+  </PropertyGroup>
+</Project>
