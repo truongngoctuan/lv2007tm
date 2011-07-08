@@ -26,7 +26,6 @@ struct VertexShaderOutput
 {
   float4 Position : POSITION;
   float4 Color : COLOR;
-  float2 textureCoords : TEXCOORD0;
 };
 
 // main shader function
@@ -41,6 +40,5 @@ VertexShaderOutput main(VertexData vertex)
 
   // pass the color through to the next stage (pass to pixel shader)
   output.Color = vertex.Color;
-  output.textureCoords = float2(output.Position.x, output.Position.y);
   return output;
 }

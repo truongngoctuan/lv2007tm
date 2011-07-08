@@ -104,6 +104,8 @@
     <Compile Include="ClientPackage.cs" />
     <Compile Include="Effects\FourPointLights\FourPointLights.cs" />
     <Compile Include="Effects\PointEffect\PointEffect.cs" />
+    <Compile Include="Effects\TexturedNoEffect\TexturedNoEffect.cs" />
+    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\FaceModel\FaceManager.cs" />
     <Compile Include="Models\FaceModel\FaceModel.cs" />
     <Compile Include="Models\FaceModel\FacePartition.cs" />
@@ -113,8 +115,27 @@
     <Compile Include="OpenFileControl.xaml.cs">
       <DependentUpon>OpenFileControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\Tour\CustomBoundingInfo.cs" />
+    <Compile Include="Pages\Tour\Scene\CustomScene.cs" />
+    <Compile Include="Pages\Tour\Scene\CustomScene.Interaction.cs" />
+    <Compile Include="Pages\Tour\Scene\CustomScene.IO.cs" />
+    <Compile Include="Pages\Tour\Scene\CustomScene.Models.cs" />
+    <Compile Include="Pages\Tour\Scene\CustomScene.Render.cs" />
+    <Compile Include="Pages\Tour\Scene\CustomScene.Streaming.cs" />
+    <Compile Include="Pages\Tour\TourControl.xaml.cs">
+      <DependentUpon>TourControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\View\Scene\ViewScene.cs" />
+    <Compile Include="Pages\View\Scene\ViewScene.Interaction.cs" />
+    <Compile Include="Pages\View\Scene\ViewScene.IO.cs" />
+    <Compile Include="Pages\View\Scene\ViewScene.Models.cs" />
+    <Compile Include="Pages\View\Scene\ViewScene.Render.cs" />
+    <Compile Include="Pages\View\ViewControl.xaml.cs">
+      <DependentUpon>ViewControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ReflectionShader.cs" />
     <Compile Include="SharpGIS.UnZipper.cs" />
+    <Compile Include="Utils\Animator.cs" />
     <Compile Include="Utils\Camera.cs" />
     <Compile Include="CameraMovements.cs" />
     <Compile Include="ClientLog.cs" />
@@ -127,7 +148,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\MyModel\MeshManger.cs" />
-    <Compile Include="Models\Model.cs" />
     <Compile Include="Models\MyModel\MyModel.cs" />
     <Compile Include="Models\SimpleModel.cs" />
     <Compile Include="MySliderControl.xaml.cs">
@@ -140,6 +160,7 @@
     <Compile Include="UDRMZControl.xaml.cs">
       <DependentUpon>UDRMZControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="Utils\Util.cs" />
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
@@ -198,10 +219,327 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Resource Include="Resources\Models\espilit.bsf" />
+    <Resource Include="Resources\Models\espilit.streams\0.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\1.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\10.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\100.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\101.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\102.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\103.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\104.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\105.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\106.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\107.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\108.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\109.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\11.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\110.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\111.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\112.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\113.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\114.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\115.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\116.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\117.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\118.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\119.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\12.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\120.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\121.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\122.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\123.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\124.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\125.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\13.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\14.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\15.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\16.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\17.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\18.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\19.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\2.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\20.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\21.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\22.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\23.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\24.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\25.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\26.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\27.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\28.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\29.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\3.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\30.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\31.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\32.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\33.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\34.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\35.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\36.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\37.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\38.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\39.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\4.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\40.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\41.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\42.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\43.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\44.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\45.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\46.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\47.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\48.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\49.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\5.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\50.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\51.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\52.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\53.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\54.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\55.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\56.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\57.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\58.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\59.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\6.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\60.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\61.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\62.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\63.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\64.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\65.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\66.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\67.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\68.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\69.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\7.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\70.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\71.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\72.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\73.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\74.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\75.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\76.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\77.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\78.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\79.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\8.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\80.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\81.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\82.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\83.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\84.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\85.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\86.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\87.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\88.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\89.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\9.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\90.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\91.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\92.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\93.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\94.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\95.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\96.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\97.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\98.bsfstream" />
+    <Resource Include="Resources\Models\espilit.streams\99.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.bsf" />
+    <Resource Include="Resources\Models\wcafe.streams\0.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\1.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\10.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\100.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\101.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\102.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\103.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\104.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\105.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\106.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\107.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\108.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\109.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\11.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\110.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\111.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\112.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\113.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\114.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\115.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\116.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\117.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\118.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\119.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\12.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\120.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\121.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\122.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\123.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\124.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\125.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\126.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\127.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\128.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\129.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\13.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\130.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\131.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\132.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\133.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\134.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\135.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\136.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\137.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\138.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\139.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\14.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\140.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\141.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\142.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\143.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\144.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\145.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\146.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\147.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\148.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\149.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\15.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\150.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\151.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\152.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\153.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\154.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\155.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\156.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\157.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\158.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\159.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\16.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\160.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\161.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\162.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\163.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\164.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\165.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\166.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\167.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\168.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\169.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\17.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\170.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\171.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\172.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\173.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\174.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\175.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\176.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\177.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\178.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\179.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\18.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\180.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\19.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\2.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\20.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\21.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\22.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\23.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\24.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\25.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\26.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\27.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\28.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\29.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\3.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\30.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\31.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\32.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\33.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\34.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\35.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\36.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\37.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\38.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\39.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\4.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\40.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\41.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\42.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\43.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\44.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\45.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\46.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\47.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\48.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\49.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\5.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\50.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\51.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\52.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\53.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\54.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\55.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\56.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\57.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\58.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\59.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\6.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\60.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\61.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\62.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\63.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\64.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\65.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\66.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\67.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\68.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\69.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\7.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\70.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\71.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\72.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\73.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\74.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\75.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\76.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\77.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\78.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\79.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\8.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\80.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\81.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\82.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\83.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\84.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\85.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\86.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\87.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\88.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\89.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\9.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\90.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\91.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\92.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\93.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\94.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\95.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\96.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\97.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\98.bsfstream" />
+    <Resource Include="Resources\Models\wcafe.streams\99.bsfstream" />
     <Resource Include="Views\OpenFolderDlg\Assets\back.png" />
     <Resource Include="Views\OpenFolderDlg\Assets\drive.png" />
     <Resource Include="Views\OpenFolderDlg\Assets\folder.png" />
     <Resource Include="Views\OpenFolderDlg\Assets\mc.png" />
+    <Page Include="Pages\Tour\TourControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\View\ViewControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Editor\cwMatchModelManual.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -219,6 +557,8 @@
       <SubType>Designer</SubType>
     </Page>
     <Resource Include="Views\Editor\Images\blank.jpg" />
+    <PixelShader Include="Effects\TexturedNoEffect\TexturedNoEffect.ps.hlsl" />
+    <VertexShader Include="Effects\TexturedNoEffect\TexturedNoEffect.vs.hlsl" />
     <None Include="Reflection.fx" />
     <Resource Include="Reflection.ps" />
     <Page Include="MainPage.xaml">
@@ -323,6 +663,8 @@
     <Resource Include="Views\Editor\Images\top_stop.png" />
     <Resource Include="Views\Editor\Images\wmp.png" />
     <Resource Include="Views\Editor\Images\wmp_left.png" />
+    <Content Include="Resources\Models\espilit.txt" />
+    <Content Include="Resources\Models\wcafe.txt" />
     <Content Include="themes\System.Windows.Controls.Theming.ExpressionDark.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -368,6 +710,10 @@
     </AvailableItemName>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Babylon\Babylon.csproj">
+      <Project>{F34C514B-6146-4712-AFA6-1FBF4028F00E}</Project>
+      <Name>Babylon</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ShaderEffectsLibrary\ShaderEffectsLibrary.csproj">
       <Project>{A933FC48-0061-4994-881F-2146B5B407C3}</Project>
       <Name>ShaderEffectsLibrary</Name>

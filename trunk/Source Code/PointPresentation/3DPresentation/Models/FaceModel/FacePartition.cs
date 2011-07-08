@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 
-namespace _3DPresentation.Models.FaceModel
+namespace _3DPresentation.Models
 {
     public class FacePartition
     {
@@ -19,6 +19,7 @@ namespace _3DPresentation.Models.FaceModel
         private int Current;
         public VertexBuffer VertexBuffer;
         public IndexBuffer IndexBuffer;
+
         public bool IsValid
         {
             get;
@@ -28,10 +29,7 @@ namespace _3DPresentation.Models.FaceModel
         public FacePartition(int partitionSize, int id)
         {
             PartitionSize = partitionSize;
-            ID = id;
-            Current = 0;
-            VerticesList = new List<VertexPositionNormalColor>();
-            IndicesList = new List<ushort>();
+            ID = id;                     
         }
 
         public bool IsFull()
@@ -39,6 +37,25 @@ namespace _3DPresentation.Models.FaceModel
             if (Current >= PartitionSize)
                 return true;
             return false;
+        }
+
+        public void Begin()
+        {
+            VerticesList = new List<VertexPositionNormalColor>();
+            IndicesList = new List<ushort>();
+            Current = 0;
+        }
+
+        public void End()
+        {
+            Vertices = VerticesList.ToArray();
+            // release the memory
+            VerticesList.Clear(); 
+            VerticesList = null;
+
+            Indices = IndicesList.ToArray();
+            IndicesList.Clear(); 
+            IndicesList = null;
         }
 
         public int AddPoint(Vector3 point, Color color)
@@ -61,20 +78,15 @@ namespace _3DPresentation.Models.FaceModel
 
         public void InitNormals()
         {
-            // MUST CONVERT TO ARRAY
+            // MUST USE VERTICES ARRAY
             // - VertexPositionNormalColor is a struct => VerticesList[i] : only return a copy of the actual Vertex in List
-            //      => any modification'll only affect the copy, not the real one. 
-            Vertices = VerticesList.ToArray();
+            //      => any modification'll only affect the copy, not the real one.            
 
-            // release the memory
-            VerticesList.Clear(); 
-            VerticesList = null;
-
-            for (int i = 0; i < IndicesList.Count / 3; i++)
+            for (int i = 0; i < Indices.Length / 3; i++)
             {
-                int i1 = IndicesList[i * 3];
-                int i2 = IndicesList[i * 3 + 1];
-                int i3 = IndicesList[i * 3 + 2];
+                int i1 = Indices[i * 3];
+                int i2 = Indices[i * 3 + 1];
+                int i3 = Indices[i * 3 + 2];
                 Vector3 v1 = Vertices[i2].Position - Vertices[i1].Position;
                 Vector3 v2 = Vertices[i3].Position - Vertices[i1].Position;
                 Vector3 normal = Vector3.Cross(v2, v1);
@@ -92,7 +104,7 @@ namespace _3DPresentation.Models.FaceModel
 
         public void InitBuffers(GraphicsDevice graphicsDevice)
         {
-            if ((Vertices.Length == 0) || (IndicesList.Count < 3))
+            if ((Vertices.Length == 0) || (Indices.Length < 3))
             {
                 IsValid = false;
                 return;
@@ -100,12 +112,7 @@ namespace _3DPresentation.Models.FaceModel
 
             VertexBuffer = new VertexBuffer(graphicsDevice, VertexPositionNormalColor.VertexDeclaration, Vertices.Length, BufferUsage.WriteOnly);
             VertexBuffer.SetData(0, Vertices, 0, Vertices.Length, 0);
-
-            // optional
-            Indices = IndicesList.ToArray();
-            IndicesList.Clear(); 
-            IndicesList = null;
-
+            
             IndexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, Indices.Length, BufferUsage.WriteOnly);
             IndexBuffer.SetData(0, Indices, 0, Indices.Length);
 

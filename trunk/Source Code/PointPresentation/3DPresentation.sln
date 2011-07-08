@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "3DPresentation.Web", "3DPre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaderEffectsLibrary", "ShaderEffectsLibrary\ShaderEffectsLibrary.csproj", "{A933FC48-0061-4994-881F-2146B5B407C3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Babylon", "Babylon\Babylon.csproj", "{F34C514B-6146-4712-AFA6-1FBF4028F00E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -25,6 +27,10 @@ Global
 		{A933FC48-0061-4994-881F-2146B5B407C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A933FC48-0061-4994-881F-2146B5B407C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A933FC48-0061-4994-881F-2146B5B407C3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F34C514B-6146-4712-AFA6-1FBF4028F00E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F34C514B-6146-4712-AFA6-1FBF4028F00E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F34C514B-6146-4712-AFA6-1FBF4028F00E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F34C514B-6146-4712-AFA6-1FBF4028F00E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

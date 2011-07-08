@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace _3DPresentation.Models.FaceModel
+namespace _3DPresentation.Models
 {
     public class FaceManager
     {
@@ -61,14 +61,19 @@ namespace _3DPresentation.Models.FaceModel
             }
 
             Nodes = new Node[nPoints];
+
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                Partitions[i].Begin();
+            }
         }
 
         int iCurrentNode = 0;
-        public bool AddPoint(Vector3 vertex, Color color)
+        public bool AddVertex(Vector3 position, Color color)
         {
             if (iCurrentNode >= Nodes.Length)
                 return false;
-            Nodes[iCurrentNode++] = new Node(vertex, color);
+            Nodes[iCurrentNode++] = new Node(position, color);
             return true;
         }
         public bool AddIndice(int i1, int i2, int i3)
@@ -112,14 +117,13 @@ namespace _3DPresentation.Models.FaceModel
                 }
 
                 partition.AddIndice(node.lastIndex, relative.node2.lastIndex, relative.node3.lastIndex);
-                triangleCount++;
             }
             return true;
         }
-        int triangleCount = 0;
+        
         public void End()
         {
-            int iCurrentPartition = 0;
+            int iCurrentPartition = 0;            
             FacePartition partition = Partitions[iCurrentPartition];
             for (int i = 0; i < Nodes.Length; i++)
             {               
@@ -132,6 +136,11 @@ namespace _3DPresentation.Models.FaceModel
                 }
             }
             Nodes = null;
+
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                Partitions[i].End();
+            }
 
             foreach (FacePartition par in Partitions)
                 par.InitNormals();

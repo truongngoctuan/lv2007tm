@@ -3,7 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Babylon.Toolbox;
 using System;
 
-namespace _3DPresentation.Effects.FourPointLights
+namespace _3DPresentation.Effects
 {
     public class FourPointLights : Effect
     {

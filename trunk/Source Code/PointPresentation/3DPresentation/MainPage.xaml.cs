@@ -80,7 +80,7 @@ namespace _3DPresentation
             //======== Add Models to Scene ===============================================
             scene.AddSimpleModel(CreateAxisModel(), Vector3.Zero);            
             //============================================================================           
-            System.Windows.Media.CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
+            //System.Windows.Media.CompositionTarget.Rendering += new EventHandler(CompositionTarget_Rendering);
 
             openFile.Label = "PointCloud...";
             openFile2.Label = "Model...";
@@ -103,8 +103,15 @@ namespace _3DPresentation
 
             drawingSurface.Draw += new EventHandler<DrawEventArgs>(drawingSurface_Draw);
             drawingSurface.SizeChanged += new SizeChangedEventHandler(drawingSurface_SizeChanged);
+
+            btNextPage.Click += new RoutedEventHandler(btNextPage_Click);
         }
 
+        void btNextPage_Click(object sender, RoutedEventArgs e)
+        {
+            App.GoToPage(new TourControl());
+        }
+		
         public string WorkingDirectory
         {
             get { return _strWorkingDirectory; }
@@ -121,10 +128,8 @@ namespace _3DPresentation
 
         void openFile3_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
         {
-            Models.FaceModel.FaceModel light = scene.AddLightModel(e.FileInfo);
-            light.WorldMatrix *= Matrix.CreateTranslation(GlobalVars.Light1);
-            light.WorldMatrix *= Matrix.CreateScale(1000.0f);
-        }
+           Models.FaceModel light = scene.AddLightModel(e.FileInfo);            
+		}
 
         void openFile2_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
         {
@@ -162,11 +167,6 @@ namespace _3DPresentation
             vertices[4] = new VertexPositionColor(new Vector3(0, 0, -3000), GlobalVars.Blue);
             vertices[5] = new VertexPositionColor(new Vector3(0, 0, 3000), GlobalVars.White);
             return vertices;
-        }
-
-        void cbLOD_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            scene.LOD = (_3DPresentation.GlobalVars.LOD)e.AddedItems[0];
         }
         
         int uiFPS = 0;

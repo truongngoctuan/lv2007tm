@@ -22,6 +22,8 @@
             <Button Height="30" Width="200" Margin="0,60,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click_1">Download contructor package!</Button>
             <Button Height="30" Width="200" Margin="0,100,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click">Listen folder d:\\test</Button>
             <Button Height="30" Width="200" Margin="0,140,6,0" HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click_2">Stop</Button>
+
+            <Button x:Name="btNextPage" Height="30" Width="75" Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">Next Page</Button>
         </Grid>
     </theming:Theme>
 </UserControl>
