@@ -1,0 +1,29 @@
+﻿<UserControl x:Class="_3DPresentation.Views.Editor.SimplePopupContent"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d">
+    <Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Margin="0,0,0,0" VerticalAlignment="Bottom" CornerRadius="4" Background="#66000000">
+        <Border.Effect>
+            <DropShadowEffect Opacity="0.57" ShadowDepth="8" BlurRadius="9"/>
+        </Border.Effect>
+        <StackPanel Margin="0,0,0,0" VerticalAlignment="Top" Width="177">
+            <Button x:Name="btDeleteFrame" Style="{StaticResource customButtonNoStyle}" Click="btDeleteImage_Click" Height="35" Margin="10,10,10,5">
+                <Button.Content>
+                    <TextBlock Foreground="White">Delete Frame</TextBlock>
+                </Button.Content>
+            </Button>
+            <Button x:Name="btSetFixedFrame" Style="{StaticResource customButtonNoStyle}" Click="btSetFixedFrame_Click" Height="35" Margin="10,5">
+                <Button.Content>
+                    <TextBlock Foreground="White">Set Fixed Frame</TextBlock>
+                </Button.Content>
+            </Button>
+            <Button x:Name="btSetReferenceFrame" Style="{StaticResource customButtonNoStyle}" Click="btSetReferenceFrame_Click" Height="35" Margin="10,5">
+                <Button.Content>
+                    <TextBlock Foreground="White">Set Reference Frame</TextBlock>
+                </Button.Content>
+            </Button>
+        </StackPanel>
+    </Border>
+</UserControl>
