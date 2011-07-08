@@ -9,19 +9,19 @@
             <DropShadowEffect Opacity="0.57" ShadowDepth="8" BlurRadius="9"/>
         </Border.Effect>
         <StackPanel Margin="0,0,0,0" VerticalAlignment="Top" Width="177">
-            <Button x:Name="btDeleteFrame" Style="{StaticResource customButtonNoStyle}" Click="btDeleteImage_Click" Height="35" Margin="10,10,10,5">
+            <Button x:Name="btDeleteFrame" Click="btDeleteImage_Click" Height="35" Margin="10,10,10,5">
                 <Button.Content>
-                    <TextBlock Foreground="White">Delete Frame</TextBlock>
+                    <TextBlock>Delete Frame</TextBlock>
                 </Button.Content>
             </Button>
-            <Button x:Name="btSetFixedFrame" Style="{StaticResource customButtonNoStyle}" Click="btSetFixedFrame_Click" Height="35" Margin="10,5">
+            <Button x:Name="btSetFixedFrame" Click="btSetFixedFrame_Click" Height="35" Margin="10,5">
                 <Button.Content>
-                    <TextBlock Foreground="White">Set Fixed Frame</TextBlock>
+                    <TextBlock>Set Fixed Frame</TextBlock>
                 </Button.Content>
             </Button>
-            <Button x:Name="btSetReferenceFrame" Style="{StaticResource customButtonNoStyle}" Click="btSetReferenceFrame_Click" Height="35" Margin="10,5">
+            <Button x:Name="btSetReferenceFrame" Click="btSetReferenceFrame_Click" Height="35" Margin="10,5">
                 <Button.Content>
-                    <TextBlock Foreground="White">Set Reference Frame</TextBlock>
+                    <TextBlock>Set Reference Frame</TextBlock>
                 </Button.Content>
             </Button>
         </StackPanel>

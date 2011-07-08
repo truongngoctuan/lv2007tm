@@ -49,10 +49,6 @@ namespace _3DPresentation
       #endregion
 
       private Popup simplePopup = new Popup();
-      void Child_MouseLeave(object sender, MouseEventArgs e)
-      {
-          this.simplePopup.IsOpen = false;
-      }
 
       public EditorView()
     {
@@ -72,12 +68,10 @@ namespace _3DPresentation
         currentImage.Source = e.Source;
         SimplePopupContent spc = new SimplePopupContent();
         spc.ParentView = this;
-        spc.imgIndex = frameViewer.SelectedIndex;
 
         this.simplePopup.Child = spc;
         this.simplePopup.HorizontalOffset = frameViewer.ClickedPositionParent.X;
         this.simplePopup.VerticalOffset = frameViewer.ClickedPositionParent.Y;
-        this.simplePopup.Child.MouseLeave += new MouseEventHandler(Child_MouseLeave);
         this.simplePopup.IsOpen = true;
     }
 
@@ -104,11 +98,28 @@ namespace _3DPresentation
             });
     }
 
-    public void DeleteFrame(int iIndex)
+    #region Popup
+    public void DeleteFrame()
     {
         //delete
+        frameViewer.DeleteImage(frameViewer.SelectedIndex);
     }
 
+    public void SetFixedImageIndex()
+    {
+        FixedImageIndex = frameViewer.SelectedIndex;
+    }
+
+    public void SetReferenceImageIndex()
+    {
+        ReferenceImageIndex = frameViewer.SelectedIndex;
+    }
+
+    public void ClosePopup()
+    {
+        this.simplePopup.IsOpen = false;
+    }
+    #endregion
     public void AddFrame(int iIndex)
     {
         //add
@@ -117,6 +128,7 @@ namespace _3DPresentation
     #region Fixed - Reference
     int iFixedImageIndex = -1;
 
+    
     public int FixedImageIndex
     {
         get { return iFixedImageIndex; }
