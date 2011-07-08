@@ -177,12 +177,27 @@
     <Compile Include="Views\EditorView.xaml.cs">
       <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\OpenFolderDlg\DoubleClickHelper.cs" />
+    <Compile Include="Views\OpenFolderDlg\Drive.cs" />
+    <Compile Include="Views\OpenFolderDlg\Folder.cs" />
+    <Compile Include="Views\OpenFolderDlg\FolderDialog.xaml.cs">
+      <DependentUpon>FolderDialog.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Resource Include="Views\OpenFolderDlg\Assets\back.png" />
+    <Resource Include="Views\OpenFolderDlg\Assets\drive.png" />
+    <Resource Include="Views\OpenFolderDlg\Assets\folder.png" />
+    <Resource Include="Views\OpenFolderDlg\Assets\mc.png" />
+    <Page Include="Views\OpenFolderDlg\FolderDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Resource Include="Views\Editor\Images\blank.jpg" />
     <None Include="Reflection.fx" />
     <Resource Include="Reflection.ps" />
     <Page Include="MainPage.xaml">

@@ -16,9 +16,40 @@ namespace _3DPresentation
 {
   public partial class EditorView : Page
   {
-    public EditorView()
+      #region BienDungChung
+      private string _strWorkingDirectory;
+      private string _strWorkingDirectoryTemp;
+
+      public string WorkingDirectory
+      {
+          get { return _strWorkingDirectory; }
+          set
+          {
+              _strWorkingDirectory = value;
+              WorkingDirectoryTemp = _strWorkingDirectory + "\\temp";
+          }
+      }
+
+      public string WorkingDirectoryTemp
+      {
+          get { return _strWorkingDirectoryTemp; }
+          set { _strWorkingDirectoryTemp = value; }
+      }
+
+      public void SetupWorkingDirectory()
+      {
+          if (WorkingDirectory == string.Empty)
+          {
+              WorkingDirectory = "d:\\\\test2";
+          }
+
+      }
+      #endregion
+
+      public EditorView()
     {
       InitializeComponent();
+      toolbar.ParentEditor = this;
     }
 
     // Executes when the user navigates to this page.
@@ -56,6 +87,7 @@ namespace _3DPresentation
     void OnImageSelected(object sender, ImageSelectedEventArgs e)
     {
         currentImage.Source = e.Source;
+        int iSelectedImageIndex = frameViewer.CurrentImageIndex;
     }
 
     void imageSelector_Loaded(object sender, RoutedEventArgs e)
@@ -64,7 +96,8 @@ namespace _3DPresentation
             {
                 "Images/j0149013.jpg",
                 "Images/j0182516.jpg",
-                "Images/j0262524.jpg",
+                "Images/j0262524.jpg"
+                ,
                 "Images/j0309223.jpg",
                 "Images/j0314069.jpg",
                 "Images/j0402444.jpg",

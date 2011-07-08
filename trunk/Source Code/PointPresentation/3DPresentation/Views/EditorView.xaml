@@ -29,6 +29,6 @@
 
             </StackPanel>
         <!--toolbar at left-->
-        <customControlEditor:EditorToolbar></customControlEditor:EditorToolbar>
+        <customControlEditor:EditorToolbar x:Name="toolbar"></customControlEditor:EditorToolbar>
     </Grid>
 </navigation:Page>

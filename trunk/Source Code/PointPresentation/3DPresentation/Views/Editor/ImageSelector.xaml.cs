@@ -19,6 +19,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using System.Collections.Generic;
 
 namespace _3DPresentation.Views.Editor
 {
@@ -63,6 +64,21 @@ namespace _3DPresentation.Views.Editor
             rightImg2.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked);
             rightImg1.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked);
             centerImg.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked);
+
+            btTestAdd.Click += new RoutedEventHandler(btTestAdd_Click);
+        }
+
+        void btTestAdd_Click(object sender, RoutedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            try
+            {
+                this.AddImage("Images/j0149013.jpg");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         protected void OnImageSelected(ImageSelectedEventArgs e)
@@ -73,14 +89,103 @@ namespace _3DPresentation.Views.Editor
             }
         }
 
+        int brushIndex = -1;
+        int realLength = -1;
         public void SetImages(string[] imageUris)
         {
             imageArray = imageUris;
             if (imageArray.Length >= 7)
             {
-                imageIndex = 0;
+                imageIndex = imageArray.Length - 1;
+                brushIndex = imageIndex - 3;
+                realLength = imageArray.Length;
                 //System.Threading.Thread.Sleep(5000);
                 UpdateImages();
+            }
+            else
+            {
+                realLength = imageArray.Length;
+                List<string> arr = new List<string>();
+                arr.AddRange(imageArray);
+                imageIndex = imageArray.Length - 1;
+
+                for (int i = 0; i < 7 - imageArray.Length; i++)
+                {
+                    arr.Add("Images/blank.jpg");
+                }
+
+                imageArray = arr.ToArray();
+                brushIndex = imageArray.Length - 1;
+                
+                UpdateImages();
+            }
+        }
+
+        public void AddImage(string strFileName)
+        {
+            if (realLength < 7)
+            {
+                //List<string> arr = new List<string>();
+                //for (int i = 0; i < realLength; i++)
+                //{
+                //    arr.Add(imageArray[i]);
+                //}
+                //arr.Add(strFileName);
+
+                //realLength++;
+                //if (realLength < 7)
+                //{
+                //    imageIndex = realLength;
+
+                //    for (int i = 0; i < 7 - realLength; i++)
+                //    {
+                //        arr.Add("Images/blank.jpg");
+                //    }
+
+                //    imageArray = arr.ToArray();
+                //    brushIndex = imageArray.Length - 1;
+
+                //    UpdateImages();
+                //}
+            }
+            else
+            {
+                List<string> arr = new List<string>();
+                arr.AddRange(imageArray);
+                arr.Add(strFileName);
+                realLength++;
+                imageArray = arr.ToArray();
+
+                if (imageIndex + 1 == imageArray.Length - 1)
+                {
+                    firstImgBrush.ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
+                    firstReflectionBrush.ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
+                    imageIndex++;
+                    if (imageIndex == imageArray.Length)
+                    {
+                        imageIndex = 0;
+                    }
+
+                    brushIndex++;
+                    if (brushIndex == imageArray.Length)
+                    {
+                        brushIndex = 0;
+                    }
+
+                    UpdateImages();
+                    flowBackward.Begin();
+                }
+                else
+                {
+                    //if (brushIndex > 7)
+                    //{
+                    //}
+                    //else
+                    //{
+                        //brushIndex++;
+                    //}
+                    UpdateImages();
+                }
             }
         }
 
@@ -111,13 +216,20 @@ namespace _3DPresentation.Views.Editor
         {
             if (imageIndex != -1)
             {
-                firstImgBrush.ImageSource = new BitmapImage(new Uri(imageArray[imageIndex], UriKind.RelativeOrAbsolute));
-                firstReflectionBrush.ImageSource = new BitmapImage(new Uri(imageArray[imageIndex], UriKind.RelativeOrAbsolute));
+                firstImgBrush.ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
+                firstReflectionBrush.ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
                 imageIndex++;
                 if (imageIndex == imageArray.Length)
                 {
                     imageIndex = 0;
                 }
+
+                brushIndex++;
+                if (brushIndex == imageArray.Length)
+                {
+                    brushIndex = 0;
+                }
+
                 UpdateImages();
                 flowBackward.Begin();
             }
@@ -127,13 +239,21 @@ namespace _3DPresentation.Views.Editor
         {
             if (imageIndex != -1)
             {
-                lastImgBrush.ImageSource = new BitmapImage(new Uri(imageArray[(imageIndex + 6) % imageArray.Length], UriKind.RelativeOrAbsolute));
-                lastReflectionBrush.ImageSource = new BitmapImage(new Uri(imageArray[(imageIndex + 6) % imageArray.Length], UriKind.RelativeOrAbsolute));
+                lastImgBrush.ImageSource = new BitmapImage(new Uri(imageArray[(brushIndex + 6) % imageArray.Length], UriKind.RelativeOrAbsolute));
+                lastReflectionBrush.ImageSource = new BitmapImage(new Uri(imageArray[(brushIndex + 6) % imageArray.Length], UriKind.RelativeOrAbsolute));
+
                 imageIndex--;
                 if (imageIndex < 0)
                 {
                     imageIndex = imageArray.Length - 1;
                 }
+
+                brushIndex--;
+                if (brushIndex < 0)
+                {
+                    brushIndex = imageArray.Length - 1;
+                }
+
                 UpdateImages();
                 flowForward.Begin();
             }
@@ -141,15 +261,16 @@ namespace _3DPresentation.Views.Editor
 
         void UpdateImages()
         {
-            int brushIndex = imageIndex;
+            //int brushIndex = imageIndex;
+            int CurrentBrushIndex = brushIndex;
             for (int i = 0; i < 7; i++)
             {
-                imageBrushArray[i].ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
-                reflectionBrushArray[i].ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
-                brushIndex++;
-                if (brushIndex == imageArray.Length)
+                imageBrushArray[i].ImageSource = new BitmapImage(new Uri(imageArray[CurrentBrushIndex], UriKind.RelativeOrAbsolute));
+                reflectionBrushArray[i].ImageSource = new BitmapImage(new Uri(imageArray[CurrentBrushIndex], UriKind.RelativeOrAbsolute));
+                CurrentBrushIndex++;
+                if (CurrentBrushIndex == imageArray.Length)
                 {
-                    brushIndex = 0;
+                    CurrentBrushIndex = 0;
                 }
             }
 
@@ -158,7 +279,7 @@ namespace _3DPresentation.Views.Editor
 
         void SetCurrentInfoFrame()
         {
-            tbCurrentFrameIndex.Text = imageIndex.ToString() + "/" + imageArray.Length.ToString() + " Frames.";
+            tbCurrentFrameIndex.Text = imageIndex.ToString() + "/" + (imageArray.Length - 1).ToString() + " Frames.";
         }
 
         private int imageIndex = -1;
