@@ -184,6 +184,18 @@ namespace _3DPresentation.Views.Editor
             }
         }
 
+        public void DeleteImage(int iIndex)
+        {
+            if (realLength < 7)
+            {
+                
+            }
+            else
+            {
+                
+            }
+        }
+
         #region Clicked
 
         void OnImgClicked1(object sender, MouseButtonEventArgs e)

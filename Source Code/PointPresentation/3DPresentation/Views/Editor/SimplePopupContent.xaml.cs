@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using System.Windows.Controls.Primitives;
 
 namespace _3DPresentation.Views.Editor
 {
@@ -17,6 +18,21 @@ namespace _3DPresentation.Views.Editor
         public SimplePopupContent()
         {
             InitializeComponent();
+
+            //http://forums.silverlight.net/forums/p/2260/462506.aspx
+            
+            myDispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 2500);
+            myDispatcherTimer.Tick += new EventHandler(myDispatcherTimer_Tick);
+            myDispatcherTimer.Start();
+
+        }
+        System.Windows.Threading.DispatcherTimer myDispatcherTimer = new System.Windows.Threading.DispatcherTimer();
+        void myDispatcherTimer_Tick(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+            //end popup after timer finished
+            ParentView.ClosePopup();
+            myDispatcherTimer.Stop();
         }
 
         EditorView _parent;
@@ -27,30 +43,22 @@ namespace _3DPresentation.Views.Editor
             set { _parent = value; }
         }
 
-        public int imgIndex = -1;
-
         private void btDeleteImage_Click(object sender, RoutedEventArgs e)
         {
-            //ParentView
-            ParentView.DeleteFrame(imgIndex);
+            ParentView.DeleteFrame();
+            ParentView.ClosePopup();
         }
 
         private void btSetFixedFrame_Click(object sender, RoutedEventArgs e)
         {
-            ParentView.FixedImageIndex = imgIndex;
+            ParentView.SetFixedImageIndex();
+            ParentView.ClosePopup();
         }
 
         private void btSetReferenceFrame_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                ParentView.ReferenceImageIndex = imgIndex;
-                MessageBox.Show(imgIndex.ToString());
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            ParentView.SetReferenceImageIndex();
+            ParentView.ClosePopup();
         }
     }
 }
