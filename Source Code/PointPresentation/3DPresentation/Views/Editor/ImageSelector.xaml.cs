@@ -97,7 +97,7 @@ namespace _3DPresentation.Views.Editor
             if (imageArray.Length >= 7)
             {
                 imageIndex = imageArray.Length - 1;
-                brushIndex = imageIndex - 3;
+                brushIndex = (imageIndex + imageArray.Length - 3) % imageArray.Length;
                 realLength = imageArray.Length;
                 //System.Threading.Thread.Sleep(5000);
                 UpdateImages();
@@ -115,7 +115,7 @@ namespace _3DPresentation.Views.Editor
                 }
 
                 imageArray = arr.ToArray();
-                brushIndex = imageArray.Length - 1;
+                brushIndex = (imageIndex + imageArray.Length - 3) % imageArray.Length;//imageArray.Length - 1;
                 
                 UpdateImages();
             }
@@ -125,28 +125,37 @@ namespace _3DPresentation.Views.Editor
         {
             if (realLength < 7)
             {
-                //List<string> arr = new List<string>();
-                //for (int i = 0; i < realLength; i++)
-                //{
-                //    arr.Add(imageArray[i]);
-                //}
-                //arr.Add(strFileName);
+                List<string> arr = new List<string>();
+                for (int i = 0; i < realLength; i++)
+                {
+                    arr.Add(imageArray[i]);
+                }
+                arr.Add(strFileName);
+                realLength++;
 
-                //realLength++;
-                //if (realLength < 7)
-                //{
-                //    imageIndex = realLength;
+                for (int i = 0; i < 7 - realLength; i++)
+                {
+                    arr.Add("Images/blank.jpg");
+                }
+                imageArray = arr.ToArray();
+                
+                if (imageIndex + 1 == realLength - 1)
+                {//have effect back coverflow
+                    firstImgBrush.ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
+                    firstReflectionBrush.ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
 
-                //    for (int i = 0; i < 7 - realLength; i++)
-                //    {
-                //        arr.Add("Images/blank.jpg");
-                //    }
+                    imageIndex = (++imageIndex + imageArray.Length) % imageArray.Length;
+                    brushIndex = (imageIndex + imageArray.Length - 3) % imageArray.Length;
 
-                //    imageArray = arr.ToArray();
-                //    brushIndex = imageArray.Length - 1;
+                    UpdateImages();
+                    flowBackward.Begin();
+                }
+                else
+                {
+                    brushIndex = (imageIndex + imageArray.Length - 3) % imageArray.Length;
 
-                //    UpdateImages();
-                //}
+                    UpdateImages();
+                }
             }
             else
             {
@@ -157,33 +166,19 @@ namespace _3DPresentation.Views.Editor
                 imageArray = arr.ToArray();
 
                 if (imageIndex + 1 == imageArray.Length - 1)
-                {
+                {//have effect back coverflow
                     firstImgBrush.ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
                     firstReflectionBrush.ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
-                    imageIndex++;
-                    if (imageIndex == imageArray.Length)
-                    {
-                        imageIndex = 0;
-                    }
 
-                    brushIndex++;
-                    if (brushIndex == imageArray.Length)
-                    {
-                        brushIndex = 0;
-                    }
+                    imageIndex = (++imageIndex + imageArray.Length) % imageArray.Length;
+                    brushIndex = (imageIndex + imageArray.Length - 3) % imageArray.Length;
 
                     UpdateImages();
                     flowBackward.Begin();
                 }
                 else
                 {
-                    //if (brushIndex > 7)
-                    //{
-                    //}
-                    //else
-                    //{
-                        //brushIndex++;
-                    //}
+                    brushIndex = (imageIndex + imageArray.Length - 3) % imageArray.Length;
                     UpdateImages();
                 }
             }
@@ -216,6 +211,7 @@ namespace _3DPresentation.Views.Editor
         {
             if (imageIndex != -1)
             {
+                if (imageIndex + 1 == realLength &&realLength < 7) return;
                 firstImgBrush.ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
                 firstReflectionBrush.ImageSource = new BitmapImage(new Uri(imageArray[brushIndex], UriKind.RelativeOrAbsolute));
                 imageIndex++;
@@ -239,6 +235,7 @@ namespace _3DPresentation.Views.Editor
         {
             if (imageIndex != -1)
             {
+                if (imageIndex == 0 && realLength < 7) return;
                 lastImgBrush.ImageSource = new BitmapImage(new Uri(imageArray[(brushIndex + 6) % imageArray.Length], UriKind.RelativeOrAbsolute));
                 lastReflectionBrush.ImageSource = new BitmapImage(new Uri(imageArray[(brushIndex + 6) % imageArray.Length], UriKind.RelativeOrAbsolute));
 
