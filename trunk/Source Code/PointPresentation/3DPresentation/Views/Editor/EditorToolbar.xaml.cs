@@ -75,5 +75,15 @@ namespace _3DPresentation.Views.Editor
             cwOptimize cwNew = new cwOptimize();
             cwNew.Show();
         }
+
+        private void btMatch2FrameManual_Click(object sender, RoutedEventArgs e)
+        {
+            cwMatchModelManual cwNew = new cwMatchModelManual();
+            //setup 2 parameter
+            //catch result
+            //recal
+
+            cwNew.Show();
+        }
     }
 }

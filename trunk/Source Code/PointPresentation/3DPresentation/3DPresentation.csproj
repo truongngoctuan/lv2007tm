@@ -144,6 +144,9 @@
     <Compile Include="Views\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Editor\cwMatchModelManual.xaml.cs">
+      <DependentUpon>cwMatchModelManual.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Editor\cwOpenModel.xaml.cs">
       <DependentUpon>cwOpenModel.xaml</DependentUpon>
     </Compile>
@@ -171,6 +174,9 @@
     <Compile Include="Views\Editor\ImageSelector.xaml.cs">
       <DependentUpon>ImageSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Editor\SliderTextBox.xaml.cs">
+      <DependentUpon>SliderTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\ErrorWindowView.xaml.cs">
       <DependentUpon>ErrorWindowView.xaml</DependentUpon>
     </Compile>
@@ -193,6 +199,14 @@
     <Resource Include="Views\OpenFolderDlg\Assets\drive.png" />
     <Resource Include="Views\OpenFolderDlg\Assets\folder.png" />
     <Resource Include="Views\OpenFolderDlg\Assets\mc.png" />
+    <Page Include="Views\Editor\cwMatchModelManual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Editor\SliderTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\OpenFolderDlg\FolderDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
