@@ -16,7 +16,7 @@
         xmlns:ctl="clr-namespace:_3DPresentation"
         Width="800"
         Height="200">
-  <Canvas Width='800' Height='200'>
+  <Canvas x:Name="layoutRoot" Width='800' Height='200'>
     <Canvas.Resources>
             <Style x:Key="customButtonStyle" TargetType="Button">
                 <Setter Property="Padding" Value="0"/>
@@ -576,5 +576,6 @@
     <!--<Path Data="M 765,100 L745,80 L745,120z" Fill="Yellow" IsHitTestVisible="False"/>-->
 
         <TextBlock x:Name="tbCurrentFrameIndex">0</TextBlock>
-  </Canvas>
+        <Button x:Name="btTestAdd" Width="100" Height="25" Canvas.Left="500">test add</Button>
+    </Canvas>
 </UserControl>

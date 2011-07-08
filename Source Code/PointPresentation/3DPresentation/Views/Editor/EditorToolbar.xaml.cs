@@ -14,6 +14,13 @@ namespace _3DPresentation.Views.Editor
 {
     public partial class EditorToolbar : UserControl
     {
+        EditorView _parent;
+
+        public EditorView ParentEditor
+        {
+            get { return _parent; }
+            set { _parent = value; }
+        }
         public EditorToolbar()
         {
             InitializeComponent();
@@ -21,12 +28,26 @@ namespace _3DPresentation.Views.Editor
         
         private void btSetupSDK_Click(object sender, RoutedEventArgs e)
         {
-            cwSetupSDK cwNew = new cwSetupSDK();
-            cwNew.Show();
+            try
+            {
+                ParentEditor.SetupWorkingDirectory();
+                ClientPackage ck = new ClientPackage();
+                ck.DownloadtoClient("/recontructor.zip", ParentEditor.WorkingDirectory);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                throw;
+            }
+
+            //cwSetupSDK cwNew = new cwSetupSDK();
+            //cwNew.Show();
         }
 
         private void btSetupWorkSpace_Click(object sender, RoutedEventArgs e)
         {
+            //OpenFileDialog dlg = new OpenFileDialog();
+            //dlg.ShowDialog();
             cwSetupWorkSpace cwNew = new cwSetupWorkSpace();
             cwNew.Show();
         }
