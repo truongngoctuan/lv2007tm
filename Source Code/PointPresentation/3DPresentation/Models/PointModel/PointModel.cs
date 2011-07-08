@@ -4,86 +4,44 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace _3DPresentation.Models.PointModel
+namespace _3DPresentation.Models
 {
-    public class PointModel
+    public class PointModel : BaseModel
     {
         PointManager pointManager;
-        public Matrix WorldMatrix { get; set; }
-        public bool IsVisible = true;
-        private PointModel()
+        public PointModel()
         {
             pointManager = new PointManager();
-            WorldMatrix = Matrix.Identity;
         }
 
-        public static PointModel Import(FileInfo file)
+        public override void Begin(int nPoints, int nFaces)
         {
-            PointModel pointModel = null;
-            if (file.Extension.ToLower() == ".ply")
-            {
-                using(StreamReader sr = file.OpenText())
-                {                    
-                    string numVertex = "element vertex";
-                    int nPoints = 0;
-                    try
-                    {
-                        string ss = sr.ReadLine();
-                        while (!ss.Contains("end_header"))
-                        {
-                            if (ss.Contains("element vertex"))
-                            {
-                                ss = ss.Substring(numVertex.Length);
-                                nPoints = int.Parse(ss);
-                            }
-                            ss = sr.ReadLine();
-                        }
-                        pointModel = Import_PLY(sr, nPoints); 
-                    }
-                    catch (IOException io)
-                    {
-                    }
-                }
-            }
-            return pointModel;
+            base.Begin(nPoints, nFaces);
+            pointManager.Begin(nPoints);
         }
-
-        public static PointModel Import_PLY(StreamReader sr, int nPoints)
+        public override void AddVertex(Vector3 position, Color color)
         {
-            PointModel pointModel = new PointModel();
-            pointModel.pointManager.Begin(nPoints);
-            for (int i = 0; i < nPoints; i++)
-            {
-                string ss = sr.ReadLine();
-                string[] Items = ss.Split(new char[] { ' ' });
-
-                if (Items.Length < 6)
-                    continue;
-
-                float x = Convert.ToSingle(Items[0]);
-                float y = Convert.ToSingle(Items[1]);
-                float z = Convert.ToSingle(Items[2]);
-                int r = Convert.ToInt32(Items[3]);
-                int g = Convert.ToInt32(Items[4]);
-                int b = Convert.ToInt32(Items[5]);
-                int a = 255;
-
-                pointModel.pointManager.AddPoint(new Vector3(x, y, z), Color.FromNonPremultiplied(r, g, b, a));
-            }
-
-            pointModel.pointManager.End();
-            return pointModel;
+            base.AddVertex(position, color);
+            pointManager.AddVertex(position, color);
         }
-
-        public void InitBuffers(GraphicsDevice graphicsDevice)
+        public override void AddIndice(int i1, int i2, int i3)
+        {
+            base.AddIndice(i1, i2, i3);
+        }
+        public override void End()
+        {
+            base.End();
+            pointManager.End();
+        }
+        
+        public override void InitBuffers(GraphicsDevice graphicsDevice)
         {
             pointManager.InitBuffers(graphicsDevice);
         }
 
-        public void Render(GraphicsDevice graphicsDevice)
+        public override void Render(GraphicsDevice graphicsDevice)
         {
             for (int partitionIndex = 0; partitionIndex < pointManager.Partitions.Count; partitionIndex++)
-            //for (int partitionIndex = 0; partitionIndex < 5; partitionIndex++)
             {
                 pointManager.RenderPartition(graphicsDevice, partitionIndex);
             }

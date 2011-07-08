@@ -5,16 +5,17 @@
 //  LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 //  FITNESS FOR A PARTICULAR PURPOSE.
 // ===================================================================================
+
 using System;
+using System.IO;
 using System.Net;
 using System.Windows;
+using System.Windows.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using _3DPresentation.Models;
-using System.Windows.Controls;
-using _3DPresentation.Models.PointModel;
-using System.IO;
-using _3DPresentation.Models.FaceModel;
+
+
 
 namespace _3DPresentation
 {
@@ -84,18 +85,6 @@ namespace _3DPresentation
         {
             // the transform representing a camera at a position looking at a target
             camera.view = Matrix.CreateLookAt(camera.cameraPosition, camera.cameraTarget, Vector3.Up);
-        }
-
-        public GlobalVars.LOD LOD
-        {
-            get
-            {
-                return GlobalVars.LevelOfDetail;
-            }
-            set
-            {
-                GlobalVars.LevelOfDetail = value;
-            }
         }
 
         public Vector3 CameraPosition

@@ -1,5 +1,5 @@
 ﻿
-using _3DPresentation.Effects.MyBasicEffect;
+using _3DPresentation.Effects;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -64,7 +64,7 @@ namespace _3DPresentation.Models
 
         private void LoadImage()
         {
-            Stream imageStream = Util.GetStream(AssemblyName, ImagePath);
+            Stream imageStream = Utils.Global.GetStream(ImagePath);
             var bitmapImage = new BitmapImage();
             bitmapImage.SetSource(imageStream);
             writeableBitmap = new WriteableBitmap(bitmapImage);
@@ -76,7 +76,7 @@ namespace _3DPresentation.Models
         }
         private void LoadHeightData()
         {
-            Stream stream = Util.GetStream(AssemblyName, DepthMapPath);
+            Stream stream = Utils.Global.GetStream(DepthMapPath);
             StreamReader sr = new StreamReader(stream);
             Width = 640;
             Height = 480;
@@ -329,7 +329,7 @@ namespace _3DPresentation.Models
                     }
                     else
                     {
-                        Vector3 worldPosition = Util.TransformPoint(WorldMatrix, vertex.Position);
+                        Vector3 worldPosition = MathUtil.TransformPoint(WorldMatrix, vertex.Position);
                         sw.Write(worldPosition.X);
                         sw.Write(' ');
                         sw.Write(worldPosition.Y);

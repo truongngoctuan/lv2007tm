@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework.Graphics;
 using Babylon.Toolbox;
 
-namespace _3DPresentation.Effects.PointEffect
+namespace _3DPresentation.Effects
 {
     public class PointEffect : Effect
     {

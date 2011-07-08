@@ -10,12 +10,7 @@ using Babylon.Toolbox;
 using System.Windows.Threading;
 using System.Collections.Generic;
 using _3DPresentation.Models;
-using _3DPresentation.Models.PointModel;
-using _3DPresentation.Effects.PointEffect;
-using _3DPresentation.Effects.MyBasicEffect;
-using _3DPresentation.Effects.NoEffect;
-using _3DPresentation.Models.FaceModel;
-using _3DPresentation.Effects.FourPointLights;
+using _3DPresentation.Effects;
 
 namespace _3DPresentation
 {
@@ -49,7 +44,6 @@ namespace _3DPresentation
             lightModels = new List<FaceModel>();
 
             noEffect = new NoEffect(resourceDevice);
-            noEffect.DiffuseTexture = Util.LoadTexture("Images/4.jpg", resourceDevice);
 
             myBasicEffect = new MyBasicEffect(resourceDevice);
             basicEffect = new BasicEffect(resourceDevice);
@@ -87,6 +81,8 @@ namespace _3DPresentation
         }
         public PointModel AddPointModel(FileInfo file)
         {
+            return null;
+            /*
             bIsLoading = true;
             PointModel pointModel = PointModel.Import(file);
             if (pointModel != null)
@@ -95,11 +91,13 @@ namespace _3DPresentation
                 pointModels.Add(pointModel);
             }
             bIsLoading = false;
-            return pointModel;
+            return pointModel;*/
         }
 
         public FaceModel AddFaceModel(FileInfo file)
         {
+            return null;
+            /*
             bIsLoading = true;
             FaceModel faceModel = FaceModel.Import(file);
             if (faceModel != null)
@@ -108,11 +106,13 @@ namespace _3DPresentation
                 faceModels.Add(faceModel);
             }
             bIsLoading = false;
-            return faceModel;
+            return faceModel;*/
         }
 
         public FaceModel AddLightModel(FileInfo file)
         {
+            return null;
+            /*
             bIsLoading = true;
             FaceModel lightModel = FaceModel.Import(file);
             if (lightModel != null)
@@ -121,7 +121,7 @@ namespace _3DPresentation
                 lightModels.Add(lightModel);
             }
             bIsLoading = false;
-            return lightModel;
+            return lightModel;*/
         }
 
         public int FPS
@@ -167,7 +167,7 @@ namespace _3DPresentation
 
             foreach (PointModel pointModel in pointModels)
             {
-                if (pointModel.IsVisible)
+                if (pointModel.IsEnabled)
                 {                    
                     SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect.PointEffect, graphicsDevice, pointModel.WorldMatrix, camera, screenSize);
                     pointModel.Render(graphicsDevice);
@@ -186,7 +186,7 @@ namespace _3DPresentation
 
             foreach (FaceModel faceModel in faceModels)
             {
-                if (faceModel.IsVisible)
+                if (faceModel.IsEnabled)
                 {
                     SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect.FourPointLights, graphicsDevice, faceModel.WorldMatrix, camera, screenSize);
                     faceModel.Render(graphicsDevice);
@@ -194,26 +194,12 @@ namespace _3DPresentation
                 }
             }
 
-            int count = 1;
             foreach (FaceModel lightModel in lightModels)
             {
-                if (lightModel.IsVisible)
+                if (lightModel.IsEnabled)
                 {
-                    Matrix mat = Matrix.CreateScale(1.0f);
-                    if(count == 1)
-                    mat *= Matrix.CreateTranslation(GlobalVars.Light1);
-                    else if (count == 2)
-                        mat *= Matrix.CreateTranslation(GlobalVars.Light2);
-                    else if (count == 3)
-                        mat *= Matrix.CreateTranslation(GlobalVars.Light3);
-                    else if (count == 4)
-                        mat *= Matrix.CreateTranslation(GlobalVars.Light4);
-                    lightModel.WorldMatrix = mat;
-
                     SetShaderEffect(_3DPresentation.GlobalVars.ShaderEffect.NoEffect, graphicsDevice, lightModel.WorldMatrix, camera, screenSize);
                     lightModel.Render(graphicsDevice);
-                    //break;
-                    count++;
                 }
             }
         }

@@ -14,7 +14,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 
-namespace _3DPresentation
+namespace _3DPresentation.Models
 {
     public class Partition
     {
@@ -341,7 +341,7 @@ namespace _3DPresentation
                     vertex = Vertices[index];
                     if (vertex.Position == Vector3.Zero)
                         continue;
-                    Vector3 worldPosition = Util.TransformPoint(worldMatrix, vertex.Position);
+                    Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, vertex.Position);
                     if (bPosition)
                     {
                         sw.Write(worldPosition.X);
@@ -412,7 +412,7 @@ namespace _3DPresentation
                     vertex = Vertices[index];
                     if (vertex.Position == Vector3.Zero)
                         continue;
-                    Vector3 worldPosition = Util.TransformPoint(worldMatrix, vertex.Position);
+                    Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, vertex.Position);
                     if (bPosition)
                     {
                         sw.Write(worldPosition.X);

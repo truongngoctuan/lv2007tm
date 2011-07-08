@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 
 
-namespace _3DPresentation.Models.PointModel
+namespace _3DPresentation.Models
 {
     public class PointPartition
     {
@@ -58,6 +58,9 @@ namespace _3DPresentation.Models.PointModel
             }
             IndexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, indices.Length, BufferUsage.WriteOnly);
             IndexBuffer.SetData(0, indices, 0, indices.Length);
+
+            Vertices = null;
+            indices = null;
         }
 
         public IndexBuffer GetIndexBuffer()

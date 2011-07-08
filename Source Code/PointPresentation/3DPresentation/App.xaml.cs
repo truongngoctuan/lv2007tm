@@ -24,10 +24,21 @@ namespace _3DPresentation
             InitializeComponent();
         }
 
+        Grid mainUI = new Grid();
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //this.RootVisual = new MainPage();
-            this.RootVisual = new EditorView();
+            this.RootVisual = mainUI;
+            mainUI.Children.Add(new MainPage());
+        }
+
+        public static void GoToPage(UserControl nextPg)
+        {
+            App app = (App)Application.Current;
+            // Remove the displayed page
+            app.mainUI.Children.Clear();
+            // Show the next page
+            app.mainUI.Children.Add(nextPg);
         }
 
         private void Application_Exit(object sender, EventArgs e)

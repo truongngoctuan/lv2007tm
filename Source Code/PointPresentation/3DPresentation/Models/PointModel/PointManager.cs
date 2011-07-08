@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 
-namespace _3DPresentation.Models.PointModel
+namespace _3DPresentation.Models
 {
     public class PointManager
     {
@@ -30,16 +30,16 @@ namespace _3DPresentation.Models.PointModel
             }
         }
 
-        public bool AddPoint(Vector3 vertex, Color color)
+        public bool AddVertex(Vector3 position, Color color)
         {
             if (iCurrentPartition >= Partitions.Count)
                 return false;
 
-            if(Partitions[iCurrentPartition].AddPoint(vertex, color) == true)
+            if(Partitions[iCurrentPartition].AddPoint(position, color) == true)
                 return true;
 
             iCurrentPartition++;
-            return AddPoint(vertex, color);
+            return AddVertex(position, color);
         }
 
         public void End()

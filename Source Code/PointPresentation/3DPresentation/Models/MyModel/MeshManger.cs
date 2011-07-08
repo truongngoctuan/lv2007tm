@@ -6,7 +6,7 @@ using System.Windows.Threading;
 using System;
 using System.IO;
 
-namespace _3DPresentation
+namespace _3DPresentation.Models
 {
     public class MeshManger
     {
