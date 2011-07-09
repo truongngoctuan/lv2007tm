@@ -42,7 +42,7 @@ namespace _3DPresentation
             if (model == null)
                 return null;
 
-            model.InitBuffers(Device);
+            //model.InitBuffers(Device);
             AddModel(model);
 
             model.Position = new Vector3(-7.0f, 1.8f, 8.0f);
