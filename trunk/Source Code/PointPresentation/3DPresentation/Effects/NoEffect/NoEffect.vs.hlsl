@@ -17,6 +17,7 @@ float4x4 WorldViewProjection;
 struct VertexData
 {
   float3 Position : POSITION;
+  float3 Normal : NORMAL;
   float4 Color : COLOR;
 };
 

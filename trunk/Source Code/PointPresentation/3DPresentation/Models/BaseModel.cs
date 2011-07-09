@@ -43,7 +43,7 @@ namespace _3DPresentation.Models
         private void UpdateMatrix()
         {
             worldMatrix = Matrix.Identity;
-            worldMatrix *= Matrix.CreateFromYawPitchRoll(rotation.X, rotation.Y, rotation.Z);
+            worldMatrix *= Matrix.CreateFromYawPitchRoll(rotation.Y, rotation.X, rotation.Z);
             worldMatrix *= Matrix.CreateTranslation(position.X, position.Y, position.Z);
 
             BoundingInfo.UpdateWorldDatas(worldMatrix, Scale);
@@ -235,6 +235,13 @@ namespace _3DPresentation.Models
                     oThread = new Thread(this.DoWork);
                     oThread.Start(graphicsDevice);
                 }
+                else if(!oThread.IsAlive)
+                {
+                    oThread = null;
+                    //oThread.Abort();
+                    oThread = new Thread(this.DoWork);
+                    oThread.Start(graphicsDevice);
+                }
             }
         }
 
@@ -245,6 +252,11 @@ namespace _3DPresentation.Models
                 InitBuffers((GraphicsDevice)data);
                 IsInitialized = true;
             }
+        }
+
+        public void Reload()
+        {
+            IsInitialized = false;
         }
     }
 }

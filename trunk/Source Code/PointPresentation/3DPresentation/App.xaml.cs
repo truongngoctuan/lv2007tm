@@ -30,7 +30,7 @@ namespace _3DPresentation
             //this.RootVisual = new MainPage();
             //this.RootVisual = new EditorView();
             this.RootVisual = mainUI;
-            mainUI.Children.Add(new EditorView());
+            mainUI.Children.Add(new TourControl());
         }
 
         public static void GoToPage(UserControl nextPg)

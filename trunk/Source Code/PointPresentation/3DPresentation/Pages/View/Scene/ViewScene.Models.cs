@@ -12,6 +12,7 @@ namespace _3DPresentation
 {
     public partial class ViewScene
     {
+        private static object lockThis = new object();
         List<BaseModel> Models = new List<BaseModel>();
         private void PrepareModels()
         {
@@ -24,7 +25,10 @@ namespace _3DPresentation
             if (Models.Contains(model))
                 return true;
 
-            Models.Add(model);
+            lock (lockThis)
+            {
+                Models.Add(model);
+            }
             return true;
         }
 
@@ -34,7 +38,17 @@ namespace _3DPresentation
                 return false;
             if (Models.Contains(model) == false)
                 return false;
-            return Models.Remove(model);
+            bool result = false; 
+            lock (lockThis)
+            {
+                result = Models.Remove(model);
+            }
+            return result;
+        }
+
+        public void ClearModels()
+        {
+            Models.Clear();
         }
 
         public bool SetTarget(BaseModel model)

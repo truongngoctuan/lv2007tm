@@ -49,12 +49,13 @@ namespace _3DPresentation
             return model;
         }
 
-        public bool CheckPicking(Point mouse, Vector2 drawingSurfaceSize)
+        public BaseModel CheckPicking(Point mouse, Vector2 drawingSurfaceSize)
         {
             if (IsLoaded == false)
-                return false;
+                return null;
+            BaseModel selectedModel = null;
             Ray ray = Babylon.Utilities.CreateRay((float)mouse.X, (float)mouse.Y, (float)drawingSurfaceSize.X, (float)drawingSurfaceSize.Y, Matrix.Identity, ActiveCamera.View, ActiveCamera.Projection);
-
+            
             float selectedDistance = float.MaxValue;
             foreach (BaseModel mesh in customSceneModels)
             {
@@ -65,15 +66,14 @@ namespace _3DPresentation
                 if (distance < selectedDistance)
                 {
                     selectedDistance = distance.Value;
-                    selectedMesh = mesh;
+                    selectedModel = mesh;
                 }
             }
             if (selectedDistance == float.MaxValue)
             {
-                selectedMesh = null;
-                return false;
+                selectedModel = null;
             }
-            return true;
+            return selectedModel;
 
             //basicEffect.EmissiveColor = mesh == selectedMesh ? new Color(0.5f, 0.5f, 0.5f, 0) : Color.Black;
         }

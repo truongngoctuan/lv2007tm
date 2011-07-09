@@ -20,6 +20,7 @@ namespace _3DPresentation
 
         // States
         public bool IsLoaded { get; private set; }
+        public bool IsEnable { get; set; }
         volatile bool IsAddingModel;
         
         // Notifications
@@ -30,7 +31,7 @@ namespace _3DPresentation
             get
             {
                 if (ActiveCamera != null)
-                    return new Vector3(ActiveCamera.RotationX, ActiveCamera.RotationY, ActiveCamera.RotationZ);
+                    return new Vector3(DrawError, ActiveCamera.RotationY, ActiveCamera.RotationZ);
                 return Vector3.Zero;
             }
         }
@@ -43,6 +44,7 @@ namespace _3DPresentation
             Surface = babylonSurface;
             
             // State
+            IsEnable = true;
             IsLoaded = false;
             IsAddingModel = false;
 
@@ -67,7 +69,8 @@ namespace _3DPresentation
         {
             if (customSceneModels.Contains(model))
             {
-                
+                //selectedMesh = model;
+                //OnMouseClick();
             }
         }
     }

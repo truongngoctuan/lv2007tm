@@ -15,19 +15,24 @@ namespace _3DPresentation
 {
     public partial class ViewControl : UserControl
     {
+        public UserControl ParentView { get; set; }
         ViewScene viewScene;
 
         public ViewControl()
         {
             InitializeComponent();
             viewScene = new ViewScene(this, drawingSurface);
+            cbModels.Items.Add("go back");
 
-            cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
+            cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);            
         }
 
         void cbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SetTarget((BaseModel)cbModels.SelectedItem);
+            //SetTarget((BaseModel)cbModels.SelectedItem);
+
+            App.RemovePage(this);
+            App.GoToPage(this.ParentView);
         }
 
         public BaseModel GetTarget()
@@ -45,7 +50,7 @@ namespace _3DPresentation
             bool result = viewScene.AddModel(model);
             if (result == false)
                 return false;
-            cbModels.Items.Add(model);
+            //cbModels.Items.Add(model);
             return true;
         }
 
@@ -54,8 +59,13 @@ namespace _3DPresentation
             bool result = viewScene.RemoveModel(model);
             if (result == false)
                 return false;
-            cbModels.Items.Remove(model);
+            //cbModels.Items.Remove(model);
             return true;
+        }
+
+        public void ClearModels()
+        {
+            viewScene.ClearModels();
         }
     }
 }

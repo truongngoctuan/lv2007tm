@@ -12,7 +12,22 @@ namespace _3DPresentation
     public partial class ViewScene
     {
         // the device to use when creating resources
-        static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
+        //static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
+        private GraphicsDevice device;
+        private GraphicsDevice Device
+        {
+            get
+            {
+                if (device == null)
+                    return GraphicsDeviceManager.Current.GraphicsDevice;
+                return device;
+            }
+            set
+            {
+                if(value != null)
+                    device = value;
+            }
+        }
 
         OrbitCamera Camera = new OrbitCamera { Alpha = (float)Math.PI / 2 };
         private UserControl Container;
@@ -21,11 +36,8 @@ namespace _3DPresentation
         Vector2 SurfaceSize { get; set; }
 
         // Notification
-        public int FPS
-        {
-            get;
-            set;
-        }
+        public int FPS { get; private set; }
+        public int DrawError { get; private set; }
 
         // Target Model
         public BaseModel TargetModel { get; private set; }
@@ -57,6 +69,9 @@ namespace _3DPresentation
             }
 
             GraphicsDevice graphicsDevice = e.GraphicsDevice;
+            if (graphicsDevice == null)
+                return;
+
             graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
             Render(graphicsDevice);
 
