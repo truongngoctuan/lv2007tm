@@ -27,7 +27,7 @@ namespace _3DPresentation
 
         void cbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            viewScene.SetTarget((BaseModel)cbModels.SelectedItem);
+            SetTarget((BaseModel)cbModels.SelectedItem);
         }
 
         public BaseModel GetTarget()
