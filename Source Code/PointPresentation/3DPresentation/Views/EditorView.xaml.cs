@@ -57,9 +57,9 @@ namespace _3DPresentation
       toolbar.ParentEditor = this;
       frameViewer.ParentView = this;
 
-      BaseModel newModel = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0000.ply"));
-      vcOjectViewer.AddModel(newModel);
-      vcOjectViewer.SetTarget(newModel);
+      //BaseModel newModel = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0000.ply"));
+      //vcOjectViewer.AddModel(newModel);
+      //vcOjectViewer.SetTarget(newModel);
     }
 
     // Executes when the user navigates to this page.

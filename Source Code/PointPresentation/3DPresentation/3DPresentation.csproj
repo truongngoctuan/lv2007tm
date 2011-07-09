@@ -195,6 +195,9 @@
     <Compile Include="Views\Editor\ImageSelector.xaml.cs">
       <DependentUpon>ImageSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Editor\MatchModelView.xaml.cs">
+      <DependentUpon>MatchModelView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Editor\SimplePopupContent.xaml.cs">
       <DependentUpon>SimplePopupContent.xaml</DependentUpon>
     </Compile>
@@ -541,6 +544,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Editor\cwMatchModelManual.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Editor\MatchModelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

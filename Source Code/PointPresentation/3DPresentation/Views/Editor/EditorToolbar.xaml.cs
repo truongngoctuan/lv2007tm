@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using _3DPresentation.Models;
 
 namespace _3DPresentation.Views.Editor
 {
@@ -40,8 +41,8 @@ namespace _3DPresentation.Views.Editor
                 throw;
             }
 
-            //cwSetupSDK cwNew = new cwSetupSDK();
-            //cwNew.Show();
+            cwSetupSDK cwNew = new cwSetupSDK();
+            cwNew.Show();
         }
 
         private void btSetupWorkSpace_Click(object sender, RoutedEventArgs e)
@@ -78,12 +79,18 @@ namespace _3DPresentation.Views.Editor
 
         private void btMatch2FrameManual_Click(object sender, RoutedEventArgs e)
         {
-            cwMatchModelManual cwNew = new cwMatchModelManual();
             //setup 2 parameter
             //catch result
             //recal
-            cwNew.SetInputData(ParentEditor.FixedImageIndex, ParentEditor.ReferenceImageIndex);
-            cwNew.Show();
+            MatchModelView pg = new MatchModelView();
+            pg.ParentView = _parent;
+            pg.SetInputData(ParentEditor.FixedImageIndex, ParentEditor.ReferenceImageIndex);
+            BaseModel newModel1 = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0000.ply"));
+            BaseModel newModel2 = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0020.ply"));
+
+            pg.SetInputData(newModel1, newModel2);
+
+            App.GoToPage(pg);
         }
     }
 }
