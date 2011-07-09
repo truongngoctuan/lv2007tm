@@ -50,6 +50,5 @@ namespace _3DPresentation.Models
 
             faceManager.Render(graphicsDevice);
         }
-             
     }
 }

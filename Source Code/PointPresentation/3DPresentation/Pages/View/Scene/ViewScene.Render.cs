@@ -12,49 +12,43 @@ namespace _3DPresentation
 {
     public partial class ViewScene
     {
-        // Effects
-        private enum ShaderEffect { NoEffect, TexturedNoEffect, PointEffect };
-        NoEffect noEffect;
-        TexturedNoEffect texturedNoEffect;
-        PointEffect pointEffect;
-
         private void PrepareRender()
         {
-            noEffect = new NoEffect(resourceDevice);
-            texturedNoEffect = new TexturedNoEffect(resourceDevice);
-            pointEffect = new PointEffect(resourceDevice);
-
-            Surface.Dispatcher.BeginInvoke(() =>
-            {
-                texturedNoEffect.DiffuseTexture = Utils.Global.LoadTexture("Images/3.jpg", resourceDevice);
-            });
+            EffectManager.InitEffects();
         }
 
         public void Render(GraphicsDevice graphicsDevice)
         {
-            graphicsDevice.RasterizerState = new RasterizerState
+            try
             {
-                FillMode = FillMode.Solid,
-                CullMode = CullMode.None
-            };
-
-            foreach (BaseModel model in Models)
-            {
-                if (model.IsEnabled)
+                graphicsDevice.RasterizerState = new RasterizerState
                 {
-                    if (model is PointModel)
-                        SetShaderEffect(ShaderEffect.PointEffect, graphicsDevice, model.WorldMatrix);
-                    else
-                        SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, model.WorldMatrix);
-                    model.Render(graphicsDevice);
+                    FillMode = FillMode.Solid,
+                    CullMode = CullMode.None
+                };
+
+                foreach (BaseModel model in Models)
+                {
+                    if (model.IsEnabled)
+                    {
+                        if (model is PointModel)
+                            SetShaderEffect(EffectManager.ShaderEffects.PointEffect, graphicsDevice, model.WorldMatrix);
+                        else
+                            SetShaderEffect(EffectManager.ShaderEffects.NoEffect, graphicsDevice, model.WorldMatrix);
+                        model.Render(graphicsDevice);
+                    }
                 }
             }
-        }
-
-        private void SetShaderEffect(ShaderEffect shaderEffect, GraphicsDevice graphicsDevice, Matrix world)
-        {
-            if (shaderEffect == ShaderEffect.NoEffect)
+            catch (ArgumentException ex)
             {
+                DrawError++;
+            }
+        }
+        private void SetShaderEffect(EffectManager.ShaderEffects shaderEffect, GraphicsDevice graphicsDevice, Matrix world)
+        {
+            if (shaderEffect == EffectManager.ShaderEffects.NoEffect)
+            {
+                NoEffect noEffect = EffectManager.NoEffect;
                 noEffect.World = world;
                 noEffect.Projection = Camera.Projection;
                 noEffect.View = Camera.View;
@@ -62,8 +56,9 @@ namespace _3DPresentation
                 noEffect.Device = graphicsDevice;
                 noEffect.Apply();
             }
-            else if (shaderEffect == ShaderEffect.TexturedNoEffect)
+            else if (shaderEffect == EffectManager.ShaderEffects.TexturedNoEffect)
             {
+                TexturedNoEffect texturedNoEffect = EffectManager.TexturedNoEffect;
                 texturedNoEffect.World = world;
                 texturedNoEffect.Projection = Camera.Projection;
                 texturedNoEffect.View = Camera.View;
@@ -71,8 +66,9 @@ namespace _3DPresentation
                 texturedNoEffect.Device = graphicsDevice;
                 texturedNoEffect.Apply();
             }
-            else if (shaderEffect == ShaderEffect.PointEffect)
+            else if (shaderEffect == EffectManager.ShaderEffects.PointEffect)
             {
+                PointEffect pointEffect = EffectManager.PointEffect;
                 pointEffect.World = world;
                 pointEffect.Projection = Camera.Projection;
                 pointEffect.View = Camera.View;

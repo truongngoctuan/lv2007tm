@@ -64,6 +64,8 @@ namespace _3DPresentation.Models
             return VerticesList.Count - 1;
         }
 
+        private int maxIndex = -1;
+        private int maxI = -1;
         public bool AddIndice(int i1, int i2, int i3)
         {
             if (i1 >= this.PartitionSize || i2 >= this.PartitionSize || i3 >= this.PartitionSize)
@@ -73,6 +75,10 @@ namespace _3DPresentation.Models
             IndicesList.Add(Convert.ToUInt16(i2));
             IndicesList.Add(Convert.ToUInt16(i3));
             Current++;
+
+            if (Convert.ToUInt16(i1) > maxIndex) { maxIndex = Convert.ToUInt16(i1); maxI = i1; }
+            if (Convert.ToUInt16(i2) > maxIndex) { maxIndex = Convert.ToUInt16(i2); maxI = i2; }
+            if (Convert.ToUInt16(i3) > maxIndex) { maxIndex = Convert.ToUInt16(i3); maxI = i3; }
             return true;
         }
 
@@ -116,8 +122,8 @@ namespace _3DPresentation.Models
             IndexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, Indices.Length, BufferUsage.WriteOnly);
             IndexBuffer.SetData(0, Indices, 0, Indices.Length);
 
-            Vertices = null;
-            Indices = null;
+            //Vertices = null;
+            //Indices = null;
             IsValid = true;
         }
 
@@ -125,6 +131,7 @@ namespace _3DPresentation.Models
         {
             if (IsValid == false)
                 return;
+
             graphicsDevice.SetVertexBuffer(VertexBuffer);
             graphicsDevice.Indices = IndexBuffer;
 

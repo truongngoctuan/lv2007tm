@@ -14,19 +14,24 @@ namespace _3DPresentation
 {
     public partial class CustomScene : Babylon.Scene
     {
+        //private static object lockThis = new object();
         bool mouseLeftDown;
         Point startPosition;
 
+        ViewControl viewControl;
         public void PrepareInteraction()
         {
             Container.MouseLeftButtonDown += new MouseButtonEventHandler(Container_MouseLeftButtonDown);
             Container.MouseLeftButtonUp += new MouseButtonEventHandler(Container_MouseLeftButtonUp);
             Container.MouseMove += new MouseEventHandler(Container_MouseMove);
+
+            viewControl = new ViewControl();
+            viewControl.ParentView = this.Container;
         }
 
         void Container_MouseMove(object sender, MouseEventArgs e)
         {
-            CheckPicking(e.GetPosition(Surface), new Vector2((float)Surface.ActualWidth, (float)Surface.ActualHeight));
+            selectedMesh = CheckPicking(e.GetPosition(Surface), new Vector2((float)Surface.ActualWidth, (float)Surface.ActualHeight));
         }
         
         void Container_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -41,16 +46,16 @@ namespace _3DPresentation
             Point upPosition = e.GetPosition(Surface);
             if (Math.Abs(upPosition.X - startPosition.X) < 5 && Math.Abs(upPosition.Y - startPosition.Y) < 5)
             {
-                MouseClick();
+                OnMouseClick();
             }
         }
 
-        private void MouseClick()
+        private void OnMouseClick()
         {
             if (selectedMesh != null)
-            {
-                // if selectedMesh == first model : application crash when render
-                ViewControl viewControl = new ViewControl();
+            {                
+                // if selectedMesh == first model : application crash when render 
+                viewControl.ClearModels();
                 for (int i = 0; i < customSceneModels.Count; i++)
                 {
                     viewControl.AddModel(customSceneModels[i]);

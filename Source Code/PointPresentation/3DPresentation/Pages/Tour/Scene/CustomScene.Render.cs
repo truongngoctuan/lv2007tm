@@ -14,61 +14,60 @@ namespace _3DPresentation
     {
         // Events
         public event EventHandler Drawed;
-
-        // Effects
-        private enum ShaderEffect { NoEffect, TexturedNoEffect };
-        NoEffect noEffect;
-        TexturedNoEffect texturedNoEffect;
+        public int DrawError { get; private set; }
 
         private void PrepareRender()
         {
-            noEffect = new NoEffect(Device);
-            texturedNoEffect = new TexturedNoEffect(Device);
-
-            Surface.Dispatcher.BeginInvoke(() =>
-            {
-                texturedNoEffect.DiffuseTexture = Utils.Global.LoadTexture("Images/3.jpg", Device);
-            });
+            EffectManager.InitEffects();
         }
 
         public override void Render()
         {
-            base.Render();
-
-            // Render model
-            if (IsAddingModel)
+            if (IsEnable == false)
                 return;
-
-            Device.RasterizerState = new RasterizerState
+            try
             {
-                FillMode = FillMode.Solid,
-                CullMode = CullMode.None
-            };
+                base.Render();
 
-            foreach (FaceModel faceModel in customSceneModels)
-            {
-                if (faceModel.IsEnabled)
+                // Render model
+                if (IsAddingModel)
+                    return;
+
+                Device.RasterizerState = new RasterizerState
                 {
-                    if (ActiveCamera.IsInFrustrum(faceModel.BoundingInfo))
+                    FillMode = FillMode.Solid,
+                    CullMode = CullMode.None
+                };
+
+                foreach (FaceModel faceModel in customSceneModels)
+                {
+                    if (faceModel.IsEnabled)
                     {
-                        if (faceModel == selectedMesh)
-                            SetShaderEffect(ShaderEffect.TexturedNoEffect, faceModel.WorldMatrix);
-                        else
-                            SetShaderEffect(ShaderEffect.NoEffect, faceModel.WorldMatrix);
-                        faceModel.Render(Device);
+                        if (ActiveCamera.IsInFrustrum(faceModel.BoundingInfo))
+                        {
+                            if (faceModel == selectedMesh)
+                                SetShaderEffect(EffectManager.ShaderEffects.TexturedNoEffect, faceModel.WorldMatrix);
+                            else
+                                SetShaderEffect(EffectManager.ShaderEffects.NoEffect, faceModel.WorldMatrix);
+                            faceModel.Render(Device);
+                        }
                     }
-                    //break;
                 }
+            }
+            catch (ArgumentException ex)
+            {
+                DrawError++;
             }
 
             if(Drawed != null)
                 Drawed(this, EventArgs.Empty);
         }
 
-        private void SetShaderEffect(ShaderEffect shaderEffect, Matrix world)
+        private void SetShaderEffect(EffectManager.ShaderEffects shaderEffect, Matrix world)
         {
-            if (shaderEffect == ShaderEffect.NoEffect)
+            if (shaderEffect == EffectManager.ShaderEffects.NoEffect)
             {
+                NoEffect noEffect = EffectManager.NoEffect;
                 noEffect.World = world;
                 noEffect.Projection = ActiveCamera.Projection;
                 noEffect.View = ActiveCamera.View;
@@ -76,8 +75,9 @@ namespace _3DPresentation
                 noEffect.Device = Device;
                 noEffect.Apply();
             }
-            else if (shaderEffect == ShaderEffect.TexturedNoEffect)
+            else if (shaderEffect == EffectManager.ShaderEffects.TexturedNoEffect)
             {
+                TexturedNoEffect texturedNoEffect = EffectManager.TexturedNoEffect;
                 texturedNoEffect.World = world;
                 texturedNoEffect.Projection = ActiveCamera.Projection;
                 texturedNoEffect.View = ActiveCamera.View;

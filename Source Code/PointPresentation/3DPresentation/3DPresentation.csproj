@@ -62,9 +62,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Babylon.Toolbox, Version=1.0.3.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="Babylon.Toolbox, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>Babylon.Toolkit\Babylon.Toolbox.dll</HintPath>
+      <HintPath>..\Lib\Babylon.Toolbox.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework.Math">
@@ -102,6 +102,7 @@
     </Compile>
     <Compile Include="ClientFileAndDirectory.cs" />
     <Compile Include="ClientPackage.cs" />
+    <Compile Include="Effects\EffectManager.cs" />
     <Compile Include="Effects\FourPointLights\FourPointLights.cs" />
     <Compile Include="Effects\PointEffect\PointEffect.cs" />
     <Compile Include="Effects\TexturedNoEffect\TexturedNoEffect.cs" />
@@ -162,60 +163,6 @@
     </Compile>
     <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="Utils\Util.cs" />
-    <Compile Include="Views\AboutView.xaml.cs">
-      <DependentUpon>AboutView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwMatchModelManual.xaml.cs">
-      <DependentUpon>cwMatchModelManual.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwOpenModel.xaml.cs">
-      <DependentUpon>cwOpenModel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwOptimize.xaml.cs">
-      <DependentUpon>cwOptimize.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwResetWorkSpace.xaml.cs">
-      <DependentUpon>cwResetWorkSpace.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwSaveModel.xaml.cs">
-      <DependentUpon>cwSaveModel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwSetupSDK.xaml.cs">
-      <DependentUpon>cwSetupSDK.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwSetupWorkSpace.xaml.cs">
-      <DependentUpon>cwSetupWorkSpace.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\EditorObjectDock.xaml.cs">
-      <DependentUpon>EditorObjectDock.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\EditorToolbar.xaml.cs">
-      <DependentUpon>EditorToolbar.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\ImageSelector.xaml.cs">
-      <DependentUpon>ImageSelector.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\MatchModelView.xaml.cs">
-      <DependentUpon>MatchModelView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\SimplePopupContent.xaml.cs">
-      <DependentUpon>SimplePopupContent.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\SliderTextBox.xaml.cs">
-      <DependentUpon>SliderTextBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ErrorWindowView.xaml.cs">
-      <DependentUpon>ErrorWindowView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EditorView.xaml.cs">
-      <DependentUpon>EditorView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\OpenFolderDlg\DoubleClickHelper.cs" />
-    <Compile Include="Views\OpenFolderDlg\Drive.cs" />
-    <Compile Include="Views\OpenFolderDlg\Folder.cs" />
-    <Compile Include="Views\OpenFolderDlg\FolderDialog.xaml.cs">
-      <DependentUpon>FolderDialog.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -531,10 +478,6 @@
     <Resource Include="Resources\Models\wcafe.streams\97.bsfstream" />
     <Resource Include="Resources\Models\wcafe.streams\98.bsfstream" />
     <Resource Include="Resources\Models\wcafe.streams\99.bsfstream" />
-    <Resource Include="Views\OpenFolderDlg\Assets\back.png" />
-    <Resource Include="Views\OpenFolderDlg\Assets\drive.png" />
-    <Resource Include="Views\OpenFolderDlg\Assets\folder.png" />
-    <Resource Include="Views\OpenFolderDlg\Assets\mc.png" />
     <Page Include="Pages\Tour\TourControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -543,27 +486,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Editor\cwMatchModelManual.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Editor\MatchModelView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Editor\SimplePopupContent.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\SliderTextBox.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\OpenFolderDlg\FolderDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Resource Include="Views\Editor\Images\blank.jpg" />
     <PixelShader Include="Effects\TexturedNoEffect\TexturedNoEffect.ps.hlsl" />
     <VertexShader Include="Effects\TexturedNoEffect\TexturedNoEffect.vs.hlsl" />
     <None Include="Reflection.fx" />
@@ -588,54 +510,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\AboutView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwOpenModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwOptimize.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwResetWorkSpace.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwSaveModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwSetupSDK.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwSetupWorkSpace.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\EditorObjectDock.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Editor\EditorToolbar.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Editor\ImageSelector.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\ErrorWindowView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\EditorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <PixelShader Include="Effects\PointEffect\PointEffect.ps.hlsl" />
     <VertexShader Include="Effects\PointEffect\PointEffect.vs.hlsl" />
     <VertexShader Include="Effects\FourPointLights\FourPointLights.vs.hlsl" />
@@ -645,31 +519,6 @@
     </None>
     <Resource Include="Images\3.jpg" />
     <Resource Include="Images\4.jpg" />
-    <Resource Include="Views\Editor\Images\ImageSelectorBgTop.png" />
-    <Resource Include="Views\Editor\Images\j0149013.jpg" />
-    <Resource Include="Views\Editor\Images\j0182516.jpg" />
-    <Resource Include="Views\Editor\Images\j0262524.jpg" />
-    <Resource Include="Views\Editor\Images\j0309223.jpg" />
-    <Resource Include="Views\Editor\Images\j0314059.jpg" />
-    <Resource Include="Views\Editor\Images\j0314069.jpg" />
-    <Resource Include="Views\Editor\Images\j0402444.jpg" />
-    <Resource Include="Views\Editor\Images\j0406500.jpg" />
-    <Resource Include="Views\Editor\Images\j0406702.jpg" />
-    <Resource Include="Views\Editor\Images\j0407544.jpg" />
-    <Resource Include="Views\Editor\Images\j0422769.jpg" />
-    <Resource Include="Views\Editor\Images\j0428653.jpg" />
-    <Resource Include="Views\Editor\Images\j0430836.jpg" />
-    <Resource Include="Views\Editor\Images\j0431767.jpg" />
-    <Resource Include="Views\Editor\Images\j0433157.jpg" />
-    <Resource Include="Views\Editor\Images\topbg_left.png" />
-    <Resource Include="Views\Editor\Images\topbg_mid.png" />
-    <Resource Include="Views\Editor\Images\topbg_right.png" />
-    <Resource Include="Views\Editor\Images\top_new_model.png" />
-    <Resource Include="Views\Editor\Images\top_pause.png" />
-    <Resource Include="Views\Editor\Images\top_play.png" />
-    <Resource Include="Views\Editor\Images\top_stop.png" />
-    <Resource Include="Views\Editor\Images\wmp.png" />
-    <Resource Include="Views\Editor\Images\wmp_left.png" />
     <Content Include="Resources\Models\espilit.txt" />
     <Content Include="Resources\Models\wcafe.txt" />
     <Content Include="themes\System.Windows.Controls.Theming.ExpressionDark.xaml">
