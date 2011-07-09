@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using _3DPresentation.Models;
 
 namespace _3DPresentation.Views.Editor
 {
@@ -27,23 +28,27 @@ namespace _3DPresentation.Views.Editor
         int iFixedImageIndex = -1;
         int iReferenceImageIndex = -1;
 
+        BaseModel _model1 = null;
+        BaseModel _model2 = null;
+
         public cwMatchModelManual()
         {
             InitializeComponent();
 
-            RotateX.setParams(this, "rx", "Rotate X: ", -180, 180, 0);
-            RotateY.setParams(this, "ry", "Rotate Y: ", -180, 180, 0);
-            RotateZ.setParams(this, "rz", "Rotate Z: ", -180, 180, 0);
+            //RotateX.setParams(this, "rx", "Rotate X: ", -180, 180, 0);
+            //RotateY.setParams(this, "ry", "Rotate Y: ", -180, 180, 0);
+            //RotateZ.setParams(this, "rz", "Rotate Z: ", -180, 180, 0);
 
-            TransateX.setParams(this, "tx", "Translate X: ", -500, 500, 0);
-            TransateY.setParams(this, "ty", "Translate Y: ", -500, 500, 0);
-            TransateZ.setParams(this, "tz", "Translate Z: ", -500, 500, 0);
+            //TransateX.setParams(this, "tx", "Translate X: ", -500, 500, 0);
+            //TransateY.setParams(this, "ty", "Translate Y: ", -500, 500, 0);
+            //TransateZ.setParams(this, "tz", "Translate Z: ", -500, 500, 0);
 
-            ScaleX.setParams(this, "sx", "Scale X: ", -10, 10, 1);
-            ScaleY.setParams(this, "sy", "Scale Y: ", -10, 10, 1);
-            ScaleZ.setParams(this, "sz", "Scale Z: ", -10, 10, 1);
+            //ScaleX.setParams(this, "sx", "Scale X: ", -10, 10, 1);
+            //ScaleY.setParams(this, "sy", "Scale Y: ", -10, 10, 1);
+            //ScaleZ.setParams(this, "sz", "Scale Z: ", -10, 10, 1);
 
             tblockValue.Text = this.ToString();
+            this.Effect = null;
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)
@@ -150,6 +155,20 @@ namespace _3DPresentation.Views.Editor
 
             tblockValue.Text = this.ToString();
         }
+
+        public void SetInputData(BaseModel model1, BaseModel model2)
+        {
+            _model1 = model1;
+            _model2 = model2;
+
+            BaseModel newModel1 = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0000.ply"));
+            vcOjectViewer.AddModel(newModel1);
+            //vcOjectViewer.AddModel(_model2);
+            vcOjectViewer.SetTarget(newModel1);
+
+            tblockValue.Text = this.ToString();
+        }
+
     }
 }
 

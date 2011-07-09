@@ -57,7 +57,7 @@ namespace _3DPresentation
             }
 
             GraphicsDevice graphicsDevice = e.GraphicsDevice;
-            graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
+            graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
             Render(graphicsDevice);
 
             Camera.ApplyInertia();

@@ -38,9 +38,9 @@ namespace _3DPresentation.Views.Editor
         //}
         //#endregion
 
-        cwMatchModelManual _parent = null;
+        MatchModelView _parent = null;
         string strKey = string.Empty;
-        public void setParams(cwMatchModelManual parent, string Key, string strLabel, float fMin, float fMax, float fDefaultValue)
+        public void setParams(MatchModelView parent, string Key, string strLabel, float fMin, float fMax, float fDefaultValue)
         {
             _parent = parent;
             strKey = Key;
@@ -68,7 +68,6 @@ namespace _3DPresentation.Views.Editor
             }
 
         }
-
 
         public float Value
         {
