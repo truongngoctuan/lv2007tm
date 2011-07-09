@@ -559,6 +559,7 @@
     <Resource Include="Views\Editor\Images\blank.jpg" />
     <PixelShader Include="Effects\TexturedNoEffect\TexturedNoEffect.ps.hlsl" />
     <VertexShader Include="Effects\TexturedNoEffect\TexturedNoEffect.vs.hlsl" />
+    <None Include="ClassDiagram1.cd" />
     <None Include="Reflection.fx" />
     <Resource Include="Reflection.ps" />
     <Page Include="MainPage.xaml">

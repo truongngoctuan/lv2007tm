@@ -3,6 +3,12 @@
              x:Class="_3DPresentation.App"
              >
     <Application.Resources>
-        
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="themes/Styles.xaml"/>
+                <ResourceDictionary Source="themes/TransitioningFrame.xaml"/>
+                <ResourceDictionary Source="themes/CustomControl.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
