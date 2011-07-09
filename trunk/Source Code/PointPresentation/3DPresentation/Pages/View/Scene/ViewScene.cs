@@ -14,14 +14,11 @@ namespace _3DPresentation
         // the device to use when creating resources
         static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
-        OrbitCamera Camera = new OrbitCamera { Alpha = -0.4f };
+        OrbitCamera Camera = new OrbitCamera { Alpha = (float)Math.PI / 2 };
         private UserControl Container;
         private DrawingSurface Surface { get; set; }
 
         Vector2 SurfaceSize { get; set; }
-
-        // States
-        volatile bool IsAddingModel;
 
         // Notification
         public int FPS
@@ -60,7 +57,7 @@ namespace _3DPresentation
             }
 
             GraphicsDevice graphicsDevice = e.GraphicsDevice;
-            graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
+            graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
             Render(graphicsDevice);
 
             Camera.ApplyInertia();
