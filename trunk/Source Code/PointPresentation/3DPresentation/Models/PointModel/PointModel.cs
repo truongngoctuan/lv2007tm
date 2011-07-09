@@ -44,10 +44,8 @@ namespace _3DPresentation.Models
             base.Render(graphicsDevice);
             if (IsInitialized == false)
                 return;
-            for (int partitionIndex = 0; partitionIndex < pointManager.Partitions.Count; partitionIndex++)
-            {
-                pointManager.RenderPartition(graphicsDevice, partitionIndex);
-            }
+
+            pointManager.Render(graphicsDevice);
         }
     }
 }

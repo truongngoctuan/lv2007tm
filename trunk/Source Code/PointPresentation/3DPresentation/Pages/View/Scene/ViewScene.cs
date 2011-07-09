@@ -18,6 +18,8 @@ namespace _3DPresentation
         private UserControl Container;
         private DrawingSurface Surface { get; set; }
 
+        Vector2 SurfaceSize { get; set; }
+
         // States
         volatile bool IsAddingModel;
 
@@ -68,6 +70,7 @@ namespace _3DPresentation
 
         void Surface_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
         {
+            SurfaceSize = new Vector2((float)Surface.ActualWidth, (float)Surface.ActualHeight);
             Camera.AspectRatio = (float)(Surface.ActualWidth / Surface.ActualHeight);
         }
 

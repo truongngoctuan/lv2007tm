@@ -13,14 +13,16 @@ namespace _3DPresentation
     public partial class ViewScene
     {
         // Effects
-        private enum ShaderEffect { NoEffect, TexturedNoEffect };
+        private enum ShaderEffect { NoEffect, TexturedNoEffect, PointEffect };
         NoEffect noEffect;
         TexturedNoEffect texturedNoEffect;
+        PointEffect pointEffect;
 
         private void PrepareRender()
         {
             noEffect = new NoEffect(resourceDevice);
             texturedNoEffect = new TexturedNoEffect(resourceDevice);
+            pointEffect = new PointEffect(resourceDevice);
 
             Surface.Dispatcher.BeginInvoke(() =>
             {
@@ -69,6 +71,16 @@ namespace _3DPresentation
 
                 texturedNoEffect.Device = graphicsDevice;
                 texturedNoEffect.Apply();
+            }
+            else if (shaderEffect == ShaderEffect.PointEffect)
+            {
+                pointEffect.World = world;
+                pointEffect.Projection = Camera.Projection;
+                pointEffect.View = Camera.View;
+                pointEffect.Scale = new Vector2(1.0f / SurfaceSize.X, 1.0f / SurfaceSize.Y);
+
+                pointEffect.Device = graphicsDevice;
+                pointEffect.Apply();
             }
         }
     }

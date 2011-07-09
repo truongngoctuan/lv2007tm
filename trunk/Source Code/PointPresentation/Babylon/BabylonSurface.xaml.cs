@@ -18,6 +18,7 @@ namespace Babylon
         //nhminh
         public void SetCustomScene(Scene customScene)
         {
+            scene = null;
             scene = customScene;
         }
 
