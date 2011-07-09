@@ -35,11 +35,33 @@ namespace _3DPresentation
 
         public static void GoToPage(UserControl nextPg)
         {
+            if (nextPg == null)
+                return;
             App app = (App)Application.Current;
-            // Remove the displayed page
-            app.mainUI.Children.Clear();
-            // Show the next page
-            app.mainUI.Children.Add(nextPg);
+            if(app.mainUI.Children.Contains(nextPg) == false)
+            {
+                app.mainUI.Children.Add(nextPg);
+            }
+
+            // Show only nextPg
+            foreach(UserControl page in app.mainUI.Children)
+            {
+                if(page == nextPg)
+                    page.Visibility = Visibility.Visible;
+                else
+                    page.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        public static void RemovePage(UserControl page)
+        {
+            if (page == null)
+                return;
+            App app = (App)Application.Current;
+            if (app.mainUI.Children.Contains(page))
+            {
+                app.mainUI.Children.Remove(page);
+            }
         }
 
         private void Application_Exit(object sender, EventArgs e)
