@@ -41,6 +41,9 @@ namespace _3DPresentation.Models
 
         public override void Render(GraphicsDevice graphicsDevice)
         {
+            base.Render(graphicsDevice);
+            if (IsInitialized == false)
+                return;
             for (int partitionIndex = 0; partitionIndex < pointManager.Partitions.Count; partitionIndex++)
             {
                 pointManager.RenderPartition(graphicsDevice, partitionIndex);

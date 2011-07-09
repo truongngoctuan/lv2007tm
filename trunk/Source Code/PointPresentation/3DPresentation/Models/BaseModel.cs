@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
 using Babylon;
+using System.Threading;
 
 namespace _3DPresentation.Models
 {
@@ -15,7 +16,8 @@ namespace _3DPresentation.Models
 
         // state
         public bool IsEnabled { get; set; }
-        public bool IsLoaded { get; set; }
+        public bool IsLoaded { get; protected set; }
+        public bool IsInitialized { get; protected set; }
 
         public CustomBoundingInfo BoundingInfo { get; set; }
         public float Scale { get; set; }     
@@ -221,6 +223,27 @@ namespace _3DPresentation.Models
             points = null;
         }
         public abstract void InitBuffers(GraphicsDevice graphicsDevice);
-        public abstract void Render(GraphicsDevice graphicsDevice);   
+
+        private Thread oThread;
+        public virtual void Render(GraphicsDevice graphicsDevice)
+        {
+            if (IsInitialized == false)
+            {
+                if (oThread == null)
+                {
+                    oThread = new Thread(this.DoWork);
+                    oThread.Start(graphicsDevice);
+                }
+            }
+        }
+
+        public void DoWork(object data)
+        {
+            if (data is GraphicsDevice)
+            {
+                InitBuffers((GraphicsDevice)data);
+                IsInitialized = true;
+            }
+        }
     }
 }
