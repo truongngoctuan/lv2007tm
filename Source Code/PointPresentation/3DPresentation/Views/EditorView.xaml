@@ -12,7 +12,7 @@
     <Grid x:Name="ContentHomePage" Background="Orange" 
           Width="1000" Height="600">
         <Image x:Name="currentImage"></Image>
-        
+        <customControl:ViewControl x:Name="vcOjectViewer" Width="400" Height="400" VerticalAlignment="Top" HorizontalAlignment="Right"></customControl:ViewControl>
         <!--object dock at top-->
         <customControlEditor:EditorObjectDock></customControlEditor:EditorObjectDock>
         <!--coverflow at bottom-->

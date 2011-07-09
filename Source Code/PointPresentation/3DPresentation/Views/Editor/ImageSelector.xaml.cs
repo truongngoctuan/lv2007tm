@@ -186,9 +186,13 @@ namespace _3DPresentation.Views.Editor
 
         public void DeleteImage(int iIndex)
         {
+            if (SelectedIndex >= realLength - 1 || SelectedIndex == -1) return;
             if (realLength < 7)
             {
-                
+                if (SelectedIndex == CurrentImageIndex)
+                {
+                    //animation delete
+                }
             }
             else
             {

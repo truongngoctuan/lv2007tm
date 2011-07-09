@@ -13,6 +13,7 @@ using System.Windows.Shapes;
 using _3DPresentation.Views.Editor;
 using System.Windows.Controls.Primitives;
 using System.Threading;
+using _3DPresentation.Models;
 
 namespace _3DPresentation
 {
@@ -55,6 +56,10 @@ namespace _3DPresentation
       InitializeComponent();
       toolbar.ParentEditor = this;
       frameViewer.ParentView = this;
+
+      BaseModel newModel = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0000.ply"));
+      vcOjectViewer.AddModel(newModel);
+      //vcOjectViewer.SetTarget(newModel);
     }
 
     // Executes when the user navigates to this page.
