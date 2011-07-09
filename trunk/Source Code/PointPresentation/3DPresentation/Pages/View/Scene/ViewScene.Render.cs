@@ -46,7 +46,10 @@ namespace _3DPresentation
             {
                 if (model.IsEnabled)
                 {
-                    SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, model.WorldMatrix);
+                    if (model is PointModel)
+                        SetShaderEffect(ShaderEffect.PointEffect, graphicsDevice, model.WorldMatrix);
+                    else
+                        SetShaderEffect(ShaderEffect.NoEffect, graphicsDevice, model.WorldMatrix);
                     model.Render(graphicsDevice);
                 }
             }

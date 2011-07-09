@@ -116,9 +116,9 @@ namespace _3DPresentation.Models
             IndexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, Indices.Length, BufferUsage.WriteOnly);
             IndexBuffer.SetData(0, Indices, 0, Indices.Length);
 
-            IsValid = true;
             Vertices = null;
             Indices = null;
+            IsValid = true;
         }
 
         public void Render(GraphicsDevice graphicsDevice)
