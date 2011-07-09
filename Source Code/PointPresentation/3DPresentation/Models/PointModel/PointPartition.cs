@@ -81,6 +81,7 @@ namespace _3DPresentation.Models
 
             Vertices = null;
             Indices = null;
+            IsValid = true;
         }
 
         public void Render(GraphicsDevice graphicsDevice)

@@ -59,7 +59,7 @@ namespace _3DPresentation
 
       BaseModel newModel = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0000.ply"));
       vcOjectViewer.AddModel(newModel);
-      //vcOjectViewer.SetTarget(newModel);
+      vcOjectViewer.SetTarget(newModel);
     }
 
     // Executes when the user navigates to this page.

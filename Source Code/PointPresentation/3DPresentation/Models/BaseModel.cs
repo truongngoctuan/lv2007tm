@@ -53,6 +53,7 @@ namespace _3DPresentation.Models
         {
             position = Vector3.Zero;
             rotation = Vector3.Zero;
+            worldMatrix = Matrix.Identity;
             Scale = 1.0f;
 
             IsEnabled = true;
