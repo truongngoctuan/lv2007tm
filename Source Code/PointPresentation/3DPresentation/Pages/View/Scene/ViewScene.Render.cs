@@ -32,10 +32,6 @@ namespace _3DPresentation
 
         public void Render(GraphicsDevice graphicsDevice)
         {
-            // Render model
-            if (IsAddingModel)
-                return;
-
             graphicsDevice.RasterizerState = new RasterizerState
             {
                 FillMode = FillMode.Solid,
