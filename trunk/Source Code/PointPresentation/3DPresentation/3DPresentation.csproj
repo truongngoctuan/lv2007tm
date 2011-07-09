@@ -116,7 +116,7 @@
     <Compile Include="OpenFileControl.xaml.cs">
       <DependentUpon>OpenFileControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\Tour\CustomBoundingInfo.cs" />
+    <Compile Include="Models\CustomBoundingInfo.cs" />
     <Compile Include="Pages\Tour\Scene\CustomScene.cs" />
     <Compile Include="Pages\Tour\Scene\CustomScene.Interaction.cs" />
     <Compile Include="Pages\Tour\Scene\CustomScene.IO.cs" />
@@ -162,7 +162,6 @@
       <DependentUpon>UDRMZControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\MathUtil.cs" />
-    <Compile Include="Utils\Util.cs" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -535,7 +534,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="CompileShaders.cmd" />
     <PixelShader Include="Effects\MyBasicEffect\MyBasicEffect.ps.hlsl" />
     <VertexShader Include="Effects\MyBasicEffect\MyBasicEffect.vs.hlsl" />
     <PixelShader Include="Effects\NoEffect\NoEffect.ps.hlsl" />
