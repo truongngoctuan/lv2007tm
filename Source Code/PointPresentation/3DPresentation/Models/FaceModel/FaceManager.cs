@@ -85,6 +85,47 @@ namespace _3DPresentation.Models
             if (i1 > i3) { int temp = i1; i1 = i3; i3 = temp; }
             Nodes[i1].RelativeNodes.Add(new RelativeNode(Nodes[i2], Nodes[i3]));
             return true;
+        }        
+        
+        public void End()
+        {
+            int iCurrentPartition = 0;            
+            FacePartition partition = Partitions[iCurrentPartition];
+            for (int i = 0; i < Nodes.Length; i++)
+            {               
+                while (AddNode(partition, Nodes[i]) == false)
+                {
+                    iCurrentPartition++;
+                    if (iCurrentPartition == Partitions.Count)
+                        return;
+                    partition = Partitions[iCurrentPartition];
+                }
+            }
+            Nodes = null;
+
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                Partitions[i].End();
+            }
+
+            foreach (FacePartition par in Partitions)
+                par.InitNormals();
+        }        
+
+        public void InitBuffers(GraphicsDevice graphicsDevice)
+        {
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                Partitions[i].InitBuffers(graphicsDevice);
+            }
+        }
+
+        public void Render(GraphicsDevice graphicsDevice)
+        {
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                Partitions[i].Render(graphicsDevice);
+            }
         }
 
         private bool AddNode(FacePartition partition, Node node)
@@ -119,52 +160,6 @@ namespace _3DPresentation.Models
                 partition.AddIndice(node.lastIndex, relative.node2.lastIndex, relative.node3.lastIndex);
             }
             return true;
-        }
-        
-        public void End()
-        {
-            int iCurrentPartition = 0;            
-            FacePartition partition = Partitions[iCurrentPartition];
-            for (int i = 0; i < Nodes.Length; i++)
-            {               
-                while (AddNode(partition, Nodes[i]) == false)
-                {
-                    iCurrentPartition++;
-                    if (iCurrentPartition == Partitions.Count)
-                        return;
-                    partition = Partitions[iCurrentPartition];
-                }
-            }
-            Nodes = null;
-
-            for (int i = 0; i < Partitions.Count; i++)
-            {
-                Partitions[i].End();
-            }
-
-            foreach (FacePartition par in Partitions)
-                par.InitNormals();
-        }
-
-        public void InitBuffers(GraphicsDevice graphicsDevice)
-        {
-            for (int i = 0; i < Partitions.Count; i++)
-            {
-                Partitions[i].InitBuffers(graphicsDevice);
-            }
-        }
-
-        public void RenderPartition(GraphicsDevice graphicsDevice, int partitionIndex)
-        {
-            if (Partitions[partitionIndex].IsValid == false)
-                return;
-            VertexBuffer vertexBuffer = Partitions[partitionIndex].VertexBuffer;
-            IndexBuffer indexBuffer = Partitions[partitionIndex].GetIndexBuffer();
-
-            graphicsDevice.SetVertexBuffer(vertexBuffer);
-            graphicsDevice.Indices = indexBuffer;
-
-            graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertexBuffer.VertexCount, 0, indexBuffer.IndexCount / 3);
         }
     }
 }

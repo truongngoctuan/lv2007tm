@@ -121,9 +121,14 @@ namespace _3DPresentation.Models
             Indices = null;
         }
 
-        public IndexBuffer GetIndexBuffer()
+        public void Render(GraphicsDevice graphicsDevice)
         {
-            return IndexBuffer;
+            if (IsValid == false)
+                return;
+            graphicsDevice.SetVertexBuffer(VertexBuffer);
+            graphicsDevice.Indices = IndexBuffer;
+
+            graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, VertexBuffer.VertexCount, 0, IndexBuffer.IndexCount / 3);
         }
     }
 }

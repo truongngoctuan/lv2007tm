@@ -28,6 +28,11 @@ namespace _3DPresentation.Models
             {
                 Partitions.Add(new PointPartition(PartitionSize));
             }
+
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                Partitions[i].Begin();
+            }
         }
 
         public bool AddVertex(Vector3 position, Color color)
@@ -44,6 +49,10 @@ namespace _3DPresentation.Models
 
         public void End()
         {
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                Partitions[i].End();
+            }
         }
 
         public void InitBuffers(GraphicsDevice graphicsDevice)
@@ -54,15 +63,12 @@ namespace _3DPresentation.Models
             }
         }
 
-        public void RenderPartition(GraphicsDevice graphicsDevice, int partitionIndex)
+        public void Render(GraphicsDevice graphicsDevice)
         {
-            VertexBuffer vertexBuffer = Partitions[partitionIndex].VertexBuffer;
-            IndexBuffer indexBuffer = Partitions[partitionIndex].GetIndexBuffer();
-
-            graphicsDevice.SetVertexBuffer(vertexBuffer);
-            graphicsDevice.Indices = indexBuffer;
-
-            graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertexBuffer.VertexCount, 0, indexBuffer.IndexCount / 3);
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                Partitions[i].Render(graphicsDevice);
+            }
         }
     }
 }

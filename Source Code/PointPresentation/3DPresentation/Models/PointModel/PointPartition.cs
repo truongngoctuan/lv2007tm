@@ -9,19 +9,30 @@ namespace _3DPresentation.Models
     public class PointPartition
     {
         private VertexPositionOffsetColor[] Vertices;
+        private ushort[] Indices;
         public int PartitionSize;
         private int Current;
         public VertexBuffer VertexBuffer;
         public IndexBuffer IndexBuffer;
 
+        public bool IsValid
+        {
+            get;
+            private set;
+        }
+
         public PointPartition(int partitionSize)
         {
             PartitionSize = partitionSize;
-            Current = 0;
-            Vertices = new VertexPositionOffsetColor[PartitionSize * 4];            
+            Current = 0;                    
         }
 
-        Random r = new Random();
+        public void Begin()
+        {
+            Vertices = new VertexPositionOffsetColor[PartitionSize * 4];
+            Indices = new ushort[PartitionSize * 6];
+        }
+
         public bool AddPoint(Vector3 position, Color color)
         {
             if (Current >= PartitionSize * 4)
@@ -37,35 +48,49 @@ namespace _3DPresentation.Models
             return true;
         }
 
+        public void End()
+        {
+            ushort index = 0;
+            for (int i = 0; i < Indices.Length; )
+            {
+                // clockwise triangle
+                Indices[i++] = index++;
+                Indices[i++] = index++;
+                Indices[i++] = index--;
+
+                // counter-clockwise triangle
+                Indices[i++] = index++;
+                Indices[i++] = index++;
+                Indices[i++] = index++;
+            }
+        }
+
         public void InitBuffers(GraphicsDevice graphicsDevice)
         {
+            if ((Vertices.Length == 0) || (Indices.Length < 3))
+            {
+                IsValid = false;
+                return;
+            }
+
             VertexBuffer = new VertexBuffer(graphicsDevice, VertexPositionOffsetColor.VertexDeclaration, Vertices.Length, BufferUsage.WriteOnly);
             VertexBuffer.SetData(0, Vertices, 0, Vertices.Length, 0);
 
-            ushort[] indices = new ushort[PartitionSize * 6];
-            ushort index = 0;
-            for (int i = 0; i < indices.Length;)
-            {
-                // clockwise triangle
-                indices[i++] = index++;
-                indices[i++] = index++;
-                indices[i++] = index--;
-
-                // counter-clockwise triangle
-                indices[i++] = index++;
-                indices[i++] = index++;
-                indices[i++] = index++;
-            }
-            IndexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, indices.Length, BufferUsage.WriteOnly);
-            IndexBuffer.SetData(0, indices, 0, indices.Length);
+            IndexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, Indices.Length, BufferUsage.WriteOnly);
+            IndexBuffer.SetData(0, Indices, 0, Indices.Length);
 
             Vertices = null;
-            indices = null;
+            Indices = null;
         }
 
-        public IndexBuffer GetIndexBuffer()
+        public void Render(GraphicsDevice graphicsDevice)
         {
-            return IndexBuffer;
+            if (IsValid == false)
+                return;
+            graphicsDevice.SetVertexBuffer(VertexBuffer);
+            graphicsDevice.Indices = IndexBuffer;
+
+            graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, VertexBuffer.VertexCount, 0, IndexBuffer.IndexCount / 3);
         }
     }
 }
