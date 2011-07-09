@@ -28,9 +28,9 @@ namespace _3DPresentation
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //this.RootVisual = new MainPage();
-            this.RootVisual = new EditorView();
-            //this.RootVisual = mainUI;
-            //mainUI.Children.Add(new MainPage());
+            //this.RootVisual = new EditorView();
+            this.RootVisual = mainUI;
+            mainUI.Children.Add(new MainPage());
         }
 
         public static void GoToPage(UserControl nextPg)
