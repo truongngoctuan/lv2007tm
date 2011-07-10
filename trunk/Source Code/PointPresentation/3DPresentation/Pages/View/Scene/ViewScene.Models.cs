@@ -12,7 +12,7 @@ namespace _3DPresentation
 {
     public partial class ViewScene
     {
-        private static object lockThis = new object();
+        private object lockThis = new object();
         List<BaseModel> Models = new List<BaseModel>();
         private void PrepareModels()
         {
@@ -22,40 +22,63 @@ namespace _3DPresentation
         {
             if (model.IsLoaded == false)
                 return false;
-            if (Models.Contains(model))
-                return true;
-    
-            Models.Add(model);
-            if (Models.Count == 1)
-                SetTarget(model);
-            return true;
+            bool result = false;
+            lock (lockThis)
+            {
+                if (Models.Contains(model))
+                    result = true;
+                else
+                {
+                    Models.Add(model);
+                    if (Models.Count == 1)
+                        SetTarget(model);
+                    result = true;
+                }
+            }
+            return result;
         }
 
         public bool RemoveModel(BaseModel model)
         {
             if (model == null)
+
                 return false;
-            if (Models.Contains(model) == false)
-                return false;
-            return Models.Remove(model);
+            bool result = false;
+            lock (lockThis)
+            {
+                if (Models.Contains(model) == false)
+                    result = false;
+                else
+                    result = Models.Remove(model);
+            }
+            return result;
         }
 
         public void ClearModels()
         {
-            Models.Clear();
+            lock (lockThis)
+            {
+                Models.Clear();
+            }
         }
 
         public bool SetTarget(BaseModel model)
         {
             if (model == null)
                 return false;
-            if (Models.Contains(model) == false)
-                return false;
-
-            TargetModel = model;
-            Camera.Radius = TargetModel.BoundingInfo.BoundingSphereWorld.Radius * 2.0f;
-            Camera.Target = TargetModel.BoundingInfo.BoundingSphereWorld.Center;
-            return true;
+            bool result = false;
+            lock (lockThis)
+            {
+                if (Models.Contains(model))
+                    result = false;
+            }
+            if (result)
+            {
+                TargetModel = model;
+                Camera.Radius = TargetModel.BoundingInfo.BoundingSphereWorld.Radius * 2.0f;
+                Camera.Target = TargetModel.BoundingInfo.BoundingSphereWorld.Center;
+            }
+            return result;
         }
     }
 }
