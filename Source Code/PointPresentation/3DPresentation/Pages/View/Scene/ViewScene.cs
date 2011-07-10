@@ -13,22 +13,6 @@ namespace _3DPresentation
     {
         // the device to use when creating resources
         //static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
-        private GraphicsDevice device;
-        private GraphicsDevice Device
-        {
-            get
-            {
-                if (device == null)
-                    return GraphicsDeviceManager.Current.GraphicsDevice;
-                return device;
-            }
-            set
-            {
-                if(value != null)
-                    device = value;
-            }
-        }
-
         OrbitCamera Camera = new OrbitCamera { Alpha = (float)Math.PI / 2 };
         private UserControl Container;
         private DrawingSurface Surface { get; set; }

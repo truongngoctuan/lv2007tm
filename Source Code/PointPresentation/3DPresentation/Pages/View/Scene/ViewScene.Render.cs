@@ -27,7 +27,8 @@ namespace _3DPresentation
                     CullMode = CullMode.None
                 };
 
-                foreach (BaseModel model in Models)
+                BaseModel[] modelList = Models.ToArray();
+                foreach (BaseModel model in modelList)
                 {
                     if (model.IsEnabled)
                     {
@@ -38,6 +39,7 @@ namespace _3DPresentation
                         model.Render(graphicsDevice);
                     }
                 }
+                modelList = null;
             }
             catch (ArgumentException ex)
             {

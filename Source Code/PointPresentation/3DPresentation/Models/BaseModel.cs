@@ -243,6 +243,8 @@ namespace _3DPresentation.Models
                     oThread.Start(graphicsDevice);
                 }
             }
+
+            // derived class render here
         }
 
         public void DoWork(object data)
