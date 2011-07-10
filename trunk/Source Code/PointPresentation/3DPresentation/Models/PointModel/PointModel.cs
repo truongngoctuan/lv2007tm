@@ -48,11 +48,22 @@ namespace _3DPresentation.Models
             pointManager.Render(graphicsDevice);
         }
 
-        protected override bool Export_PLY(StreamWriter writer)
+        protected override bool ExportVertexData(FileType fileType, VertexType vertexType, StreamWriter writer)
         {
             if (writer == null)
                 return false;
-            return pointManager.Export_PLY(writer, WorldMatrix);
+            if(fileType == FileType.PLY)
+                return pointManager.ExportVertexData(fileType, vertexType, writer, WorldMatrix);
+            return false;
+        }
+
+        protected override bool ExportIndiceData(FileType fileType, VertexType vertexType, StreamWriter writer, long offset)
+        {
+            if (writer == null)
+                return false;
+            if(fileType == FileType.PLY)
+                return pointManager.ExportIndiceData(fileType, vertexType, writer, WorldMatrix, offset);
+            return false;
         }
     }
 }

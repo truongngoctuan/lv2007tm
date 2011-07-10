@@ -270,8 +270,9 @@ namespace _3DPresentation.Models
         public long NumPoints;
         public long NumFaces;
 
-        private static void WriteHeader(FileType fileType, VertexType vertexType, long nPoints, long nFaces, StreamWriter writer)
+        private static bool WriteHeader(FileType fileType, VertexType vertexType, long nPoints, long nFaces, StreamWriter writer)
         {
+            bool result = false;
             if (fileType == FileType.PLY && writer != null)
             {
                 writer.WriteLine("ply");
@@ -305,27 +306,31 @@ namespace _3DPresentation.Models
                     writer.WriteLine("property float32 ny");
                     writer.WriteLine("property float32 nz");
                 }
+                else
+                {
+                    return false;
+                }
                 writer.WriteLine("element face " + nFaces);                
                 writer.WriteLine("end_header");
+                result = true;
             }
+            return result;
         }
 
-        public bool Export(FileInfo file, FileType fileType)
+        public bool Export(FileType fileType, VertexType vertexType, FileInfo file)
         {
             bool result = false;
             using (StreamWriter writer = new StreamWriter(file.OpenWrite()))
             {
-                WriteHeader(fileType, VertexType.XYZ_RGB, NumPoints, NumFaces, writer);
-                Export_PLY(writer);
+                if (result = WriteHeader(fileType, vertexType, NumPoints, NumFaces, writer))
+                {
+                    result = Export(fileType, vertexType, writer);
+                }
             }
             return result;
-        }
-        protected virtual bool Export_PLY(StreamWriter writer)
-        {
-            throw new NotImplementedException();
-        }
+        }        
 
-        public bool ExportAll(BaseModel[] models, string batchName, FileType fileType)
+        public bool ExportAll(VertexType vertexType, BaseModel[] models, string batchName, FileType fileType)
         {
             bool result = true;
             string storeDirectory = Utils.Global.GetRealModelStoreDirectory();
@@ -334,10 +339,70 @@ namespace _3DPresentation.Models
                 if (fileType == FileType.PLY)
                 {
                     FileInfo file = Utils.Global.GetRealFile(storeDirectory + batchName + '/' + models[i].Name + ".ply");
-                    result = models[i].Export(file, FileType.PLY);
+                    if (models[i].Export(fileType, vertexType, file) == false)
+                        result = false;
                 }
             }
             return result;
         }
+
+        public bool ExportUnitedModel(FileType fileType, VertexType vertexType, BaseModel[] models, string batchName)
+        {            
+            string storeDirectory = Utils.Global.GetRealModelStoreDirectory();
+            FileInfo file = Utils.Global.GetRealFile(storeDirectory + batchName + ".ply");
+
+            long nPoints = 0;
+            long nFaces = 0;
+            for (int i = 0; i < models.Length; i++)
+            {
+                nPoints += models[i].NumPoints;
+                nFaces += models[i].NumFaces;
+            }
+
+            bool result = true;
+            using (StreamWriter writer = new StreamWriter(file.OpenWrite()))
+            {
+                if (result = WriteHeader(fileType, VertexType.XYZ_RGB, NumPoints, NumFaces, writer))
+                {
+                    for (int i = 0; i < models.Length; i++)
+                    {
+                        if (fileType == FileType.PLY)
+                        {
+                            if (models[i].ExportVertexData(fileType, vertexType, writer) == false)
+                                result = false;
+                        }
+                    }
+
+                    if (result)
+                    {
+                        long offset = 0;
+                        for (int i = 0; i < models.Length; i++)
+                        {
+                            if (fileType == FileType.PLY)
+                            {
+                                if (models[i].ExportIndiceData(fileType, vertexType, writer, offset) == false)
+                                    result = false;
+                            }
+                            offset += models[i].NumPoints;
+                        }
+                    }
+                }
+            }
+            return result;
+        }
+
+        protected bool Export(FileType fileType, VertexType vertexType, StreamWriter writer)
+        {
+            if (fileType == FileType.PLY)
+            {
+                if (ExportVertexData(fileType, vertexType, writer) == false)
+                    return false;
+                if (ExportIndiceData(fileType, vertexType, writer) == false)
+                    return false;
+            }
+            return true;
+        }
+        protected abstract bool ExportVertexData(FileType fileType, VertexType vertexType, StreamWriter writer);
+        protected abstract bool ExportIndiceData(FileType fileType, VertexType vertexType, StreamWriter writer, long offset = 0);
     }
 }

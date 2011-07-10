@@ -72,14 +72,29 @@ namespace _3DPresentation.Models
             }
         }
 
-        public bool Export_PLY(StreamWriter writer, Matrix worldMatrix)
+        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix)
         {
             if (writer == null)
                 return false;
             bool result = true;
             for (int i = 0; i < Partitions.Count; i++)
             {
-                Partitions[i].Export_PLY(writer, worldMatrix);
+                if (Partitions[i].ExportVertexData(fileType, vertexType, writer, worldMatrix) == false)
+                    result = false;
+            }
+            return result;
+        }
+
+        public bool ExportIndiceData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix, long offset)
+        {
+            if (writer == null)
+                return false;
+
+            bool result = true;
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                if (Partitions[i].ExportIndiceData(fileType, vertexType, writer, worldMatrix, offset) == false)
+                    result = false;
             }
             return result;
         }

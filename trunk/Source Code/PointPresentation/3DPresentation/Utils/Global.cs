@@ -57,7 +57,7 @@ namespace _3DPresentation.Utils
                 GetRealDirectory(file.Directory.FullName);
             if (file.Exists == false)
             {
-                //file.Create();
+                file.Create().Close();
             }
             return file;
         }
@@ -175,26 +175,6 @@ namespace _3DPresentation.Utils
             stream2.Close();
 
             return bi;
-        }
-
-        public static string GetRandomSnapshot()
-        {
-            string [] str = new string[] {
-                "Views/Editor/Images/j0309223.jpg",
-                "Views/Editor/Images/j0314069.jpg",
-                "Views/Editor/Images/j0402444.jpg",
-                "Views/Editor/Images/j0406500.jpg",
-                "Views/Editor/Images/j0406702.jpg",
-                "Views/Editor/Images/j0407544.jpg",
-                "Views/Editor/Images/j0422769.jpg",
-                "Views/Editor/Images/j0428653.jpg",
-                "Views/Editor/Images/j0314059.jpg",
-                "Views/Editor/Images/j0430836.jpg",
-                "Views/Editor/Images/j0431767.jpg",
-                "Views/Editor/Images/j0433157.jpg"
-            };
-            Random rd = new Random();
-            return str[rd.Next(str.Length)];
         }
     }
 }
