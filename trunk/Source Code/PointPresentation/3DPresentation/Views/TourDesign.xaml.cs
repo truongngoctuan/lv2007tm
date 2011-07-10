@@ -9,10 +9,23 @@ namespace _3DPresentation.Views
     public partial class TourDesign : UserControl
     {
         public bool IsLoaded { get; private set; }
+        public BaseModel SelectedModel { get; private set; }
         public TourDesign()
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(TourDesign_Loaded);
+            this.openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
+            this.cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
+        }
+
+        void cbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            SelectedModel = (BaseModel)cbModels.SelectedItem;
+        }
+
+        void openFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
+        {
+            ImportModel(e.FileInfo);
         }
 
         void TourDesign_Loaded(object sender, RoutedEventArgs e)
@@ -58,12 +71,18 @@ namespace _3DPresentation.Views
 
         private bool AddModel(BaseModel model)
         {
-            return tourControl.AddModel(model);
+            bool result = tourControl.AddModel(model);
+            if (result)
+                cbModels.Items.Add(model);
+            return result;
         }
 
         private bool RemoveModel(BaseModel model)
         {
-            return tourControl.RemoveModel(model);
+            bool result = tourControl.RemoveModel(model);
+            if (result)
+                cbModels.Items.Add(model);
+            return result;
         }
     }
 }

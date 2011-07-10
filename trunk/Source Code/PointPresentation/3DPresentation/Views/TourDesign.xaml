@@ -10,5 +10,6 @@
     <Grid x:Name="LayoutRoot" Background="White">
         <my:TourControl x:Name="tourControl"/>
         <my:OpenFileControl x:Name="openFile" Label="Add Model" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+        <ComboBox x:Name="cbModels" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="200"/>
     </Grid>
 </UserControl>

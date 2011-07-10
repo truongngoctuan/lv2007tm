@@ -24,13 +24,10 @@ namespace _3DPresentation
                 return false;
             if (Models.Contains(model))
                 return true;
-
-            lock (lockThis)
-            {
-                Models.Add(model);
-                if (Models.Count == 1)
-                    SetTarget(model);
-            }
+    
+            Models.Add(model);
+            if (Models.Count == 1)
+                SetTarget(model);
             return true;
         }
 
@@ -40,12 +37,7 @@ namespace _3DPresentation
                 return false;
             if (Models.Contains(model) == false)
                 return false;
-            bool result = false; 
-            lock (lockThis)
-            {
-                result = Models.Remove(model);
-            }
-            return result;
+            return Models.Remove(model);
         }
 
         public void ClearModels()
