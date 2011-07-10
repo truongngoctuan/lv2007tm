@@ -83,7 +83,11 @@ namespace _3DPresentation.Views.Editor
                 {
                     string strPath = fi.FullName;
                     strPath = strPath.Replace(".ply", ".jpg");
-                    ParentEditor.AddFrame(fi, strPath);
+                    //ParentEditor.AddFrame(fi, strPath);
+
+                    ParentEditor.AddFrame(fi, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+
+
                 }
             }
 

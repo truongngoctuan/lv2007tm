@@ -143,6 +143,7 @@
     <Compile Include="Effects\MyBasicEffect\MyBasicEffect.cs" />
     <Compile Include="Effects\NoEffect\NoEffect.cs" />
     <Compile Include="Effects\VertexDeclarations.cs" />
+    <Compile Include="Utils\COMAutomation.cs" />
     <Compile Include="Utils\Global.cs" />
     <Compile Include="Utils\GlobalVars.cs" />
     <Compile Include="MainPage.xaml.cs">

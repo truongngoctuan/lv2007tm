@@ -11,6 +11,8 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Threading;
 using _3DPresentation.Models;
+using _3DPresentation.Utils;
+using System.IO;
 
 namespace _3DPresentation.Views.Editor
 {
@@ -30,10 +32,50 @@ namespace _3DPresentation.Views.Editor
             InitializeComponent();
         }
 
+        #region NewCaptureModel
+        COMAutomation ca = new COMAutomation();
         private void btNewCaptureModel_Click(object sender, RoutedEventArgs e)
         {
+            ParentEditor.SetupWorkingDirectory();
+            string strQuery =
+                string.Format("{0} {1} {2} {3} {4}",
+                              ParentEditor.WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
+                              "player",
+                              ParentEditor.WorkingDirectory + "\\result",
+                              ParentEditor.WorkingDirectory + "\\recorded\\grab7",
+                              ParentEditor.WorkingDirectory + "\\recontructor\\kineck_calibration.yml");
+            COMAutomation.Cmd(strQuery);
 
+            ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent);
+            ca.DeleteFileEvent += new EventHandler(ca_DeleteFileEvent);
+
+            string strWatchFolder = (ParentEditor.WorkingDirectory + "\\result").Replace(@"\", @"\\\\").Replace(@"\\\\\\\\", @"\\\\");
+            ca.FolderListener(strWatchFolder);
         }
+
+        void ca_DeleteFileEvent(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
+        void ca_CreateFileEvent(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                string strFileName = ca.FileName;
+
+                FileInfo fi = new FileInfo(strFileName);
+                if (fi.Extension.Equals(".ply"))
+                {
+                    if (fi.Name.StartsWith("NotDecreaseSameVertex"))
+                    {
+                        ParentEditor.AddFrame(strFileName, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+                    }
+
+                }
+            });
+        }
+        #endregion
 
         private void btPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -63,7 +105,7 @@ namespace _3DPresentation.Views.Editor
 
                 for (int i = 0; i < arrFrameName.Count; i++)
                 {
-                    ParentEditor.AddFrame(arrFrameName[i], arrFrameThumnail[i]);
+                    ParentEditor.AddFrame(arrFrameName[i], new PathUri(arrFrameThumnail[i], true));
                     //System.Threading.Thread.Sleep(2000);
                 }
                 }
@@ -76,7 +118,12 @@ namespace _3DPresentation.Views.Editor
 
         private void btStop_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("asdasd");
+            string[] lines = { "exit" };
+
+            _3DPresentation.Utils.COMAutomation.StopCommand(ParentEditor.WorkingDirectory + "\\result\\cm.txt",
+                ParentEditor.WorkingDirectoryTemp + "\\cm.txt", lines);
         }
+
+
     }
 }
