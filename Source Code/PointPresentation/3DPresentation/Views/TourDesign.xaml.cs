@@ -3,24 +3,61 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using _3DPresentation.Models;
+using Microsoft.Xna.Framework;
 
 namespace _3DPresentation.Views
 {
     public partial class TourDesign : UserControl
     {
         public bool IsLoaded { get; private set; }
-        public BaseModel SelectedModel { get; private set; }
+        //public BaseModel SelectedModel { get; private set; }
         public TourDesign()
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(TourDesign_Loaded);
+            this.KeyDown += new System.Windows.Input.KeyEventHandler(TourDesign_KeyDown);
             this.openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
             this.cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
         }
 
+        void TourDesign_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (tourControl.Target != null)
+            {       
+                Vector3 moveDirection = Vector3.Zero;
+                Matrix mat = Matrix.CreateFromYawPitchRoll(tourControl.Camera.RotationY, tourControl.Camera.RotationX, tourControl.Camera.RotationZ);
+                if (e.Key == System.Windows.Input.Key.W)
+                {
+                    moveDirection = MathUtil.TransformPoint(mat, Vector3.Up);
+                }
+                else if (e.Key == System.Windows.Input.Key.S)
+                {
+                    moveDirection = MathUtil.TransformPoint(mat, Vector3.Down);
+                }
+                else if (e.Key == System.Windows.Input.Key.A)
+                {
+                    moveDirection = MathUtil.TransformPoint(mat, Vector3.Left);
+                }
+                else if (e.Key == System.Windows.Input.Key.D)
+                {
+                    moveDirection = MathUtil.TransformPoint(mat, Vector3.Right);
+                }
+                else if (e.Key == System.Windows.Input.Key.Q)
+                {
+                    moveDirection = MathUtil.TransformPoint(mat, Vector3.Backward);
+                }
+                else if (e.Key == System.Windows.Input.Key.E)
+                {
+                    moveDirection = MathUtil.TransformPoint(mat, Vector3.Forward);
+                }
+                moveDirection /= 10;
+                tourControl.Target.Position += moveDirection;
+            }
+        }
+
         void cbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            SelectedModel = (BaseModel)cbModels.SelectedItem;
+            //SelectedModel = (BaseModel)cbModels.SelectedItem;
         }
 
         void openFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)

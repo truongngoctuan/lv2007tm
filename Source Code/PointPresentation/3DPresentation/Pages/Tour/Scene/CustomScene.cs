@@ -28,7 +28,10 @@ namespace _3DPresentation
         {
             get { return Engine.FPS; }
         }
-        BaseModel Target;
+        public BaseModel Target
+        {
+            get { return selectedMesh; }
+        }
         public Vector3 CameraPosition { get { return ActiveCamera.Position; } }
         public Vector3 TargetPosition
         {

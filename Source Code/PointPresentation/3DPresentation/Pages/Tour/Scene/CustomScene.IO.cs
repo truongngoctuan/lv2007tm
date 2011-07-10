@@ -19,7 +19,7 @@ namespace _3DPresentation
             Load(Utils.Global.GetLocalStream(sceneUri));
         }
 
-        public void LoadPack(Uri sceneUri)
+        public override void LoadPack(Uri sceneUri)
         {
             //LoadMode = Mode.Package;
 
