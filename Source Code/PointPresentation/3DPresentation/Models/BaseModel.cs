@@ -325,14 +325,17 @@ namespace _3DPresentation.Models
             throw new NotImplementedException();
         }
 
-        public bool ExportAll(BaseModel[] models, string batchName)
+        public bool ExportAll(BaseModel[] models, string batchName, FileType fileType)
         {
             bool result = true;
             string storeDirectory = Utils.Global.GetRealModelStoreDirectory();
             for (int i = 0; i < models.Length; i++)
             {
-                FileInfo file = Utils.Global.GetRealFile(storeDirectory + batchName + '/' + models[i].Name + ".ply");
-                result = models[i].Export(file, FileType.PLY);
+                if (fileType == FileType.PLY)
+                {
+                    FileInfo file = Utils.Global.GetRealFile(storeDirectory + batchName + '/' + models[i].Name + ".ply");
+                    result = models[i].Export(file, FileType.PLY);
+                }
             }
             return result;
         }
