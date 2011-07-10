@@ -50,6 +50,11 @@ namespace _3DPresentation
             Surface.SizeChanged += new System.Windows.SizeChangedEventHandler(Surface_SizeChanged);
             Surface.Draw += new System.EventHandler<DrawEventArgs>(Surface_Draw);
 
+            InitScene();
+        }
+
+        private void InitScene()
+        {
             PrepareIO();
             PrepareModels();
             PrepareRender();

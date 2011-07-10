@@ -28,6 +28,8 @@ namespace _3DPresentation
             lock (lockThis)
             {
                 Models.Add(model);
+                if (Models.Count == 1)
+                    SetTarget(model);
             }
             return true;
         }

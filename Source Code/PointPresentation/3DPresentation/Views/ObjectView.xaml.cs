@@ -1,20 +1,22 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using _3DPresentation.Models;
 
+
 namespace _3DPresentation.Views
 {
-    public partial class TourView : UserControl
+    public partial class ObjectView : UserControl
     {
         public bool IsLoaded { get; private set; }
-        public TourView()
-        {            
+        public ObjectView()
+        {
             InitializeComponent();
-            this.Loaded += new System.Windows.RoutedEventHandler(TourView_Loaded);
+            this.Loaded += new RoutedEventHandler(ObjectView_Loaded);
         }
 
-        void TourView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        void ObjectView_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
             ExecuteScript("abc");
@@ -24,7 +26,6 @@ namespace _3DPresentation.Views
         {
             if (IsLoaded == false)
                 return false;
-            LoadSceneLocal("espilit");
             ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
             return true;
         }
@@ -37,32 +38,29 @@ namespace _3DPresentation.Views
             return AddModel(model);
         }
 
-        private void LoadScene(string scene)
+        private BaseModel GetTarget()
         {
-            Uri sceneUri = new Uri("http://www.catuhe.com/BSF/" + scene);
-            tourControl.LoadScene(sceneUri);
+            return viewControl.GetTarget();
         }
 
-        private void LoadSceneInPackage(string scene)
+        private bool SetTarget(BaseModel model)
         {
-            Uri sceneUri = Utils.Global.MakePackUri(string.Format("Resources/Models/{0}.bsf", scene));
-            tourControl.LoadSceneLocal(sceneUri);
+            return viewControl.SetTarget(model);
         }
-
-        private void LoadSceneLocal(string scene)
-        {
-            Uri sceneUri = Utils.Global.MakeStoreUri(string.Format("Scene/{0}/{0}.bsf", scene));
-            tourControl.LoadSceneLocal(sceneUri);
-        }        
 
         private bool AddModel(BaseModel model)
         {
-            return tourControl.AddModel(model);
+            return viewControl.AddModel(model);
         }
 
         private bool RemoveModel(BaseModel model)
         {
-            return tourControl.RemoveModel(model);
+            return viewControl.RemoveModel(model);
+        }
+
+        private void ClearModels()
+        {
+            viewControl.ClearModels();
         }
     }
 }
