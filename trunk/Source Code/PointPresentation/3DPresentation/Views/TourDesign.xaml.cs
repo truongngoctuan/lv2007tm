@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using _3DPresentation.Models;
 using Microsoft.Xna.Framework;
+using _3DPresentation.Views.Editor;
 
 namespace _3DPresentation.Views
 {
@@ -18,6 +19,13 @@ namespace _3DPresentation.Views
             this.KeyDown += new System.Windows.Input.KeyEventHandler(TourDesign_KeyDown);
             this.openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
             this.cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
+            cbbModel.SelectionChanged += new EventHandler(cbbModel_SelectionChanged);
+        }
+
+        void cbbModel_SelectionChanged(object sender, EventArgs e)
+        {
+            //throw new NotImplementedException();
+            //SelectedModel = (BaseModel)cbModels.SelectedItem;
         }
 
         void TourDesign_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
@@ -77,6 +85,8 @@ namespace _3DPresentation.Views
                 return false;
             LoadSceneLocal("espilit");
             ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
+            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
+            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
             return true;
         }
 
@@ -85,6 +95,8 @@ namespace _3DPresentation.Views
             BaseModel model = BaseModel.Import(file);
             if (model == null)
                 return false;
+
+            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return AddModel(model);
         }
 

@@ -5,9 +5,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:my="clr-namespace:_3DPresentation"
-    d:DesignHeight="300" d:DesignWidth="400">
+    d:DesignHeight="300" d:DesignWidth="400"
+             xmlns:customControlEditor="clr-namespace:_3DPresentation.Views.Editor"
+             >
     
     <Grid x:Name="LayoutRoot" Background="White">
         <my:TourControl x:Name="tourControl"/>
+        <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>
     </Grid>
 </UserControl>
