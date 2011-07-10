@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 
 namespace _3DPresentation.Models
@@ -69,6 +70,18 @@ namespace _3DPresentation.Models
             {
                 Partitions[i].Render(graphicsDevice);
             }
+        }
+
+        public bool Export_PLY(StreamWriter writer, Matrix worldMatrix)
+        {
+            if (writer == null)
+                return false;
+            bool result = true;
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                Partitions[i].Export_PLY(writer, worldMatrix);
+            }
+            return result;
         }
     }
 }
