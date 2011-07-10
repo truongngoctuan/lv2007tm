@@ -27,19 +27,20 @@ namespace _3DPresentation
                     CullMode = CullMode.None
                 };
 
-                BaseModel[] modelList = Models.ToArray();
-                foreach (BaseModel model in modelList)
+                lock (Models)
                 {
-                    if (model.IsEnabled)
+                    foreach (BaseModel model in Models)
                     {
-                        if (model is PointModel)
-                            SetShaderEffect(EffectManager.ShaderEffects.PointEffect, graphicsDevice, model.WorldMatrix);
-                        else
-                            SetShaderEffect(EffectManager.ShaderEffects.NoEffect, graphicsDevice, model.WorldMatrix);
-                        model.Render(graphicsDevice);
+                        if (model.IsEnabled)
+                        {
+                            if (model is PointModel)
+                                SetShaderEffect(EffectManager.ShaderEffects.PointEffect, graphicsDevice, model.WorldMatrix);
+                            else
+                                SetShaderEffect(EffectManager.ShaderEffects.NoEffect, graphicsDevice, model.WorldMatrix);
+                            model.Render(graphicsDevice);
+                        }
                     }
                 }
-                modelList = null;
             }
             catch (ArgumentException ex)
             {
