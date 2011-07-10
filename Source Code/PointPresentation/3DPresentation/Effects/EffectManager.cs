@@ -11,9 +11,40 @@ namespace _3DPresentation.Effects
         // the device to use when creating resources
         static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
-        public static NoEffect NoEffect { get; private set; }
-        public static TexturedNoEffect TexturedNoEffect { get; private set; }
-        public static PointEffect PointEffect { get; private set; }
+        private static NoEffect noEffect;
+        public static TexturedNoEffect texturedNoEffect;
+        public static PointEffect pointEffect;
+
+        public static NoEffect NoEffect 
+        { 
+            get 
+            {
+                if (!IsReady)
+                    InitEffects();
+                return noEffect; 
+            } 
+            private set { noEffect = value; } 
+        }
+        public static TexturedNoEffect TexturedNoEffect
+        {
+            get 
+            {
+                if (!IsReady)
+                    InitEffects(); 
+                return texturedNoEffect;
+            }
+            private set { texturedNoEffect = value; }
+        }
+        public static PointEffect PointEffect
+        {
+            get
+            {
+                if (!IsReady)
+                    InitEffects(); 
+                return pointEffect;
+            }
+            private set { pointEffect = value; }
+        }
 
         public static bool IsReady { get; set; }
         public static void InitEffects()
@@ -21,16 +52,17 @@ namespace _3DPresentation.Effects
             if (IsReady)
                 return;
 
-            NoEffect = new NoEffect(resourceDevice);
-            TexturedNoEffect = new TexturedNoEffect(resourceDevice);
-            PointEffect = new PointEffect(resourceDevice);
+            noEffect = new NoEffect(resourceDevice);
 
-            TexturedNoEffect.DiffuseTexture = Utils.Global.LoadTexture("Images/3.jpg", resourceDevice);
+            texturedNoEffect = new TexturedNoEffect(resourceDevice);
+            texturedNoEffect.DiffuseTexture = Utils.Global.LoadTexture("Images/3.jpg", resourceDevice);
+
+            pointEffect = new PointEffect(resourceDevice);
 
             IsReady = true;
         }
 
-        public static Effect GetEffect(ShaderEffects effect)
+        private static Effect GetEffect(ShaderEffects effect)
         {
             Effect newEffect = null;
             if (effect == ShaderEffects.NoEffect)

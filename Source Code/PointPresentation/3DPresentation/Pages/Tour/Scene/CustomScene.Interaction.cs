@@ -37,7 +37,7 @@ namespace _3DPresentation
         void Container_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             mouseLeftDown = true;
-            startPosition = e.GetPosition(Surface);            
+            startPosition = e.GetPosition(Surface);
         }
 
         void Container_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)

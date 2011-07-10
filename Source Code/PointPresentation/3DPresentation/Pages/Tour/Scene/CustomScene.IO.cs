@@ -14,10 +14,20 @@ namespace _3DPresentation
             LoadMode = Mode.Local;
 
             string sceneName = Path.GetFileNameWithoutExtension(sceneUri.ToString());
-            localRootStreamUri = Utils.Global.MakePackUri(sceneUri, string.Format("{0}.streams", sceneName));
+            localRootStreamUri = Utils.Global.MakeRelativeUri(sceneUri, string.Format("{0}.streams", sceneName));
 
-            Load(Utils.Global.GetStream(sceneUri));
-        }        
+            Load(Utils.Global.GetLocalStream(sceneUri));
+        }
+
+        public override void LoadPack(Uri sceneUri)
+        {
+            LoadMode = Mode.Package;
+
+            string sceneName = Path.GetFileNameWithoutExtension(sceneUri.ToString());
+            localRootStreamUri = Utils.Global.MakeRelativeUri(sceneUri, string.Format("{0}.streams", sceneName));
+
+            Load(Utils.Global.GetPackStream(sceneUri));
+        }
     }
 }
         

@@ -64,7 +64,7 @@ namespace _3DPresentation.Models
 
         private void LoadImage()
         {
-            Stream imageStream = Utils.Global.GetStream(ImagePath);
+            Stream imageStream = Utils.Global.GetPackStream(ImagePath);
             var bitmapImage = new BitmapImage();
             bitmapImage.SetSource(imageStream);
             writeableBitmap = new WriteableBitmap(bitmapImage);
@@ -76,7 +76,7 @@ namespace _3DPresentation.Models
         }
         private void LoadHeightData()
         {
-            Stream stream = Utils.Global.GetStream(DepthMapPath);
+            Stream stream = Utils.Global.GetPackStream(DepthMapPath);
             StreamReader sr = new StreamReader(stream);
             Width = 640;
             Height = 480;

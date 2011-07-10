@@ -24,6 +24,10 @@ namespace _3DPresentation
         volatile bool IsAddingModel;
         
         // Notifications
+        public float FPS
+        {
+            get { return Engine.FPS; }
+        }
         BaseModel Target;
         public Vector3 CameraPosition { get { return ActiveCamera.Position; } }
         public Vector3 TargetPosition
