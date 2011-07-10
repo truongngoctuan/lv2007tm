@@ -51,9 +51,15 @@ namespace _3DPresentation
             IsEnable = true;
             IsLoaded = false;
             IsAddingModel = false;
-
+            
             // Init Events
             this.Loaded += new EventHandler(CustomScene_Loaded);
+
+            // resourceDevice is only used to init, can't draw with this resourceDevice
+            if (engine.Device == null)
+            {
+                engine.Device = GlobalVars.resourceDevice;
+            }
         }
 
         void CustomScene_Loaded(object sender, EventArgs e)

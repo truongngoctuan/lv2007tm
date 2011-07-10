@@ -22,7 +22,7 @@ namespace _3DPresentation
         {
             get { return customScene.FPS; }
         }
-        public bool IsLoaded { get; private set; }
+        public bool IsSceneLoaded { get; private set; }
         public TourControl()
         {
             InitializeComponent();
@@ -46,6 +46,11 @@ namespace _3DPresentation
             cbScene.Items.Add("espilit.bsf");
         }
 
+        void TourControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
         void InitCustomScene()
         {
             customScene = new CustomScene(this, babylonSurface, "CustomScene", babylonSurface.Engine);
@@ -53,11 +58,6 @@ namespace _3DPresentation
 
             customScene.Drawed += new EventHandler(customScene_Drawed);
             babylonSurface.Loaded += new RoutedEventHandler(babylonSurface_Loaded);
-        }
-
-        void TourControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            IsLoaded = true;
         }
 
         void babylonSurface_Loaded(object sender, RoutedEventArgs e)

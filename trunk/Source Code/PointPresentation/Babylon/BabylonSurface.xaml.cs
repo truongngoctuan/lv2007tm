@@ -50,10 +50,11 @@ namespace Babylon
 
         void OnDraw(object sender, DrawEventArgs e)
         {
-            if (engine.Device == null)
-            {
+            //nhminh
+            //if (engine.Device == null)
+            //{
                 engine.Device = e.GraphicsDevice;
-            }
+            //}
 
             engine.BeginFrame(e);
 

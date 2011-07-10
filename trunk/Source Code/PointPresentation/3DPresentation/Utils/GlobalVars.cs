@@ -1,9 +1,14 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Silverlight;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace _3DPresentation
 {
     public class GlobalVars
     {
+        // the device to use when creating resources
+        public static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
+
         public static Color Red = Color.FromNonPremultiplied(255, 0, 0, 255);
         public static Color Green = Color.FromNonPremultiplied(0, 255, 0, 255);
         public static Color Blue = Color.FromNonPremultiplied(0, 0, 255, 255);
