@@ -27,7 +27,7 @@ namespace _3DPresentation
                     CullMode = CullMode.None
                 };
 
-                lock (Models)
+                lock (lockThis)
                 {
                     foreach (BaseModel model in Models)
                     {
