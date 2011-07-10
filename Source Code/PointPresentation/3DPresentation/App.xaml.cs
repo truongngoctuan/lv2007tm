@@ -9,12 +9,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using _3DPresentation.Views;
 
 namespace _3DPresentation
 {
     public partial class App : Application
     {
-
         public App()
         {
             this.Startup += this.Application_Startup;
@@ -30,7 +30,7 @@ namespace _3DPresentation
             //this.RootVisual = new MainPage();
             //this.RootVisual = new EditorView();
             this.RootVisual = mainUI;
-            mainUI.Children.Add(new TourControl());
+            mainUI.Children.Add(new TourDesign());
         }
 
         public static void GoToPage(UserControl nextPg)

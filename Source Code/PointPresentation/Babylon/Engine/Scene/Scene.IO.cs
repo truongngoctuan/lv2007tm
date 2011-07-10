@@ -7,7 +7,7 @@ namespace Babylon
     public partial class Scene
     {
         //nhminh
-        protected enum Mode { Online, Local };
+        protected enum Mode { Online, Local, Package };
         protected Mode LoadMode = Mode.Online;
 
         public event EventHandler<LoadEventArgs> LoadProgressionChanged;
@@ -24,6 +24,12 @@ namespace Babylon
         public virtual void LoadLocal(Uri sceneUri)
         {
             LoadMode = Mode.Local;
+            throw new NotImplementedException();
+        }
+
+        public virtual void LoadPack(Uri sceneUri)
+        {
+            LoadMode = Mode.Package;
             throw new NotImplementedException();
         }
 

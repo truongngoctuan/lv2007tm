@@ -8,7 +8,7 @@ namespace _3DPresentation.Effects
     public class EffectManager
     {
         public enum ShaderEffects { NoEffect, TexturedNoEffect, PointEffect }
-        // the device to use when creating resources
+        // the device to use when creating resources, can't use to draw
         static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
         private static NoEffect noEffect;

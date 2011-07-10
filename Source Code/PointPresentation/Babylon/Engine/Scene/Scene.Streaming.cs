@@ -11,6 +11,12 @@ namespace Babylon
         public int ItemsToStream { get; internal set; }
 
         //nhminh
+        protected virtual void GetPackDataStream(IStreamableData data)
+        {
+            throw new NotImplementedException();
+        }
+
+        //nhminh
         protected virtual void GetLocalDataStream(IStreamableData data)
         {
             throw new NotImplementedException();
@@ -23,6 +29,10 @@ namespace Babylon
             {
                 GetLocalDataStream(data);
                 return;
+            }
+            else if (LoadMode == Mode.Package)
+            {
+                GetPackDataStream(data);
             }
             //end nhminh
 

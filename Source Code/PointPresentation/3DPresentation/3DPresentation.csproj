@@ -216,6 +216,9 @@
     <Compile Include="Views\OpenFolderDlg\FolderDialog.xaml.cs">
       <DependentUpon>FolderDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\TourDesign.xaml.cs">
+      <DependentUpon>TourDesign.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\TourView.xaml.cs">
       <DependentUpon>TourView.xaml</DependentUpon>
     </Compile>
@@ -226,6 +229,10 @@
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
     <Page Include="Views\ObjectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\TourDesign.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

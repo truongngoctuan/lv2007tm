@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 using _3DPresentation.Models;
 
@@ -11,10 +12,10 @@ namespace _3DPresentation.Views
         public TourView()
         {            
             InitializeComponent();
-            this.Loaded += new System.Windows.RoutedEventHandler(TourView_Loaded);
+            this.Loaded += new RoutedEventHandler(TourView_Loaded);
         }
 
-        void TourView_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        void TourView_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
             ExecuteScript("abc");
