@@ -39,17 +39,20 @@ namespace _3DPresentation
                     CullMode = CullMode.None
                 };
 
-                foreach (FaceModel faceModel in customSceneModels)
+                lock (customSceneModels)
                 {
-                    if (faceModel.IsEnabled)
+                    foreach (BaseModel model in customSceneModels)
                     {
-                        if (ActiveCamera.IsInFrustrum(faceModel.BoundingInfo))
+                        if (model.IsEnabled)
                         {
-                            if (faceModel == selectedMesh)
-                                SetShaderEffect(EffectManager.ShaderEffects.TexturedNoEffect, faceModel.WorldMatrix);
-                            else
-                                SetShaderEffect(EffectManager.ShaderEffects.NoEffect, faceModel.WorldMatrix);
-                            faceModel.Render(Device);
+                            if (ActiveCamera.IsInFrustrum(model.BoundingInfo))
+                            {
+                                if (model == selectedMesh)
+                                    SetShaderEffect(EffectManager.ShaderEffects.TexturedNoEffect, model.WorldMatrix);
+                                else
+                                    SetShaderEffect(EffectManager.ShaderEffects.NoEffect, model.WorldMatrix);
+                                model.Render(Device);
+                            }
                         }
                     }
                 }
