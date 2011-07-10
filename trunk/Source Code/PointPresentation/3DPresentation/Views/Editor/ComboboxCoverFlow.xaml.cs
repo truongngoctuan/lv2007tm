@@ -406,5 +406,11 @@ namespace _3DPresentation.Views.Editor
         }
 
         public event EventHandler SelectionChanged;
+
+        public void SetActualWidthAndHeight(double iWidth, double iHeight)
+        {
+            bgTop.Width = iWidth;
+            bgBottom.Width = iWidth;
+        }
     }
 }

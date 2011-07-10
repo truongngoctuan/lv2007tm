@@ -65,5 +65,10 @@ namespace _3DPresentation.Views
         {
             viewControl.ClearModels();
         }
+
+        private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            cbbModel.SetActualWidthAndHeight(LayoutRoot.ActualWidth, LayoutRoot.ActualHeight);
+        }
     }
 }

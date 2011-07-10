@@ -14,12 +14,16 @@ namespace _3DPresentation.Views
         {            
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(TourView_Loaded);
+
+            
         }
 
         void TourView_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
             ExecuteScript("abc");
+
+            MessageBox.Show(LayoutRoot.Width.ToString() + " " + LayoutRoot.ActualWidth.ToString());
         }
 
         public bool ExecuteScript(string strScript)
@@ -67,6 +71,11 @@ namespace _3DPresentation.Views
         private bool RemoveModel(BaseModel model)
         {
             return tourControl.RemoveModel(model);
+        }
+
+        private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            cbbModel.SetActualWidthAndHeight(LayoutRoot.ActualWidth, LayoutRoot.ActualHeight);
         }
     }
 }

@@ -5,7 +5,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
 >
-    <Canvas x:Name="layoutRoot" Width='800' Height='200'>
+    <Grid x:Name="Background">
+        <Image x:Name="bgTop" Width="800" Height="106" Stretch="Fill" VerticalAlignment="Top" Source="Images/ImageSelectorBgTop.png"></Image>
+        <Rectangle x:Name="bgBottom" Width="800" Height="94" Fill="Black" VerticalAlignment="Bottom"></Rectangle>
+        <Canvas x:Name="layoutRoot" Width='800' Height='200' HorizontalAlignment="Center">
         <Canvas.Resources>
             <Style x:Key="customButtonStyle" TargetType="Button">
                 <Setter Property="Padding" Value="0"/>
@@ -153,8 +156,7 @@
         </LinearGradientBrush>
       </Rectangle.Fill>
     </Rectangle>-->
-        <Image Width="800" Height="106" Stretch="Fill" Source="Images/ImageSelectorBgTop.png"></Image>
-        <Rectangle Width="800" Height="94" Fill="Black" Canvas.Top="106"></Rectangle>
+
         <Path Stroke="White">
             <Path.Data>
                 <PathGeometry>
@@ -564,6 +566,7 @@
         <!--<ctl:RepeatButton Canvas.Left="710" Width="80" Height="200" Interval="600" Caption="" Click="btnForward_Click"/>-->
         <!--<Path Data="M 765,100 L745,80 L745,120z" Fill="Yellow" IsHitTestVisible="False"/>-->
 
-        <TextBlock x:Name="tbCurrentFrameIndex">0</TextBlock>
+        <TextBlock x:Name="tbCurrentFrameIndex" Canvas.Left="0">0</TextBlock>
     </Canvas>
+    </Grid>
 </UserControl>

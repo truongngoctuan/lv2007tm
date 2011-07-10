@@ -225,6 +225,37 @@ namespace _3DPresentation.Views.Editor
             {
                 if (realLength < 7)
                 {
+                    List<PathUri> arr = new List<PathUri>();
+                    for (int i = 0; i < realLength; i++)
+                    {
+                        arr.Add(ImageArray[i]);
+                    }
+                    arr.RemoveAt(iIndex);
+                    realLength--;
+
+                    for (int i = 0; i < 7 - realLength; i++)
+                    {
+                        arr.Add(new PathUri("Views/Editor/Images/blank.jpg", false));
+                    }
+                    ImageArray = arr.ToArray();
+                    
+                    if (imageIndex == realLength)
+                    {//have effect back coverflow
+                        firstImgBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
+                        firstReflectionBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
+
+                        imageIndex = (--imageIndex + ImageArray.Length) % ImageArray.Length;
+                        brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
+
+                        UpdateImages();
+                        flowBackward.Begin();
+                    }
+                    else
+                    {
+                        brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
+
+                        UpdateImages();
+                    }
                 }
                 else
                 {

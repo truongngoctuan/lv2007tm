@@ -9,7 +9,7 @@
              xmlns:customControlEditor="clr-namespace:_3DPresentation.Views.Editor"
              >
     
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot" Background="White" SizeChanged="LayoutRoot_SizeChanged">
         <my:TourControl x:Name="tourControl"/>
         <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>
     </Grid>

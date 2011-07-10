@@ -133,5 +133,10 @@ namespace _3DPresentation.Views
                 cbModels.Items.Add(model);
             return result;
         }
+
+        private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            cbbModel.SetActualWidthAndHeight(LayoutRoot.ActualWidth, LayoutRoot.ActualHeight);
+        }
     }
 }
