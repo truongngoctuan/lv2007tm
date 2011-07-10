@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using _3DPresentation.Models;
+using _3DPresentation.Views.Editor;
 
 namespace _3DPresentation.Views
 {
@@ -27,6 +28,7 @@ namespace _3DPresentation.Views
                 return false;
             LoadSceneLocal("espilit");
             ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
+            
             return true;
         }
 
@@ -58,6 +60,7 @@ namespace _3DPresentation.Views
 
         private bool AddModel(BaseModel model)
         {
+            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return tourControl.AddModel(model);
         }
 

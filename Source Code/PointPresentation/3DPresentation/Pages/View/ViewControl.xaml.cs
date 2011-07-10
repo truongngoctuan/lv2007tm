@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using _3DPresentation.Models;
+using _3DPresentation.Views.Editor;
 
 namespace _3DPresentation
 {
@@ -25,7 +26,8 @@ namespace _3DPresentation
             this.Loaded += new RoutedEventHandler(ViewControl_Loaded);
             viewScene = new ViewScene(this, drawingSurface);
 
-            cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
+            //cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
+            //cbModels.SelectionChanged +=new EventHandler(cbModels_SelectionChanged);
         }
 
         void ViewControl_Loaded(object sender, RoutedEventArgs e)
@@ -33,10 +35,10 @@ namespace _3DPresentation
             IsLoaded = true;
         }
 
-        void cbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            SetTarget((BaseModel)cbModels.SelectedItem);
-        }
+        //void cbModels_SelectionChanged(object sender, EventArgs e)
+        //{
+        //    SetTarget((BaseModel)cbModels.SelectedItem);
+        //}
 
         public BaseModel GetTarget()
         {
@@ -53,7 +55,8 @@ namespace _3DPresentation
             bool result = viewScene.AddModel(model);
             if (result == false)
                 return false;
-            cbModels.Items.Add(model);
+            //cbModels.Items.Add(model);
+            //cbModels.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return true;
         }
 
@@ -62,14 +65,14 @@ namespace _3DPresentation
             bool result = viewScene.RemoveModel(model);
             if (result == false)
                 return false;
-            cbModels.Items.Remove(model);
+            //cbModels.Items.Remove(model);
             return true;
         }
 
         public void ClearModels()
         {
             viewScene.ClearModels();
-            cbModels.Items.Clear();
+            //cbModels.Items.Clear();
         }
     }
 }

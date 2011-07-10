@@ -221,18 +221,41 @@ namespace _3DPresentation.Views.Editor
 
         public void DeleteImage(int iIndex)
         {
-            //if (SelectedIndex >= realLength - 1 || SelectedIndex == -1) return;
-            //if (realLength < 7)
-            //{
-            //    if (SelectedIndex == CurrentImageIndex)
-            //    {
-            //        //animation delete
-            //    }
-            //}
-            //else
-            //{
-                
-            //}
+            try
+            {
+                if (realLength < 7)
+                {
+                }
+                else
+                {
+                    List<PathUri> arr = new List<PathUri>();
+                    arr.AddRange(ImageArray);
+                    arr.RemoveAt(iIndex);
+
+                    ImageArray = arr.ToArray();
+
+                    if (imageIndex + 1 == ImageArray.Length - 1)
+                    {//have effect back coverflow
+                        firstImgBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
+                        firstReflectionBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
+
+                        imageIndex = (++imageIndex + ImageArray.Length) % ImageArray.Length;
+                        brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
+
+                        UpdateImages();
+                        flowBackward.Begin();
+                    }
+                    else
+                    {
+                        brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
+                        UpdateImages();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         #region Clicked

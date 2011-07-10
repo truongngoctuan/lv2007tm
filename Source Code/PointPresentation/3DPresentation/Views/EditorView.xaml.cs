@@ -186,7 +186,7 @@ namespace _3DPresentation
         lock (lockThis)
         {
             //call function save all frame
-            ArrFrame[frameViewer.SelectedIndex].Export(_3DPresentation.Utils.Global.GetRealFile(strFileName), BaseModel.FileType.PLY);
+            ArrFrame[frameViewer.SelectedIndex].Export(BaseModel.FileType.PLY, BaseModel.VertexType.XYZ_RGB, _3DPresentation.Utils.Global.GetRealFile(strFileName));
         }
     }
 
