@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.IO;
 
 
 namespace _3DPresentation.Models
@@ -160,6 +161,33 @@ namespace _3DPresentation.Models
                 partition.AddIndice(node.lastIndex, relative.node2.lastIndex, relative.node3.lastIndex);
             }
             return true;
+        }
+
+        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix)
+        {
+            if (writer == null)
+                return false;
+            bool result = true;
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                if (Partitions[i].ExportVertexData(fileType, vertexType, writer, worldMatrix) == false)
+                    result = false;
+            }
+            return result;
+        }
+
+        public bool ExportIndiceData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix, long offset)
+        {
+            if (writer == null)
+                return false;
+
+            bool result = true;
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                if (Partitions[i].ExportIndiceData(fileType, vertexType, writer, worldMatrix, offset) == false)
+                    result = false;
+            }
+            return result;
         }
     }
 }

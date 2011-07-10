@@ -50,5 +50,23 @@ namespace _3DPresentation.Models
 
             faceManager.Render(graphicsDevice);
         }
+
+        protected override bool ExportVertexData(FileType fileType, VertexType vertexType, StreamWriter writer)
+        {
+            if (writer == null)
+                return false;
+            if (fileType == FileType.PLY)
+                return faceManager.ExportVertexData(fileType, vertexType, writer, WorldMatrix);
+            return false;
+        }
+
+        protected override bool ExportIndiceData(FileType fileType, VertexType vertexType, StreamWriter writer, long offset)
+        {
+            if (writer == null)
+                return false;
+            if (fileType == FileType.PLY)
+                return faceManager.ExportIndiceData(fileType, vertexType, writer, WorldMatrix, offset);
+            return false;
+        }
     }
 }

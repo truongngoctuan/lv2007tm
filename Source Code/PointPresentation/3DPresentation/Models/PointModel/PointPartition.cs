@@ -95,18 +95,43 @@ namespace _3DPresentation.Models
             graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, VertexBuffer.VertexCount, 0, IndexBuffer.IndexCount / 3);
         }
 
-        public bool Export_PLY(StreamWriter writer, Matrix worldMatrix)
+        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix)
+        {
+            if (writer == null)
+                return false;
+            if (fileType == BaseModel.FileType.PLY)
+            {
+                if (vertexType == BaseModel.VertexType.XYZ)
+                {
+                    for (int i = 0; i < Vertices.Length; i += 4)
+                    {
+
+                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        string str = string.Format("{0} {1} {2}\n",
+                            worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Color.R);
+                        writer.Write(str);
+                    }
+                }
+                else if (vertexType == BaseModel.VertexType.XYZ_RGB)
+                {
+                    for (int i = 0; i < Vertices.Length; i += 4)
+                    {
+                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        string str = string.Format("{0} {1} {2} {3} {4} {5}\n",
+                            worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Color.R, Vertices[i].Color.G, Vertices[i].Color.B);
+                        writer.Write(str);
+                    }
+                }
+            }
+            return true;
+        }
+
+        public bool ExportIndiceData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix, long offset)
         {
             if (writer == null)
                 return false;
 
-            for (int i = 0; i < Vertices.Length; i += 4)
-            {
-                Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
-                string str = string.Format("{0} {1} {2} {3} {4} {5}\n", 
-                    worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Color.R, Vertices[i].Color.G, Vertices[i].Color.B);
-                writer.Write(str);
-            }
+            // point model doesn't have any face
             return true;
         }
     }

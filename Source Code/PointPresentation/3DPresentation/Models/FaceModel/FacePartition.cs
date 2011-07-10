@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 
 namespace _3DPresentation.Models
@@ -136,6 +137,71 @@ namespace _3DPresentation.Models
             graphicsDevice.Indices = IndexBuffer;
 
             graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, VertexBuffer.VertexCount, 0, IndexBuffer.IndexCount / 3);
+        }
+
+        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix)
+        {
+            if (writer == null)
+                return false;
+            if (fileType == BaseModel.FileType.PLY)
+            {
+                if (vertexType == BaseModel.VertexType.XYZ)
+                {
+                    for (int i = 0; i < Vertices.Length; i++)
+                    {
+                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        string str = string.Format("{0} {1} {2}\n", worldPosition.X, worldPosition.Y, worldPosition.Z);
+                        writer.Write(str);
+                    }
+                }
+                else if (vertexType == BaseModel.VertexType.XYZ_RGB)
+                {
+                    for (int i = 0; i < Vertices.Length; i++)
+                    {
+                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        string str = string.Format("{0} {1} {2} {3} {4} {5}\n",
+                            worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Color.R, Vertices[i].Color.G, Vertices[i].Color.B);
+                        writer.Write(str);
+                    }
+                }
+                else if (vertexType == BaseModel.VertexType.XYZ_NORMAL)
+                {
+                    for (int i = 0; i < Vertices.Length; i++)
+                    {
+                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        string str = string.Format("{0} {1} {2} {3} {4} {5}\n",
+                            worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Normal.X, Vertices[i].Normal.Y, Vertices[i].Normal.Z);
+                        writer.Write(str);
+                    }
+                }
+                else if (vertexType == BaseModel.VertexType.XYZ_RGB_NORNAL)
+                {
+                    for (int i = 0; i < Vertices.Length; i++)
+                    {
+                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        string str = string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}\n",
+                            worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Color.R, Vertices[i].Color.G, Vertices[i].Color.B, Vertices[i].Normal.X, Vertices[i].Normal.Y, Vertices[i].Normal.Z);
+                        writer.Write(str);
+                    }
+                }
+            }
+            return true;
+        }
+
+        public bool ExportIndiceData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix, long offset)
+        {
+            if (writer == null)
+                return false;
+
+            if (fileType == BaseModel.FileType.PLY)
+            {
+                for (int i = 0; i < Indices.Length; i += 3)
+                {
+                    string str = string.Format("{0} {1} {2}\n", Indices[i] + offset, Indices[i + 1] + offset, Indices[i + 2] + offset);
+                    writer.Write(str);
+                }
+            }
+            return true;
         }
     }
 }
