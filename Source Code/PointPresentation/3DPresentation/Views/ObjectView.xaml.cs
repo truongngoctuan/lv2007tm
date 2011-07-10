@@ -3,6 +3,7 @@ using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using _3DPresentation.Models;
+using _3DPresentation.Views.Editor;
 
 
 namespace _3DPresentation.Views
@@ -35,6 +36,8 @@ namespace _3DPresentation.Views
             BaseModel model = BaseModel.Import(file);
             if (model == null)
                 return false;
+
+            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return AddModel(model);
         }
 
