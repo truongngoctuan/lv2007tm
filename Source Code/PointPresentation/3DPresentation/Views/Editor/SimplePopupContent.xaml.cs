@@ -21,7 +21,7 @@ namespace _3DPresentation.Views.Editor
 
             //http://forums.silverlight.net/forums/p/2260/462506.aspx
             
-            myDispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 2500);
+            myDispatcherTimer.Interval = new TimeSpan(0, 0, 0, 0, 3000);
             myDispatcherTimer.Tick += new EventHandler(myDispatcherTimer_Tick);
             myDispatcherTimer.Start();
 
@@ -31,8 +31,14 @@ namespace _3DPresentation.Views.Editor
         {
             //throw new NotImplementedException();
             //end popup after timer finished
+            StopTimer();
+        }
+
+        public void StopTimer()
+        {
             ParentView.ClosePopup();
             myDispatcherTimer.Stop();
+            myDispatcherTimer.Tick -= myDispatcherTimer_Tick;
         }
 
         EditorView _parent;
@@ -46,19 +52,19 @@ namespace _3DPresentation.Views.Editor
         private void btDeleteImage_Click(object sender, RoutedEventArgs e)
         {
             ParentView.DeleteFrame();
-            ParentView.ClosePopup();
+            StopTimer();
         }
 
         private void btSetFixedFrame_Click(object sender, RoutedEventArgs e)
         {
             ParentView.SetFixedImageIndex();
-            ParentView.ClosePopup();
+            StopTimer();
         }
 
         private void btSetReferenceFrame_Click(object sender, RoutedEventArgs e)
         {
             ParentView.SetReferenceImageIndex();
-            ParentView.ClosePopup();
+            StopTimer();
         }
     }
 }

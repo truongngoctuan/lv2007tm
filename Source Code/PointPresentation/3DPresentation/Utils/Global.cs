@@ -115,5 +115,16 @@ namespace _3DPresentation.Utils
         }
 
         private static string _assemblyShortName;
+
+        public static BitmapImage AbsolutePathStringToBitmapImage(string str)
+        {
+            BitmapImage bi = new BitmapImage();
+            FileInfo fio = new FileInfo(str);
+            System.IO.Stream stream2 = fio.OpenRead();
+            bi.SetSource(stream2);
+            stream2.Close();
+
+            return bi;
+        }
     }
 }
