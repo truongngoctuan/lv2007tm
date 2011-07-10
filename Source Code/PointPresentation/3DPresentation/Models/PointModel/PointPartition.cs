@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 
 namespace _3DPresentation.Models
@@ -79,8 +80,8 @@ namespace _3DPresentation.Models
             IndexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, Indices.Length, BufferUsage.WriteOnly);
             IndexBuffer.SetData(0, Indices, 0, Indices.Length);
 
-            //Vertices = null;
-            //Indices = null;
+            Vertices = null;
+            Indices = null;
             IsValid = true;
         }
 
@@ -92,6 +93,22 @@ namespace _3DPresentation.Models
             graphicsDevice.Indices = IndexBuffer;
 
             graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, VertexBuffer.VertexCount, 0, IndexBuffer.IndexCount / 3);
+        }
+
+        public bool Export_PLY(StreamWriter writer, Matrix worldMatrix)
+        {
+            if (writer == null)
+                return false;
+
+            for (int i = 0; i < Vertices.Length; i += 4)
+            {
+                Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                writer.Write(worldPosition.X + ' ' + worldPosition.Y + ' ' + worldPosition.Z);
+                writer.Write(' ');
+                writer.Write(Vertices[i].Color.R + ' ' + Vertices[i].Color.G + ' ' + Vertices[i].Color.B);
+                writer.Write('\n');
+            }
+            return true;
         }
     }
 }

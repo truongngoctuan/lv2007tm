@@ -47,5 +47,12 @@ namespace _3DPresentation.Models
 
             pointManager.Render(graphicsDevice);
         }
+
+        protected override bool Export_PLY(StreamWriter writer)
+        {
+            if (writer == null)
+                return false;
+            return pointManager.Export_PLY(writer, WorldMatrix);
+        }
     }
 }

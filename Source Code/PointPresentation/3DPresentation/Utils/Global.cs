@@ -10,7 +10,55 @@ namespace _3DPresentation.Utils
     internal static class Global
     {
         public static string MyDocumentsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        public static string StorePath = MyDocumentsFolderPath + '/' + "Silverlight3D";
+
+        public static string StorePath = MyDocumentsFolderPath + '/' + "Silverlight3D/";
+        public static string ModelStorePath = StorePath + "Model/";
+        public static string SceneStorePath = StorePath + "Scene/";
+
+        public static string GetRealStoreDirectory()
+        {
+            DirectoryInfo dir = new DirectoryInfo(StorePath);
+            if (dir.Exists == false)
+                dir.Create();
+            return StorePath;
+        }
+
+        public static string GetRealModelStoreDirectory()
+        {
+            GetRealStoreDirectory();
+            DirectoryInfo dir = new DirectoryInfo(ModelStorePath);
+            if (dir.Exists == false)
+                dir.Create();
+            return ModelStorePath;
+        }
+
+        public static string GetRealSceneStorePath()
+        {
+            GetRealStoreDirectory();
+            DirectoryInfo dir = new DirectoryInfo(SceneStorePath);
+            if (dir.Exists == false)
+                dir.Create();
+            return SceneStorePath;
+        }
+
+        public static DirectoryInfo GetRealDirectory(string path)
+        {
+            DirectoryInfo dir = new DirectoryInfo(path);
+            if (dir.Parent.Exists == false)
+                GetRealDirectory(dir.Parent.FullName);
+            if (dir.Exists == false)
+                dir.Create();            
+            return dir;
+        }
+        public static FileInfo GetRealFile(string path)
+        {
+            FileInfo file = new FileInfo(path);
+            if (file.Directory.Exists == false)
+                GetRealDirectory(file.Directory.FullName);
+            if (file.Exists == false)
+                file.Create();
+            return file;
+        }
 
         public static Texture2D LoadTexture(string resource, GraphicsDevice graphicsDevice)
         {

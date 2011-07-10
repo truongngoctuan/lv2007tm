@@ -12,7 +12,8 @@ namespace _3DPresentation.Models
 {
     public abstract class BaseModel
     {
-        public enum Type { XYZ, XYZ_RGB, XYZ_NORMAL, XYZ_RGB_NORNAL };
+        public enum VertexType { XYZ, XYZ_RGB, XYZ_NORMAL, XYZ_RGB_NORNAL };
+        public enum FileType { PLY };
 
         // state
         public bool IsEnabled { get; set; }
@@ -81,7 +82,7 @@ namespace _3DPresentation.Models
                     bool normal = false;
                     int nPoints = 0;
                     int nFaces = 0;
-                    Type type = Type.XYZ;
+                    VertexType vertexType = VertexType.XYZ;
                     try
                     {
                         string ss = sr.ReadLine();
@@ -108,13 +109,13 @@ namespace _3DPresentation.Models
                         }
 
                         if (rgb && normal)
-                            type = Type.XYZ_RGB_NORNAL;
+                            vertexType = VertexType.XYZ_RGB_NORNAL;
                         else if (rgb)
-                            type = Type.XYZ_RGB;
+                            vertexType = VertexType.XYZ_RGB;
                         else if (normal)
-                            type = Type.XYZ_NORMAL;
+                            vertexType = VertexType.XYZ_NORMAL;
 
-                        model = BaseModel.Import_PLY(sr, nPoints, nFaces, type);
+                        model = BaseModel.Import_PLY(sr, nPoints, nFaces, vertexType);
                     }
                     catch (IOException io)
                     {
@@ -124,7 +125,7 @@ namespace _3DPresentation.Models
             }
             return model;
         }
-        private static BaseModel Import_PLY(StreamReader sr, int nPoints, int nFaces, Type type)
+        private static BaseModel Import_PLY(StreamReader sr, int nPoints, int nFaces, VertexType vertexType)
         {
             if (nPoints == 0)
                 return null;
@@ -140,7 +141,7 @@ namespace _3DPresentation.Models
             model.IsLoaded = false;
             model.Begin(nPoints, nFaces);
 
-            if (type == Type.XYZ)
+            if (vertexType == VertexType.XYZ)
             {
                 for (int i = 0; i < nPoints; i++)
                 {
@@ -157,7 +158,7 @@ namespace _3DPresentation.Models
                     model.AddVertex(new Vector3(x, y, z), GlobalVars.White);                    
                 }
             }
-            else if (type == Type.XYZ_RGB)
+            else if (vertexType == VertexType.XYZ_RGB)
             {
                 for (int i = 0; i < nPoints; i++)
                 {
@@ -178,10 +179,10 @@ namespace _3DPresentation.Models
                     model.AddVertex(new Vector3(x, y, z), Color.FromNonPremultiplied(r, g, b, a));
                 }
             }
-            else if (type == Type.XYZ_NORMAL)
+            else if (vertexType == VertexType.XYZ_NORMAL)
             {
             }
-            else if (type == Type.XYZ_RGB_NORNAL)
+            else if (vertexType == VertexType.XYZ_RGB_NORNAL)
             {
             }
 
@@ -201,7 +202,10 @@ namespace _3DPresentation.Models
             }
 
             model.End();
-            model.IsLoaded = true;            
+            model.NumPoints = nPoints;
+            model.NumFaces = nFaces;
+            model.Type = vertexType; 
+            model.IsLoaded = true;
             return model;
         }
 
@@ -259,6 +263,78 @@ namespace _3DPresentation.Models
         public void Reload()
         {
             IsInitialized = false;
+        }
+
+        public string Name { get; set; }
+        public VertexType Type;
+        public long NumPoints;
+        public long NumFaces;
+
+        private static void WriteHeader(FileType fileType, VertexType vertexType, long nPoints, long nFaces, StreamWriter writer)
+        {
+            if (fileType == FileType.PLY && writer != null)
+            {
+                writer.WriteLine("ply");
+                writer.WriteLine("format ascii 1.0");
+                writer.WriteLine("element vertex " + nPoints);
+
+                if (vertexType == VertexType.XYZ)
+                {
+                    writer.WriteLine("property float32 x");
+                    writer.WriteLine("property float32 y");
+                    writer.WriteLine("property float32 z");
+                }
+                else if (vertexType == VertexType.XYZ_RGB)
+                {
+                    writer.WriteLine("property float32 x");
+                    writer.WriteLine("property float32 y");
+                    writer.WriteLine("property float32 z");
+                    writer.WriteLine("property uchar red");
+                    writer.WriteLine("property uchar green");
+                    writer.WriteLine("property uchar blue");
+                }
+                else if (vertexType == VertexType.XYZ_RGB_NORNAL)
+                {
+                    writer.WriteLine("property float32 x");
+                    writer.WriteLine("property float32 y");
+                    writer.WriteLine("property float32 z");
+                    writer.WriteLine("property uchar red");
+                    writer.WriteLine("property uchar green");
+                    writer.WriteLine("property uchar blue");
+                    writer.WriteLine("property float32 nx");
+                    writer.WriteLine("property float32 ny");
+                    writer.WriteLine("property float32 nz");
+                }
+                writer.WriteLine("element face " + nFaces);                
+                writer.WriteLine("end_header");
+            }
+        }
+
+        public bool Export(FileInfo file, FileType fileType)
+        {
+            bool result = false;
+            using (StreamWriter writer = new StreamWriter(file.OpenWrite()))
+            {
+                WriteHeader(fileType, VertexType.XYZ_RGB, NumPoints, NumFaces, writer);
+                Export_PLY(writer);
+            }
+            return result;
+        }
+        protected virtual bool Export_PLY(StreamWriter writer)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ExportAll(BaseModel[] models, string batchName)
+        {
+            bool result = true;
+            string storeDirectory = Utils.Global.GetRealModelStoreDirectory();
+            for (int i = 0; i < models.Length; i++)
+            {
+                FileInfo file = Utils.Global.GetRealFile(storeDirectory + batchName + '/' + models[i].Name + ".ply");
+                result = models[i].Export(file, FileType.PLY);
+            }
+            return result;
         }
     }
 }
