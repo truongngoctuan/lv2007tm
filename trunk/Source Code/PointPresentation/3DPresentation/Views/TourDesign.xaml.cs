@@ -86,7 +86,7 @@ namespace _3DPresentation.Views
             LoadSceneLocal("espilit");
             ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
             ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
-            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
+            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "NotDecreaseSameVertex_0020.ply"));
             return true;
         }
 
