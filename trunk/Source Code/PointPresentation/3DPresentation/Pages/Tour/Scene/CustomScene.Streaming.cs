@@ -10,7 +10,7 @@ namespace _3DPresentation
         }
 
         Uri localRootStreamUri;
-        protected void GetPackDataStream(Babylon.IStreamableData data)
+        protected override void GetPackDataStream(Babylon.IStreamableData data)
         {
             Uri uri = new Uri(localRootStreamUri + "/" + data.StreamID + ".bsfstream", UriKind.Relative);
             Stream stream = Utils.Global.GetPackStream(uri);

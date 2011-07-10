@@ -22,6 +22,14 @@ namespace _3DPresentation
         {
             get { return customScene.FPS; }
         }
+        public Babylon.Camera Camera
+        {
+            get { return customScene.ActiveCamera; }
+        }
+        public BaseModel Target
+        {
+            get { return customScene.Target; }
+        }
         public bool IsSceneLoaded { get; private set; }
         public TourControl()
         {
