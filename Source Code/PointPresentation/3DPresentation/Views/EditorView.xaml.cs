@@ -16,6 +16,7 @@ using System.Threading;
 using _3DPresentation.Models;
 using System.Windows.Media.Imaging;
 using Microsoft.Xna.Framework;
+using System.IO;
 
 namespace _3DPresentation
 {
@@ -204,14 +205,23 @@ namespace _3DPresentation
     private static object lockThis = new object();
     public void AddFrame(string strFrameName, string strThumnailName)
     {
+        FileInfo fi = new System.IO.FileInfo(strFrameName);
+        AddFrame(fi, strThumnailName);
+    }
+
+    public void AddFrame(FileInfo fi, string strThumnailName)
+    {
         try
         {
-            lock (lockThis)
+            lock (ArrFrame)
             {
-                BaseModel model = PointModel.Import(new System.IO.FileInfo(strFrameName));
+                BaseModel model = PointModel.Import(fi);
                 ArrFrame.Add(model);
                 vcOjectViewer.AddModel(ArrFrame[ArrFrame.Count - 1]);
-                vcOjectViewer.SetTarget(ArrFrame[ArrFrame.Count - 1]);
+                if (ArrFrame.Count == 1)
+                {
+                    vcOjectViewer.SetTarget(ArrFrame[ArrFrame.Count - 1]);
+                }
                 frameViewer.AddImage(new PathUri(strThumnailName, true));
             }
         }
@@ -219,6 +229,11 @@ namespace _3DPresentation
         {
             MessageBox.Show(ex.Message);
         }
+    }
+
+    public void SaveModel(string strFileName)
+    {
+        //call function save all frame
     }
 
       //warning: rotation radian
@@ -246,6 +261,73 @@ namespace _3DPresentation
         }
     }
     #endregion
+
+    private void asd(object sender, RoutedEventArgs e)
+    {
+        List<string> arrFrameName = new List<string>();
+        arrFrameName.Add("d:\\NotDecreaseSameVertex_0000.ply");
+        arrFrameName.Add("d:\\NotDecreaseSameVertex_0005.ply");
+        arrFrameName.Add("d:\\NotDecreaseSameVertex_0015.ply");
+        arrFrameName.Add("d:\\NotDecreaseSameVertex_0025.ply");
+        arrFrameName.Add("d:\\NotDecreaseSameVertex_0035.ply");
+        arrFrameName.Add("d:\\NotDecreaseSameVertex_0045.ply");
+        arrFrameName.Add("d:\\NotDecreaseSameVertex_0055.ply");
+        arrFrameName.Add("d:\\NotDecreaseSameVertex_0065.ply");
+
+        List<string> arrFrameThumnail = new List<string>();
+        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0000.jpg");
+        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0005.jpg");
+        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0015.jpg");
+        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0025.jpg");
+        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0035.jpg");
+        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0045.jpg");
+        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0055.jpg");
+        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0065.jpg");
+
+        for (int i = 0; i < 1; i++)
+        {
+            this.AddFrame(arrFrameName[i], arrFrameThumnail[i]);
+            //System.Threading.Thread.Sleep(2000);
+        }
+
+
+        //this.Dispatcher.BeginInvoke(new Action(() =>
+        //{
+
+        //    try
+        //    {
+        //        List<string> arrFrameName = new List<string>();
+        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0000.ply");
+        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0005.ply");
+        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0015.ply");
+        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0025.ply");
+        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0035.ply");
+        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0045.ply");
+        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0055.ply");
+        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0065.ply");
+
+        //        List<string> arrFrameThumnail = new List<string>();
+        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0000.jpg");
+        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0005.jpg");
+        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0015.jpg");
+        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0025.jpg");
+        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0035.jpg");
+        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0045.jpg");
+        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0055.jpg");
+        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0065.jpg");
+
+        //        for (int i = 0; i < 1; i++)
+        //        {
+        //            this.AddFrame(arrFrameName[i], arrFrameThumnail[i]);
+        //            //System.Threading.Thread.Sleep(2000);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}));
+    }
 
   }
 }

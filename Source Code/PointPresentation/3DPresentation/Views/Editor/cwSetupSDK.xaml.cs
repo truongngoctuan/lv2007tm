@@ -18,11 +18,6 @@ namespace _3DPresentation.Views.Editor
         public cwSetupSDK()
         {
             InitializeComponent();
-
-            BaseModel newModel1 = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0000.ply"));
-            vcOjectViewer.AddModel(newModel1);
-            //vcOjectViewer.AddModel(_model2);
-            vcOjectViewer.SetTarget(newModel1);
         }
 
         private void OKButton_Click(object sender, RoutedEventArgs e)

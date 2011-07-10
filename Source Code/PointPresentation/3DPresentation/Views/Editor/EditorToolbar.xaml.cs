@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using _3DPresentation.Models;
+using System.IO;
 
 namespace _3DPresentation.Views.Editor
 {
@@ -41,17 +42,29 @@ namespace _3DPresentation.Views.Editor
                 throw;
             }
 
-            cwSetupSDK cwNew = new cwSetupSDK();
-            cwNew.Show();
+            //cwSetupSDK cwNew = new cwSetupSDK();
+            //cwNew.Show();
         }
 
+        #region setup workspace
         private void btSetupWorkSpace_Click(object sender, RoutedEventArgs e)
         {
-            //OpenFileDialog dlg = new OpenFileDialog();
-            //dlg.ShowDialog();
-            cwSetupWorkSpace cwNew = new cwSetupWorkSpace();
-            cwNew.Show();
+            FolderDialogSL4.FolderDialog FolderDlg = new FolderDialogSL4.FolderDialog();
+            FolderDlg.Show();
+            FolderDlg.Closed += new EventHandler(cw_Closed);
+            FolderDlg.Show();
         }
+
+        void cw_Closed(object sender, EventArgs e)
+        {
+            FolderDialogSL4.FolderDialog fd = sender as FolderDialogSL4.FolderDialog;
+
+            if (fd.DialogResult == true)
+            {
+                ParentEditor.WorkingDirectory = fd.txtSelectedFolder.Text;
+            }
+        }
+        #endregion
 
         private void btResetWorkSpace_Click(object sender, RoutedEventArgs e)
         {
@@ -61,14 +74,36 @@ namespace _3DPresentation.Views.Editor
 
         private void btOpenModel_Click(object sender, RoutedEventArgs e)
         {
-            cwOpenModel cwNew = new cwOpenModel();
-            cwNew.Show();
+            OpenFileDialog dlg = new OpenFileDialog(); // new instance
+            dlg.Multiselect = true;
+            dlg.Filter = "ply|*.ply";
+            if ((bool)dlg.ShowDialog())
+            {
+                foreach (FileInfo fi in dlg.Files)
+                {
+                    string strPath = fi.FullName;
+                    strPath = strPath.Replace(".ply", ".jpg");
+                    ParentEditor.AddFrame(fi, strPath);
+                }
+            }
+
+            //cwOpenModel cwNew = new cwOpenModel();
+            //cwNew.Show();
         }
 
         private void btSaveModel_Click(object sender, RoutedEventArgs e)
         {
-            cwSaveModel cwNew = new cwSaveModel();
-            cwNew.Show();
+            SaveFileDialog dlg = new SaveFileDialog(); // new instance
+            dlg.Filter = "ply|*.ply";
+            if ((bool)dlg.ShowDialog())
+            {
+                string strPath = dlg.SafeFileName;
+                ParentEditor.SaveModel(strPath);
+                MessageBox.Show(strPath);
+            }
+
+            //cwSaveModel cwNew = new cwSaveModel();
+            //cwNew.Show();
         }
 
         private void btOptimize_Click(object sender, RoutedEventArgs e)
