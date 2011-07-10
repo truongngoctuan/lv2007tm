@@ -77,11 +77,7 @@ namespace _3DPresentation
         public bool IsFlyTo { get; private set; }
         public void GoToModel(BaseModel model)
         {
-            if (customSceneModels.Contains(model))
-            {
-                //selectedMesh = model;
-                //OnMouseClick();
-            }
+            
         }
     }
 }

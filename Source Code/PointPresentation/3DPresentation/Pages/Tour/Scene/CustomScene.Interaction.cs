@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using Microsoft.Xna.Framework;
+using _3DPresentation.Models;
 
 namespace _3DPresentation
 {
@@ -54,12 +55,19 @@ namespace _3DPresentation
         {
             if (selectedMesh != null)
             {                
-                // if selectedMesh == first model : application crash when render 
                 viewControl.ClearModels();
-                for (int i = 0; i < customSceneModels.Count; i++)
+
+                BaseModel[] models;
+                lock (lockThis)
                 {
-                    viewControl.AddModel(customSceneModels[i]);
+                    models = customSceneModels.ToArray();
                 }
+                for (int i = 0; i < models.Length; i++)
+                {
+                    viewControl.AddModel(models[i]);
+                }
+                models = null;
+
                 viewControl.SetTarget(selectedMesh);
                 App.GoToPage(viewControl);
             }

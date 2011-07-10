@@ -70,7 +70,7 @@ namespace _3DPresentation
             lock (lockThis)
             {
                 if (Models.Contains(model))
-                    result = false;
+                    result = true;
             }
             if (result)
             {
