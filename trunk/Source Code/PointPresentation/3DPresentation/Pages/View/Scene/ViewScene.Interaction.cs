@@ -41,7 +41,7 @@ namespace _3DPresentation
         void Container_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
         {
             Camera.Radius -= e.Delta * Camera.Radius / 1000.0f;
-            Camera.FarPlane = Camera.Radius + 50;
+            Camera.FarPlane = Camera.Radius + 500;
         }
 
         void Container_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)

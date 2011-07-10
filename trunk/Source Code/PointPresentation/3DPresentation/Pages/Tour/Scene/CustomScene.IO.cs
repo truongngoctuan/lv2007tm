@@ -19,9 +19,9 @@ namespace _3DPresentation
             Load(Utils.Global.GetLocalStream(sceneUri));
         }
 
-        public override void LoadPack(Uri sceneUri)
+        public void LoadPack(Uri sceneUri)
         {
-            LoadMode = Mode.Package;
+            //LoadMode = Mode.Package;
 
             string sceneName = Path.GetFileNameWithoutExtension(sceneUri.ToString());
             localRootStreamUri = Utils.Global.MakeRelativeUri(sceneUri, string.Format("{0}.streams", sceneName));

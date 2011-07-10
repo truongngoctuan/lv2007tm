@@ -69,7 +69,15 @@ namespace _3DPresentation.Views.Editor
 
         private void btSaveFrame_Click(object sender, RoutedEventArgs e)
         {
+            SaveFileDialog dlg = new SaveFileDialog(); // new instance
+            dlg.Filter = "ply|*.ply";
+            if ((bool)dlg.ShowDialog())
+            {
+                string strPath = dlg.SafeFileName;
+                ParentView.SaveFrame(strPath);
 
+                //MessageBox.Show(strPath);
+            }
         }
     }
 }

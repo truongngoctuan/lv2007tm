@@ -23,7 +23,7 @@ namespace _3DPresentation
   public partial class EditorView : Page
   {
       #region BienDungChung
-      private string _strWorkingDirectory;
+      private string _strWorkingDirectory = string.Empty;
       private string _strWorkingDirectoryTemp;
 
       public string WorkingDirectory
@@ -93,63 +93,7 @@ namespace _3DPresentation
 
     void imageSelector_Loaded(object sender, RoutedEventArgs e)
     {
-        try{
 
-        List<string> arrFrameName = new List<string>();
-                arrFrameName.Add("d:\\NotDecreaseSameVertex_0000.ply");
-                arrFrameName.Add("d:\\NotDecreaseSameVertex_0005.ply");
-                arrFrameName.Add("d:\\NotDecreaseSameVertex_0015.ply");
-                arrFrameName.Add("d:\\NotDecreaseSameVertex_0025.ply");
-                arrFrameName.Add("d:\\NotDecreaseSameVertex_0035.ply");
-                arrFrameName.Add("d:\\NotDecreaseSameVertex_0045.ply");
-                arrFrameName.Add("d:\\NotDecreaseSameVertex_0055.ply");
-                arrFrameName.Add("d:\\NotDecreaseSameVertex_0065.ply");
-
-                List<string> arrFrameThumnail = new List<string>();
-                arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0000.jpg");
-                arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0005.jpg");
-                arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0015.jpg");
-                arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0025.jpg");
-                arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0035.jpg");
-                arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0045.jpg");
-                arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0055.jpg");
-                arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0065.jpg");
-
-                for (int i = 0; i < 4; i++)
-                {
-                    this.AddFrame(arrFrameName[i], arrFrameThumnail[i]);
-                    //System.Threading.Thread.Sleep(2000);
-                }
-
-
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-
-        //frameViewer.SetImages(new PathUri[]
-        //    {
-        //        new PathUri("Views/Editor/Images/j0149013.jpg", false),
-        //        new PathUri("Views/Editor/Images/j0182516.jpg", false),
-        //        new PathUri("Views/Editor/Images/j0262524.jpg", false),
-        //        //ImageSelector.UriToBitmapImage("Images/j0149013.jpg"),
-        //        //ImageSelector.UriToBitmapImage("Images/j0182516.jpg"),
-        //        //ImageSelector.UriToBitmapImage("Images/j0262524.jpg")
-        //        //,
-        //        //"Images/j0309223.jpg",
-        //        //"Images/j0314069.jpg",
-        //        //"Images/j0402444.jpg",
-        //        //"Images/j0406500.jpg",
-        //        //"Images/j0406702.jpg",
-        //        //"Images/j0407544.jpg",
-        //        //"Images/j0422769.jpg",
-        //        //"Images/j0428653.jpg",
-        //        //"Images/j0314059.jpg",
-        //        //"Images/j0430836.jpg",
-        //        //"Images/j0431767.jpg",
-        //        //"Images/j0433157.jpg"
-        //    });
     }
 
     #region Popup
@@ -195,6 +139,7 @@ namespace _3DPresentation
 
     #region Frame
     List<BaseModel> _arrFrame;
+    
 
     public List<BaseModel> ArrFrame
     {
@@ -203,17 +148,17 @@ namespace _3DPresentation
     }
 
     private static object lockThis = new object();
-    public void AddFrame(string strFrameName, string strThumnailName)
+    public void AddFrame(string strFrameName, PathUri pu)
     {
         FileInfo fi = new System.IO.FileInfo(strFrameName);
-        AddFrame(fi, strThumnailName);
+        AddFrame(fi, pu);
     }
 
-    public void AddFrame(FileInfo fi, string strThumnailName)
+    public void AddFrame(FileInfo fi, PathUri pu)
     {
         try
         {
-            lock (ArrFrame)
+            lock (lockThis)
             {
                 BaseModel model = PointModel.Import(fi);
                 ArrFrame.Add(model);
@@ -222,7 +167,7 @@ namespace _3DPresentation
                 {
                     vcOjectViewer.SetTarget(ArrFrame[ArrFrame.Count - 1]);
                 }
-                frameViewer.AddImage(new PathUri(strThumnailName, true));
+                frameViewer.AddImage(pu);
             }
         }
         catch (Exception ex)
@@ -234,6 +179,15 @@ namespace _3DPresentation
     public void SaveModel(string strFileName)
     {
         //call function save all frame
+    }
+
+    public void SaveFrame(string strFileName)
+    {
+        lock (lockThis)
+        {
+            //call function save all frame
+            ArrFrame[frameViewer.SelectedIndex].Export(_3DPresentation.Utils.Global.GetRealFile(strFileName), BaseModel.FileType.PLY);
+        }
     }
 
       //warning: rotation radian
@@ -261,73 +215,5 @@ namespace _3DPresentation
         }
     }
     #endregion
-
-    private void asd(object sender, RoutedEventArgs e)
-    {
-        List<string> arrFrameName = new List<string>();
-        arrFrameName.Add("d:\\NotDecreaseSameVertex_0000.ply");
-        arrFrameName.Add("d:\\NotDecreaseSameVertex_0005.ply");
-        arrFrameName.Add("d:\\NotDecreaseSameVertex_0015.ply");
-        arrFrameName.Add("d:\\NotDecreaseSameVertex_0025.ply");
-        arrFrameName.Add("d:\\NotDecreaseSameVertex_0035.ply");
-        arrFrameName.Add("d:\\NotDecreaseSameVertex_0045.ply");
-        arrFrameName.Add("d:\\NotDecreaseSameVertex_0055.ply");
-        arrFrameName.Add("d:\\NotDecreaseSameVertex_0065.ply");
-
-        List<string> arrFrameThumnail = new List<string>();
-        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0000.jpg");
-        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0005.jpg");
-        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0015.jpg");
-        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0025.jpg");
-        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0035.jpg");
-        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0045.jpg");
-        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0055.jpg");
-        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0065.jpg");
-
-        for (int i = 0; i < 1; i++)
-        {
-            this.AddFrame(arrFrameName[i], arrFrameThumnail[i]);
-            //System.Threading.Thread.Sleep(2000);
-        }
-
-
-        //this.Dispatcher.BeginInvoke(new Action(() =>
-        //{
-
-        //    try
-        //    {
-        //        List<string> arrFrameName = new List<string>();
-        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0000.ply");
-        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0005.ply");
-        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0015.ply");
-        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0025.ply");
-        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0035.ply");
-        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0045.ply");
-        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0055.ply");
-        //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0065.ply");
-
-        //        List<string> arrFrameThumnail = new List<string>();
-        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0000.jpg");
-        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0005.jpg");
-        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0015.jpg");
-        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0025.jpg");
-        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0035.jpg");
-        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0045.jpg");
-        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0055.jpg");
-        //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0065.jpg");
-
-        //        for (int i = 0; i < 1; i++)
-        //        {
-        //            this.AddFrame(arrFrameName[i], arrFrameThumnail[i]);
-        //            //System.Threading.Thread.Sleep(2000);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        MessageBox.Show(ex.Message);
-        //    }
-        //}));
-    }
-
   }
 }
