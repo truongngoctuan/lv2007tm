@@ -162,12 +162,164 @@
       <DependentUpon>UDRMZControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\MathUtil.cs" />
+    <Compile Include="Views\EditorView.xaml.cs">
+      <DependentUpon>EditorView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwMatchModelManual.xaml.cs">
+      <DependentUpon>cwMatchModelManual.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwOpenModel.xaml.cs">
+      <DependentUpon>cwOpenModel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwOptimize.xaml.cs">
+      <DependentUpon>cwOptimize.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwResetWorkSpace.xaml.cs">
+      <DependentUpon>cwResetWorkSpace.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwSaveModel.xaml.cs">
+      <DependentUpon>cwSaveModel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwSetupSDK.xaml.cs">
+      <DependentUpon>cwSetupSDK.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\cwSetupWorkSpace.xaml.cs">
+      <DependentUpon>cwSetupWorkSpace.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\EditorObjectDock.xaml.cs">
+      <DependentUpon>EditorObjectDock.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\EditorToolbar.xaml.cs">
+      <DependentUpon>EditorToolbar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\ImageSelector.xaml.cs">
+      <DependentUpon>ImageSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\MatchModelView.xaml.cs">
+      <DependentUpon>MatchModelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\SimplePopupContent.xaml.cs">
+      <DependentUpon>SimplePopupContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Editor\SliderTextBox.xaml.cs">
+      <DependentUpon>SliderTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ErrorWindowView.xaml.cs">
+      <DependentUpon>ErrorWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\OpenFolderDlg\DoubleClickHelper.cs" />
+    <Compile Include="Views\OpenFolderDlg\Drive.cs" />
+    <Compile Include="Views\OpenFolderDlg\Folder.cs" />
+    <Compile Include="Views\OpenFolderDlg\FolderDialog.xaml.cs">
+      <DependentUpon>FolderDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\TourView.xaml.cs">
+      <DependentUpon>TourView.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Views\TourView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Resource Include="Views\Editor\Images\blank.jpg" />
+    <Resource Include="Views\Editor\Images\ImageSelectorBgTop.png" />
+    <Resource Include="Views\Editor\Images\j0149013.jpg" />
+    <Resource Include="Views\Editor\Images\j0182516.jpg" />
+    <Resource Include="Views\Editor\Images\j0262524.jpg" />
+    <Resource Include="Views\Editor\Images\j0309223.jpg" />
+    <Resource Include="Views\Editor\Images\j0314059.jpg" />
+    <Resource Include="Views\Editor\Images\j0314069.jpg" />
+    <Resource Include="Views\Editor\Images\j0402444.jpg" />
+    <Resource Include="Views\Editor\Images\j0406500.jpg" />
+    <Resource Include="Views\Editor\Images\j0406702.jpg" />
+    <Resource Include="Views\Editor\Images\j0407544.jpg" />
+    <Resource Include="Views\Editor\Images\j0422769.jpg" />
+    <Resource Include="Views\Editor\Images\j0428653.jpg" />
+    <Resource Include="Views\Editor\Images\j0430836.jpg" />
+    <Resource Include="Views\Editor\Images\j0431767.jpg" />
+    <Resource Include="Views\Editor\Images\j0433157.jpg" />
+    <Resource Include="Views\Editor\Images\topbg_left.png" />
+    <Resource Include="Views\Editor\Images\topbg_mid.png" />
+    <Resource Include="Views\Editor\Images\topbg_right.png" />
+    <Resource Include="Views\Editor\Images\top_new_model.png" />
+    <Resource Include="Views\Editor\Images\top_pause.png" />
+    <Resource Include="Views\Editor\Images\top_play.png" />
+    <Resource Include="Views\Editor\Images\top_stop.png" />
+    <Resource Include="Views\Editor\Images\wmp.png" />
+    <Resource Include="Views\Editor\Images\wmp_left.png" />
+    <Resource Include="Views\OpenFolderDlg\Assets\back.png" />
+    <Resource Include="Views\OpenFolderDlg\Assets\drive.png" />
+    <Resource Include="Views\OpenFolderDlg\Assets\folder.png" />
+    <Resource Include="Views\OpenFolderDlg\Assets\mc.png" />
+    <Page Include="Views\EditorView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwMatchModelManual.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwOpenModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwOptimize.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwResetWorkSpace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwSaveModel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwSetupSDK.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\cwSetupWorkSpace.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\EditorObjectDock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\EditorToolbar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\ImageSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\MatchModelView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\SimplePopupContent.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Editor\SliderTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\ErrorWindowView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\OpenFolderDlg\FolderDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Resource Include="Resources\Models\espilit.bsf" />
     <Resource Include="Resources\Models\espilit.streams\0.bsfstream" />
     <Resource Include="Resources\Models\espilit.streams\1.bsfstream" />
@@ -573,7 +725,9 @@
       <Name>ShaderEffectsLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Tour\" />
+  </ItemGroup>
   <UsingTask TaskName="ShaderBuildTask.ShaderCompile" AssemblyName="ShaderBuildTask, Version=1.0.3072.18169, Culture=neutral,&#xD;&#xA;PublicKeyToken=44e467d1687af125" />
   <Target Name="VertexShaderCompile" Condition="'@(VertexShader)' != '' " BeforeTargets="Build">
     <ShaderCompile Sources="@(VertexShader)" ShaderProfile="vs_2_0" IntermediateOutputPath="$(IntermediateOutputPath)">

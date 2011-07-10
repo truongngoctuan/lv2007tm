@@ -36,6 +36,16 @@ namespace _3DPresentation
             return true;
         }
 
+        public bool RemoveModel(BaseModel model)
+        {
+            return customSceneModels.Remove(model);
+        }
+
+        public BaseModel[] GetModels()
+        {
+            return customSceneModels.ToArray();
+        }
+
         public BaseModel AddModel(FileInfo file)
         {
             BaseModel model = BaseModel.Import(file);

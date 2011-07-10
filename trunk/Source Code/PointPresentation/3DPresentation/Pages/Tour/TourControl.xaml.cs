@@ -18,59 +18,48 @@ namespace _3DPresentation
     public partial class TourControl : UserControl
     {
         CustomScene customScene;
+        public float FPS
+        {
+            get { return customScene.FPS; }
+        }
         public TourControl()
         {
             InitializeComponent();
             InitCustomScene();
 
-            cbScene.Items.Add("wcafe.bsf");
-            cbScene.Items.Add("espilit.bsf");
-
-            babylonSurface.Loaded += new RoutedEventHandler(babylonSurface_Loaded);            
+            this.Loaded += new RoutedEventHandler(TourControl_Loaded);
             this.SizeChanged += new SizeChangedEventHandler(TourControl_SizeChanged);            
+
+            myCamPosition.Visibility = System.Windows.Visibility.Collapsed;
+            myTargetPosition.Visibility = System.Windows.Visibility.Collapsed;
+            cbScene.Visibility = System.Windows.Visibility.Collapsed;
+            cbModels.Visibility = System.Windows.Visibility.Collapsed;
+            btLoadScene.Visibility = System.Windows.Visibility.Collapsed;
+            myOpenFile.Visibility = System.Windows.Visibility.Collapsed;
 
             btLoadScene.Click += new RoutedEventHandler(btLoadScene_Click);
             myOpenFile.FileOpened += new OpenFileControl.FileOpenedHandler(myOpenFile_FileOpened);
 
-            customScene.Drawed += new EventHandler(customScene_Drawed);
-
             cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
-        }
-
-        void cbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            customScene.GoToModel((FaceModel)cbModels.SelectedItem);
-        }
-
-        void customScene_Drawed(object sender, EventArgs e)
-        {
-            myCamPosition.Dispatcher.BeginInvoke(new Action(() => { myCamPosition.Text = "Camera Position: " + customScene.CameraPosition.X + " " + customScene.CameraPosition.Y + " " + customScene.CameraPosition.Z; }));
-            myTargetPosition.Dispatcher.BeginInvoke(new Action(() => { myTargetPosition.Text = "Target Position: " + customScene.TargetPosition.X + " " + customScene.TargetPosition.Y + " " + customScene.TargetPosition.Z; }));
-        }
-
-        void myOpenFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
-        {
-            BaseModel model = customScene.AddModel(e.FileInfo);
-            if(model != null)
-                cbModels.Items.Add(model);
+            cbScene.Items.Add("wcafe.bsf");
+            cbScene.Items.Add("espilit.bsf");
         }
 
         void InitCustomScene()
         {
             customScene = new CustomScene(this, babylonSurface, "CustomScene", babylonSurface.Engine);
             babylonSurface.SetCustomScene(customScene);
+
+            customScene.Drawed += new EventHandler(customScene_Drawed);
+            babylonSurface.Loaded += new RoutedEventHandler(babylonSurface_Loaded);
+        }
+
+        void TourControl_Loaded(object sender, RoutedEventArgs e)
+        {            
         }
 
         void babylonSurface_Loaded(object sender, RoutedEventArgs e)
         {
-        }
-
-        void btLoadScene_Click(object sender, RoutedEventArgs e)
-        {
-            if (cbScene.SelectedItem == null)
-                return;
-            LoadSceneLocal(cbScene.SelectedItem.ToString());
-            //LoadScene("wcafe.bsf");
         }
 
         void TourControl_SizeChanged(object sender, SizeChangedEventArgs e)
@@ -78,30 +67,81 @@ namespace _3DPresentation
             babylonSurface.Engine.ResizeRenderZone((int)ActualWidth, (int)ActualHeight);
         }
 
-
-        private void openButton_Click(object sender, RoutedEventArgs e)
+        public void GoToModel(BaseModel model)
         {
-            //OpenFileDialog openFileDialog = new OpenFileDialog { Filter = Strings.OpenFileDialogFilter };
-
-            //if (openFileDialog.ShowDialog() == true)
-            //{
-            //    using (FileStream stream = openFileDialog.File.OpenRead())
-            //    {
-            //        LoadScene(stream);
-            //    }
-            //}
+            customScene.GoToModel(model);
         }
 
-        private void LoadSceneLocal(string scene)
+        void cbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Uri sceneUri = Utils.Global.MakePackUri("Resources/Models/" + scene);
+            customScene.GoToModel((BaseModel)cbModels.SelectedItem);
+        }
+
+        public bool AddModel(BaseModel model)
+        {
+            return customScene.AddModel(model);
+        }
+
+        public bool RemoveModel(BaseModel model)
+        {
+            return customScene.RemoveModel(model);
+        }
+
+        public BaseModel[] GetModels()
+        {
+            return customScene.GetModels();
+        }
+
+        public void LoadSceneInPackage(Uri sceneUri)
+        {
+            babylonSurface.Scene.LoadPack(sceneUri);
+        }
+
+        public void LoadSceneLocal(Uri sceneUri)
+        {
             babylonSurface.Scene.LoadLocal(sceneUri);
         }
 
-        private void LoadScene(string scene)
+        public void LoadScene(Uri sceneUri)
         {
-            Uri sceneUri = new Uri("http://www.catuhe.com/BSF/" + scene);
             babylonSurface.Scene.Load(sceneUri);
         }
+
+        public void LoadSceneInPackage(string scene)
+        {
+            Uri sceneUri = Utils.Global.MakePackUri("Resources/Models/" + scene);
+            babylonSurface.Scene.LoadPack(sceneUri);
+        }
+
+        //public void LoadScene(string scene)
+        //{
+        //    Uri sceneUri = new Uri("http://www.catuhe.com/BSF/" + scene);
+        //    babylonSurface.Scene.Load(sceneUri);
+        //}
+
+        void customScene_Drawed(object sender, EventArgs e)
+        {
+            //if(myCamPosition.Visibility == System.Windows.Visibility.Visible)
+                myCamPosition.Dispatcher.BeginInvoke(new Action(() => { myCamPosition.Text = "Camera Position: " + customScene.CameraPosition.X + " " + customScene.CameraPosition.Y + " " + customScene.CameraPosition.Z; }));
+            //if (myTargetPosition.Visibility == System.Windows.Visibility.Visible)
+                myTargetPosition.Dispatcher.BeginInvoke(new Action(() => { myTargetPosition.Text = "Target Position: " + customScene.TargetPosition.X + " " + customScene.TargetPosition.Y + " " + customScene.TargetPosition.Z; }));
+        }
+
+        void myOpenFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
+        {
+            BaseModel model = customScene.AddModel(e.FileInfo);
+            if(model != null)
+                cbModels.Items.Add(model);
+        }        
+
+        void btLoadScene_Click(object sender, RoutedEventArgs e)
+        {
+            if (cbScene.SelectedItem == null)
+                return;
+            Uri sceneUri = Utils.Global.MakeStoreUri(string.Format("Scene/{0}/{0}.bsf", "espilit"));
+            //LoadSceneLocal(sceneUri);
+            LoadSceneInPackage(cbScene.SelectedItem.ToString());
+            //LoadScene("wcafe.bsf");
+        }        
     }
 }

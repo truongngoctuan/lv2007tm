@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework;
 using System.Windows.Input;
 using SharpGIS;
 using ShaderEffectsLibrary;
+using _3DPresentation.Views;
 
 
 namespace _3DPresentation
@@ -109,7 +110,8 @@ namespace _3DPresentation
 
         void btNextPage_Click(object sender, RoutedEventArgs e)
         {
-            App.GoToPage(new TourControl());
+            App.RemovePage(this);
+            App.GoToPage(new TourView());
         }
 		
         public string WorkingDirectory
