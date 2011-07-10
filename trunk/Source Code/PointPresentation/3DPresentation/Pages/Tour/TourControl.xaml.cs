@@ -131,9 +131,9 @@ namespace _3DPresentation
 
         void myOpenFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
         {
-            BaseModel model = customScene.AddModel(e.FileInfo);
-            if(model != null)
-                cbModels.Items.Add(model);
+            //BaseModel model = customScene.AddModel(e.FileInfo);
+            //if(model != null)
+            //    cbModels.Items.Add(model);
         }        
 
         void btLoadScene_Click(object sender, RoutedEventArgs e)
