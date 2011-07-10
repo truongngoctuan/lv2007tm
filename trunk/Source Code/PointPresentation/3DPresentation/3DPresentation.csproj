@@ -207,6 +207,9 @@
     <Compile Include="Views\ErrorWindowView.xaml.cs">
       <DependentUpon>ErrorWindowView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ObjectView.xaml.cs">
+      <DependentUpon>ObjectView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\OpenFolderDlg\DoubleClickHelper.cs" />
     <Compile Include="Views\OpenFolderDlg\Drive.cs" />
     <Compile Include="Views\OpenFolderDlg\Folder.cs" />
@@ -222,6 +225,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Page Include="Views\ObjectView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\TourView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -725,9 +732,7 @@
       <Name>ShaderEffectsLibrary</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Tour\" />
-  </ItemGroup>
+  <ItemGroup />
   <UsingTask TaskName="ShaderBuildTask.ShaderCompile" AssemblyName="ShaderBuildTask, Version=1.0.3072.18169, Culture=neutral,&#xD;&#xA;PublicKeyToken=44e467d1687af125" />
   <Target Name="VertexShaderCompile" Condition="'@(VertexShader)' != '' " BeforeTargets="Build">
     <ShaderCompile Sources="@(VertexShader)" ShaderProfile="vs_2_0" IntermediateOutputPath="$(IntermediateOutputPath)">

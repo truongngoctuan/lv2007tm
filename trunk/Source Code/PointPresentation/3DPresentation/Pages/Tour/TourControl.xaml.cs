@@ -22,6 +22,7 @@ namespace _3DPresentation
         {
             get { return customScene.FPS; }
         }
+        public bool IsLoaded { get; private set; }
         public TourControl()
         {
             InitializeComponent();
@@ -55,7 +56,8 @@ namespace _3DPresentation
         }
 
         void TourControl_Loaded(object sender, RoutedEventArgs e)
-        {            
+        {
+            IsLoaded = true;
         }
 
         void babylonSurface_Loaded(object sender, RoutedEventArgs e)
