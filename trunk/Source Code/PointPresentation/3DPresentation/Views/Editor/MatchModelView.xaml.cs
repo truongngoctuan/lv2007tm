@@ -11,6 +11,7 @@ using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 using System.Windows.Navigation;
 using _3DPresentation.Models;
+using Microsoft.Xna.Framework;
 
 namespace _3DPresentation.Views.Editor
 {
@@ -65,19 +66,37 @@ namespace _3DPresentation.Views.Editor
         BaseModel _model1 = null;
         BaseModel _model2 = null;
 
+        Vector3 v3OldRotation;
+        Vector3 v3OldPosition;
+
+        void ResetModel()
+        {
+            _model2.Rotation = v3OldRotation;
+            _model2.Position = v3OldPosition;
+        }
+
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
+            Result = true;
             //update cho parentview
             vcOjectViewer.RemoveModel(_model2);
             vcOjectViewer.RemoveModel(_model1);
             App.RemovePage(this);
+
+            ResetModel();
+
+            ((EditorView)ParentView).UpdateMatrixAfterFrame(iReferenceImageIndex, 
+                new Vector3(_fRotateX * 3.14f / 180.0f, _fRotateY * 3.14f / 180.0f, _fRotateZ * 3.14f / 180.0f),
+                new Vector3(_fTranslateX, _fTranslateY, _fTranslateZ));
+
             App.GoToPage(ParentView);
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
-            //this.DialogResult = false;
-
+            Result = false;
+            vcOjectViewer.RemoveModel(_model2);
+            vcOjectViewer.RemoveModel(_model1);
             App.RemovePage(this);
             App.GoToPage(ParentView);
         }
@@ -184,6 +203,7 @@ namespace _3DPresentation.Views.Editor
             }
         }
 
+        #region in - outdata
         public void SetInputData(int iFFIndex, int iRIndex)
         {
             iFixedImageIndex = iFFIndex;
@@ -203,6 +223,49 @@ namespace _3DPresentation.Views.Editor
             vcOjectViewer.SetTarget(model1);
 
             tblockValue.Text = this.ToString();
+
+            //luu lai
+            v3OldRotation = _model2.Rotation;
+            v3OldPosition = _model2.Position;
+
+            //dong bo hoa voi cac bien trong page
+            _fRotateX = _model2.Rotation.X;
+            _fRotateY = _model2.Rotation.Y;
+            _fRotateZ = _model2.Rotation.Z;
+
+            _fTranslateX = _model2.Position.X;
+            _fTranslateY = _model2.Position.Y;
+            _fTranslateZ = _model2.Position.Z;
+        }
+
+        public Vector3 Rotate1
+        {
+            get { return new Vector3(0, 0, 0); }
+        }
+
+        public Vector3 Translate1
+        {
+            get { return new Vector3(0, 0, 0); }
+        }
+
+        public Vector3 Rotate2
+        {
+            get { return new Vector3(_fRotateX, _fRotateY, _fRotateZ); }
+        }
+
+        public Vector3 Translate2
+        {
+            get { return new Vector3(_fTranslateX, _fTranslateY, _fTranslateZ); }
+        }
+
+        #endregion
+
+        bool _bResult;
+
+        public bool Result
+        {
+            get { return _bResult; }
+            set { _bResult = value; }
         }
     }
 }

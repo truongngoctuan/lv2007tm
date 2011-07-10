@@ -4,10 +4,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-
-    <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
+    <StackPanel Orientation="Horizontal">
         <Image Height="87" Source="Images/topbg_left.png"></Image>
         <Grid>
+            <Image Height="87" Source="Images/topbg_mid.png"></Image>
             <Button x:Name="btNewCaptureModel" Click="btNewCaptureModel_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
                 <Button.Content>
                     <Image Width="50" Source="Images/top_new_model.png"></Image>
@@ -17,9 +17,9 @@
                         </customControl:ReflectionShader>
                     </Button.Effect>-->
             </Button>
-            <Image Height="87" Source="Images/topbg_mid.png"></Image>
         </Grid>
         <Grid>
+            <Image Height="87" Source="Images/topbg_mid.png"></Image>
             <Button x:Name="btPlay" Click="btPlay_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
                 <Button.Content>
                     <Image Width="50" Source="Images/top_play.png"></Image>
@@ -29,9 +29,10 @@
                         </customControl:ReflectionShader>
                     </Button.Effect>-->
             </Button>
-            <Image Height="87" Source="Images/topbg_mid.png"></Image>
+            
         </Grid>
         <Grid>
+            <Image Height="87" Source="Images/topbg_mid.png"></Image>
             <Button x:Name="btStop" Click="btStop_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
                 <Button.Content>
                     <Image Width="50" Source="Images/top_stop.png"></Image>
@@ -41,7 +42,7 @@
                         </customControl:ReflectionShader>
                     </Button.Effect>-->
             </Button>
-            <Image Height="87" Source="Images/topbg_mid.png"></Image>
+            
         </Grid>
         <Image Height="87" Source="Images/topbg_right.png"></Image>
     </StackPanel>

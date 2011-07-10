@@ -85,10 +85,9 @@ namespace _3DPresentation.Views.Editor
             MatchModelView pg = new MatchModelView();
             pg.ParentView = _parent;
             pg.SetInputData(ParentEditor.FixedImageIndex, ParentEditor.ReferenceImageIndex);
-            BaseModel newModel1 = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0000.ply"));
-            BaseModel newModel2 = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0020.ply"));
-
-            pg.SetInputData(newModel1, newModel2);
+            //BaseModel newModel1 = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0000.ply"));
+            //BaseModel newModel2 = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0035.ply"));
+            pg.SetInputData(ParentEditor.ArrFrame[ParentEditor.FixedImageIndex], ParentEditor.ArrFrame[ParentEditor.ReferenceImageIndex]);
 
             App.GoToPage(pg);
         }
