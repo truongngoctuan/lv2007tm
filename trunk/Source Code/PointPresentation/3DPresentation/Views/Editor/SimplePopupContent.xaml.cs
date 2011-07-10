@@ -66,5 +66,10 @@ namespace _3DPresentation.Views.Editor
             ParentView.SetReferenceImageIndex();
             StopTimer();
         }
+
+        private void btSaveFrame_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

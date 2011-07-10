@@ -31,5 +31,7 @@
         <customControlEditor:EditorToolbar x:Name="toolbar"></customControlEditor:EditorToolbar>
         <!--object dock at top-->
         <customControlEditor:EditorObjectDock x:Name="odControl"  VerticalAlignment="Top" HorizontalAlignment="Center"></customControlEditor:EditorObjectDock>
+        
+        <Button Width="100" Height="35" Click="asd" HorizontalAlignment="Left" VerticalAlignment="Top">asd</Button>
     </Grid>
 </navigation:Page>

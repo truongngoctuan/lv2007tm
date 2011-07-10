@@ -61,7 +61,7 @@ namespace _3DPresentation.Views.Editor
                 arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0055.jpg");
                 arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0065.jpg");
 
-                for (int i = 0; i < 1; i++)
+                for (int i = 0; i < arrFrameName.Count; i++)
                 {
                     ParentEditor.AddFrame(arrFrameName[i], arrFrameThumnail[i]);
                     //System.Threading.Thread.Sleep(2000);

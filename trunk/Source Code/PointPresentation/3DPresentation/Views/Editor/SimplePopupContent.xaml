@@ -14,6 +14,11 @@
                     <TextBlock>Delete Frame</TextBlock>
                 </Button.Content>
             </Button>
+            <Button x:Name="btSaveFrame" Click="btSaveFrame_Click" Height="35" Margin="10,5">
+                <Button.Content>
+                    <TextBlock>Save Frame</TextBlock>
+                </Button.Content>
+            </Button>
             <Button x:Name="btSetFixedFrame" Click="btSetFixedFrame_Click" Height="35" Margin="10,5">
                 <Button.Content>
                     <TextBlock>Set Fixed Frame</TextBlock>
