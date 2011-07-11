@@ -5,12 +5,17 @@ namespace _3DPresentation
 {
     public class MathUtil
     {
-        public static double GetAngle(Vector3 v1, Vector3 v2)
+        public static double GetAngleRad(Vector3 v1, Vector3 v2)
         {
             double tichVoHuong = v1.X * v2.X + v1.Y * v2.Y + v1.Z * v2.Z;
             double tichDoLon = Math.Sqrt(v1.X * v1.X + v1.Y * v1.Y + v1.Z * v1.Z) * Math.Sqrt(v2.X * v2.X + v2.Y * v2.Y + v2.Z * v2.Z);
             double cos = tichVoHuong / tichDoLon;
-            return Math.Acos(cos) * 180 / Math.PI;
+            return Math.Acos(cos);
+        }
+
+        public static double GetAngle(Vector3 v1, Vector3 v2)
+        {
+            return GetAngleRad(v1, v2) * 180 / Math.PI;
         }
 
         public static Vector3 TransformPoint(Matrix matrix, Vector3 vector)
@@ -41,6 +46,16 @@ namespace _3DPresentation
             // MUST NORMALIZE THE AXIS VECTOR
             axis.Normalize();
             return true;
+        }
+
+        public static Matrix GetTransformationMatrix(Vector3 start, Vector3 dest)
+        {
+            double angleRad = GetAngleRad(start, dest);
+            Vector3 axis = Vector3.Cross(start, dest);
+            // MUST NORMALIZE THE AXIS VECTOR
+            axis.Normalize();
+
+            return Matrix.CreateFromAxisAngle(axis, Convert.ToSingle(angleRad));
         }
 
 
