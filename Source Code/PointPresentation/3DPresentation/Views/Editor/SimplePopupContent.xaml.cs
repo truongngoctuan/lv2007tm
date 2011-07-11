@@ -15,6 +15,7 @@ namespace _3DPresentation.Views.Editor
 {
     public partial class SimplePopupContent : UserControl
     {
+        public int SelectedIndex;
         public SimplePopupContent()
         {
             InitializeComponent();
@@ -51,19 +52,19 @@ namespace _3DPresentation.Views.Editor
 
         private void btDeleteImage_Click(object sender, RoutedEventArgs e)
         {
-            ParentView.DeleteFrame();
+            ParentView.DeleteFrame(SelectedIndex);
             StopTimer();
         }
 
         private void btSetFixedFrame_Click(object sender, RoutedEventArgs e)
         {
-            ParentView.SetFixedImageIndex();
+            ParentView.SetFixedImageIndex(SelectedIndex);
             StopTimer();
         }
 
         private void btSetReferenceFrame_Click(object sender, RoutedEventArgs e)
         {
-            ParentView.SetReferenceImageIndex();
+            ParentView.SetReferenceImageIndex(SelectedIndex);
             StopTimer();
         }
 
