@@ -42,6 +42,8 @@ namespace _3DPresentation
                             model.Material.View = Camera.View;
                             model.Material.Projection = Camera.Projection;
                             model.Material.Device = graphicsDevice;
+                            if (model is PointModel)
+                                ((Material.PointMaterial)(model.Material)).Scale = new Vector2(1.0f / SurfaceSize.X, 1.0f / SurfaceSize.Y);
                             model.Render(graphicsDevice);
                         }
                     }
