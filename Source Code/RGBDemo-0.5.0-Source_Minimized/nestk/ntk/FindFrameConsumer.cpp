@@ -20,6 +20,8 @@ void FindFrameConsumer::RunThread()
 		if (IsPause()) 
 		{
 			cout<<"pausing..."<<endl;
+			boost::this_thread::interruption_point();
+			::sleep(boost::posix_time::millisec(500));
 			continue;
 		}
 		//m_mutex.lock();
