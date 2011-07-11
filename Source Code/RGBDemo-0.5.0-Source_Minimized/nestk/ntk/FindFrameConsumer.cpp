@@ -16,7 +16,11 @@ void FindFrameConsumer::RunThread()
 	bool pose_ok;
 	while (true)
 	{
-		if (IsPause()) continue;
+		if (IsPause()) 
+		{
+			cout<<"pausing..."<<endl;
+			continue;
+		}
 		//m_mutex.lock();
 
 		RGBDImage * m_last_image = m_queue->Dequeue(ilast_image);
