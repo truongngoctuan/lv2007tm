@@ -70,7 +70,7 @@ namespace _3DPresentation.Views.Editor
         }
 
         #region NewCaptureModel
-        COMAutomation ca = new COMAutomation();
+        
         private void btNewCaptureModel_Click(object sender, RoutedEventArgs e)
         {
             this.Dispatcher.BeginInvoke(new Action(() =>
@@ -112,28 +112,6 @@ namespace _3DPresentation.Views.Editor
 
         }
 
-        void ca_DeleteFileEvent(object sender, EventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
-
-        void ca_CreateFileEvent(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                string strFileName = ca.FileName;
-
-                FileInfo fi = new FileInfo(strFileName);
-                if (fi.Extension.Equals(".ply"))
-                {
-                    if (fi.Name.StartsWith("NotDecreaseSameVertex"))
-                    {
-                        ParentEditor.AddFrame(strFileName, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
-                    }
-
-                }
-            });
-        }
         #endregion
 
         private void btPlay_Click(object sender, RoutedEventArgs e)
@@ -143,39 +121,29 @@ namespace _3DPresentation.Views.Editor
                 //resume 
                 SetEnable(false, true, true);
 
-                string[] lines = { "resume" };
-
-                _3DPresentation.Utils.COMAutomation.StopCommand(ParentEditor.WorkingDirectory + "\\result\\cm.txt",
-                    ParentEditor.WorkingDirectoryTemp + "\\cm.txt", lines);
+                if (Resume != null)
+                {
+                    Resume(this, new EventArgs());
+                }
             }
             else
             {//play
                 SetEnable(false, true, true);
 
-                ParentEditor.SetupWorkingDirectory();
-                string strQuery =
-                    string.Format("{0} {1} {2} {3} {4}",
-                                    ParentEditor.WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
-                                    "player",
-                                    ParentEditor.WorkingDirectory + "\\result",
-                                    ParentEditor.WorkingDirectory + "\\recorded\\grab7",
-                                    ParentEditor.WorkingDirectory + "\\recontructor\\kineck_calibration.yml");
-                COMAutomation.Cmd(strQuery);
+                if (Play != null)
+                {
+                    Play(this, new EventArgs());
+                }
 
-                ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent);
-                ca.DeleteFileEvent += new EventHandler(ca_DeleteFileEvent);
-
-                string strWatchFolder = (ParentEditor.WorkingDirectory + "\\result").Replace(@"\", @"\\\\").Replace(@"\\\\\\\\", @"\\\\");
-                ca.FolderListener(strWatchFolder);
             }
         }
 
         private void btStop_Click(object sender, RoutedEventArgs e)
         {
-            string[] lines = { "exit" };
-
-            _3DPresentation.Utils.COMAutomation.StopCommand(ParentEditor.WorkingDirectory + "\\result\\cm.txt",
-                ParentEditor.WorkingDirectoryTemp + "\\cm.txt", lines);
+            if (Stop != null)
+            {
+                Stop(this, new EventArgs());
+            }
 
             SetEnable(true, false, false);
         }
@@ -185,12 +153,16 @@ namespace _3DPresentation.Views.Editor
             //gui lenh pause
             SetEnable(true, false, true);
 
-            string[] lines = { "pause" };
-
-            _3DPresentation.Utils.COMAutomation.StopCommand(ParentEditor.WorkingDirectory + "\\result\\cm.txt",
-                ParentEditor.WorkingDirectoryTemp + "\\cm.txt", lines);
+            if (Pause != null)
+            {
+                Pause(this, new EventArgs());
+            }
         }
 
+        public event EventHandler Play;
+        public event EventHandler Pause;
+        public event EventHandler Resume;
+        public event EventHandler Stop;
 
     }
 }
