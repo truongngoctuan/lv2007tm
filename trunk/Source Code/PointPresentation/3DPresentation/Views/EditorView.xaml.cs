@@ -82,6 +82,7 @@ namespace _3DPresentation
         }
         currentImage.Source = e.Source;
         SimplePopupContent spc = new SimplePopupContent();
+        spc.SelectedIndex = e.SelectedIndex;
         spc.ParentView = this;
 
         
@@ -97,20 +98,22 @@ namespace _3DPresentation
     }
 
     #region Popup
-    public void DeleteFrame()
+    public void DeleteFrame(int iIndex)
     {
         //delete
-        frameViewer.DeleteImage(frameViewer.SelectedIndex);
+        frameViewer.DeleteImage(iIndex);
+        vcOjectViewer.RemoveModel(_arrFrame[iIndex]);
+        _arrFrame.RemoveAt(iIndex);
     }
 
-    public void SetFixedImageIndex()
+    public void SetFixedImageIndex(int iIndex)
     {
-        FixedImageIndex = frameViewer.SelectedIndex;
+        FixedImageIndex = iIndex;
     }
 
-    public void SetReferenceImageIndex()
+    public void SetReferenceImageIndex(int iIndex)
     {
-        ReferenceImageIndex = frameViewer.SelectedIndex;
+        ReferenceImageIndex = iIndex;
     }
 
     public void ClosePopup()

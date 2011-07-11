@@ -121,6 +121,11 @@ namespace _3DPresentation.Views.Editor
             //setup 2 parameter
             //catch result
             //recal
+            if (ParentEditor.FixedImageIndex == -1 || ParentEditor.ReferenceImageIndex == -1)
+            {
+                MessageBox.Show("error!!");
+                return;
+            }
             MatchModelView pg = new MatchModelView();
             pg.ParentView = _parent;
             pg.SetInputData(ParentEditor.FixedImageIndex, ParentEditor.ReferenceImageIndex);
