@@ -18,6 +18,7 @@ namespace _3DPresentation
     public partial class TourControl : UserControl
     {
         CustomScene customScene;
+        public event EventHandler SelectingModel;
         public float FPS
         {
             get { return customScene.FPS; }
@@ -65,7 +66,14 @@ namespace _3DPresentation
             babylonSurface.SetCustomScene(customScene);
 
             customScene.Drawed += new EventHandler(customScene_Drawed);
+            customScene.SelectingModel += new EventHandler(customScene_SelectingModel);
             babylonSurface.Loaded += new RoutedEventHandler(babylonSurface_Loaded);
+        }
+
+        void customScene_SelectingModel(object sender, EventArgs e)
+        {
+            if (SelectingModel != null)
+                SelectingModel(this, EventArgs.Empty);
         }
 
         void babylonSurface_Loaded(object sender, RoutedEventArgs e)

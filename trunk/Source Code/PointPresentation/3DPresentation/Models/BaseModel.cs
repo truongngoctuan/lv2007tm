@@ -21,12 +21,17 @@ namespace _3DPresentation.Models
         public bool IsInitialized { get; protected set; }
 
         public CustomBoundingInfo BoundingInfo { get; set; }
-        public float Scale { get; set; }     
 
-        // position        
+        // position
+        float scale;
         Vector3 position;
         Vector3 rotation;
         Matrix worldMatrix;
+        public float Scale
+        {
+            get { return scale; }
+            set { scale = value; UpdateMatrix(); }
+        }
         public Vector3 Position
         {
             get { return position; }
@@ -44,6 +49,7 @@ namespace _3DPresentation.Models
         private void UpdateMatrix()
         {
             worldMatrix = Matrix.Identity;
+            worldMatrix *= Matrix.CreateScale(Scale);
             worldMatrix *= Matrix.CreateFromYawPitchRoll(rotation.Y, rotation.X, rotation.Z);
             worldMatrix *= Matrix.CreateTranslation(position.X, position.Y, position.Z);
 
@@ -55,7 +61,7 @@ namespace _3DPresentation.Models
             position = Vector3.Zero;
             rotation = Vector3.Zero;
             worldMatrix = Matrix.Identity;
-            Scale = 1.0f;
+            scale = 1.0f;
 
             IsEnabled = true;
             IsLoaded = false;

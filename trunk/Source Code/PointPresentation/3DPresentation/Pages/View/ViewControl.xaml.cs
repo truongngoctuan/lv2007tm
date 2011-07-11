@@ -15,7 +15,7 @@ using _3DPresentation.Views.Editor;
 namespace _3DPresentation
 {
     public partial class ViewControl : UserControl
-    {
+    {        
         public UserControl ParentView { get; set; }
         public bool IsLoaded { get; private set; }
 

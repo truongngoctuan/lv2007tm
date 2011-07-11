@@ -11,26 +11,49 @@ namespace _3DPresentation.Views
     public partial class TourDesign : UserControl
     {
         public bool IsLoaded { get; private set; }
-        //public BaseModel SelectedModel { get; private set; }
+        public BaseModel SelectedModel { get; private set; }
+        private ObjectView objectView;
         public TourDesign()
         {
             InitializeComponent();
+            objectView = new ObjectView();
+            objectView.ParentView = this;
+
             this.Loaded += new RoutedEventHandler(TourDesign_Loaded);
             this.KeyDown += new System.Windows.Input.KeyEventHandler(TourDesign_KeyDown);
             this.openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
             this.cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
-            cbbModel.SelectionChanged += new EventHandler(cbbModel_SelectionChanged);
+            this.tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);
+            this.cbbModel.SelectionChanged += new EventHandler(cbbModel_SelectionChanged);
+            this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
+
+            this.openFile.Visibility = System.Windows.Visibility.Collapsed;
+            this.cbModels.Visibility = System.Windows.Visibility.Collapsed;
+        }
+
+        void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
+        {
+            SelectedModel = (BaseModel)cbbModel.SelectedItem;
+        }
+
+        void tourControl_SelectingModel(object sender, EventArgs e)
+        {
+            objectView.ClearModels();
+            objectView.AddModels(tourControl.GetModels());
+            objectView.SetTarget(tourControl.Target);
+
+            App.GoToPage(objectView);
         }
 
         void cbbModel_SelectionChanged(object sender, EventArgs e)
         {
             //throw new NotImplementedException();
-            //SelectedModel = (BaseModel)cbModels.SelectedItem;
+            
         }
 
         void TourDesign_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (tourControl.Target != null)
+            if (SelectedModel != null)
             {       
                 Vector3 moveDirection = Vector3.Zero;
                 Matrix mat = Matrix.CreateFromYawPitchRoll(tourControl.Camera.RotationY, tourControl.Camera.RotationX, tourControl.Camera.RotationZ);
@@ -59,7 +82,7 @@ namespace _3DPresentation.Views
                     moveDirection = MathUtil.TransformPoint(mat, Vector3.Forward);
                 }
                 moveDirection /= 10;
-                tourControl.Target.Position += moveDirection;
+                SelectedModel.Position += moveDirection;
             }
         }
 
@@ -84,9 +107,29 @@ namespace _3DPresentation.Views
             if (IsLoaded == false)
                 return false;
             LoadSceneLocal("espilit");
-            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
-            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
-            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "NotDecreaseSameVertex_0020.ply"));
+            //BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
+            //model.Scale = 3.0f;
+            //AddModel(model);
+            BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "horse_text.ply"));
+            model.Scale = 10.0f;
+            model.Position = new Vector3(0, 1, 0);
+            AddModel(model);
+            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "bunny_text.ply"));
+            model.Scale = 10.0f;
+            model.Position = new Vector3(0, 1, 3);
+            AddModel(model);
+            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "lucy_text.ply"));
+            model.Scale = 0.001f;
+            model.Position = new Vector3(0, 1, 6);
+            AddModel(model);
+            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "lion_text.ply"));
+            model.Scale = 10.0f;
+            model.Position = new Vector3(-3, 1, 6);
+            AddModel(model);
+            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "heptoroid_text.ply"));
+            model.Scale = 0.1f;
+            model.Position = new Vector3(-6, 1, 6);
+            AddModel(model);
             return true;
         }
 
@@ -95,8 +138,6 @@ namespace _3DPresentation.Views
             BaseModel model = BaseModel.Import(file);
             if (model == null)
                 return false;
-
-            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return AddModel(model);
         }
 
@@ -123,6 +164,7 @@ namespace _3DPresentation.Views
             bool result = tourControl.AddModel(model);
             if (result)
                 cbModels.Items.Add(model);
+            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return result;
         }
 
