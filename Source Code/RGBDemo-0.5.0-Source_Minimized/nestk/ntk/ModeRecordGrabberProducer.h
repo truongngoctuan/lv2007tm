@@ -98,6 +98,7 @@ public:
 			RGBDImage * m_last_image = new RGBDImage();
 			m_rgbd_image->copyTo(*m_last_image);
 			m_queue->Enqueue(m_last_image);
+			cout<<m_current_image_index<<endl;
 
 			// Make sure we can be interrupted
 			boost::this_thread::interruption_point();

@@ -57,8 +57,8 @@ private:
 	enum Flags {
 		NotDecreaseSameVertex = 0x1,
 		DecreaseSameVertex = 0x2,
-		Notprocess = 0x4
-		//SaveFinalPly = 0x8
+		Notprocess = 0x4,
+		SaveFinalPly = 0x8
 	};
 	int m_iSavePlyMode;
 	
@@ -100,6 +100,7 @@ public:
 	FindFrameConsumer(int id, SynchronisedQueue<RGBDImage *>* queue, 
 		const char * dir_prefix, int first_index)
 	{
+		SetPause(false);
 		m_id=id;
 		m_queue=queue;
 
@@ -156,4 +157,20 @@ public:
 	bool IsUseICP() {return m_bUseICP;}
 
 	void SaveFileTotalNotDecreaseSameVertex(string strName);
+
+	private:
+		bool Pause;
+		boost::mutex mtPause;
+
+		public:
+	bool IsPause()
+	{
+		boost::unique_lock<boost::mutex> lock(mtPause);
+		return Pause;
+	}
+	void SetPause(bool b)
+	{
+		boost::unique_lock<boost::mutex> lock(mtPause);
+		Pause = b;
+	}
 };

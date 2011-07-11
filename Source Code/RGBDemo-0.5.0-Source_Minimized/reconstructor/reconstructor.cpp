@@ -25,8 +25,9 @@ int main (int argc, char* argv[])
 			rc.SetLoadDataFromKineck(false);
 			//rc.SetSaveFilePlyMode(RecontructorController::Flags::Notprocess, true);
 			rc.SetSaveFilePlyMode(RecontructorController::Flags::NotDecreaseSameVertex, true);
-			rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
-			rc.SetSavePairs(true);
+			//rc.SetSaveFilePlyMode(RecontructorController::Flags::SaveFinalPly, true);
+			//rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
+			rc.SetSavePairs(false);
 			rc.SetUseICP(true);
 			rc.Run();
 		}
@@ -47,7 +48,8 @@ int main (int argc, char* argv[])
 			//rc.SetSaveFilePlyMode(RecontructorController::Flags::Notprocess, true);
 			rc.SetSaveFilePlyMode(RecontructorController::Flags::NotDecreaseSameVertex, true);
 			rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
-			rc.SetSavePairs(true);
+			//rc.SetSaveFilePlyMode(RecontructorController::Flags::SaveFinalPly, true);
+			rc.SetSavePairs(false);
 			rc.SetUseICP(true);
 			rc.Run();
 		}
