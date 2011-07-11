@@ -75,7 +75,7 @@ namespace _3DPresentation
             if (result)
             {
                 TargetModel = model;
-                Camera.Radius = TargetModel.BoundingInfo.BoundingSphereWorld.Radius * 2.0f;
+                Camera.Radius = TargetModel.BoundingInfo.BoundingSphereWorld.Radius * 4.0f;
                 Camera.Target = TargetModel.BoundingInfo.BoundingSphereWorld.Center;
             }
             return result;

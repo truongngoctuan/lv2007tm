@@ -11,16 +11,25 @@ namespace _3DPresentation.Views
     public partial class ObjectView : UserControl
     {
         public bool IsLoaded { get; private set; }
+        public UserControl ParentView { get; set; }
         public ObjectView()
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(ObjectView_Loaded);
+            this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
+        }
+
+        void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
+        {
+            viewControl.GetTarget().IsEnabled = false;
+            viewControl.SetTarget((BaseModel)cbbModel.SelectedItem);
+            viewControl.GetTarget().IsEnabled = true;
         }
 
         void ObjectView_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
-            ExecuteScript("abc");
+            //ExecuteScript("abc");
         }
 
         public bool ExecuteScript(string strScript)
@@ -30,6 +39,15 @@ namespace _3DPresentation.Views
             ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
             return true;
         }
+
+        public void AddModels(BaseModel[] models)
+        {
+            for (int i = 0; i < models.Length; i++)
+            {
+                AddModel(models[i]);
+                models[i].IsEnabled = false;
+            }
+        }      
 
         private bool ImportModel(FileInfo file)
         {
@@ -41,18 +59,20 @@ namespace _3DPresentation.Views
             return AddModel(model);
         }
 
-        private BaseModel GetTarget()
+        public BaseModel GetTarget()
         {
             return viewControl.GetTarget();
         }
 
-        private bool SetTarget(BaseModel model)
+        public bool SetTarget(BaseModel model)
         {
+            model.IsEnabled = true;
             return viewControl.SetTarget(model);
         }
 
         private bool AddModel(BaseModel model)
         {
+            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return viewControl.AddModel(model);
         }
 
@@ -61,7 +81,7 @@ namespace _3DPresentation.Views
             return viewControl.RemoveModel(model);
         }
 
-        private void ClearModels()
+        public void ClearModels()
         {
             viewControl.ClearModels();
         }

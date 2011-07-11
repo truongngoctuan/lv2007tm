@@ -15,19 +15,15 @@ namespace _3DPresentation
 {
     public partial class CustomScene : Babylon.Scene
     {
-        //private static object lockThis = new object();
+        public event EventHandler SelectingModel;
         bool mouseLeftDown;
         Point startPosition;
 
-        ViewControl viewControl;
         public void PrepareInteraction()
         {
             Container.MouseLeftButtonDown += new MouseButtonEventHandler(Container_MouseLeftButtonDown);
             Container.MouseLeftButtonUp += new MouseButtonEventHandler(Container_MouseLeftButtonUp);
             Container.MouseMove += new MouseEventHandler(Container_MouseMove);
-
-            viewControl = new ViewControl();
-            viewControl.ParentView = this.Container;
         }
 
         void Container_MouseMove(object sender, MouseEventArgs e)
@@ -54,22 +50,9 @@ namespace _3DPresentation
         private void OnMouseClick()
         {
             if (selectedMesh != null)
-            {                
-                viewControl.ClearModels();
-
-                BaseModel[] models;
-                lock (lockThis)
-                {
-                    models = customSceneModels.ToArray();
-                }
-                for (int i = 0; i < models.Length; i++)
-                {
-                    viewControl.AddModel(models[i]);
-                }
-                models = null;
-
-                viewControl.SetTarget(selectedMesh);
-                App.GoToPage(viewControl);
+            {
+                if (SelectingModel != null)
+                    SelectingModel(this, EventArgs.Empty);                
             }
         }
     }

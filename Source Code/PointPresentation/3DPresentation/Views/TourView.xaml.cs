@@ -4,18 +4,31 @@ using System.Windows;
 using System.Windows.Controls;
 using _3DPresentation.Models;
 using _3DPresentation.Views.Editor;
+using Microsoft.Xna.Framework;
 
 namespace _3DPresentation.Views
 {
     public partial class TourView : UserControl
     {
         public bool IsLoaded { get; private set; }
+        private ObjectView objectView;
         public TourView()
         {            
             InitializeComponent();
-            this.Loaded += new RoutedEventHandler(TourView_Loaded);
+            objectView = new ObjectView();
+            objectView.ParentView = this;
 
-            
+            this.Loaded += new RoutedEventHandler(TourView_Loaded);
+            this.tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);            
+        }
+
+        void tourControl_SelectingModel(object sender, EventArgs e)
+        {
+            objectView.ClearModels();
+            objectView.AddModels(tourControl.GetModels());
+            objectView.SetTarget(tourControl.Target);
+
+            App.GoToPage(objectView);
         }
 
         void TourView_Loaded(object sender, RoutedEventArgs e)
@@ -31,8 +44,19 @@ namespace _3DPresentation.Views
             if (IsLoaded == false)
                 return false;
             LoadSceneLocal("espilit");
-            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
-            
+            //ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
+            BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "horse_text.ply"));
+            model.Scale = 10.0f;
+            model.Position = new Vector3(0, 1, 0);
+            AddModel(model);
+            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "bunny_text.ply"));
+            model.Scale = 10.0f;
+            model.Position = new Vector3(0, 1, 3);
+            AddModel(model);
+            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "lucy_text.ply"));
+            model.Scale = 0.001f;
+            model.Position = new Vector3(0, 1, 6);
+            AddModel(model);
             return true;
         }
 
