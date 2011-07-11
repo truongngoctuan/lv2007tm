@@ -102,7 +102,7 @@ void FindFrameConsumer::RunThread()
 			}
 
 			if(true)
-			{
+			{//save all
 				SurfelsRGBDModeler modeler;
 				modeler.setMinViewsPerSurfel(1);
 				pose_estimator->m_image_data;
@@ -170,8 +170,11 @@ void FindFrameConsumer::SavePairs(int closest_view_index, string strFileName,
 		ofs<<ref_points.size()<<endl;
 		for (int i = 0; i < ref_points.size(); i++)
 		{
-			ofs << ref_points[i].x * 1000.0f<<" "<<ref_points[i].y * 1000.0f<<" "<<ref_points[i].z * 1000.0f<< " ";
-			ofs << img_points[i].x * 1000.0f<<" "<<img_points[i].y * 1000.0f<<" "<<img_points[i].z * 1000.0f<<endl;
+			//ofs << ref_points[i].x * 1000.0f<<" "<<ref_points[i].y * 1000.0f<<" "<<ref_points[i].z * 1000.0f<< " ";
+			//ofs << img_points[i].x * 1000.0f<<" "<<img_points[i].y * 1000.0f<<" "<<img_points[i].z * 1000.0f<<endl;
+
+			ofs << ref_points[i].x<<" "<<ref_points[i].y <<" "<<ref_points[i].z << " ";
+			ofs << img_points[i].x <<" "<<img_points[i].y<<" "<<img_points[i].z <<endl;
 		}
 		ofs.close();
 	}

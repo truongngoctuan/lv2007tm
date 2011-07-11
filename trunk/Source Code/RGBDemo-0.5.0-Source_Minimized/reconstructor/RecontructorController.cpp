@@ -14,7 +14,15 @@ RecontructorController::~RecontructorController(void)
 
 void RecontructorController::Run()
 {
-	//MyAlign::Auto("d:\\test2\\result\\listply.txt", "d:\\test2\\result");
+	//try
+	//{
+		//MyAlign::Auto("d:\\test2\\result\\listply.txt", "d:\\test2\\result");
+	//}
+	//catch(...)
+	//{
+	//	cout<<"loi"<<endl;
+	//	return;
+	//}
 	//return;
 	if (m_bIsFromKineck)
 	{
