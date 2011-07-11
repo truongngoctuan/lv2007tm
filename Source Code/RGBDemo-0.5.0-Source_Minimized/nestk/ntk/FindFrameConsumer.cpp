@@ -11,6 +11,7 @@ void FindFrameConsumer::RunThread()
 	}
 	
 	pose_estimator->m_use_icp = this->IsUseICP();
+	pose_estimator->strWorkingDir = GetDestinationFolder() + "\\\\temp";
 	int ilast_image;
 	Pose3D currentPose;
 	bool pose_ok;

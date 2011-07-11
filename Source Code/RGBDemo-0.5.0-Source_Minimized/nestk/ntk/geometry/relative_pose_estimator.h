@@ -28,6 +28,8 @@
 #include <boost/thread.hpp>
 #include <ntk/icp/FeaturePairFilter.cpp>
 #include "MyAlign.h"
+#include <string>
+using namespace std;
 
 using namespace boost;
 using namespace boost::this_thread;
@@ -56,7 +58,7 @@ public:
 
   //! Reset the relative pose estimator.
   virtual void reset() = 0;
-
+	string strWorkingDir;
 protected:
   Pose3D m_current_pose;
 };
