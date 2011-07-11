@@ -42,6 +42,9 @@ namespace ntk
     world_to_camera_normal_pose.applyTransformBefore(relative_pose);
     Pose3D camera_to_world_normal_pose = world_to_camera_normal_pose; camera_to_world_normal_pose.invert();
 
+	rgb_pose.m_matrixRT = relative_pose.m_matrixRT;
+	depth_pose.m_matrixRT = relative_pose.m_matrixRT;
+
     Mat1b covered_pixels (depth_im.size());
     covered_pixels = 0;
 
@@ -70,7 +73,7 @@ namespace ntk
 	  //m_surfelsNewFrame.push_back(surfel);
     }
 
-    ntk_dbg_print(m_surfels.size(), 1);
+    //ntk_dbg_print(m_surfels.size(), 1);
   }
 
   void SurfelsRGBDModeler :: addNewView(const RGBDImage& image, Pose3D& relative_pose)
@@ -82,6 +85,9 @@ namespace ntk
     Pose3D depth_pose = *image.calibration()->depth_pose;
     depth_pose.applyTransformBefore(relative_pose);
     rgb_pose.applyTransformBefore(relative_pose);
+
+	rgb_pose.m_matrixRT = relative_pose.m_matrixRT;
+	depth_pose.m_matrixRT = relative_pose.m_matrixRT;
 
     Pose3D world_to_camera_normal_pose;
     world_to_camera_normal_pose.applyTransformBefore(relative_pose);
@@ -188,6 +194,9 @@ namespace ntk
 
       Point3f p3d = depth_pose.unprojectFromImage(Point2f(c,r), depth * 1000.0f);
       Point3f p_rgb = rgb_pose.projectToImage(p3d);
+	  /*p_rgb.x = c;
+	  p_rgb.y = r;
+	  p_rgb.z = depth;*/
       if (!is_yx_in_range(image.rgb(), p_rgb.y, p_rgb.x))
         continue;
       cv::Vec3b rgb_color = bgr_to_rgb(image.rgb()(p_rgb.y, p_rgb.x));

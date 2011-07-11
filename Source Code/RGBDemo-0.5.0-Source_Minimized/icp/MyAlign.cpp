@@ -185,7 +185,7 @@ bool ReadScript2(string strScript, int &nPointClouds, string **pPointClouds)
 }
 
 
-bool MyAlign::Auto(std::string strScriptFile, std::string strResultDir)
+bool MyAlign::Auto2(std::string strScriptFile, std::string strResultDir)
 {
 	string strDirectory = ExePath();
 	//string strScript = strDirectory + '\\' + strScriptFile;
@@ -225,4 +225,114 @@ bool MyAlign::Auto(std::string strScriptFile, std::string strResultDir)
 	if(pPointClouds)
 		delete[] pPointClouds;
 	return bFinalized;
+}	
+
+bool MyAlign::Auto(std::string strScriptFile, std::string strResultDir)
+{
+	string strDirectory = ExePath();
+	//string strScript = strDirectory + '\\' + strScriptFile;
+	string strScript = strScriptFile;
+
+	int nPointClouds, nPairs;
+	string *pPointClouds = NULL;
+	string *pFix = NULL;
+	string *pMov = NULL;
+	string *pPairs = NULL;
+
+	if(!ReadScript(strScript, nPointClouds, nPairs, &pPointClouds, &pFix, &pMov, &pPairs))
+	{
+		printf("Error reading script.txt\n");
+		return false;
+	}
+	
+	MyAlign myAlign;
+	for(int i = 0; i < nPointClouds; i++)
+	{
+		clock_t addNodeStart = clock();
+		//string strModel = strDirectory + '\\' + pPointClouds[i];
+		string strModel = pPointClouds[i];
+		myAlign.AddNode(strModel, getName(pPointClouds[i]));
+		printf("\tAdd Nodes Time elapsed: %f\n", ((double)clock() - addNodeStart) / CLOCKS_PER_SEC);
+	}
+
+	// start node
+	myAlign.SetBaseNode(getName(pPointClouds[0]));
+
+
+	clock_t align = clock();
+	for(int i = 0; i < nPairs; i++)
+	{
+		if (!myAlign.Align(getName(pFix[i]), getName(pMov[i]), pPairs[i]))
+		{
+			printf("fail at: %d\n", i);
+		}
+	}
+	printf("\talign Time elapsed: %f\n", ((double)clock() - align) / CLOCKS_PER_SEC);
+
+	// Finalize with ICP
+	clock_t icpStart = clock();
+	//bool bFinalized = myAlign.FinalizeICP();
+	bool bFinalized = true;
+	printf("\tICP Time elapsed: %f\n", ((double)clock() - icpStart) / CLOCKS_PER_SEC);
+
+	// print all matrix
+	myAlign.PrintResult(strResultDir);
+	//myAlign.Export();
+
+	if(pPointClouds)
+		delete[] pPointClouds;
+	return bFinalized;
+}	
+
+
+bool MyAlign::AlignNotICP(std::string strScriptFile, std::string strResultDir)
+{
+	string strDirectory = ExePath();
+	//string strScript = strDirectory + '\\' + strScriptFile;
+	string strScript = strScriptFile;
+
+	int nPointClouds, nPairs;
+	string *pPointClouds = NULL;
+	string *pFix = NULL;
+	string *pMov = NULL;
+	string *pPairs = NULL;
+
+	if(!ReadScript(strScript, nPointClouds, nPairs, &pPointClouds, &pFix, &pMov, &pPairs))
+	{
+		printf("Error reading script.txt\n");
+		return false;
+	}
+	
+	MyAlign myAlign;
+	for(int i = 0; i < nPointClouds; i++)
+	{
+		clock_t addNodeStart = clock();
+		//string strModel = strDirectory + '\\' + pPointClouds[i];
+		string strModel = pPointClouds[i];
+		myAlign.AddNode(strModel, getName(pPointClouds[i]));
+		printf("\tAdd Nodes Time elapsed: %f\n", ((double)clock() - addNodeStart) / CLOCKS_PER_SEC);
+	}
+
+	// start node
+	myAlign.SetBaseNode(getName(pPointClouds[0]));
+
+	clock_t align = clock();
+	bool bResult = true;
+	for(int i = 0; i < nPairs; i++)
+	{
+		if (!myAlign.Align(getName(pFix[i]), getName(pMov[i]), pPairs[i]))
+		{
+			bResult = false;
+			printf("fail at: %d\n", i);
+		}
+	}
+	printf("\talign Time elapsed: %f\n", ((double)clock() - align) / CLOCKS_PER_SEC);
+
+	// print all matrix
+	myAlign.PrintResult(strResultDir);
+	//myAlign.Export();
+
+	if(pPointClouds)
+		delete[] pPointClouds;
+	return bResult;
 }	

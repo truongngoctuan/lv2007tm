@@ -23,4 +23,7 @@ public:
 	void Export();
 
 	static __declspec(dllexport) bool Auto(std::string strScriptFile, std::string strResultDir);
+	static __declspec(dllexport) bool Auto2(std::string strScriptFile, std::string strResultDir);
+
+	static __declspec(dllexport) bool AlignNotICP(std::string strScriptFile, std::string strResultDir);
 };

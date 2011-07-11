@@ -180,6 +180,8 @@ Pose3D :: Pose3D() :
   impl->project_transform = impl->camera_transform;
   impl->inv_camera_transform = impl->camera_transform;
   impl->inv_project_transform = impl->project_transform.inverse();
+
+    m_matrixRT = setIdentify4();
 }
 
 Pose3D :: ~Pose3D()
@@ -192,6 +194,7 @@ Pose3D :: Pose3D(const Pose3D& rhs)
   : XmlSerializable(rhs), impl(new PrivatePose3D(this))
 {
   *this = rhs;
+  this->m_matrixRT = rhs.m_matrixRT.clone();
 }
 
 Pose3D& Pose3D :: operator=(const Pose3D& rhs)
@@ -203,6 +206,8 @@ Pose3D& Pose3D :: operator=(const Pose3D& rhs)
   m_has_camera_params = rhs.m_has_camera_params;
   m_orthographic = rhs.m_orthographic;
   *impl = *rhs.impl;
+
+  this->m_matrixRT = rhs.m_matrixRT.clone();
   return *this;
 }
 
@@ -657,7 +662,19 @@ void Pose3D :: invert()
 
 cv::Point3f Pose3D :: projectToImage(const cv::Point3f& p) const
 {
-  Eigen::Vector4d ep; toEigen(p, ep);
+	cv::Mat1f m = m_matrixRT.inv();
+	    cv::Mat1f output2(4, 1);
+  output2[0][0] = p.x;
+  output2[1][0] = p.y;
+  output2[2][0] = p.z;
+  output2[3][0] = 1;
+
+   cv::Point3f p3f;
+  p3f.x = m[0][0] * output2[0][0] + m[0][1] * output2[1][0] + m[0][2] * output2[2][0] + m[0][3];
+  p3f.y = m[1][0] * output2[0][0] + m[1][1] * output2[1][0] + m[1][2] * output2[2][0] + m[1][3];
+  p3f.z = m[2][0] * output2[0][0] + m[2][1] * output2[1][0] + m[2][2] * output2[2][0] + m[2][3];
+
+  Eigen::Vector4d ep; toEigen(p3f, ep);
   return toVec3f(impl->projectToImage(ep));
 }
 
@@ -752,7 +769,20 @@ cv::Point3f Pose3D :: unprojectFromImage(const cv::Point2f& p, double depth) con
   Eigen::Vector4d ep (p.x, p.y, depth, 1);
   Eigen::Vector4d output;
   impl->unprojectFromImage(ep, output);
-  return toVec3f(output);
+
+  cv::Mat1f output2(4, 1);
+  output2[0][0] = output[0];
+  output2[1][0] = output[1];
+  output2[2][0] = output[2];
+  output2[3][0] = 1;
+  
+  cv::Point3f p3f;
+  p3f.x = m_matrixRT[0][0] * output2[0][0] + m_matrixRT[0][1] * output2[1][0] + m_matrixRT[0][2] * output2[2][0] + m_matrixRT[0][3];
+  p3f.y = m_matrixRT[1][0] * output2[0][0] + m_matrixRT[1][1] * output2[1][0] + m_matrixRT[1][2] * output2[2][0] + m_matrixRT[1][3];
+  p3f.z = m_matrixRT[2][0] * output2[0][0] + m_matrixRT[2][1] * output2[1][0] + m_matrixRT[2][2] * output2[2][0] + m_matrixRT[2][3];
+
+  return p3f;
+  //return cv::Point3f(output2[0][0], output2[1][0], output[2][0]);
 }
 
 void Pose3D :: applyTransformBefore(const Pose3D& rhs_pose)

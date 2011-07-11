@@ -116,7 +116,7 @@ public:
     reset();
   }
 
-  virtual bool estimateNewPose(const RGBDImage& image);
+  virtual bool estimateNewPose(const RGBDImage& image) { return true;}
   bool estimateNewPose(const RGBDImage& image, Pose3D& new_pose,
 	  //std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points,
 	  int& closest_view_index);
@@ -141,9 +141,10 @@ private:
                          const std::vector<cv::DMatch>& best_matches,
                          int closest_view_index);
 
-  bool optimizeWithICP(const RGBDImage& image, Pose3D& depth_pose, int closest_view_index);
+  bool optimizeWithICP(const RGBDImage& image, Pose3D& depth_pose, FeatureSet& features, std::vector<cv::DMatch> best_matches, int closest_view_index);
 
 public:
+//	std::vector<cv::Mat1f> m_matrixRT;
   std::vector < FeatureSet > m_features;
   std::vector< ImageData > m_image_data;
   FeatureSetParams m_feature_parameters;
@@ -163,6 +164,10 @@ private:
 public:
   void CalulatePairs(bool bIsAligned, 
 	  std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points);
+
+  void CalulatePairs(bool bIsAligned, 
+	  std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points,
+	  int closest_view_index, Pose3D& depth_pose, FeatureSet& features, std::vector<cv::DMatch> best_matches);
 };
 
 } // ntk
