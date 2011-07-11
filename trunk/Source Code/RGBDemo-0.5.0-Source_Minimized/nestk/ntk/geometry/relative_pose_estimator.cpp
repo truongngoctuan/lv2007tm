@@ -634,8 +634,8 @@ bool RelativePoseEstimatorFromImage::optimizeWithICP(const RGBDImage& image, Pos
 	rgbdImageToPointCloud(pts1, m_image_data[closest_view_index].depth, depth_pose1);
 	rgbdImageToPointCloud(pts2, image.mappedDepth(), depth_pose);
 	
-	PointCloudToPlyFiles2(pts1, "temp1.ply");
-	PointCloudToPlyFiles2(pts2, "temp2.ply");
+	PointCloudToPlyFiles2(pts1, strWorkingDir + "/temp1.ply");
+	PointCloudToPlyFiles2(pts2, strWorkingDir + "/temp2.ply");
 
 	std::vector<cv::Point3f> ref_points;
 	std::vector<cv::Point3f> img_points;
@@ -643,23 +643,25 @@ bool RelativePoseEstimatorFromImage::optimizeWithICP(const RGBDImage& image, Pos
 	  ref_points, img_points,
 	  closest_view_index, depth_pose1, features, best_matches);
 
-	SavePairs(closest_view_index, "pair.txt", ref_points, img_points);
+	SavePairs(closest_view_index, strWorkingDir + "/pair.txt", ref_points, img_points);
 
-	ofstream ofs("listplytemp.txt");
+	ofstream ofs((strWorkingDir + "/listplytemp.txt").c_str());
 	ofs<<2<<endl;
-	ofs<<"temp1.ply"<<endl;
-	ofs<<"temp2.ply"<<endl;
+	ofs<<strWorkingDir + "\\\\temp1.ply"<<endl;
+	ofs<<strWorkingDir + "\\\\temp2.ply"<<endl;
 	ofs<<"1"<<endl;
-	ofs<<"temp1.ply temp2.ply pair.txt"<<endl;
+	ofs<<strWorkingDir + "\\\\temp1.ply "
+		<<strWorkingDir + "\\\\temp2.ply "
+		<<strWorkingDir + "\\\\pair.txt"<<endl;
 
-	bool result = MyAlign::Auto("listplytemp.txt", "config");
+	bool result = MyAlign::Auto(strWorkingDir + "\\listplytemp.txt", strWorkingDir);
 
 	if (result)
 	{
 		//cap nhat pose
 		cv::Mat1f H1(4, 4), H2(4, 4);
 		//getrtMatrixFromFile("config\\temp1.txt", H1);
-		getrtMatrixFromFile("config\\temp2.txt", H2);
+		getrtMatrixFromFile(strWorkingDir + "/temp2.txt", H2);
 
 		cout <<H2[0][0]<<" "<<H2[0][1]<<" "<<H2[0][2]<<" "<<H2[0][3]<<endl;
 		cout <<H2[1][0]<<" "<<H2[1][1]<<" "<<H2[1][2]<<" "<<H2[1][3]<<endl;
