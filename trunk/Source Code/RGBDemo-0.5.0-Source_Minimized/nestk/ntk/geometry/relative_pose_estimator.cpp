@@ -31,6 +31,8 @@
 # include <opencv/cxcore.h>
 # include <opencv/cv.h>
 
+using namespace boost::filesystem3;
+
 namespace ntk
 {
 
@@ -682,6 +684,8 @@ bool RelativePoseEstimatorFromImage::optimizeWithICP(const RGBDImage& image, Pos
 	{
 		cout<<" --optimizeWithICP false"<<endl;
 	}
+
+
 	return result;
 
 	//int i = 0;

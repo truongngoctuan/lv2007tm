@@ -45,6 +45,13 @@ void RecontructorController::Run()
 
 		RunFromRecordedData();
 	}
+
+	filesystem3::remove(path("temp1.ply"));
+	filesystem3::remove(path("temp2.ply"));
+	filesystem3::remove(path("pair.txt"));
+	filesystem3::remove(path("listplytemp.txt"));
+	filesystem3::remove(path("config/temp1.txt"));
+	filesystem3::remove(path("config/temp2.txt"));
 	
 }
 
