@@ -28,6 +28,7 @@ namespace _3DPresentation.Views.Editor
         public MatchModelView()
         {
             InitializeComponent();
+            this.KeyDown += new KeyEventHandler(MatchModelView_KeyDown);
 
             RotateX.setParams(this, "rx", "Rotate X: ", -180, 180, 0);
             RotateY.setParams(this, "ry", "Rotate Y: ", -180, 180, 0);
@@ -42,7 +43,55 @@ namespace _3DPresentation.Views.Editor
             ScaleZ.setParams(this, "sz", "Scale Z: ", -10, 10, 1);
 
             tblockValue.Text = this.ToString();
+            //RotateX.IsEnabled = false;
+            //RotateY.IsEnabled = false;
+            //RotateZ.IsEnabled = false;
+
+            //TransateX.IsEnabled = false;
+            //TransateY.IsEnabled = false;
+            //TransateZ.IsEnabled = false;
+
+            //ScaleX.IsEnabled = false;
+            //ScaleY.IsEnabled = false;
+            //ScaleZ.IsEnabled = false;
+            
             this.Effect = null;
+
+            vcOjectViewer.IsTabStop = true;
+            vcOjectViewer.Focus();
+        }
+
+        void MatchModelView_KeyDown(object sender, KeyEventArgs e)
+        {
+            
+            Vector3 moveDirection = Vector3.Zero;
+            //Microsoft.Xna.Framework.Matrix mat = Microsoft.Xna.Framework.Matrix.CreateFromYawPitchRoll(_model2.WorldMatrix. Camera.RotationY, tourControl.Camera.RotationX, tourControl.Camera.RotationZ);
+            Microsoft.Xna.Framework.Matrix mat = _3DPresentation.MathUtil.GetTransformationMatrix(-Vector3.UnitZ, vcOjectViewer.ViewScene.Camera.Target - vcOjectViewer.ViewScene.Camera.Position);
+            if (e.Key == System.Windows.Input.Key.W)
+            {
+                moveDirection = MathUtil.TransformPoint(mat, Vector3.Up);
+            }
+            else if (e.Key == System.Windows.Input.Key.S)
+            {
+                moveDirection = MathUtil.TransformPoint(mat, Vector3.Down);
+            }
+            else if (e.Key == System.Windows.Input.Key.A)
+            {
+                moveDirection = MathUtil.TransformPoint(mat, Vector3.Left);
+            }
+            else if (e.Key == System.Windows.Input.Key.D)
+            {
+                moveDirection = MathUtil.TransformPoint(mat, Vector3.Right);
+            }
+            moveDirection *= 5;
+
+            _fTranslateX += moveDirection.X;
+            _fTranslateY += moveDirection.Y;
+            _fTranslateZ += moveDirection.Z;
+
+            UpdateModelTranslate();
+
+            //SelectedModel.Position += moveDirection;
         }
 
         // Executes when the user navigates to this page.

@@ -8,7 +8,7 @@
     d:DesignHeight="300" d:DesignWidth="400">
     
     <Grid x:Name="LayoutRoot" Background="White" SizeChanged="LayoutRoot_SizeChanged">
-        <my:ViewControl x:Name="viewControl"/>
-        <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>
+        <my:ViewControl x:Name="viewControl" Width="500" Height="400"/>
+        <!--<customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>-->
     </Grid>
 </UserControl>

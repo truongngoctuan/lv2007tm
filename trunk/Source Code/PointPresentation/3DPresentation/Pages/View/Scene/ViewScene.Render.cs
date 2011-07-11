@@ -39,8 +39,8 @@ namespace _3DPresentation
                             //    SetShaderEffect(EffectManager.ShaderEffects.NoEffect, graphicsDevice, model.WorldMatrix);
                             //model.Render(graphicsDevice);
                             model.Material.World = model.WorldMatrix;
-                            model.Material.View = Camera.View;
-                            model.Material.Projection = Camera.Projection;
+                            model.Material.View = _camera.View;
+                            model.Material.Projection = _camera.Projection;
                             model.Material.Device = graphicsDevice;
                             if (model is PointModel)
                                 ((Material.PointMaterial)(model.Material)).Scale = new Vector2(1.0f / SurfaceSize.X, 1.0f / SurfaceSize.Y);
@@ -60,8 +60,8 @@ namespace _3DPresentation
             {
                 NoEffect noEffect = EffectManager.NoEffect;
                 noEffect.World = world;
-                noEffect.Projection = Camera.Projection;
-                noEffect.View = Camera.View;
+                noEffect.Projection = _camera.Projection;
+                noEffect.View = _camera.View;
 
                 noEffect.Device = graphicsDevice;
                 noEffect.Apply();
@@ -70,8 +70,8 @@ namespace _3DPresentation
             {
                 TexturedNoEffect texturedNoEffect = EffectManager.TexturedNoEffect;
                 texturedNoEffect.World = world;
-                texturedNoEffect.Projection = Camera.Projection;
-                texturedNoEffect.View = Camera.View;
+                texturedNoEffect.Projection = _camera.Projection;
+                texturedNoEffect.View = _camera.View;
 
                 texturedNoEffect.Device = graphicsDevice;
                 texturedNoEffect.Apply();
@@ -80,8 +80,8 @@ namespace _3DPresentation
             {
                 PointEffect pointEffect = EffectManager.PointEffect;
                 pointEffect.World = world;
-                pointEffect.Projection = Camera.Projection;
-                pointEffect.View = Camera.View;
+                pointEffect.Projection = _camera.Projection;
+                pointEffect.View = _camera.View;
                 pointEffect.Scale = new Vector2(1.0f / SurfaceSize.X, 1.0f / SurfaceSize.Y);
 
                 pointEffect.Device = graphicsDevice;

@@ -53,7 +53,14 @@ namespace _3DPresentation
             double angleRad = GetAngleRad(start, dest);
             Vector3 axis = Vector3.Cross(start, dest);
             // MUST NORMALIZE THE AXIS VECTOR
-            axis.Normalize();
+            if (axis != Vector3.Zero)
+            {
+                axis.Normalize();
+            }
+            else
+            {
+                int a = 0;
+            }
 
             return Matrix.CreateFromAxisAngle(axis, Convert.ToSingle(angleRad));
         }
@@ -109,5 +116,42 @@ namespace _3DPresentation
             AngleY = AngleX * 3.14 / 180;
             AngleZ = AngleX * 3.14 / 180;
         }
+
+        #region OrbitCamera
+        public static Microsoft.Xna.Framework.Vector3 toNewCameraPosition(Babylon.Toolbox.OrbitCamera cam, float dX, float dY)
+        {
+            Microsoft.Xna.Framework.Vector3 position;
+
+            float InertialAlpha = cam.InertialAlpha;
+            float InertialBeta = cam.InertialBeta;
+
+            InertialAlpha += (float)(dX) * cam.AngularSpeed;
+            InertialBeta -= (float)(dY) * cam.AngularSpeed;
+
+            float Alpha = cam.Alpha;
+            float beta = cam.Beta;
+
+            Alpha += InertialAlpha;
+            beta += InertialBeta;
+            //cam.InertialAlpha *= cam.Inertia;
+            //cam.InertialBeta *= cam.Inertia;
+
+            if (beta >= Math.PI)
+                beta = (float)Math.PI - cam.AngularSpeed;
+
+            if (beta < 0)
+                beta = cam.AngularSpeed;
+
+            //compute position
+            var cosa = (float)Math.Cos(Alpha);
+            var sina = (float)Math.Sin(Alpha);
+            var cosb = (float)Math.Cos(beta);
+            var sinb = (float)Math.Sin(beta);
+
+            position = cam.Target + new Microsoft.Xna.Framework.Vector3(cam.Radius * cosa * sinb, cam.Radius * cosb, cam.Radius * sina * sinb);
+
+            return position;
+        }
+        #endregion
     } 
 }
