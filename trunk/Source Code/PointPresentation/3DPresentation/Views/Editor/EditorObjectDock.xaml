@@ -8,9 +8,9 @@
         <Image Height="87" Source="Images/topbg_left.png"></Image>
         <Grid>
             <Image Height="87" Source="Images/topbg_mid.png"></Image>
-            <Button x:Name="btNewCaptureModel" Click="btNewCaptureModel_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
+            <Button x:Name="btNewCaptureModel" Click="btNewCaptureModel_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Center">
                 <Button.Content>
-                    <Image Width="50" Source="Images/top_new_model.png"></Image>
+                    <Image x:Name="imgNewCaptureModel" Width="50" Source="Images/top_new_model.png"></Image>
                 </Button.Content>
                 <!--<Button.Effect>
                         <customControl:ReflectionShader ElementHeight="51">
@@ -20,9 +20,9 @@
         </Grid>
         <Grid>
             <Image Height="87" Source="Images/topbg_mid.png"></Image>
-            <Button x:Name="btPlay" Click="btPlay_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
+            <Button x:Name="btPlay" Click="btPlay_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Center">
                 <Button.Content>
-                    <Image Width="50" Source="Images/top_play.png"></Image>
+                    <Image x:Name="imgPlay" Width="50" Source="Images/top_play.png"></Image>
                 </Button.Content>
                 <!--<Button.Effect>
                         <customControl:ReflectionShader ElementHeight="51">
@@ -33,9 +33,23 @@
         </Grid>
         <Grid>
             <Image Height="87" Source="Images/topbg_mid.png"></Image>
-            <Button x:Name="btStop" Click="btStop_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Top">
+            <Button x:Name="btPause" Click="btPause_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Center">
                 <Button.Content>
-                    <Image Width="50" Source="Images/top_stop.png"></Image>
+                    <Image x:Name="imgPause" Width="50" Source="Images/top_pause.png"></Image>
+                </Button.Content>
+                <!--<Button.Effect>
+                        <customControl:ReflectionShader ElementHeight="51">
+                        </customControl:ReflectionShader>
+                    </Button.Effect>-->
+            </Button>
+
+        </Grid>
+        
+        <Grid>
+            <Image Height="87" Source="Images/topbg_mid.png"></Image>
+            <Button x:Name="btStop" Click="btStop_Click" Style="{StaticResource customButtonNoStyle}" VerticalAlignment="Center">
+                <Button.Content>
+                    <Image x:Name="imgStop" Width="50" Source="Images/top_stop.png"></Image>
                 </Button.Content>
                 <!--<Button.Effect>
                         <customControl:ReflectionShader ElementHeight="51">
