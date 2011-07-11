@@ -66,7 +66,7 @@ namespace _3DPresentation.Models
         public Vector3 Position
         {
             get { return position; }
-            set { position = value; UpdateMatrix(); }
+            set { position = value; UpdateMatrix(); UpdateMatrix2(); }
         }
         public Vector3 Rotation
         {
@@ -81,11 +81,34 @@ namespace _3DPresentation.Models
         {
             worldMatrix = Matrix.Identity;
             worldMatrix *= Matrix.CreateScale(Scale);
+            worldMatrix *= Matrix.CreateTranslation(-BoundingInfo.BoundingSphere.Center.X, -BoundingInfo.BoundingSphere.Center.Y, -BoundingInfo.BoundingSphere.Center.Z);
             worldMatrix *= Matrix.CreateFromYawPitchRoll(rotation.Y, rotation.X, rotation.Z);
+            worldMatrix *= Matrix.CreateTranslation(BoundingInfo.BoundingSphere.Center.X, BoundingInfo.BoundingSphere.Center.Y, BoundingInfo.BoundingSphere.Center.Z);
             worldMatrix *= Matrix.CreateTranslation(position.X, position.Y, position.Z);
 
             BoundingInfo.UpdateWorldDatas(worldMatrix, Scale);
         }
+
+        Matrix rotationMatrix = Matrix.Identity;
+
+        public Matrix RotationMatrix
+        {
+            get { return rotationMatrix; }
+            set { rotationMatrix = value; UpdateMatrix2(); }
+        }
+
+        private void UpdateMatrix2()
+        {
+            worldMatrix = Matrix.Identity;
+            worldMatrix *= Matrix.CreateScale(Scale);
+            worldMatrix *= Matrix.CreateTranslation(-BoundingInfo.BoundingSphere.Center.X, -BoundingInfo.BoundingSphere.Center.Y, -BoundingInfo.BoundingSphere.Center.Z);
+            worldMatrix *= rotationMatrix;
+            worldMatrix *= Matrix.CreateTranslation(BoundingInfo.BoundingSphere.Center.X, BoundingInfo.BoundingSphere.Center.Y, BoundingInfo.BoundingSphere.Center.Z);
+            worldMatrix *= Matrix.CreateTranslation(position.X, position.Y, position.Z);
+
+            BoundingInfo.UpdateWorldDatas(worldMatrix, Scale);
+        }
+
 
         public BaseModel()
         {

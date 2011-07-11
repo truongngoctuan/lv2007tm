@@ -58,6 +58,8 @@ namespace _3DPresentation
         public EditorView()
         {
             InitializeComponent();
+            this.KeyDown += new KeyEventHandler(EditorView_KeyDown);
+
             toolbar.ParentEditor = this;
             frameViewer.ParentView = this;
             odControl.ParentEditor = this;
@@ -72,6 +74,11 @@ namespace _3DPresentation
             odControl.Pause += new EventHandler(odControl_Pause);
             odControl.Resume += new EventHandler(odControl_Resume);
             odControl.Stop += new EventHandler(odControl_Stop);
+        }
+
+        void EditorView_KeyDown(object sender, KeyEventArgs e)
+        {
+
         }
 
 

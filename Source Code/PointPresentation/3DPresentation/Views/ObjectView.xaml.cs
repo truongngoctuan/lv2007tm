@@ -16,26 +16,42 @@ namespace _3DPresentation.Views
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(ObjectView_Loaded);
-            this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
+            //this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
+
+            this.viewControl.ViewScene.MouseRotated += new MouseRotatedEventHandler(ViewScene_MouseRotated);
+            this.viewControl.ViewScene.KeyboardTransition += new KeyboardTransitionEventHandler(ViewScene_KeyboardTransition);
+        }
+
+        void ViewScene_KeyboardTransition(object sender, KeyboardTransitionEventArgs e)
+        {
+            tempmodel.Position += (e.T / 100.0f);
+        }
+
+        BaseModel tempmodel = null;
+        void ViewScene_MouseRotated(object sender, MouseRotatedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            tempmodel.RotationMatrix *= e.RotationMatrix;
         }
 
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
         {
             viewControl.GetTarget().IsEnabled = false;
-            viewControl.SetTarget((BaseModel)cbbModel.SelectedItem);
+            //viewControl.SetTarget((BaseModel)cbbModel.SelectedItem);
             viewControl.GetTarget().IsEnabled = true;
         }
 
         void ObjectView_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
-            //ExecuteScript("abc");
+            ExecuteScript("abc");
         }
 
         public bool ExecuteScript(string strScript)
         {
             if (IsLoaded == false)
                 return false;
+            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
             ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
             return true;
         }
@@ -55,7 +71,11 @@ namespace _3DPresentation.Views
             if (model == null)
                 return false;
 
-            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+            if (tempmodel == null)
+            {
+                tempmodel = model;
+            }
+            //cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return AddModel(model);
         }
 
@@ -72,7 +92,7 @@ namespace _3DPresentation.Views
 
         private bool AddModel(BaseModel model)
         {
-            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+            //cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return viewControl.AddModel(model);
         }
 
@@ -88,7 +108,7 @@ namespace _3DPresentation.Views
 
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            cbbModel.SetActualWidthAndHeight(LayoutRoot.ActualWidth, LayoutRoot.ActualHeight);
+            //cbbModel.SetActualWidthAndHeight(LayoutRoot.ActualWidth, LayoutRoot.ActualHeight);
         }
     }
 }

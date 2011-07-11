@@ -8,7 +8,7 @@
                                        xmlns:customControl="clr-namespace:_3DPresentation.Views.Editor"
                       xmlns:viewctrl="clr-namespace:_3DPresentation"
            Title="MatchModelView Page">
-    <Grid x:Name="LayoutRoot" Margin="2">
+    <Grid x:Name="LayoutRoot" Margin="2" Width="900" Height="400" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition Height="Auto" />

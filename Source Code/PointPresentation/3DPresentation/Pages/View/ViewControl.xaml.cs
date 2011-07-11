@@ -20,6 +20,12 @@ namespace _3DPresentation
         public bool IsLoaded { get; private set; }
 
         ViewScene viewScene;
+
+        public ViewScene ViewScene
+        {
+            get { return viewScene; }
+            set { viewScene = value; }
+        }
         public ViewControl()
         {
             InitializeComponent();

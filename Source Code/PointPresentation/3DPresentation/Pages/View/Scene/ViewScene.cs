@@ -13,7 +13,13 @@ namespace _3DPresentation
     {
         // the device to use when creating resources
         //static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
-        OrbitCamera Camera = new OrbitCamera { Alpha = (float)Math.PI / 2 };
+        OrbitCamera _camera = new OrbitCamera { Alpha = (float)Math.PI / 2 };
+
+        public OrbitCamera Camera
+        {
+            get { return _camera; }
+            set { _camera = value; }
+        }
         private UserControl Container;
         private DrawingSurface Surface { get; set; }
 
@@ -64,7 +70,7 @@ namespace _3DPresentation
             graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
             Render(graphicsDevice);
 
-            Camera.ApplyInertia();
+            _camera.ApplyInertia();
 
             e.InvalidateSurface();
         }
@@ -72,7 +78,7 @@ namespace _3DPresentation
         void Surface_SizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
         {
             SurfaceSize = new Vector2((float)Surface.ActualWidth, (float)Surface.ActualHeight);
-            Camera.AspectRatio = (float)(Surface.ActualWidth / Surface.ActualHeight);
+            _camera.AspectRatio = (float)(Surface.ActualWidth / Surface.ActualHeight);
         }
 
     }
