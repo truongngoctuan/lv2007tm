@@ -118,18 +118,18 @@ namespace _3DPresentation.Views
             model.Scale = 10.0f;
             model.Position = new Vector3(0, 1, 3);
             AddModel(model);
-            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "lucy_text.ply"));
-            model.Scale = 0.001f;
-            model.Position = new Vector3(0, 1, 6);
-            AddModel(model);
-            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "lion_text.ply"));
-            model.Scale = 10.0f;
-            model.Position = new Vector3(-3, 1, 6);
-            AddModel(model);
-            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "heptoroid_text.ply"));
-            model.Scale = 0.1f;
-            model.Position = new Vector3(-6, 1, 6);
-            AddModel(model);
+            //model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "lucy_text.ply"));
+            //model.Scale = 0.001f;
+            //model.Position = new Vector3(0, 1, 6);
+            //AddModel(model);
+            //model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "lion_text.ply"));
+            //model.Scale = 10.0f;
+            //model.Position = new Vector3(-3, 1, 6);
+            //AddModel(model);
+            //model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "heptoroid_text.ply"));
+            //model.Scale = 0.1f;
+            //model.Position = new Vector3(-6, 1, 6);
+            //AddModel(model);
             return true;
         }
 

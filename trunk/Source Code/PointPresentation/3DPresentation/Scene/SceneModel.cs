@@ -165,7 +165,7 @@ namespace _3DPresentation
                 }
             }
 
-            foreach (PointModel pointModel in pointModels)
+            foreach (BaseModel pointModel in pointModels)
             {
                 if (pointModel.IsEnabled)
                 {                    
@@ -184,7 +184,7 @@ namespace _3DPresentation
                 }
             }
 
-            foreach (FaceModel faceModel in faceModels)
+            foreach (BaseModel faceModel in faceModels)
             {
                 if (faceModel.IsEnabled)
                 {
@@ -194,7 +194,7 @@ namespace _3DPresentation
                 }
             }
 
-            foreach (FaceModel lightModel in lightModels)
+            foreach (BaseModel lightModel in lightModels)
             {
                 if (lightModel.IsEnabled)
                 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using _3DPresentation.Material;
 
 namespace _3DPresentation.Models
 {
@@ -39,9 +40,9 @@ namespace _3DPresentation.Models
             pointManager.InitBuffers(graphicsDevice);
         }
 
-        public override void Render(GraphicsDevice graphicsDevice)
+        public override void Render(GraphicsDevice graphicsDevice, bool specialRender)
         {
-            base.Render(graphicsDevice);
+            base.Render(graphicsDevice, specialRender);
             if (IsInitialized == false)
                 return;
 
@@ -64,6 +65,16 @@ namespace _3DPresentation.Models
             if(fileType == FileType.PLY)
                 return pointManager.ExportIndiceData(fileType, vertexType, writer, WorldMatrix, offset);
             return false;
+        }
+
+        protected override BaseMaterial GetDefaultMaterial()
+        {
+            return new PointMaterial();
+        }
+
+        protected override BaseMaterial GetDefaultSpecialMaterial()
+        {
+            return new PointMaterial();
         }
     }
 }
