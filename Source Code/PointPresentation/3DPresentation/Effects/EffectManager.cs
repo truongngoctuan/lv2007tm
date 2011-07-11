@@ -62,7 +62,7 @@ namespace _3DPresentation.Effects
             IsReady = true;
         }
 
-        private static Effect GetEffect(ShaderEffects effect)
+        public static Effect GetEffect(ShaderEffects effect)
         {
             Effect newEffect = null;
             if (effect == ShaderEffects.NoEffect)

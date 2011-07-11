@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using Babylon;
 using System.Threading;
+using _3DPresentation.Material;
 
 namespace _3DPresentation.Models
 {
@@ -21,6 +22,36 @@ namespace _3DPresentation.Models
         public bool IsInitialized { get; protected set; }
 
         public CustomBoundingInfo BoundingInfo { get; set; }
+
+        // material
+        private BaseMaterial material;
+        public BaseMaterial Material
+        {
+            get
+            {
+                if (material == null)
+                    material = GetDefaultMaterial();
+                return material;
+            }
+            set
+            {
+                material = value;
+            }
+        }
+        private BaseMaterial specialMaterial;
+        public BaseMaterial SpecialMaterial
+        {
+            get
+            {
+                if (specialMaterial == null)
+                    specialMaterial = GetDefaultSpecialMaterial();
+                return specialMaterial;
+            }
+            set
+            {
+                specialMaterial = value;
+            }
+        }
 
         // position
         float scale;
@@ -236,7 +267,7 @@ namespace _3DPresentation.Models
         public abstract void InitBuffers(GraphicsDevice graphicsDevice);
 
         private Thread oThread;
-        public virtual void Render(GraphicsDevice graphicsDevice)
+        public virtual void Render(GraphicsDevice graphicsDevice, bool specialRender = false)
         {
             if (IsInitialized == false)
             {
@@ -255,6 +286,14 @@ namespace _3DPresentation.Models
             }
 
             // derived class render here
+            if (specialRender)
+            {
+                SpecialMaterial.Apply();
+            }
+            else
+            {
+                Material.Apply();
+            }
         }
 
         public void DoWork(object data)
@@ -410,5 +449,7 @@ namespace _3DPresentation.Models
         }
         protected abstract bool ExportVertexData(FileType fileType, VertexType vertexType, StreamWriter writer);
         protected abstract bool ExportIndiceData(FileType fileType, VertexType vertexType, StreamWriter writer, long offset = 0);
+        protected abstract BaseMaterial GetDefaultMaterial();
+        protected abstract BaseMaterial GetDefaultSpecialMaterial();
     }
 }

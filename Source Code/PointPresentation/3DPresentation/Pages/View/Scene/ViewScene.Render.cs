@@ -33,10 +33,15 @@ namespace _3DPresentation
                     {
                         if (model.IsEnabled)
                         {
-                            if (model is PointModel)
-                                SetShaderEffect(EffectManager.ShaderEffects.PointEffect, graphicsDevice, model.WorldMatrix);
-                            else
-                                SetShaderEffect(EffectManager.ShaderEffects.NoEffect, graphicsDevice, model.WorldMatrix);
+                            //if (model is PointModel)
+                            //    SetShaderEffect(EffectManager.ShaderEffects.PointEffect, graphicsDevice, model.WorldMatrix);
+                            //else
+                            //    SetShaderEffect(EffectManager.ShaderEffects.NoEffect, graphicsDevice, model.WorldMatrix);
+                            //model.Render(graphicsDevice);
+                            model.Material.World = model.WorldMatrix;
+                            model.Material.View = Camera.View;
+                            model.Material.Projection = Camera.Projection;
+                            model.Material.Device = graphicsDevice;
                             model.Render(graphicsDevice);
                         }
                     }

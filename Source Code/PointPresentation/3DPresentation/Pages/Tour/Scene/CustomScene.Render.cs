@@ -50,11 +50,27 @@ namespace _3DPresentation
                     {
                         if (ActiveCamera.IsInFrustrum(model.BoundingInfo))
                         {
+                            //if (model == selectedMesh)
+                            //    SetShaderEffect(EffectManager.ShaderEffects.TexturedNoEffect, model.WorldMatrix);
+                            //else
+                            //    SetShaderEffect(EffectManager.ShaderEffects.NoEffect, model.WorldMatrix);
+                            //model.Render(Device);
                             if (model == selectedMesh)
-                                SetShaderEffect(EffectManager.ShaderEffects.TexturedNoEffect, model.WorldMatrix);
+                            {
+                                model.SpecialMaterial.World = model.WorldMatrix;
+                                model.SpecialMaterial.View = ActiveCamera.View;
+                                model.SpecialMaterial.Projection = ActiveCamera.Projection;
+                                model.SpecialMaterial.Device = Device;
+                                model.Render(Device, true);
+                            }
                             else
-                                SetShaderEffect(EffectManager.ShaderEffects.NoEffect, model.WorldMatrix);
-                            model.Render(Device);
+                            {
+                                model.Material.World = model.WorldMatrix;
+                                model.Material.View = ActiveCamera.View;
+                                model.Material.Projection = ActiveCamera.Projection;
+                                model.Material.Device = Device;
+                                model.Render(Device, false);
+                            }
                         }
                     }
                 }                
