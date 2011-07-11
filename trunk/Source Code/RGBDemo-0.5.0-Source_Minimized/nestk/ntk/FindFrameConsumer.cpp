@@ -16,6 +16,7 @@ void FindFrameConsumer::RunThread()
 	bool pose_ok;
 	while (true)
 	{
+		if (IsPause()) continue;
 		//m_mutex.lock();
 
 		RGBDImage * m_last_image = m_queue->Dequeue(ilast_image);
@@ -101,7 +102,7 @@ void FindFrameConsumer::RunThread()
 				m_vtFileNameNotDecrease.push_back(format("%s\\NotDecreaseSameVertex_%04d.ply", this->GetDestinationFolder().c_str(), ilast_image));
 			}
 
-			if(true)
+			if(this->hasFilterFlag(FindFrameConsumer::Flags::SaveFinalPly))
 			{//save all
 				SurfelsRGBDModeler modeler;
 				modeler.setMinViewsPerSurfel(1);

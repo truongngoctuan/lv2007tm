@@ -111,6 +111,20 @@ void RecontructorController::RunFromKineck()
 				filesystem3::remove(path(m_strDestinationFolder + "\\" + m_strCommandFile));
 				break;
 			}
+
+			if (strcm == "pause")
+			{
+				c->SetPause(true);
+				filesystem3::remove(path(m_strDestinationFolder + "\\" + m_strCommandFile));
+				continue;
+			}
+
+			if (strcm == "resume")
+			{
+				c->SetPause(false);
+				filesystem3::remove(path(m_strDestinationFolder + "\\" + m_strCommandFile));
+				continue;
+			}
 		}
 		else
 		{
@@ -228,6 +242,20 @@ void RecontructorController::RunFromRecordedData()
 				filesystem3::remove(path(m_strDestinationFolder + "\\" + m_strCommandFile));
 				break;
 			}
+
+			if (strcm == "pause")
+			{
+				c->SetPause(true);
+				filesystem3::remove(path(m_strDestinationFolder + "\\" + m_strCommandFile));
+				continue;
+			}
+
+			if (strcm == "resume")
+			{
+				c->SetPause(false);
+				filesystem3::remove(path(m_strDestinationFolder + "\\" + m_strCommandFile));
+				continue;
+			}
 		}
 		else
 		{
@@ -242,5 +270,5 @@ void RecontructorController::RunFromRecordedData()
 	consumers.remove_thread(&thc);
 	c->SaveFileTotalNotDecreaseSameVertex(m_strDestinationFolder + "\\listply.txt");
 
-	MyAlign::Auto(m_strDestinationFolder + "\\listply.txt", m_strDestinationFolder);
+	//MyAlign::Auto(m_strDestinationFolder + "\\listply.txt", m_strDestinationFolder);
 }

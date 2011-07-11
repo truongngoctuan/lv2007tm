@@ -41,8 +41,8 @@ public:
 		enum Flags {
 		NotDecreaseSameVertex = 0x1,
 		DecreaseSameVertex = 0x2,
-		Notprocess = 0x4
-		//SaveFinalPly = 0x8
+		Notprocess = 0x4,
+		SaveFinalPly = 0x8
 	};
 	//từ kineck/từ file --> save/ko save data
 	//save data gồm raw và mapped
