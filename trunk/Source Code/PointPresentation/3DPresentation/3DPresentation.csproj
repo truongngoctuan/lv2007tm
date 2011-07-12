@@ -190,24 +190,6 @@
     <Compile Include="Views\EditorView.xaml.cs">
       <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Editor\cwOpenModel.xaml.cs">
-      <DependentUpon>cwOpenModel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwOptimize.xaml.cs">
-      <DependentUpon>cwOptimize.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwResetWorkSpace.xaml.cs">
-      <DependentUpon>cwResetWorkSpace.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwSaveModel.xaml.cs">
-      <DependentUpon>cwSaveModel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwSetupSDK.xaml.cs">
-      <DependentUpon>cwSetupSDK.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Editor\cwSetupWorkSpace.xaml.cs">
-      <DependentUpon>cwSetupWorkSpace.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Editor\EditorObjectDock.xaml.cs">
       <DependentUpon>EditorObjectDock.xaml</DependentUpon>
     </Compile>
@@ -313,30 +295,6 @@
     <Resource Include="Views\OpenFolderDlg\Assets\folder.png" />
     <Resource Include="Views\OpenFolderDlg\Assets\mc.png" />
     <Page Include="Views\EditorView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwOpenModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwOptimize.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwResetWorkSpace.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwSaveModel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwSetupSDK.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\cwSetupWorkSpace.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

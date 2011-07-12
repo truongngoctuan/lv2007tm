@@ -27,7 +27,7 @@ namespace _3DPresentation.Views.Editor
         {
             InitializeComponent();
         }
-        
+
         private void btSetupSDK_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -56,16 +56,12 @@ namespace _3DPresentation.Views.Editor
                 MessageBox.Show(ex.Message);
                 throw;
             }
-
-            //cwSetupSDK cwNew = new cwSetupSDK();
-            //cwNew.Show();
         }
-
         #region setup workspace
         private void btSetupWorkSpace_Click(object sender, RoutedEventArgs e)
         {
             FolderDialogSL4.FolderDialog FolderDlg = new FolderDialogSL4.FolderDialog();
-            FolderDlg.Show();
+            //FolderDlg.Show();
             FolderDlg.Closed += new EventHandler(cw_Closed);
             FolderDlg.Show();
         }
@@ -77,15 +73,15 @@ namespace _3DPresentation.Views.Editor
             if (fd.DialogResult == true)
             {
                 ParentEditor.WorkingDirectory = fd.txtSelectedFolder.Text;
+                ParentEditor.SetupWorkingDirectory();
+
+                if (!ClientFileAndDirectory.FolderExists(ParentEditor.WorkingDirectory)) ClientFileAndDirectory.CreateFolder(ParentEditor.WorkingDirectory);
+                if (!ClientFileAndDirectory.FolderExists(ParentEditor.WorkingDirectoryTemp)) ClientFileAndDirectory.CreateFolder(ParentEditor.WorkingDirectoryTemp);
+                if (!ClientFileAndDirectory.FolderExists(ParentEditor.WorkingDirectory + "\\result")) ClientFileAndDirectory.CreateFolder(ParentEditor.WorkingDirectoryTemp + "\\result");
+                if (!ClientFileAndDirectory.FolderExists(ParentEditor.WorkingDirectory + "\\recorded")) ClientFileAndDirectory.CreateFolder(ParentEditor.WorkingDirectoryTemp + "\\recorded");
             }
         }
         #endregion
-
-        private void btResetWorkSpace_Click(object sender, RoutedEventArgs e)
-        {
-            cwResetWorkSpace cwNew = new cwResetWorkSpace();
-            cwNew.Show();
-        }
 
         private void btOpenModel_Click(object sender, RoutedEventArgs e)
         {
@@ -98,16 +94,9 @@ namespace _3DPresentation.Views.Editor
                 {
                     string strPath = fi.FullName;
                     strPath = strPath.Replace(".ply", ".jpg");
-                    //ParentEditor.AddFrame(fi, strPath);
-
                     ParentEditor.AddFrame(fi);
-
-
                 }
             }
-
-            //cwOpenModel cwNew = new cwOpenModel();
-            //cwNew.Show();
         }
 
         private void btSaveModel_Click(object sender, RoutedEventArgs e)
@@ -118,17 +107,8 @@ namespace _3DPresentation.Views.Editor
             {
                 string strPath = dlg.SafeFileName;
                 ParentEditor.SaveModel(strPath);
-                MessageBox.Show(strPath);
+                SilverlightMessageBoxLibrary.Message.InfoMessage("Save Done!");
             }
-
-            //cwSaveModel cwNew = new cwSaveModel();
-            //cwNew.Show();
-        }
-
-        private void btOptimize_Click(object sender, RoutedEventArgs e)
-        {
-            cwOptimize cwNew = new cwOptimize();
-            cwNew.Show();
         }
 
         private void btMatch2FrameManual_Click(object sender, RoutedEventArgs e)
@@ -162,8 +142,6 @@ namespace _3DPresentation.Views.Editor
 
         void pg_MatchManualFinished(object sender, MatchModelManual.TranslationRotationEventArgs e)
         {
-            //throw new NotImplementedException();
-
             ParentEditor.UpdateMatrixAfterFrame(e.ReferenceIndex, e.RotationMatrix, e.TransitionMatrix);
         }
     }

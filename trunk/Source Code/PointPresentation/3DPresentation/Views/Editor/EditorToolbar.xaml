@@ -11,19 +11,14 @@
             <DropShadowEffect Opacity="0.57" ShadowDepth="8" BlurRadius="9"/>
         </Border.Effect>
         <StackPanel Margin="0,0,0,0" VerticalAlignment="Top" Width="177">
+            <Button x:Name="btSetupWorkSpace" Style="{StaticResource customButtonNoStyle}" Click="btSetupWorkSpace_Click" Height="35" Margin="10,5">
+                <Button.Content>
+                    <TextBlock Foreground="White">Setup Work Space</TextBlock>
+                </Button.Content>
+            </Button>
             <Button x:Name="btSetupSDK" Style="{StaticResource customButtonNoStyle}" Click="btSetupSDK_Click" Height="35" Margin="10,10,10,5">
                 <Button.Content>
                     <TextBlock Foreground="White">Setup SDK</TextBlock>
-                </Button.Content>
-            </Button>
-            <Button x:Name="btSetupWorkSpace" Style="{StaticResource customButtonNoStyle}" Click="btSetupWorkSpace_Click" Height="35" Margin="10,5">
-                <Button.Content>
-                    <TextBlock Foreground="White">Setup Enviroment</TextBlock>
-                </Button.Content>
-            </Button>
-            <Button x:Name="btResetWorkSpace" Style="{StaticResource customButtonNoStyle}" Click="btResetWorkSpace_Click" Height="35" Margin="10,5">
-                <Button.Content>
-                    <TextBlock Foreground="White">Reset workspace</TextBlock>
                 </Button.Content>
             </Button>
             <Button x:Name="btOpenModel" Style="{StaticResource customButtonNoStyle}" Click="btOpenModel_Click" Height="35" Margin="10,5">
@@ -33,15 +28,9 @@
             </Button>
             <Button x:Name="btSaveModel" Style="{StaticResource customButtonNoStyle}" Click="btSaveModel_Click" Height="35" Margin="10,5">
                 <Button.Content>
-                    <TextBlock Foreground="White">Save</TextBlock>
+                    <TextBlock Foreground="White">Save Model</TextBlock>
                 </Button.Content>
             </Button>
-            <Button x:Name="btOptimize" Style="{StaticResource customButtonNoStyle}" Click="btOptimize_Click" Height="35" Margin="10,5,10,10">
-                <Button.Content>
-                    <TextBlock Foreground="White">Optimize</TextBlock>
-                </Button.Content>
-            </Button>
-
             <Button x:Name="btMatch2FrameManual" Style="{StaticResource customButtonNoStyle}" Click="btMatch2FrameManual_Click" Height="35" Margin="10,5,10,10">
                 <Button.Content>
                     <TextBlock Foreground="White">Match 2 Frame Manual</TextBlock>

@@ -47,9 +47,12 @@ namespace _3DPresentation
         {
             if (WorkingDirectory == string.Empty)
             {
-                WorkingDirectory = "d:\\\\test2";
+                WorkingDirectory = "d:\\\\test3";
             }
-
+                if (!ClientFileAndDirectory.FolderExists(WorkingDirectory)) ClientFileAndDirectory.CreateFolder(WorkingDirectory);
+                if (!ClientFileAndDirectory.FolderExists(WorkingDirectoryTemp)) ClientFileAndDirectory.CreateFolder(WorkingDirectoryTemp);
+                if (!ClientFileAndDirectory.FolderExists(WorkingDirectory + "\\result")) ClientFileAndDirectory.CreateFolder(WorkingDirectory + "\\result");
+                if (!ClientFileAndDirectory.FolderExists(WorkingDirectory + "\\recorded")) ClientFileAndDirectory.CreateFolder(WorkingDirectory + "\\recorded");
         }
         #endregion
 
@@ -58,7 +61,6 @@ namespace _3DPresentation
         public EditorView()
         {
             InitializeComponent();
-            this.KeyDown += new KeyEventHandler(EditorView_KeyDown);
 
             toolbar.ParentEditor = this;
             frameViewer.ParentView = this;
@@ -76,12 +78,6 @@ namespace _3DPresentation
             odControl.Stop += new EventHandler(odControl_Stop);
 
         }
-
-        void EditorView_KeyDown(object sender, KeyEventArgs e)
-        {
-
-        }
-
 
         // Executes when the user navigates to this page.
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -207,6 +203,7 @@ namespace _3DPresentation
         public void SaveModel(string strFileName)
         {
             //call function save all frame
+            ArrFrame[0].ExportUnitedModel(BaseModel.FileType.PLY, BaseModel.VertexType.XYZ_RGB, ArrFrame.ToArray(), "e:\\aaa");
         }
 
         public void SaveFrame(string strFileName)
