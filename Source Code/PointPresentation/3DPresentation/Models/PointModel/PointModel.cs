@@ -76,5 +76,14 @@ namespace _3DPresentation.Models
         {
             return new PointMaterial();
         }
+
+        public override Type[] GetCompatibleMaterialTypes()
+        {
+            Type[] compatibleTypes = new Type[]
+            {
+                typeof(PointMaterial)
+            };
+            return compatibleTypes;
+        }
     }
 }

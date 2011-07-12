@@ -16,6 +16,7 @@ namespace _3DPresentation.Models
         public enum VertexType { XYZ, XYZ_RGB, XYZ_NORMAL, XYZ_RGB_NORNAL };
         public enum FileType { PLY };
 
+        private object lockThis = new object();
         // state
         public bool IsEnabled { get; set; }
         public bool IsLoaded { get; protected set; }
@@ -35,7 +36,10 @@ namespace _3DPresentation.Models
             }
             set
             {
-                material = value;
+                lock (lockThis)
+                {
+                    material = value;
+                }
             }
         }
         private BaseMaterial specialMaterial;
@@ -49,7 +53,10 @@ namespace _3DPresentation.Models
             }
             set
             {
-                specialMaterial = value;
+                lock (lockThis)
+                {
+                    specialMaterial = value;
+                }
             }
         }
 
@@ -310,13 +317,16 @@ namespace _3DPresentation.Models
             }
 
             // derived class render here
-            if (specialRender)
+            BaseMaterial baseMaterial = null;
+            lock (lockThis)
             {
-                SpecialMaterial.Apply();
-            }
-            else
-            {
-                Material.Apply();
+                if (specialRender)
+                    baseMaterial = SpecialMaterial;
+                else
+                    baseMaterial = Material;
+                baseMaterial.World = WorldMatrix;
+                baseMaterial.Device = graphicsDevice;
+                baseMaterial.Apply();
             }
         }
 
@@ -475,5 +485,6 @@ namespace _3DPresentation.Models
         protected abstract bool ExportIndiceData(FileType fileType, VertexType vertexType, StreamWriter writer, long offset = 0);
         protected abstract BaseMaterial GetDefaultMaterial();
         protected abstract BaseMaterial GetDefaultSpecialMaterial();
+        public abstract Type[] GetCompatibleMaterialTypes();
     }
 }

@@ -6,10 +6,11 @@ using System;
 using System.Windows;
 using _3DPresentation.Models;
 using Microsoft.Xna.Framework;
+using _3DPresentation.Effects;
 
 namespace _3DPresentation
 {
-    public partial class ViewScene
+    public partial class ViewScene : IBaseScene
     {
         // the device to use when creating resources
         //static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
@@ -25,6 +26,10 @@ namespace _3DPresentation
 
         Vector2 SurfaceSize { get; set; }
 
+        // States
+        public bool IsLoaded { get; private set; }
+        public bool IsEnable { get; set; }
+
         // Notification
         public int FPS { get; private set; }
         public int DrawError { get; private set; }
@@ -37,6 +42,10 @@ namespace _3DPresentation
             Container = container;
             Surface = surface;
 
+            // State
+            IsEnable = true;
+            IsLoaded = false;
+
             Surface.SizeChanged += new System.Windows.SizeChangedEventHandler(Surface_SizeChanged);
             Surface.Draw += new System.EventHandler<DrawEventArgs>(Surface_Draw);
 
@@ -45,6 +54,8 @@ namespace _3DPresentation
 
         private void InitScene()
         {
+            IsLoaded = true;
+
             PrepareIO();
             PrepareModels();
             PrepareRender();
@@ -55,6 +66,9 @@ namespace _3DPresentation
         DateTime _lastFPS = DateTime.Now;
         void Surface_Draw(object sender, DrawEventArgs e)
         {
+            if (IsEnable == false)
+                return;
+
             _total_frames++;
             if ((DateTime.Now - _lastFPS).Seconds >= 1)
             {
@@ -63,13 +77,11 @@ namespace _3DPresentation
                 _lastFPS = DateTime.Now;
             }
 
+            EffectManager.Scene = this;
             GraphicsDevice graphicsDevice = e.GraphicsDevice;
             if (graphicsDevice == null)
-                return;
-
-            graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
+                return;            
             Render(graphicsDevice);
-
             _camera.ApplyInertia();
 
             e.InvalidateSurface();
@@ -81,5 +93,29 @@ namespace _3DPresentation
             _camera.AspectRatio = (float)(Surface.ActualWidth / Surface.ActualHeight);
         }
 
+
+        #region IBaseScene Members
+
+        Vector3 IBaseScene.GetCameraPosition()
+        {
+            return Camera.Position;
+        }
+
+        Matrix IBaseScene.GetCameraView()
+        {
+            return Camera.View;
+        }
+
+        Matrix IBaseScene.GetCameraProjection()
+        {
+            return Camera.Projection;
+        }
+
+        Vector2 IBaseScene.GetDrawingSurfaceSize()
+        {
+            return SurfaceSize;
+        }
+
+        #endregion
     }
 }

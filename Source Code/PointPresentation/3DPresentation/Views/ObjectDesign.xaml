@@ -1,17 +1,16 @@
-﻿<UserControl x:Class="_3DPresentation.Views.TourView"
+﻿<UserControl x:Class="_3DPresentation.Views.ObjectDesign"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    xmlns:my="clr-namespace:_3DPresentation"
-    d:DesignHeight="300" d:DesignWidth="400"
              xmlns:customControlEditor="clr-namespace:_3DPresentation.Views.Editor"
-             >
+             xmlns:my="clr-namespace:_3DPresentation" 
+    d:DesignHeight="300" d:DesignWidth="400">
     
-    <Grid x:Name="LayoutRoot" Background="White" SizeChanged="LayoutRoot_SizeChanged">
-        <my:TourControl x:Name="tourControl"/>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <my:ViewControl x:Name="viewControl"/>
+        <my:MaterialSelectorControl x:Name="materialSelector" Height="500" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5, 50, 0, 0"/>
         <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>
-        
     </Grid>
 </UserControl>

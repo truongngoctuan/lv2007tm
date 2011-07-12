@@ -11,9 +11,11 @@ namespace _3DPresentation.Material
         public override void Apply()
         {
             TexturedNoEffect texturedNoEffect = EffectManager.TexturedNoEffect;
+            
+            texturedNoEffect.View = EffectManager.Scene.GetCameraView();
+            texturedNoEffect.Projection = EffectManager.Scene.GetCameraProjection();
             texturedNoEffect.World = World;
-            texturedNoEffect.Projection = Projection;
-            texturedNoEffect.View = View;
+            
             //texturedNoEffect.DiffuseTexture = DiffuseTexture;
 
             texturedNoEffect.Device = Device;            

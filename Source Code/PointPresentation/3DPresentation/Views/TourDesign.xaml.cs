@@ -12,18 +12,21 @@ namespace _3DPresentation.Views
     {
         public bool IsLoaded { get; private set; }
         public BaseModel SelectedModel { get; private set; }
-        private ObjectView objectView;
+        private ObjectDesign objectDesign;
         public TourDesign()
         {
             InitializeComponent();
-            objectView = new ObjectView();
-            objectView.ParentView = this;
+            objectDesign = new ObjectDesign();
+            objectDesign.ParentView = this;
 
             this.Loaded += new RoutedEventHandler(TourDesign_Loaded);
             this.KeyDown += new System.Windows.Input.KeyEventHandler(TourDesign_KeyDown);
+
             this.openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
             this.cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
+
             this.tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);
+
             this.cbbModel.SelectionChanged += new EventHandler(cbbModel_SelectionChanged);
             this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
 
@@ -38,11 +41,11 @@ namespace _3DPresentation.Views
 
         void tourControl_SelectingModel(object sender, EventArgs e)
         {
-            objectView.ClearModels();
-            objectView.AddModels(tourControl.GetModels());
-            objectView.SetTarget(tourControl.Target);
+            objectDesign.ClearModels();
+            objectDesign.AddModels(tourControl.GetModels());
+            objectDesign.SetTarget(tourControl.Target);
 
-            App.GoToPage(objectView);
+            App.GoToPage(objectDesign);
         }
 
         void cbbModel_SelectionChanged(object sender, EventArgs e)

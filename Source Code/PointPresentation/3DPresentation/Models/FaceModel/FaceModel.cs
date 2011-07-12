@@ -79,5 +79,15 @@ namespace _3DPresentation.Models
         {
             return new TexturedMaterial();
         }
+
+        public override Type[] GetCompatibleMaterialTypes()
+        {
+            Type[] compatibleTypes = new Type[]
+            {
+                typeof(NoEffectMaterial),
+                typeof(TexturedMaterial)
+            };
+            return compatibleTypes;
+        }
     }
 }

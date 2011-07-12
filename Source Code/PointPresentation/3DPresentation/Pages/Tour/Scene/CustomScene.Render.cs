@@ -21,68 +21,42 @@ namespace _3DPresentation
             EffectManager.InitEffects();
         }
 
-        public override void Render()
+        private void Render(GraphicsDevice graphicsDevice)
         {
-            if (IsEnable == false)
-                return;
-            try
+            graphicsDevice.RasterizerState = new RasterizerState
             {
-                base.Render();
+                FillMode = FillMode.Solid,
+                CullMode = CullMode.None
+            };
 
-                // Render model
-                if (IsAddingModel)
-                    return;
-
-                Device.RasterizerState = new RasterizerState
+            BaseModel[] models;
+            lock (lockThis)
+            {
+                models = customSceneModels.ToArray();
+            }
+            foreach (BaseModel model in models)
+            {
+                if (model.IsEnabled)
                 {
-                    FillMode = FillMode.Solid,
-                    CullMode = CullMode.None
-                };
-
-                BaseModel[] models;
-                lock (lockThis)
-                {
-                    models = customSceneModels.ToArray();
-                }
-                foreach (BaseModel model in models)
-                {
-                    if (model.IsEnabled)
+                    if (ActiveCamera.IsInFrustrum(model.BoundingInfo))
                     {
-                        if (ActiveCamera.IsInFrustrum(model.BoundingInfo))
+                        //if (model == selectedMesh)
+                        //    SetShaderEffect(EffectManager.ShaderEffects.TexturedNoEffect, model.WorldMatrix);
+                        //else
+                        //    SetShaderEffect(EffectManager.ShaderEffects.NoEffect, model.WorldMatrix);
+                        //model.Render(Device);
+                        if (model == selectedMesh)
                         {
-                            //if (model == selectedMesh)
-                            //    SetShaderEffect(EffectManager.ShaderEffects.TexturedNoEffect, model.WorldMatrix);
-                            //else
-                            //    SetShaderEffect(EffectManager.ShaderEffects.NoEffect, model.WorldMatrix);
-                            //model.Render(Device);
-                            if (model == selectedMesh)
-                            {
-                                model.SpecialMaterial.World = model.WorldMatrix;
-                                model.SpecialMaterial.View = ActiveCamera.View;
-                                model.SpecialMaterial.Projection = ActiveCamera.Projection;
-                                model.SpecialMaterial.Device = Device;
-                                model.Render(Device, true);
-                            }
-                            else
-                            {
-                                model.Material.World = model.WorldMatrix;
-                                model.Material.View = ActiveCamera.View;
-                                model.Material.Projection = ActiveCamera.Projection;
-                                model.Material.Device = Device;
-                                model.Render(Device, false);
-                            }
+                            model.Render(graphicsDevice, true);
+                        }
+                        else
+                        {
+                            model.Render(graphicsDevice, false);
                         }
                     }
-                }                
-                models = null;
-            }
-            catch (ArgumentException ex)
-            {
-                DrawError++;
-            }
-
-            if(Drawed != null)
-                Drawed(this, EventArgs.Empty);
+                }
+            }                
+            models = null;
         }
 
         private void SetShaderEffect(EffectManager.ShaderEffects shaderEffect, Matrix world)
