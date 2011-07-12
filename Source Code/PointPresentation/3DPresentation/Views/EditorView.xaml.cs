@@ -305,5 +305,14 @@ namespace _3DPresentation
             ca.FolderListener(strWatchFolder);
         }
         #endregion
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            _3DPresentation.Views.customChildWindow cw = new Views.customChildWindow();
+
+            _3DPresentation.Views.ObjectView ov = new Views.ObjectView();
+            cw.AddContent(ov);
+            cw.Show(this);
+        }
     }
 }

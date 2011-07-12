@@ -35,6 +35,19 @@ namespace _3DPresentation.Views.Editor
                 ParentEditor.SetupWorkingDirectory();
                 ClientPackage ck = new ClientPackage();
                 ck.DownloadtoClient("/recontructor.zip", ParentEditor.WorkingDirectory);
+
+                ck.DownloadCompleted += new EventHandler((a, b) =>
+                {
+                    _3DPresentation.Views.customChildWindow cw = new Views.customChildWindow();
+
+                    TextBlock tblock = new TextBlock();
+                    tblock.Text = "asd";
+                    tblock.Width = 100;
+                    tblock.Height = 50;
+                    tblock.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
+                    cw.AddContent(tblock);
+                    cw.Show(this.ParentEditor);
+                });
             }
             catch (Exception ex)
             {

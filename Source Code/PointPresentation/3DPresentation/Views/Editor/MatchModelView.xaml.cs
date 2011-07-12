@@ -201,7 +201,16 @@ namespace _3DPresentation.Views.Editor
 
         private void transitionCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            tboxFactorRotation.Focus();
+            tboxFactorTransition.Focus();
+        }
+
+        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            this.Width = ParentView.ActualWidth;
+            this.Height = ParentView.ActualHeight;
+
+            recBackground.Width = this.Width;
+            recBackground.Height = this.Height;
         }
     }
 }

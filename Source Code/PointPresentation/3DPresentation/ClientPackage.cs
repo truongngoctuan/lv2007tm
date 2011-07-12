@@ -61,8 +61,14 @@ namespace _3DPresentation
             else
             {
                 ClientFileAndDirectory.UnZip(WorkingDirectory, e.Result);
-                MessageBox.Show("Download Done!");
+                //MessageBox.Show("Download Done!");
+                if (DownloadCompleted != null)
+                {
+                    DownloadCompleted(this, null);
+                }
             }
         }
+
+        public event EventHandler DownloadCompleted;
     }
 }
