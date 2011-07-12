@@ -70,13 +70,13 @@ namespace _3DPresentation
             lock (lockThis)
             {
                 if (Models.Contains(model))
+                {
                     result = true;
-            }
-            if (result)
-            {
-                TargetModel = model;
-                _camera.Radius = TargetModel.BoundingInfo.BoundingSphereWorld.Radius * 4.0f;
-                _camera.Target = TargetModel.BoundingInfo.BoundingSphereWorld.Center;
+                    TargetModel = model;
+                    Camera.Radius = TargetModel.BoundingInfo.BoundingSphereWorld.Radius * 4.0f;
+                    Camera.Target = TargetModel.BoundingInfo.BoundingSphereWorld.Center;
+                    Camera.Alpha = Camera.Alpha; // to raise event => recompute Position to get new ViewMatrix
+                }
             }
             return result;
         }

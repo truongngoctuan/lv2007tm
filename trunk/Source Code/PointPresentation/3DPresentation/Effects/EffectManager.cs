@@ -11,7 +11,8 @@ namespace _3DPresentation.Effects
         // the device to use when creating resources, can't use to draw
         static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
-        private static NoEffect noEffect;
+        public static IBaseScene Scene { get; set; }
+        public static NoEffect noEffect;
         public static TexturedNoEffect texturedNoEffect;
         public static PointEffect pointEffect;
 
@@ -58,7 +59,6 @@ namespace _3DPresentation.Effects
             texturedNoEffect.DiffuseTexture = Utils.Global.LoadTexture("Images/3.jpg", resourceDevice);
 
             pointEffect = new PointEffect(resourceDevice);
-
             IsReady = true;
         }
 

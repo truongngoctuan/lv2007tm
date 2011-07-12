@@ -11,7 +11,7 @@ using System.Windows.Controls;
 
 namespace _3DPresentation
 {
-    public partial class CustomScene : Babylon.Scene
+    public partial class CustomScene : Babylon.Scene, IBaseScene
     {
         // Babylon
         private Babylon.BabylonSurface Surface { get; set; }
@@ -21,7 +21,6 @@ namespace _3DPresentation
         // States
         public bool IsLoaded { get; private set; }
         public bool IsEnable { get; set; }
-        volatile bool IsAddingModel;
         
         // Notifications
         public float FPS
@@ -52,8 +51,7 @@ namespace _3DPresentation
             
             // State
             IsEnable = true;
-            IsLoaded = false;
-            IsAddingModel = false;
+            IsLoaded = false;            
             
             // Init Events
             this.Loaded += new EventHandler(CustomScene_Loaded);
@@ -76,11 +74,54 @@ namespace _3DPresentation
             PrepareInteraction();
         }
 
+        public override void Render()
+        {
+            if (IsEnable == false)
+                return;
+            try
+            {
+                base.Render();
+
+                EffectManager.Scene = this;
+                Render(Device);
+            }
+            catch (ArgumentException ex)
+            {
+                DrawError++;
+            }
+
+            if (Drawed != null)
+                Drawed(this, EventArgs.Empty);
+        }
 
         public bool IsFlyTo { get; private set; }
         public void GoToModel(BaseModel model)
         {
-            
+
         }
+
+        #region IBaseScene Members
+
+        Vector3 IBaseScene.GetCameraPosition()
+        {
+            return ActiveCamera.Position;
+        }
+
+        Matrix IBaseScene.GetCameraView()
+        {
+            return ActiveCamera.View;
+        }
+
+        Matrix IBaseScene.GetCameraProjection()
+        {
+            return ActiveCamera.Projection;
+        }
+
+        Vector2 IBaseScene.GetDrawingSurfaceSize()
+        {
+            return new Vector2(Convert.ToSingle(Surface.ActualWidth), Convert.ToSingle(Surface.ActualHeight));
+        }
+
+        #endregion
     }
 }

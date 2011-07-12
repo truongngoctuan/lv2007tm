@@ -21,33 +21,32 @@ namespace _3DPresentation
         {
             try
             {
+                graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
                 graphicsDevice.RasterizerState = new RasterizerState
                 {
                     FillMode = FillMode.Solid,
                     CullMode = CullMode.None
                 };
 
+                BaseModel[] models;
                 lock (lockThis)
                 {
-                    foreach (BaseModel model in Models)
+                    models = Models.ToArray();
+                }
+                foreach (BaseModel model in models)
+                {
+                    if (model.IsEnabled)
                     {
-                        if (model.IsEnabled)
-                        {
-                            //if (model is PointModel)
-                            //    SetShaderEffect(EffectManager.ShaderEffects.PointEffect, graphicsDevice, model.WorldMatrix);
-                            //else
-                            //    SetShaderEffect(EffectManager.ShaderEffects.NoEffect, graphicsDevice, model.WorldMatrix);
-                            //model.Render(graphicsDevice);
-                            model.Material.World = model.WorldMatrix;
-                            model.Material.View = _camera.View;
-                            model.Material.Projection = _camera.Projection;
-                            model.Material.Device = graphicsDevice;
-                            if (model is PointModel)
-                                ((Material.PointMaterial)(model.Material)).Scale = new Vector2(1.0f / SurfaceSize.X, 1.0f / SurfaceSize.Y);
-                            model.Render(graphicsDevice);
-                        }
+                        //if (model is PointModel)
+                        //    SetShaderEffect(EffectManager.ShaderEffects.PointEffect, graphicsDevice, model.WorldMatrix);
+                        //else
+                        //    SetShaderEffect(EffectManager.ShaderEffects.NoEffect, graphicsDevice, model.WorldMatrix);
+                        //model.Render(graphicsDevice);
+                        model.Render(graphicsDevice);
                     }
                 }
+                
+                models = null;
             }
             catch (ArgumentException ex)
             {
@@ -60,8 +59,8 @@ namespace _3DPresentation
             {
                 NoEffect noEffect = EffectManager.NoEffect;
                 noEffect.World = world;
-                noEffect.Projection = _camera.Projection;
-                noEffect.View = _camera.View;
+                noEffect.Projection = Camera.Projection;
+                noEffect.View = Camera.View;
 
                 noEffect.Device = graphicsDevice;
                 noEffect.Apply();
@@ -70,8 +69,8 @@ namespace _3DPresentation
             {
                 TexturedNoEffect texturedNoEffect = EffectManager.TexturedNoEffect;
                 texturedNoEffect.World = world;
-                texturedNoEffect.Projection = _camera.Projection;
-                texturedNoEffect.View = _camera.View;
+                texturedNoEffect.Projection = Camera.Projection;
+                texturedNoEffect.View = Camera.View;
 
                 texturedNoEffect.Device = graphicsDevice;
                 texturedNoEffect.Apply();
@@ -80,8 +79,8 @@ namespace _3DPresentation
             {
                 PointEffect pointEffect = EffectManager.PointEffect;
                 pointEffect.World = world;
-                pointEffect.Projection = _camera.Projection;
-                pointEffect.View = _camera.View;
+                pointEffect.Projection = Camera.Projection;
+                pointEffect.View = Camera.View;
                 pointEffect.Scale = new Vector2(1.0f / SurfaceSize.X, 1.0f / SurfaceSize.Y);
 
                 pointEffect.Device = graphicsDevice;
