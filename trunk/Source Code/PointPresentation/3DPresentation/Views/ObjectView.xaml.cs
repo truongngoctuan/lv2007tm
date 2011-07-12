@@ -16,7 +16,7 @@ namespace _3DPresentation.Views
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(ObjectView_Loaded);
-            //this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
+            this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
 
             this.viewControl.ViewScene.MouseRotated += new MouseRotatedEventHandler(ViewScene_MouseRotated);
             this.viewControl.ViewScene.KeyboardTransition += new KeyboardTransitionEventHandler(ViewScene_KeyboardTransition);
@@ -37,7 +37,7 @@ namespace _3DPresentation.Views
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
         {
             viewControl.GetTarget().IsEnabled = false;
-            //viewControl.SetTarget((BaseModel)cbbModel.SelectedItem);
+            viewControl.SetTarget((BaseModel)cbbModel.SelectedItem);
             viewControl.GetTarget().IsEnabled = true;
         }
 
@@ -75,7 +75,7 @@ namespace _3DPresentation.Views
             {
                 tempmodel = model;
             }
-            //cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return AddModel(model);
         }
 
@@ -92,7 +92,7 @@ namespace _3DPresentation.Views
 
         private bool AddModel(BaseModel model)
         {
-            //cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
             return viewControl.AddModel(model);
         }
 
@@ -108,7 +108,7 @@ namespace _3DPresentation.Views
 
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //cbbModel.SetActualWidthAndHeight(LayoutRoot.ActualWidth, LayoutRoot.ActualHeight);
+            cbbModel.SetActualWidthAndHeight(LayoutRoot.ActualWidth, LayoutRoot.ActualHeight);
         }
     }
 }

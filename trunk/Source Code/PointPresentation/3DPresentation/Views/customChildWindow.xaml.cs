@@ -43,6 +43,8 @@ namespace _3DPresentation.Views
 
                 recBackground.Width = this.Width;
                 recBackground.Height = this.Height;
+
+                borderDlg.UpdateLayout();
             }
         }
 

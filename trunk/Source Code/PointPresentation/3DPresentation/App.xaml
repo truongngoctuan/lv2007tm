@@ -8,6 +8,9 @@
                 <ResourceDictionary Source="themes/Styles.xaml"/>
                 <ResourceDictionary Source="themes/TransitioningFrame.xaml"/>
                 <ResourceDictionary Source="themes/CustomControl.xaml"/>
+                <ResourceDictionary Source="themes/Generic.xaml"/>
+
+               
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
