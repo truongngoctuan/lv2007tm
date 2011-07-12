@@ -62,10 +62,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Babylon.Toolbox, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\Lib\Babylon.Toolbox.dll</HintPath>
-    </Reference>
+    <Reference Include="Babylon.Toolbox, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework.Math, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
@@ -101,7 +98,9 @@
     <Compile Include="ClientFileAndDirectory.cs" />
     <Compile Include="ClientPackage.cs" />
     <Compile Include="Effects\EffectManager.cs" />
-    <Compile Include="Effects\FourPointLights\FourPointLightsEffect.cs" />
+    <Compile Include="Effects\FourPointLightsEffect\FourPointLightsEffect.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Effects\PointEffect\PointEffect.cs" />
     <Compile Include="Effects\TexturedNoEffect\TexturedNoEffect.cs" />
     <Compile Include="Material\BaseMaterial.cs" />
@@ -685,6 +684,8 @@
     </Page>
     <PixelShader Include="Effects\TexturedNoEffect\TexturedNoEffect.ps.hlsl" />
     <VertexShader Include="Effects\TexturedNoEffect\TexturedNoEffect.vs.hlsl" />
+    <PixelShader Include="Effects\FourPointLightsEffect\FourPointLightsEffect.ps.hlsl" />
+    <VertexShader Include="Effects\FourPointLightsEffect\FourPointLightsEffect.vs.hlsl" />
     <None Include="Reflection.fx" />
     <Resource Include="Reflection.ps" />
     <Page Include="MainPage.xaml">
@@ -709,8 +710,6 @@
     </Page>
     <PixelShader Include="Effects\PointEffect\PointEffect.ps.hlsl" />
     <VertexShader Include="Effects\PointEffect\PointEffect.vs.hlsl" />
-    <VertexShader Include="Effects\FourPointLights\FourPointLightsEffect.vs.hlsl" />
-    <PixelShader Include="Effects\FourPointLights\FourPointLightsEffect.ps.hlsl" />
     <None Include="Properties\OutOfBrowserSettings.xml">
       <SubType>Designer</SubType>
     </None>

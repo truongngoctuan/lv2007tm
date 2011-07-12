@@ -72,7 +72,7 @@ namespace _3DPresentation.Effects
 
             pointEffect = new PointEffect(resourceDevice);
 
-            fourPointLightsEffect = new Effects.FourPointLightsEffect(resourceDevice);
+            fourPointLightsEffect = new FourPointLightsEffect(resourceDevice);
             IsReady = true;
         }
 

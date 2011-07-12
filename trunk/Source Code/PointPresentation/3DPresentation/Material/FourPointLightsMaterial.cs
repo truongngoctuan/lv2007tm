@@ -9,18 +9,22 @@ namespace _3DPresentation.Material
 {
     public class FourPointLightsMaterial : BaseMaterial
     {
+        [Category("Point Light 1")]
         public Vector3 LightSource1 { get; set; }
         public GlobalVars.ColorEnum LightColor1 { get; set; }
         public bool EnableLight1 { get; set; }
 
+        [Category("Point Light 2")]
         public Vector3 LightSource2 { get; set; }
         public GlobalVars.ColorEnum LightColor2 { get; set; }
         public bool EnableLight2 { get; set; }
 
+        [Category("Point Light 3")]
         public Vector3 LightSource3 { get; set; }
         public GlobalVars.ColorEnum LightColor3 { get; set; }
         public bool EnableLight3 { get; set; }
 
+        [Category("Point Light 4")]
         public Vector3 LightSource4 { get; set; }
         public GlobalVars.ColorEnum LightColor4 { get; set; }
         public bool EnableLight4 { get; set; }
