@@ -18,7 +18,9 @@
             <!--<Image Source="Images/j0182516.jpg" Width="400" Height="400"></Image>-->
             <Grid Width="400" Height="400">
                 <viewctrl:ViewControl x:Name="vcOjectViewer" Width="400" Height="400"></viewctrl:ViewControl>
+            
             </Grid>
+                
             <StackPanel Orientation="Vertical">
                 <Grid >
                     <Grid.RowDefinitions>
@@ -37,8 +39,18 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="Auto"></ColumnDefinition>
                     </Grid.ColumnDefinitions>
+                    <Canvas x:Name="rotationCanvas" Grid.Column="0" Grid.Row="0" Width="450" Height="185" MouseLeftButtonDown="rotationCanvas_MouseLeftButtonDown">
+                        <Image Source="Images/rotation_bg.png" Width="450"></Image>
+                        <TextBox x:Name="tboxFactorRotation" Canvas.Left="86" Canvas.Top="76" Width="35" Height="34" Opacity="0.5" TextChanged="tboxFactorRotation_TextChanged" Text="5"></TextBox>
+                    </Canvas>
 
-                    <customControl:SliderTextBox x:Name="RotateX" Grid.Row="0" Grid.Column="0"></customControl:SliderTextBox>
+                    <Canvas x:Name="transitionCanvas" Grid.Column="0" Grid.Row="1" Width="450" Height="185" MouseLeftButtonDown="transitionCanvas_MouseLeftButtonDown">
+                        <Image Source="Images/transition_bg.png" Width="450"></Image>
+                        <TextBox x:Name="tboxFactorTransition" Canvas.Left="92" Canvas.Top="74" Width="29" Height="29" Opacity="0.5" TextChanged="tboxFactorTransition_TextChanged" Text="1"></TextBox>
+                    </Canvas>
+
+                    
+                        <!--<customControl:SliderTextBox x:Name="RotateX" Grid.Row="0" Grid.Column="0"></customControl:SliderTextBox>
                     <customControl:SliderTextBox x:Name="RotateY" Grid.Row="1" Grid.Column="0"></customControl:SliderTextBox>
                     <customControl:SliderTextBox x:Name="RotateZ" Grid.Row="2" Grid.Column="0"></customControl:SliderTextBox>
 
@@ -48,9 +60,11 @@
 
                     <customControl:SliderTextBox x:Name="ScaleX" Grid.Row="6" Grid.Column="0"></customControl:SliderTextBox>
                     <customControl:SliderTextBox x:Name="ScaleY" Grid.Row="7" Grid.Column="0"></customControl:SliderTextBox>
-                    <customControl:SliderTextBox x:Name="ScaleZ" Grid.Row="8" Grid.Column="0"></customControl:SliderTextBox>
+                    <customControl:SliderTextBox x:Name="ScaleZ" Grid.Row="8" Grid.Column="0"></customControl:SliderTextBox>-->
                 </Grid>
-                <CheckBox x:Name="cbPreview" IsChecked="True" HorizontalAlignment="Center" Checked="cbPreview_Checked">Preview</CheckBox>
+                <!--<CheckBox x:Name="cbPreview" IsChecked="True" HorizontalAlignment="Center" Checked="cbPreview_Checked">Preview</CheckBox>-->
+                <!--<TextBox x:Name="tboxFactorRotation" TextChanged="tboxFactorRotation_TextChanged" Text="5"></TextBox>
+                <TextBox x:Name="tboxFactorTransition" TextChanged="tboxFactorTransition_TextChanged" Text="1"></TextBox>-->
                 <TextBlock x:Name="tblockUpdateCounter">0</TextBlock>
                 <TextBlock x:Name="tblockValue" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
             </StackPanel>

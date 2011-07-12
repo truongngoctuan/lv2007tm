@@ -14,6 +14,30 @@ namespace _3DPresentation
         bool mouseLeftDown;
         Point startPosition;
         Microsoft.Xna.Framework.Vector3 startCameraPosition;
+        float _factorRotation = 1.0f;
+
+        public float FactorRotation
+        {
+            get { return _factorRotation; }
+            set { _factorRotation = value;
+            if (_factorRotation < 0)
+            {
+                _factorRotation = 1 / (-_factorRotation); 
+            }
+            }
+        }
+        float _factorTransition = 1.0f;
+
+        public float FactorTransition
+        {
+            get { return _factorTransition; }
+            set { _factorTransition = value;
+            if (_factorTransition < 0)
+            {
+                _factorTransition = 1 / (-_factorTransition);
+            }
+            }
+        }
 
         public void PrepareInteraction()
         {
@@ -31,15 +55,17 @@ namespace _3DPresentation
 
         void Container_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
+            CtrlKeyDown = false;
             bRotateModel = false;
         }
 
         bool bRotateModel = false;
+        bool CtrlKeyDown = false;
         void Container_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (e.Key == System.Windows.Input.Key.Ctrl)
             {
-                bRotateModel = true;
+                CtrlKeyDown = true;
                 return;
             }
 
@@ -50,7 +76,7 @@ namespace _3DPresentation
             {
                 Microsoft.Xna.Framework.Vector3 moveDirection = Vector3.Zero;
                 //Microsoft.Xna.Framework.Matrix mat = Microsoft.Xna.Framework.Matrix.CreateFromYawPitchRoll(_model2.WorldMatrix. Camera.RotationY, tourControl.Camera.RotationX, tourControl.Camera.RotationZ);
-                Microsoft.Xna.Framework.Matrix mat = _3DPresentation.MathUtil.GetTransformationMatrix(-Vector3.UnitZ, Camera.Target - Camera.Position);
+                Microsoft.Xna.Framework.Matrix mat = _3DPresentation.MathUtil.GetTransformationMatrix(new Vector3(0, 0, -1), Camera.Target - Camera.Position);
                 if (e.Key == System.Windows.Input.Key.W)
                 {
                     moveDirection = MathUtil.TransformPoint(mat, Vector3.Up);
@@ -67,7 +93,7 @@ namespace _3DPresentation
                 {
                     moveDirection = MathUtil.TransformPoint(mat, Vector3.Right);
                 }
-                //moveDirection *= 5;
+                moveDirection *= FactorTransition;
 
                 if (KeyboardTransition != null)
                 {
@@ -85,11 +111,13 @@ namespace _3DPresentation
 
         void Container_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            Container.Focus();
             mouseLeftDown = true;
             startPosition = e.GetPosition(Surface);
 
-            if (bRotateModel)
+            if (CtrlKeyDown)
             {
+                bRotateModel = true;
                 ChangeToRotationModelState();
             }
         }
@@ -114,8 +142,8 @@ namespace _3DPresentation
                 if (!mouseLeftDown)
                     return;
                 float dX, dY;
-                dX = (float)(currentPosition.X - startPosition.X) * 1.0f;
-                dY = (float)(currentPosition.Y - startPosition.Y) * 1.0f;
+                dX = (float)(currentPosition.X - startPosition.X) * FactorRotation;
+                dY = (float)(currentPosition.Y - startPosition.Y) * FactorRotation;
                 dX = -dX; dY = -dY;
 
                 Microsoft.Xna.Framework.Vector3 NewCamPosition = _3DPresentation.MathUtil.toNewCameraPosition(_camera, dX, dY);

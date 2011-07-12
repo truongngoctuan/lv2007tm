@@ -66,7 +66,8 @@ namespace _3DPresentation.Models
         public Vector3 Position
         {
             get { return position; }
-            set { position = value; UpdateMatrix(); UpdateMatrix2(); }
+            set { position = value; //UpdateMatrix(); 
+                UpdateMatrix2(); }
         }
         public Vector3 Rotation
         {
