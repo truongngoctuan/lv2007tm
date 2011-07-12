@@ -27,7 +27,7 @@ namespace _3DPresentation
         BasicEffect basicEffect;
         MyBasicEffect myBasicEffect;
         PointEffect pointEffect;
-        FourPointLights fourPointLightsEffect;
+        FourPointLightsEffect fourPointLightsEffect;
         
         List<MyModel> myModels;
         List<SimpleModel> simpleModels;
@@ -48,7 +48,7 @@ namespace _3DPresentation
             myBasicEffect = new MyBasicEffect(resourceDevice);
             basicEffect = new BasicEffect(resourceDevice);
             pointEffect = new PointEffect(resourceDevice);
-            fourPointLightsEffect = new FourPointLights(resourceDevice);
+            fourPointLightsEffect = new FourPointLightsEffect(resourceDevice);
         }
 
         public MyModel AddMyModel(string imagePath, string depthmapPath, Vector3 position)
@@ -222,8 +222,8 @@ namespace _3DPresentation
                 myBasicEffect.View = camera.view;
 
                 myBasicEffect.DiffuseIntensity1 = 1.0f;
-                myBasicEffect.DiffuseColor1 = GlobalVars.Green;
-                myBasicEffect.DiffuseSource1 = GlobalVars.Light1;
+                //myBasicEffect.DiffuseColor1 = GlobalVars.Green;
+                //myBasicEffect.DiffuseSource1 = GlobalVars.Light1;
 
                 myBasicEffect.DiffuseIntensity2 = 0;
                 myBasicEffect.DiffuseIntensity3 = 0;
@@ -266,22 +266,22 @@ namespace _3DPresentation
                 fourPointLightsEffect.AmbientLight = Color.FromNonPremultiplied(255, 255, 255, 50);
                 
                 fourPointLightsEffect.LightSource1 = GlobalVars.Light1;
-                fourPointLightsEffect.LightColor1 = GlobalVars.White;
+                //fourPointLightsEffect.LightColor1 = GlobalVars.White;
                 if(GlobalVars.EnableLights.X > 0)
                 fourPointLightsEffect.EnableLight1 = true;
 
                 fourPointLightsEffect.LightSource2 = GlobalVars.Light2;
-                fourPointLightsEffect.LightColor2 = GlobalVars.Red;
+                //fourPointLightsEffect.LightColor2 = GlobalVars.Red;
                 if (GlobalVars.EnableLights.Y > 0)
                 fourPointLightsEffect.EnableLight2 = true;
 
                 fourPointLightsEffect.LightSource3 = GlobalVars.Light3;
-                fourPointLightsEffect.LightColor3 = GlobalVars.Green;
+                //fourPointLightsEffect.LightColor3 = GlobalVars.Green;
                 if (GlobalVars.EnableLights.Z > 0)
                 fourPointLightsEffect.EnableLight3 = true;
 
                 fourPointLightsEffect.LightSource4 = GlobalVars.Light4;
-                fourPointLightsEffect.LightColor4 = GlobalVars.Blue;
+                //fourPointLightsEffect.LightColor4 = GlobalVars.Blue;
                 if (GlobalVars.EnableLights.W > 0)
                 fourPointLightsEffect.EnableLight4 = true;
 
