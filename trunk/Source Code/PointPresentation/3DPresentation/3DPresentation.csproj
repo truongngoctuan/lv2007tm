@@ -236,6 +236,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Resource Include="Views\Editor\Images\rotation_bg.png" />
+    <Resource Include="Views\Editor\Images\transition_bg.png" />
     <Resource Include="Views\Editor\Images\top_pause_gray.png" />
     <Resource Include="Views\Editor\Images\top_play_gray.png" />
     <Resource Include="Views\Editor\Images\top_stop_gray.png" />

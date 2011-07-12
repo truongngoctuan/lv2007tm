@@ -15,6 +15,7 @@ namespace _3DPresentation
 {
     public partial class App : Application
     {
+
         public App()
         {
             this.Startup += this.Application_Startup;
@@ -30,7 +31,8 @@ namespace _3DPresentation
             //this.RootVisual = new MainPage();
             //this.RootVisual = new EditorView();
             this.RootVisual = mainUI;
-            mainUI.Children.Add(new TourDesign());
+//            mainUI.Children.Add(new TourControl());
+            mainUI.Children.Add(new EditorView());
         }
 
         public static void GoToPage(UserControl nextPg)
@@ -46,10 +48,16 @@ namespace _3DPresentation
             // Show only nextPg
             foreach(UserControl page in app.mainUI.Children)
             {
-                if(page == nextPg)
+                if (page == nextPg)
+                {
                     page.Visibility = Visibility.Visible;
+                    page.IsEnabled = true;
+                }
                 else
+                {
                     page.Visibility = Visibility.Collapsed;
+                    page.IsEnabled = false;
+                }
             }
         }
 

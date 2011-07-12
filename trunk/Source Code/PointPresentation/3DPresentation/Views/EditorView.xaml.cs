@@ -74,6 +74,7 @@ namespace _3DPresentation
             odControl.Pause += new EventHandler(odControl_Pause);
             odControl.Resume += new EventHandler(odControl_Resume);
             odControl.Stop += new EventHandler(odControl_Stop);
+
         }
 
         void EditorView_KeyDown(object sender, KeyEventArgs e)
@@ -208,29 +209,30 @@ namespace _3DPresentation
         }
 
         //warning: rotation radian
-        public void UpdateMatrixAfterFrame(int iIndex, Vector3 rotation, Vector3 Translation)
+        public void UpdateMatrixAfterFrame(int iIndex, Microsoft.Xna.Framework.Matrix RotationMatrix, Vector3 Translation)
         {
             lock (lockThis)
-            {
+            { 
                 for (int i = iIndex; i < ArrFrame.Count; i++)
                 {
-                    ArrFrame[i].Rotation += rotation;
+                    ArrFrame[i].RotationMatrix *= RotationMatrix;
                     ArrFrame[i].Position += Translation;
                 }
             }
         }
 
-        public void UpdateMatrixBeforeFrame(int iIndex, Vector3 rotation, Vector3 Translation)
+        public void UpdateMatrixBeforeFrame(int iIndex, Microsoft.Xna.Framework.Matrix RotationMatrix, Vector3 Translation)
         {
             lock (lockThis)
             {
                 for (int i = iIndex; i <= iIndex; i++)
                 {
-                    ArrFrame[i].Rotation += rotation;
+                    ArrFrame[i].RotationMatrix *= RotationMatrix;
                     ArrFrame[i].Position += Translation;
                 }
             }
         }
+
         #endregion
 
         #region Play Stop Pause Resume Kinect

@@ -55,7 +55,7 @@ namespace _3DPresentation.Views.Editor
             _parent.Change();
             tbox.Text = ((int)sd.Value).ToString();
 
-            this._parent.OnValueChange(strKey, (float)sd.Value);
+           // this._parent.OnValueChange(strKey, (float)sd.Value);
         }
 
         private void tbox_TextChanged(object sender, TextChangedEventArgs e)

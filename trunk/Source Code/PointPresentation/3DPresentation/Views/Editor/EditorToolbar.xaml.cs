@@ -127,13 +127,19 @@ namespace _3DPresentation.Views.Editor
                 return;
             }
             MatchModelView pg = new MatchModelView();
+            pg.MatchManualFinished += new MatchModelView.TranslationRotationEventHandler(pg_MatchManualFinished);
             pg.ParentView = _parent;
             pg.SetInputData(ParentEditor.FixedImageIndex, ParentEditor.ReferenceImageIndex);
-            //BaseModel newModel1 = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0000.ply"));
-            //BaseModel newModel2 = PointModel.Import(new System.IO.FileInfo("d:\\NotDecreaseSameVertex_0035.ply"));
             pg.SetInputData(ParentEditor.ArrFrame[ParentEditor.FixedImageIndex], ParentEditor.ArrFrame[ParentEditor.ReferenceImageIndex]);
 
             App.GoToPage(pg);
+        }
+
+        void pg_MatchManualFinished(object sender, MatchModelView.TranslationRotationEventArgs e)
+        {
+            //throw new NotImplementedException();
+
+            ParentEditor.UpdateMatrixAfterFrame(e.ReferenceIndex, e.RotationMatrix, e.TransitionMatrix);
         }
     }
 }
