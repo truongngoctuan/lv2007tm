@@ -167,6 +167,9 @@
       <DependentUpon>UDRMZControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\MathUtil.cs" />
+    <Compile Include="Views\customChildWindow.xaml.cs">
+      <DependentUpon>customChildWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Editor\ComboboxCoverFlow.xaml.cs">
       <DependentUpon>ComboboxCoverFlow.xaml</DependentUpon>
     </Compile>
@@ -241,6 +244,10 @@
     <Resource Include="Views\Editor\Images\top_pause_gray.png" />
     <Resource Include="Views\Editor\Images\top_play_gray.png" />
     <Resource Include="Views\Editor\Images\top_stop_gray.png" />
+    <Page Include="Views\customChildWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Editor\ComboboxCoverFlow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
