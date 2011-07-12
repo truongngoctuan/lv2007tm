@@ -223,7 +223,7 @@ namespace _3DPresentation.Models
                     float y = Convert.ToSingle(Items[1]);
                     float z = Convert.ToSingle(Items[2]);
 
-                    model.AddVertex(new Vector3(x, y, z), GlobalVars.White);                    
+                    model.AddVertex(new Vector3(x, y, z), GlobalVars.GetColor(GlobalVars.ColorEnum.White));
                 }
             }
             else if (vertexType == VertexType.XYZ_RGB)

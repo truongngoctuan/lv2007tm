@@ -67,9 +67,7 @@
       <HintPath>..\Lib\Babylon.Toolbox.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Microsoft.Xna.Framework.Math">
-      <HintPath>.\Microsoft.Xna.Framework.Math.dll</HintPath>
-    </Reference>
+    <Reference Include="Microsoft.Xna.Framework.Math, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
     <Reference Include="SilverlightMessageBoxLibrary">
       <HintPath>.\SilverlightMessageBoxLibrary.dll</HintPath>
@@ -103,10 +101,11 @@
     <Compile Include="ClientFileAndDirectory.cs" />
     <Compile Include="ClientPackage.cs" />
     <Compile Include="Effects\EffectManager.cs" />
-    <Compile Include="Effects\FourPointLights\FourPointLights.cs" />
+    <Compile Include="Effects\FourPointLights\FourPointLightsEffect.cs" />
     <Compile Include="Effects\PointEffect\PointEffect.cs" />
     <Compile Include="Effects\TexturedNoEffect\TexturedNoEffect.cs" />
     <Compile Include="Material\BaseMaterial.cs" />
+    <Compile Include="Material\FourPointLightsMaterial.cs" />
     <Compile Include="Material\NoEffectMaterial.cs" />
     <Compile Include="Material\PointMaterial.cs" />
     <Compile Include="Material\TexturedMaterial.cs" />
@@ -121,6 +120,7 @@
       <DependentUpon>OpenFileControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\CustomBoundingInfo.cs" />
+    <Compile Include="Pages\IBaseScene.cs" />
     <Compile Include="Pages\Tour\Scene\CustomScene.cs" />
     <Compile Include="Pages\Tour\Scene\CustomScene.Interaction.cs" />
     <Compile Include="Pages\Tour\Scene\CustomScene.IO.cs" />
@@ -137,6 +137,13 @@
     <Compile Include="Pages\View\Scene\ViewScene.Render.cs" />
     <Compile Include="Pages\View\ViewControl.xaml.cs">
       <DependentUpon>ViewControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyPanel\MaterialSelectorControl.xaml.cs">
+      <DependentUpon>MaterialSelectorControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PropertyPanel\NumberEditor.cs" />
+    <Compile Include="PropertyPanel\PropertiesPanel.xaml.cs">
+      <DependentUpon>PropertiesPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="ReflectionShader.cs" />
     <Compile Include="SharpGIS.UnZipper.cs" />
@@ -176,9 +183,6 @@
     <Compile Include="Views\EditorView.xaml.cs">
       <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Editor\cwMatchModelManual.xaml.cs">
-      <DependentUpon>cwMatchModelManual.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Editor\cwOpenModel.xaml.cs">
       <DependentUpon>cwOpenModel.xaml</DependentUpon>
     </Compile>
@@ -209,17 +213,14 @@
     <Compile Include="Views\Editor\MatchModelManual.xaml.cs">
       <DependentUpon>MatchModelManual.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Editor\MatchModelView.xaml.cs">
-      <DependentUpon>MatchModelView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Editor\SimplePopupContent.xaml.cs">
       <DependentUpon>SimplePopupContent.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Editor\SliderTextBox.xaml.cs">
-      <DependentUpon>SliderTextBox.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\ErrorWindowView.xaml.cs">
       <DependentUpon>ErrorWindowView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ObjectDesign.xaml.cs">
+      <DependentUpon>ObjectDesign.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ObjectView.xaml.cs">
       <DependentUpon>ObjectView.xaml</DependentUpon>
@@ -247,6 +248,14 @@
     <Resource Include="Views\Editor\Images\top_pause_gray.png" />
     <Resource Include="Views\Editor\Images\top_play_gray.png" />
     <Resource Include="Views\Editor\Images\top_stop_gray.png" />
+    <Page Include="PropertyPanel\MaterialSelectorControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="PropertyPanel\PropertiesPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\customChildWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -258,6 +267,10 @@
     <Page Include="Views\Editor\MatchModelManual.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ObjectDesign.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ObjectView.xaml">
       <SubType>Designer</SubType>
@@ -305,10 +318,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Editor\cwMatchModelManual.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Editor\cwOpenModel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -345,15 +354,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Editor\MatchModelView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Editor\SimplePopupContent.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Editor\SliderTextBox.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -708,8 +709,8 @@
     </Page>
     <PixelShader Include="Effects\PointEffect\PointEffect.ps.hlsl" />
     <VertexShader Include="Effects\PointEffect\PointEffect.vs.hlsl" />
-    <VertexShader Include="Effects\FourPointLights\FourPointLights.vs.hlsl" />
-    <PixelShader Include="Effects\FourPointLights\FourPointLights.ps.hlsl" />
+    <VertexShader Include="Effects\FourPointLights\FourPointLightsEffect.vs.hlsl" />
+    <PixelShader Include="Effects\FourPointLights\FourPointLightsEffect.ps.hlsl" />
     <None Include="Properties\OutOfBrowserSettings.xml">
       <SubType>Designer</SubType>
     </None>
@@ -768,6 +769,10 @@
     <ProjectReference Include="..\ShaderEffectsLibrary\ShaderEffectsLibrary.csproj">
       <Project>{A933FC48-0061-4994-881F-2146B5B407C3}</Project>
       <Name>ShaderEffectsLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SL40PropertyGrid\SL40PropertyGrid.csproj">
+      <Project>{BF2F5CDA-EF80-45F9-99EE-01C1A078339E}</Project>
+      <Name>SL40PropertyGrid</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />

@@ -7,14 +7,15 @@ namespace _3DPresentation.Effects
 {
     public class EffectManager
     {
-        public enum ShaderEffects { NoEffect, TexturedNoEffect, PointEffect }
+        public enum ShaderEffects { NoEffect, TexturedNoEffect, PointEffect, FourPointLights }
         // the device to use when creating resources, can't use to draw
         static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
         public static IBaseScene Scene { get; set; }
-        public static NoEffect noEffect;
-        public static TexturedNoEffect texturedNoEffect;
-        public static PointEffect pointEffect;
+        private static NoEffect noEffect;
+        private static TexturedNoEffect texturedNoEffect;
+        private static PointEffect pointEffect;
+        private static FourPointLightsEffect fourPointLightsEffect;
 
         public static NoEffect NoEffect 
         { 
@@ -46,6 +47,17 @@ namespace _3DPresentation.Effects
             }
             private set { pointEffect = value; }
         }
+        public static FourPointLightsEffect FourPointLightsEffect
+        {
+            get
+            {
+                if (!IsReady)
+                    InitEffects();
+                return fourPointLightsEffect;
+            }
+            private set { fourPointLightsEffect = value; }
+        }
+
 
         public static bool IsReady { get; set; }
         public static void InitEffects()
@@ -59,10 +71,12 @@ namespace _3DPresentation.Effects
             texturedNoEffect.DiffuseTexture = Utils.Global.LoadTexture("Images/3.jpg", resourceDevice);
 
             pointEffect = new PointEffect(resourceDevice);
+
+            fourPointLightsEffect = new Effects.FourPointLightsEffect(resourceDevice);
             IsReady = true;
         }
 
-        public static Effect GetEffect(ShaderEffects effect)
+        private static Effect GetEffect(ShaderEffects effect)
         {
             Effect newEffect = null;
             if (effect == ShaderEffects.NoEffect)

@@ -160,14 +160,14 @@ namespace _3DPresentation
         private VertexPositionColor[] CreateAxisModel()
         {
             VertexPositionColor[] vertices = new VertexPositionColor[6];
-            vertices[0] = new VertexPositionColor(new Vector3(-3000, 0, 0), GlobalVars.Red);
-            vertices[1] = new VertexPositionColor(new Vector3(+3000, 0, 0), GlobalVars.White);
+            //vertices[0] = new VertexPositionColor(new Vector3(-3000, 0, 0), GlobalVars.Red);
+            //vertices[1] = new VertexPositionColor(new Vector3(+3000, 0, 0), GlobalVars.White);
 
-            vertices[2] = new VertexPositionColor(new Vector3(0, -3000, 0), GlobalVars.Green);
-            vertices[3] = new VertexPositionColor(new Vector3(0, 3000, 0), GlobalVars.White);
+            //vertices[2] = new VertexPositionColor(new Vector3(0, -3000, 0), GlobalVars.Green);
+            //vertices[3] = new VertexPositionColor(new Vector3(0, 3000, 0), GlobalVars.White);
 
-            vertices[4] = new VertexPositionColor(new Vector3(0, 0, -3000), GlobalVars.Blue);
-            vertices[5] = new VertexPositionColor(new Vector3(0, 0, 3000), GlobalVars.White);
+            //vertices[4] = new VertexPositionColor(new Vector3(0, 0, -3000), GlobalVars.Blue);
+            //vertices[5] = new VertexPositionColor(new Vector3(0, 0, 3000), GlobalVars.White);
             return vertices;
         }
         
