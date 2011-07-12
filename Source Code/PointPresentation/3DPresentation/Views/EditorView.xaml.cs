@@ -316,32 +316,32 @@ namespace _3DPresentation
         }
         #endregion
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Media.Imaging.WriteableBitmap wbm = new System.Windows.Media.Imaging.WriteableBitmap(300, 300).FromResource("Views/Editor/Images/rotation_bg.png");
-            //System.Windows.Media.Imaging.WriteableBitmapExtensions.Clear(wbm, System.Windows.Media.Color.FromArgb(255, 255, 0, 0));
-            this.currentImage.Source = wbm;
-            OpenFileDialog dlg = new OpenFileDialog(); // new instance
-            dlg.Multiselect = true;
-            dlg.Filter = "ply|*.ply";
-            if ((bool)dlg.ShowDialog())
-            {
-                foreach (FileInfo fi in dlg.Files)
-                {
-                    string strPath = fi.FullName;
-                    strPath = strPath.Replace(".ply", ".jpg");
-                    //ParentEditor.AddFrame(fi, strPath);
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    System.Windows.Media.Imaging.WriteableBitmap wbm = new System.Windows.Media.Imaging.WriteableBitmap(300, 300).FromResource("Views/Editor/Images/rotation_bg.png");
+        //    //System.Windows.Media.Imaging.WriteableBitmapExtensions.Clear(wbm, System.Windows.Media.Color.FromArgb(255, 255, 0, 0));
+        //    this.currentImage.Source = wbm;
+        //    OpenFileDialog dlg = new OpenFileDialog(); // new instance
+        //    dlg.Multiselect = true;
+        //    dlg.Filter = "ply|*.ply";
+        //    if ((bool)dlg.ShowDialog())
+        //    {
+        //        foreach (FileInfo fi in dlg.Files)
+        //        {
+        //            string strPath = fi.FullName;
+        //            strPath = strPath.Replace(".ply", ".jpg");
+        //            //ParentEditor.AddFrame(fi, strPath);
 
-                    AddFrame(fi);
+        //            AddFrame(fi);
                     
-                }
-            }
+        //        }
+        //    }
 
-            //_3DPresentation.Views.customChildWindow cw = new Views.customChildWindow();
+        //    //_3DPresentation.Views.customChildWindow cw = new Views.customChildWindow();
 
-            //_3DPresentation.Views.ObjectView ov = new Views.ObjectView();
-            //cw.AddContent(ov);
-            //cw.Show(this);
-        }
+        //    //_3DPresentation.Views.ObjectView ov = new Views.ObjectView();
+        //    //cw.AddContent(ov);
+        //    //cw.Show(this);
+        //}
     }
 }

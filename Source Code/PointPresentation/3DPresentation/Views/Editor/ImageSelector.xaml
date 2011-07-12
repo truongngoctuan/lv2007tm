@@ -576,6 +576,6 @@
     <!--<Path Data="M 765,100 L745,80 L745,120z" Fill="Yellow" IsHitTestVisible="False"/>-->
 
         <TextBlock x:Name="tbCurrentFrameIndex">0</TextBlock>
-        <Button x:Name="btTestAdd" Width="100" Height="25" Canvas.Left="500">test add</Button>
+        <!--<Button x:Name="btTestAdd" Width="100" Height="25" Canvas.Left="500">test add</Button>-->
     </Canvas>
 </UserControl>

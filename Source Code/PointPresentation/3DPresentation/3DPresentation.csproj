@@ -250,6 +250,8 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Resource Include="Views\Editor\Images\blank.jpg" />
+    <Resource Include="Views\Images\dlg_close_button.png" />
     <Resource Include="themes\Transparent.PNG" />
     <Resource Include="Views\Editor\Images\rotation_bg.png" />
     <Resource Include="Views\Editor\Images\transition_bg.png" />
@@ -296,23 +298,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Resource Include="Views\Editor\Images\blank.jpg" />
     <Resource Include="Views\Editor\Images\ImageSelectorBgTop.png" />
-    <Resource Include="Views\Editor\Images\j0149013.jpg" />
-    <Resource Include="Views\Editor\Images\j0182516.jpg" />
-    <Resource Include="Views\Editor\Images\j0262524.jpg" />
-    <Resource Include="Views\Editor\Images\j0309223.jpg" />
-    <Resource Include="Views\Editor\Images\j0314059.jpg" />
-    <Resource Include="Views\Editor\Images\j0314069.jpg" />
-    <Resource Include="Views\Editor\Images\j0402444.jpg" />
-    <Resource Include="Views\Editor\Images\j0406500.jpg" />
-    <Resource Include="Views\Editor\Images\j0406702.jpg" />
-    <Resource Include="Views\Editor\Images\j0407544.jpg" />
-    <Resource Include="Views\Editor\Images\j0422769.jpg" />
-    <Resource Include="Views\Editor\Images\j0428653.jpg" />
-    <Resource Include="Views\Editor\Images\j0430836.jpg" />
-    <Resource Include="Views\Editor\Images\j0431767.jpg" />
-    <Resource Include="Views\Editor\Images\j0433157.jpg" />
     <Resource Include="Views\Editor\Images\topbg_left.png" />
     <Resource Include="Views\Editor\Images\topbg_mid.png" />
     <Resource Include="Views\Editor\Images\topbg_right.png" />
