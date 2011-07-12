@@ -21,7 +21,7 @@ namespace _3DPresentation
         {
             try
             {
-                graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Black, 1.0f, 0);
+                graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
                 graphicsDevice.RasterizerState = new RasterizerState
                 {
                     FillMode = FillMode.Solid,

@@ -83,7 +83,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Xna.Framework.Math">
-      <HintPath>..\Lib\Microsoft.Xna.Framework.Math.dll</HintPath>
+      <HintPath>..\3DPresentation\Microsoft.Xna.Framework.Math.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="mscorlib" />

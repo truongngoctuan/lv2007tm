@@ -64,6 +64,14 @@ namespace _3DPresentation
         
         int _total_frames = 0;
         DateTime _lastFPS = DateTime.Now;
+
+        Color _backgroundColor = Color.Black;
+
+        public Color BackgroundColor
+        {
+            get { return _backgroundColor; }
+            set { _backgroundColor = value; }
+        }
         void Surface_Draw(object sender, DrawEventArgs e)
         {
             if (IsEnable == false)

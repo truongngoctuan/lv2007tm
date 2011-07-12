@@ -40,6 +40,9 @@ namespace _3DPresentation.Views.Editor
 
             tboxFactorRotation_TextChanged(this, null);
             tboxFactorTransition_TextChanged(this, null);
+
+            vcOjectViewer.BackgoundColor = System.Windows.Media.Color.FromArgb(255, 0, 0, 0);
+            colorPicker1.Color = vcOjectViewer.BackgoundColor;
         }
 
         int iFixedImageIndex = -1;
@@ -206,6 +209,16 @@ namespace _3DPresentation.Views.Editor
         private void transitionCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             tboxFactorTransition.Focus();
+        }
+
+        private void colorPicker1_ColorChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (colorPicker1 != null)
+            {
+                //MessageBox.Show(colorPicker1.Color.ToString());
+                //(ellipse00.Fill as SolidColorBrush).Color = colorPicker1.Color;
+                vcOjectViewer.BackgoundColor = colorPicker1.Color;
+            }
         }
     }
 }

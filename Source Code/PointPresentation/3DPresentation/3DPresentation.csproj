@@ -173,6 +173,11 @@
       <DependentUpon>UDRMZControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\MathUtil.cs" />
+    <Compile Include="Views\Color Picker\ColorBoard.cs" />
+    <Compile Include="Views\Color Picker\ColorHelper.cs" />
+    <Compile Include="Views\Color Picker\ColorPicker.cs" />
+    <Compile Include="Views\Color Picker\PredefinedColor.cs" />
+    <Compile Include="Views\Color Picker\PredefinedColorItem.cs" />
     <Compile Include="Views\customChildWindow.xaml.cs">
       <DependentUpon>customChildWindow.xaml</DependentUpon>
     </Compile>
@@ -242,6 +247,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Resource Include="themes\Transparent.PNG" />
     <Resource Include="Views\Editor\Images\rotation_bg.png" />
     <Resource Include="Views\Editor\Images\transition_bg.png" />
     <Resource Include="Views\Editor\Images\top_pause_gray.png" />
@@ -252,6 +258,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="PropertyPanel\PropertiesPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="themes\Generic.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -9,7 +9,22 @@
            Title="customChildWindow Page" SizeChanged="Page_SizeChanged">
     <Grid x:Name="LayoutRoot">
         <Rectangle x:Name="recBackground" Opacity="0.5" Fill="Black"></Rectangle>
-        <Border x:Name="borderDlg" BorderBrush="Black" BorderThickness="2"></Border>
-        <Button VerticalAlignment="Top" HorizontalAlignment="Right" Click="Button_Click" Content="x"></Button>
+        
+        <Border VerticalAlignment="Center" HorizontalAlignment="Center"  BorderBrush="White" BorderThickness="2" CornerRadius="0">
+            <Grid Background="White">
+                <Border x:Name="borderDlg" BorderThickness="0" BorderBrush="White">
+                    <Button Width="200" Height="100"></Button>
+                </Border>
+            <Button HorizontalAlignment="Right" VerticalAlignment="Top" Click="Button_Click"
+                Style="{StaticResource customButtonNoStyle}">
+                    <Button.Margin>
+                        <Thickness Top="-15" Right="-15"/>
+                    </Button.Margin>
+                        <Button.Content>
+                    <Image Source="Images/dlg_close_button.png" Width="30" Height="30"></Image>
+                </Button.Content>
+            </Button>
+            </Grid>
+        </Border>
     </Grid>
 </navigation:Page>

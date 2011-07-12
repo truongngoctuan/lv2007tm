@@ -74,6 +74,7 @@ namespace _3DPresentation
                 e.Key == System.Windows.Input.Key.A ||
                     e.Key == System.Windows.Input.Key.D)
             {
+                Camera.ApplyInertia();
                 Microsoft.Xna.Framework.Vector3 moveDirection = Vector3.Zero;
                 //Microsoft.Xna.Framework.Matrix mat = Microsoft.Xna.Framework.Matrix.CreateFromYawPitchRoll(_model2.WorldMatrix. Camera.RotationY, tourControl.Camera.RotationX, tourControl.Camera.RotationZ);
                 Microsoft.Xna.Framework.Matrix mat = _3DPresentation.MathUtil.GetTransformationMatrix(new Vector3(0, 0, -1), Camera.Target - Camera.Position);

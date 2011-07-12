@@ -80,5 +80,16 @@ namespace _3DPresentation
             viewScene.ClearModels();
             //cbModels.Items.Clear();
         }
+
+        public Color BackgoundColor
+        {
+            get {
+                return ((SolidColorBrush)LayoutRoot.Background).Color;
+            }
+            set
+            {
+                LayoutRoot.Background = new SolidColorBrush(value);
+            }
+        }
     }
 }
