@@ -11,7 +11,7 @@
     Style="{StaticResource PageStyle}">
     <Grid x:Name="ContentHomePage" Background="Orange" 
           Width="1000" Height="600">
-        <Image x:Name="currentImage"></Image>
+        
         <customControl:ViewControl x:Name="vcOjectViewer" Width="600" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center"></customControl:ViewControl>
         
         <!--coverflow at bottom-->
@@ -31,7 +31,7 @@
         <customControlEditor:EditorToolbar x:Name="toolbar"></customControlEditor:EditorToolbar>
         <!--object dock at top-->
         <customControlEditor:EditorObjectDock x:Name="odControl"  VerticalAlignment="Top" HorizontalAlignment="Center"></customControlEditor:EditorObjectDock>
-        
+        <Image x:Name="currentImage" Width="300"></Image>
         <Button Width="100" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Button_Click"></Button>
     </Grid>
 </navigation:Page>

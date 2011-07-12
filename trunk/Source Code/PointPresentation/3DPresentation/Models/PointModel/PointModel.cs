@@ -4,6 +4,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using _3DPresentation.Material;
+using System.Windows.Media.Imaging;
 
 namespace _3DPresentation.Models
 {
@@ -84,6 +85,18 @@ namespace _3DPresentation.Models
                 typeof(PointMaterial)
             };
             return compatibleTypes;
+        }
+
+        public override System.Windows.Media.Imaging.WriteableBitmap toBitmap(int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam)
+        {
+            System.Windows.Media.Imaging.WriteableBitmap wbm = new System.Windows.Media.Imaging.WriteableBitmap(iWidth, iHeight);//.FromResource("Views/Editor/Images/rotation_bg.png");
+            System.Windows.Media.Imaging.WriteableBitmapExtensions.Clear(wbm, System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
+            Matrix mat = cam.View * cam.Projection;
+
+            int[,] zbuffer = new int[iWidth,iHeight];
+
+            pointManager.projectToImagePlane(mat, iWidth, iHeight, zbuffer, wbm);
+            return wbm;
         }
     }
 }

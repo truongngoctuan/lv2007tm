@@ -186,6 +186,8 @@ namespace _3DPresentation
                         vcOjectViewer.SetTarget(ArrFrame[ArrFrame.Count - 1]);
                     }
                     frameViewer.AddImage(pu);
+
+                    this.currentImage.Source = model.toBitmap(300, 300, vcOjectViewer.ViewScene.Camera);
                 }
             }
             catch (Exception ex)
@@ -308,11 +310,30 @@ namespace _3DPresentation
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            _3DPresentation.Views.customChildWindow cw = new Views.customChildWindow();
+            System.Windows.Media.Imaging.WriteableBitmap wbm = new System.Windows.Media.Imaging.WriteableBitmap(300, 300).FromResource("Views/Editor/Images/rotation_bg.png");
+            //System.Windows.Media.Imaging.WriteableBitmapExtensions.Clear(wbm, System.Windows.Media.Color.FromArgb(255, 255, 0, 0));
+            this.currentImage.Source = wbm;
+            OpenFileDialog dlg = new OpenFileDialog(); // new instance
+            dlg.Multiselect = true;
+            dlg.Filter = "ply|*.ply";
+            if ((bool)dlg.ShowDialog())
+            {
+                foreach (FileInfo fi in dlg.Files)
+                {
+                    string strPath = fi.FullName;
+                    strPath = strPath.Replace(".ply", ".jpg");
+                    //ParentEditor.AddFrame(fi, strPath);
 
-            _3DPresentation.Views.ObjectView ov = new Views.ObjectView();
-            cw.AddContent(ov);
-            cw.Show(this);
+                    AddFrame(fi, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+                    
+                }
+            }
+
+            //_3DPresentation.Views.customChildWindow cw = new Views.customChildWindow();
+
+            //_3DPresentation.Views.ObjectView ov = new Views.ObjectView();
+            //cw.AddContent(ov);
+            //cw.Show(this);
         }
     }
 }
