@@ -166,13 +166,13 @@ namespace _3DPresentation
         }
 
         private static object lockThis = new object();
-        public void AddFrame(string strFrameName, PathUri pu)
+        public void AddFrame(string strFrameName)
         {
             FileInfo fi = new System.IO.FileInfo(strFrameName);
-            AddFrame(fi, pu);
+            AddFrame(fi);
         }
 
-        public void AddFrame(FileInfo fi, PathUri pu)
+        public void AddFrame(FileInfo fi)
         {
             try
             {
@@ -185,9 +185,17 @@ namespace _3DPresentation
                     {
                         vcOjectViewer.SetTarget(ArrFrame[ArrFrame.Count - 1]);
                     }
-                    frameViewer.AddImage(pu);
 
-                    this.currentImage.Source = model.toBitmap(300, 300, vcOjectViewer.ViewScene.Camera);
+                    Babylon.Toolbox.OrbitCamera cam = new Babylon.Toolbox.OrbitCamera { Alpha = (float)Math.PI / 2 };
+
+                    //setmodel target
+                    cam.Radius = model.BoundingInfo.BoundingSphereWorld.Radius * 4.0f;
+                    cam.Target = model.BoundingInfo.BoundingSphereWorld.Center;
+                    cam.Alpha = cam.Alpha; // to raise event => recompute Position to get new ViewMatrix
+
+                    frameViewer.AddImage(model.toBitmap(400, 400, cam));
+
+                    //this.currentImage.Source = model.toBitmap(300, 300, vcOjectViewer.ViewScene.Camera);
                 }
             }
             catch (Exception ex)
@@ -256,7 +264,7 @@ namespace _3DPresentation
                 {
                     if (fi.Name.StartsWith("NotDecreaseSameVertex"))
                     {
-                        AddFrame(strFileName, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+                        AddFrame(strFileName);
                     }
 
                 }
@@ -324,7 +332,7 @@ namespace _3DPresentation
                     strPath = strPath.Replace(".ply", ".jpg");
                     //ParentEditor.AddFrame(fi, strPath);
 
-                    AddFrame(fi, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+                    AddFrame(fi);
                     
                 }
             }

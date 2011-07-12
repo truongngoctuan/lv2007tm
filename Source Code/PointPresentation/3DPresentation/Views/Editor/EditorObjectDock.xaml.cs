@@ -100,7 +100,7 @@ namespace _3DPresentation.Views.Editor
 
                     for (int i = 0; i < arrFrameName.Count; i++)
                     {
-                        ParentEditor.AddFrame(arrFrameName[i], new PathUri(arrFrameThumnail[i], true));
+                        ParentEditor.AddFrame(arrFrameName[i]);
                         //System.Threading.Thread.Sleep(2000);
                     }
                 }

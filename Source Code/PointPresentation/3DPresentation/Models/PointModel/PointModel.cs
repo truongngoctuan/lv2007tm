@@ -93,7 +93,7 @@ namespace _3DPresentation.Models
             System.Windows.Media.Imaging.WriteableBitmapExtensions.Clear(wbm, System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
             Matrix mat = cam.View * cam.Projection;
 
-            int[,] zbuffer = new int[iWidth,iHeight];
+            int[,] zbuffer = new int[iWidth, iHeight];
 
             pointManager.projectToImagePlane(mat, iWidth, iHeight, zbuffer, wbm);
             return wbm;
