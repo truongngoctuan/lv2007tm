@@ -38,15 +38,17 @@ namespace _3DPresentation.Views.Editor
 
                 ck.DownloadCompleted += new EventHandler((a, b) =>
                 {
-                    _3DPresentation.Views.customChildWindow cw = new Views.customChildWindow();
+                    SilverlightMessageBoxLibrary.Message.InfoMessage("Download Done!");
+                    //_3DPresentation.Views.customChildWindow cw = new Views.customChildWindow();
 
-                    TextBlock tblock = new TextBlock();
-                    tblock.Text = "asd";
-                    tblock.Width = 100;
-                    tblock.Height = 50;
-                    tblock.Foreground = new SolidColorBrush(Color.FromArgb(255, 255, 0, 0));
-                    cw.AddContent(tblock);
-                    cw.Show(this.ParentEditor);
+                    //TextBlock tblock = new TextBlock();
+                    //tblock.Text = "Download Done!";
+                    //tblock.Width = 100;
+                    //tblock.Height = 50;
+                    //tblock.VerticalAlignment = System.Windows.VerticalAlignment.Center;
+                    //tblock.HorizontalAlignment = System.Windows.HorizontalAlignment.Center;
+                    //cw.AddContent(tblock);
+                    //cw.Show(this.ParentEditor);
                 });
             }
             catch (Exception ex)

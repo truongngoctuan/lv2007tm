@@ -32,6 +32,6 @@
         <!--object dock at top-->
         <customControlEditor:EditorObjectDock x:Name="odControl"  VerticalAlignment="Top" HorizontalAlignment="Center"></customControlEditor:EditorObjectDock>
         <Image x:Name="currentImage" Width="300"></Image>
-        <Button Width="100" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Button_Click"></Button>
+        <!--<Button Width="100" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Button_Click"></Button>-->
     </Grid>
 </navigation:Page>

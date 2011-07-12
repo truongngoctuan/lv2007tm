@@ -90,7 +90,7 @@ namespace _3DPresentation.Views.Editor
             rightImg1.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked5);
             centerImg.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked4);
 
-            btTestAdd.Click += new RoutedEventHandler(btTestAdd_Click);
+            //btTestAdd.Click += new RoutedEventHandler(btTestAdd_Click);
 
             this.SetImages(new WriteableBitmap[] { });
         }
@@ -321,19 +321,19 @@ namespace _3DPresentation.Views.Editor
             OnImageSelected(args);            
         }
 
-        void btTestAdd_Click(object sender, RoutedEventArgs e)
-        {
-            //throw new NotImplementedException();
-            try
-            {
-                this.AddImage(new WriteableBitmap(0, 0).FromResource("Views/Editor/Images/j0149013.jpg"));
-                //this.AddImage(new PathUri("Views/Editor/Images/j0149013.jpg", false));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
+        //void btTestAdd_Click(object sender, RoutedEventArgs e)
+        //{
+        //    //throw new NotImplementedException();
+        //    try
+        //    {
+        //        this.AddImage(new WriteableBitmap(0, 0).FromResource("Views/Editor/Images/j0149013.jpg"));
+        //        //this.AddImage(new PathUri("Views/Editor/Images/j0149013.jpg", false));
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message);
+        //    }
+        //}
 
         protected void OnImageSelected(ImageSelectedEventArgs e)
         {
