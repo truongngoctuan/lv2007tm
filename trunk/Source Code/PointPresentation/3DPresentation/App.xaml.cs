@@ -55,7 +55,7 @@ namespace _3DPresentation
                 }
                 else
                 {
-                    page.Visibility = Visibility.Collapsed;
+                    page.Visibility = Visibility.Visible;
                     page.IsEnabled = false;
                 }
             }
