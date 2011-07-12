@@ -9,23 +9,22 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using System.Windows.Navigation;
 using _3DPresentation.Models;
 using Microsoft.Xna.Framework;
 
 namespace _3DPresentation.Views.Editor
 {
-    public partial class MatchModelView : Page
+    public partial class MatchModelManual : UserControl
     {
-        UserControl _parentView;
+        //UserControl _parentView;
 
-        public UserControl ParentView
-        {
-            get { return _parentView; }
-            set { _parentView = value; }
-        }
+        //public UserControl ParentView
+        //{
+        //    get { return _parentView; }
+        //    set { _parentView = value; }
+        //}
 
-        public MatchModelView()
+        public MatchModelManual()
         {
             InitializeComponent();
 
@@ -41,12 +40,6 @@ namespace _3DPresentation.Views.Editor
 
             tboxFactorRotation_TextChanged(this, null);
             tboxFactorTransition_TextChanged(this, null);
-        }
-
-        // Executes when the user navigates to this page.
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-        
         }
 
         int iFixedImageIndex = -1;
@@ -69,7 +62,8 @@ namespace _3DPresentation.Views.Editor
             _model2.RotationMatrix = OldRotationMatrix;
             _model2.Position = v3OldPosition;
         }
-
+        public event EventHandler OKButtonClick;
+        public event EventHandler CancelButtonClick;
         private void OKButton_Click(object sender, RoutedEventArgs e)
         {
             Result = true;
@@ -88,7 +82,12 @@ namespace _3DPresentation.Views.Editor
                 ResetModel();
                 MatchManualFinished(this, eArg);
             }
-            App.GoToPage(ParentView);
+            //App.GoToPage(ParentView);
+
+            if (OKButtonClick != null)
+            {
+                OKButtonClick(this, null);
+            }
         }
 
         private void CancelButton_Click(object sender, RoutedEventArgs e)
@@ -99,8 +98,13 @@ namespace _3DPresentation.Views.Editor
 
             ResetModel();
 
-            App.RemovePage(this);
-            App.GoToPage(ParentView);
+            //App.RemovePage(this);
+            //App.GoToPage(ParentView);
+
+            if (CancelButtonClick != null)
+            {
+                CancelButtonClick(this, null);
+            }
         }
 
         #region ValueChange
@@ -202,15 +206,6 @@ namespace _3DPresentation.Views.Editor
         private void transitionCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             tboxFactorTransition.Focus();
-        }
-
-        private void Page_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            this.Width = ParentView.ActualWidth;
-            this.Height = ParentView.ActualHeight;
-
-            recBackground.Width = this.Width;
-            recBackground.Height = this.Height;
         }
     }
 }

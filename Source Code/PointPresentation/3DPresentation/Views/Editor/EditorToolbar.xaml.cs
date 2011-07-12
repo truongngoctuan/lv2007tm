@@ -139,16 +139,26 @@ namespace _3DPresentation.Views.Editor
                 MessageBox.Show("error!!");
                 return;
             }
-            MatchModelView pg = new MatchModelView();
-            pg.MatchManualFinished += new MatchModelView.TranslationRotationEventHandler(pg_MatchManualFinished);
-            pg.ParentView = _parent;
-            pg.SetInputData(ParentEditor.FixedImageIndex, ParentEditor.ReferenceImageIndex);
-            pg.SetInputData(ParentEditor.ArrFrame[ParentEditor.FixedImageIndex], ParentEditor.ArrFrame[ParentEditor.ReferenceImageIndex]);
 
-            App.GoToPage(pg);
+            MatchModelManual pgContent = new MatchModelManual();
+            pgContent.MatchManualFinished += new MatchModelManual.TranslationRotationEventHandler(pg_MatchManualFinished);
+            pgContent.SetInputData(ParentEditor.FixedImageIndex, ParentEditor.ReferenceImageIndex);
+            pgContent.SetInputData(ParentEditor.ArrFrame[ParentEditor.FixedImageIndex], ParentEditor.ArrFrame[ParentEditor.ReferenceImageIndex]);
+
+            _3DPresentation.Views.customChildWindow cw = new Views.customChildWindow();
+            pgContent.CancelButtonClick +=new EventHandler((a, b)=>{
+                cw.Close();
+            });
+            pgContent.OKButtonClick += new EventHandler((a, b) =>
+            {
+                cw.Close();
+            });
+            
+            cw.AddContent(pgContent);
+            cw.Show(this.ParentEditor);
         }
 
-        void pg_MatchManualFinished(object sender, MatchModelView.TranslationRotationEventArgs e)
+        void pg_MatchManualFinished(object sender, MatchModelManual.TranslationRotationEventArgs e)
         {
             //throw new NotImplementedException();
 

@@ -206,6 +206,9 @@
     <Compile Include="Views\Editor\ImageSelector.xaml.cs">
       <DependentUpon>ImageSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Editor\MatchModelManual.xaml.cs">
+      <DependentUpon>MatchModelManual.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Editor\MatchModelView.xaml.cs">
       <DependentUpon>MatchModelView.xaml</DependentUpon>
     </Compile>
@@ -249,6 +252,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Editor\ComboboxCoverFlow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Editor\MatchModelManual.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
