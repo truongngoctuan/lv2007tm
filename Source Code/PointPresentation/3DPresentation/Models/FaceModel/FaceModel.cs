@@ -89,5 +89,10 @@ namespace _3DPresentation.Models
             };
             return compatibleTypes;
         }
+
+        public override System.Windows.Media.Imaging.WriteableBitmap toBitmap(int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam)
+        {
+            return null;
+        }
     }
 }

@@ -486,5 +486,7 @@ namespace _3DPresentation.Models
         protected abstract BaseMaterial GetDefaultMaterial();
         protected abstract BaseMaterial GetDefaultSpecialMaterial();
         public abstract Type[] GetCompatibleMaterialTypes();
+
+        public abstract System.Windows.Media.Imaging.WriteableBitmap toBitmap( int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam);
     }
 }
