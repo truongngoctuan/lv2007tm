@@ -9,24 +9,23 @@
     mc:Ignorable="d"
     Title="Home"
     Style="{StaticResource PageStyle}">
-    <Grid x:Name="ContentHomePage" Background="Orange" 
-          Width="1000" Height="600">
-        
+    <Grid x:Name="ContentHomePage" Background="Orange" SizeChanged="ContentHomePage_SizeChanged">
+        <Image Source="Images/editor_view_bg.jpg" Stretch="Fill"></Image>
         <customControl:ViewControl x:Name="vcOjectViewer" Width="600" Height="600" VerticalAlignment="Center" HorizontalAlignment="Center"></customControl:ViewControl>
         
         <!--coverflow at bottom-->
-            <StackPanel Orientation="Horizontal" Width="1000" Height="200" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <!--<StackPanel Orientation="Horizontal" Width="1000" Height="200" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                     <Canvas Width="100" Height="200">
                     <Image Canvas.Top="0" Width="100" Height="106" Stretch="Fill" Source="Editor/Images/ImageSelectorBgTop.png"/>
                         <Rectangle  Canvas.Top="106" Width="100" Height="94" Fill="Black"/>
-                    </Canvas>
+                    </Canvas>-->
             <customControlEditor:ImageSelector x:Name="frameViewer" VerticalAlignment="Bottom" HorizontalAlignment="Center" ImageSelected='OnImageSelected' Loaded='imageSelector_Loaded'/>
-                <Canvas Width="100" Height="200">
+                <!--<Canvas Width="100" Height="200">
                     <Image Canvas.Top="0" Width="100" Height="106" Stretch="Fill" Source="Editor/Images/ImageSelectorBgTop.png"/>
                     <Rectangle  Canvas.Top="106" Width="100" Height="94" Fill="Black"/>
                 </Canvas>
 
-            </StackPanel>
+            </StackPanel>-->
         <!--toolbar at left-->
         <customControlEditor:EditorToolbar x:Name="toolbar"></customControlEditor:EditorToolbar>
         <!--object dock at top-->

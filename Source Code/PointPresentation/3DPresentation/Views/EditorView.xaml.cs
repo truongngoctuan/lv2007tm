@@ -78,6 +78,8 @@ namespace _3DPresentation
             odControl.Resume += new EventHandler(odControl_Resume);
             odControl.Stop += new EventHandler(odControl_Stop);
 
+            vcOjectViewer.BackgoundColor = System.Windows.Media.Color.FromArgb(0, 0, 0, 0);
+
         }
 
         // Executes when the user navigates to this page.
@@ -424,6 +426,11 @@ namespace _3DPresentation
         }
 
         #endregion
+
+        private void ContentHomePage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            frameViewer.SetActualWidthAndHeight(ContentHomePage.ActualWidth, ContentHomePage.ActualHeight);
+        }
 
         //private void Button_Click(object sender, RoutedEventArgs e)
         //{

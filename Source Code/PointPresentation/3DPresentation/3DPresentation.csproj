@@ -79,9 +79,6 @@
       <HintPath>.\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows.Controls.Navigation, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="System.Windows.Controls.Theming.ExpressionDark">
-      <HintPath>.\System.Windows.Controls.Theming.ExpressionDark.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows.Controls.Theming.Toolkit">
       <HintPath>.\System.Windows.Controls.Theming.Toolkit.dll</HintPath>
     </Reference>
@@ -232,6 +229,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Resource Include="Views\Images\editor_view_bg.jpg" />
     <Resource Include="Views\Editor\Images\top_capture.png" />
     <Resource Include="Views\Editor\Images\top_capture_gray.png" />
     <Resource Include="Views\Editor\Images\top_recorder.png" />
@@ -257,6 +255,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Content Include="themes\System.Windows.Controls.Theming.ExpressionDark.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Page Include="Views\customChildWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -678,10 +681,6 @@
     <Resource Include="Images\4.jpg" />
     <Content Include="Resources\Models\espilit.txt" />
     <Content Include="Resources\Models\wcafe.txt" />
-    <Content Include="themes\System.Windows.Controls.Theming.ExpressionDark.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Content>
     <Page Include="OpenFileControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

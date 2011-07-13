@@ -168,13 +168,9 @@
 
     <SolidColorBrush x:Key="TextBrush" Color="#FFFFFFFF" />
     <Color x:Key="TextColor">#FFFFFFFF</Color>
-    <SolidColorBrush x:Key="NormalBrush" Color="#FF202020" />
-    <!--#FF595959-->
-    <SolidColorBrush x:Key="NormalBorderBrush" Color="#ff555555" />
-    <!--#FF333333-->
-    <SolidColorBrush x:Key="HoverBrush" Color="#ff3C3C3C" />
-    <!--FF393939-->
-    <SolidColorBrush x:Key="HoverBorderBrush" Color="#ffAFAFAF" />
+    <SolidColorBrush x:Key="NormalBrush" Color="#FF595959" />
+    <SolidColorBrush x:Key="NormalBorderBrush" Color="#FF333333" />
+    <SolidColorBrush x:Key="HoverBrush" Color="#FF393939" />
     <SolidColorBrush x:Key="GlyphBrush" Color="#FFD1D1D1" />
 
     <LinearGradientBrush x:Key="PressedBrush" EndPoint="0.5,0.971" StartPoint="0.5,0.042">
@@ -563,34 +559,12 @@
         </Setter>
     </Style>
     <!--Button-->
-    <!--static resource for Button-->
-    <LinearGradientBrush x:Key="btInBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF7F7F7F" Offset="0"/>
-        <GradientStop Color="#FF575757" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="btOutBorderBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF4F4F4F" Offset="0"/>
-        <GradientStop Color="#FF5B5B5B" Offset="1"/>
-    </LinearGradientBrush>
-    <SolidColorBrush x:Key="btCenterBorderBrush" Color="Black"></SolidColorBrush>
-
-    <LinearGradientBrush x:Key="btNormalBackgroudBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF6C6C6C" Offset="0"/>
-        <GradientStop Color="#FF535353" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="btHoverBackgroudBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF828282" Offset="0"/>
-        <GradientStop Color="#FF606060" Offset="1"/>
-    </LinearGradientBrush>
-    <LinearGradientBrush x:Key="btPressedBackgroudBrush" EndPoint="0.5,1" StartPoint="0.5,0">
-        <GradientStop Color="#FF535353" Offset="0"/>
-        <GradientStop Color="#FF6C6C6C" Offset="1"/>
-    </LinearGradientBrush>
-
-    <SolidColorBrush x:Key="btTextBrush" Color="White"></SolidColorBrush>
-
-
     <Style TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource NormalBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="Padding" Value="3" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="BorderBrush" Value="{StaticResource NormalBorderBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
@@ -608,46 +582,62 @@
                                 <vsm:VisualState x:Name="Normal" />
                                 <vsm:VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="btHoverBackgroundbd" Storyboard.TargetProperty="(UIElement.Opacity)">
+
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="HoverShineBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
                                             <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="HoverBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1" />
+                                        </DoubleAnimationUsingKeyFrames>
+
                                     </Storyboard>
                                 </vsm:VisualState>
                                 <vsm:VisualState x:Name="Pressed">
                                     <Storyboard>
 
-                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="btPressedBackgroundbd" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="PressedBorder" Storyboard.TargetProperty="(UIElement.Opacity)">
                                             <SplineDoubleKeyFrame KeyTime="00:00:00" Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
 
                                     </Storyboard>
                                 </vsm:VisualState>
+                                <vsm:VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimationUsingKeyFrames Storyboard.TargetName="DisabledVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="0" Value="0.5" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </vsm:VisualState>
+                            </vsm:VisualStateGroup>
+                            <vsm:VisualStateGroup x:Name="FocusStates">
+                                <vsm:VisualState x:Name="Focused">
+                                    <Storyboard>
+                                        <ObjectAnimationUsingKeyFrames Duration="0" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="Visibility">
+                                            <DiscreteObjectKeyFrame KeyTime="0" Value="Visible" />
+
+                                        </ObjectAnimationUsingKeyFrames>
+                                        <DoubleAnimationUsingKeyFrames BeginTime="00:00:00" Duration="00:00:00.0010000" Storyboard.TargetName="FocusVisualElement" Storyboard.TargetProperty="(UIElement.Opacity)">
+                                            <SplineDoubleKeyFrame KeyTime="00:00:00" Value="0.5" />
+                                        </DoubleAnimationUsingKeyFrames>
+                                    </Storyboard>
+                                </vsm:VisualState>
+                                <vsm:VisualState x:Name="Unfocused" />
                             </vsm:VisualStateGroup>
                         </vsm:VisualStateManager.VisualStateGroups>
-                        <Border BorderThickness="1" Margin="0" BorderBrush="{StaticResource btOutBorderBrush}">
-                            <Border BorderBrush="{StaticResource btCenterBorderBrush}" BorderThickness="1" Margin="0">
-                                <Border BorderThickness="1" Margin="0" Padding="0" BorderBrush="{StaticResource btInBorderBrush}">
-                                    <Grid>
-                                        <Border x:Name="btNormalBackgroundbd" Opacity="1" Background="{StaticResource btNormalBackgroudBrush}" BorderBrush="White" BorderThickness="0" Margin="0" />
-                                        <Border x:Name="btHoverBackgroundbd" Opacity="0" Background="{StaticResource btHoverBackgroudBrush}" BorderBrush="White" BorderThickness="0" Margin="0" />
-                                        <Border x:Name="btPressedBackgroundbd" Opacity="0" Background="{StaticResource btPressedBackgroudBrush}" BorderBrush="White" BorderThickness="0" Margin="0" />
-                                        <TextBlock Margin="0" TextWrapping="Wrap" Text="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                   Foreground="White">
-									    <TextBlock.Effect>
-										    <DropShadowEffect Direction="-90" BlurRadius="1" ShadowDepth="1"/>
-									    </TextBlock.Effect>
-                                        </TextBlock>
-                                    </Grid>
-                                </Border>
-                            </Border>
-                        </Border>
 
+                        <Border x:Name="Background" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" />
+                        <Border x:Name="HoverBorder" Opacity="0" Background="{StaticResource HoverBrush}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" />
+                        <Border x:Name="HoverShineBorder" Opacity="0" Background="{StaticResource HoverShineBrush}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" />
+                        <Border x:Name="PressedBorder" Opacity="0" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" Background="{StaticResource PressedBrush}" />
+                        <Border x:Name="ShineBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="3" Background="{StaticResource ShineBrush}" Opacity="1" />
+                        <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" x:Name="contentPresenter" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                        <Border x:Name="DisabledVisualElement" IsHitTestVisible="false" Background="{StaticResource DisabledBackgroundBrush}" CornerRadius="3.5,3.5,3.5,3.5" Opacity="0" />
+                        <Border x:Name="FocusVisualElement" IsHitTestVisible="false" Visibility="Collapsed" BorderBrush="{StaticResource HoverShineBrush}" BorderThickness="1" CornerRadius="3,3,3,3" Margin="1,1,1,1" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
     <!--TextBox-->
     <Style TargetType="TextBox">
         <Setter Property="BorderThickness" Value="1" />
@@ -846,11 +836,11 @@
                                 <vsm:VisualState x:Name="Unfocused" />
                             </vsm:VisualStateGroup>
                         </vsm:VisualStateManager.VisualStateGroups>
-                        <Rectangle x:Name="Background" IsHitTestVisible="False" Opacity="0.25" Fill="{StaticResource NormalBrush}" RadiusX="0" RadiusY="0" />
-                        <Rectangle x:Name="HoverRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource NormalBrush}" RadiusX="0" RadiusY="0" />
-                        <Rectangle x:Name="SelectedRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource SelectedBackgroundBrush}" RadiusX="0" RadiusY="0" />
+                        <Rectangle x:Name="Background" IsHitTestVisible="False" Opacity="0.25" Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1" />
+                        <Rectangle x:Name="HoverRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource NormalBrush}" RadiusX="1" RadiusY="1" />
+                        <Rectangle x:Name="SelectedRectangle" IsHitTestVisible="False" Opacity="0" Fill="{StaticResource SelectedBackgroundBrush}" RadiusX="1" RadiusY="1" />
                         <ContentPresenter HorizontalAlignment="Left" Margin="{TemplateBinding Padding}" x:Name="contentPresenter" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
-                        <Rectangle x:Name="FocusVisualElement" Visibility="Collapsed" Stroke="{StaticResource HoverShineBrush}" StrokeThickness="1" RadiusX="0" RadiusY="0" />
+                        <Rectangle x:Name="FocusVisualElement" Visibility="Collapsed" Stroke="{StaticResource HoverShineBrush}" StrokeThickness="1" RadiusX="1" RadiusY="1" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
@@ -953,15 +943,15 @@
                                                     </vsm:VisualStateGroup>
 
                                                 </vsm:VisualStateManager.VisualStateGroups>
-                                                <Rectangle x:Name="Background" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="0" RadiusY="0" Grid.ColumnSpan="2" />
-                                                <Rectangle x:Name="ButtonRectangle" Fill="{StaticResource NormalBrush}" Stroke="#00000000" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="0" RadiusY="0" Grid.Column="1" Margin="1,1,1,1" />
-                                                <Rectangle x:Name="ButtonShineRectangle" Fill="{StaticResource ShineBrush}" Stroke="#00000000" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="0" RadiusY="0" Margin="1,1,1,1" Grid.Column="1" />
-                                                <Rectangle x:Name="HoverRectangle" Opacity="0" Fill="{StaticResource HoverBrush}" Stroke="#00000000" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="0" RadiusY="0" Grid.Column="1" Margin="1,1,1,1" />
-                                                <Rectangle x:Name="HoverShineRectangle" Fill="{StaticResource HoverShineBrush}" Stroke="#00000000" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="0" RadiusY="0" Margin="1,1,1,1" Opacity="0" Grid.Column="1" />
-                                                <Rectangle x:Name="PressedRectangle" Opacity="0" Fill="{StaticResource PressedBrush}" Stroke="#00000000" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="0" RadiusY="0" Margin="1,1,1,1" Grid.Column="1" />
+                                                <Rectangle x:Name="Background" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="3" RadiusY="3" Grid.ColumnSpan="2" />
+                                                <Rectangle x:Name="ButtonRectangle" Fill="{StaticResource NormalBrush}" Stroke="#00000000" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="3" RadiusY="3" Grid.Column="1" Margin="1,1,1,1" />
+                                                <Rectangle x:Name="ButtonShineRectangle" Fill="{StaticResource ShineBrush}" Stroke="#00000000" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="3" RadiusY="3" Margin="1,1,1,1" Grid.Column="1" />
+                                                <Rectangle x:Name="HoverRectangle" Opacity="0" Fill="{StaticResource HoverBrush}" Stroke="#00000000" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="3" RadiusY="3" Grid.Column="1" Margin="1,1,1,1" />
+                                                <Rectangle x:Name="HoverShineRectangle" Fill="{StaticResource HoverShineBrush}" Stroke="#00000000" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="3" RadiusY="3" Margin="1,1,1,1" Opacity="0" Grid.Column="1" />
+                                                <Rectangle x:Name="PressedRectangle" Opacity="0" Fill="{StaticResource PressedBrush}" Stroke="#00000000" StrokeThickness="{TemplateBinding BorderThickness}" RadiusX="3" RadiusY="3" Margin="1,1,1,1" Grid.Column="1" />
                                                 <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" x:Name="contentPresenter" VerticalAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
-                                                <Rectangle x:Name="DisabledVisualElement" IsHitTestVisible="false" Opacity="0" Fill="#A5FFFFFF" RadiusX="0" RadiusY="0" />
-                                                <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Visibility="Collapsed" Stroke="{StaticResource HoverShineBrush}" StrokeThickness="1" RadiusX="0" RadiusY="0" Grid.ColumnSpan="2" />
+                                                <Rectangle x:Name="DisabledVisualElement" IsHitTestVisible="false" Opacity="0" Fill="#A5FFFFFF" RadiusX="3" RadiusY="3" />
+                                                <Rectangle x:Name="FocusVisualElement" IsHitTestVisible="false" Visibility="Collapsed" Stroke="{StaticResource HoverShineBrush}" StrokeThickness="1" RadiusX="3.5" RadiusY="3.5" Grid.ColumnSpan="2" />
                                             </Grid>
                                         </ControlTemplate>
                                     </Setter.Value>
@@ -1596,11 +1586,11 @@
     <Style TargetType="controlsToolkit:Expander">
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
-        <Setter Property="Template">
+        <Setter Property="Template">           
             <Setter.Value>
                 <ControlTemplate TargetType="controlsToolkit:Expander">
                     <Grid Background="Transparent">
-                        <Grid.Resources>
+                        <Grid.Resources>                           
                             <LinearGradientBrush x:Key="ExpanderArrowFill" EndPoint="0,1" StartPoint="0,0">
                                 <GradientStop Color="White" Offset="0"/>
                                 <GradientStop Color="#FFBFBFBF" Offset="0.5"/>
@@ -4117,7 +4107,7 @@
     <Style TargetType="visualizationToolkit:Legend">
         <Setter Property="BorderBrush" Value="{StaticResource ExpressionTopGradientBrush1}"/>
         <Setter Property="Background" Value="{StaticResource ExpressionTopGradientBrush2}"/>
-        <Setter Property="Foreground" Value="White"/>
+        <Setter Property="Foreground" Value="White"/> 
         <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="TitleStyle">
@@ -4161,7 +4151,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    
     <!--Chart-->
     <Style TargetType="chartingToolkit:Chart">
         <Setter Property="BorderBrush" Value="Black"/>
@@ -5407,7 +5397,7 @@
         </Setter>
     </Style>
 
-    <!--DataForm-->
+   <!--DataForm-->
     <Style TargetType="dataForm:DataForm">
         <Setter Property="AutoCommit" Value="True"/>
         <Setter Property="AutoGenerateFields" Value="True"/>
