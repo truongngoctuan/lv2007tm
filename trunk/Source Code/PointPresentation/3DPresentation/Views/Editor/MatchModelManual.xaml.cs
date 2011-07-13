@@ -43,6 +43,8 @@ namespace _3DPresentation.Views.Editor
 
             vcOjectViewer.BackgoundColor = System.Windows.Media.Color.FromArgb(255, 0, 0, 0);
             colorPicker1.Color = vcOjectViewer.BackgoundColor;
+
+            _deltaRotationMatrix = Microsoft.Xna.Framework.Matrix.Identity;
         }
 
         int iFixedImageIndex = -1;
@@ -56,7 +58,7 @@ namespace _3DPresentation.Views.Editor
         Microsoft.Xna.Framework.Matrix OldRotationMatrix;
 
         Vector3 v3DeltaPosition = Vector3.Zero;
-        Microsoft.Xna.Framework.Matrix DeltaRotationMatrix = Microsoft.Xna.Framework.Matrix.Identity;
+        Microsoft.Xna.Framework.Matrix _deltaRotationMatrix = Microsoft.Xna.Framework.Matrix.Identity;
 
 
         void ResetModel()
@@ -78,7 +80,7 @@ namespace _3DPresentation.Views.Editor
             if (MatchManualFinished != null)
             {
                 TranslationRotationEventArgs eArg = new TranslationRotationEventArgs();
-                eArg.RotationMatrix = DeltaRotationMatrix;
+                eArg.RotationMatrix = _deltaRotationMatrix;
                 eArg.TransitionMatrix = v3DeltaPosition;
                 eArg.ReferenceIndex = iReferenceImageIndex;
                 
@@ -136,9 +138,19 @@ namespace _3DPresentation.Views.Editor
 
         void ViewScene_MouseRotated(object sender, MouseRotatedEventArgs e)
         {
-            DeltaRotationMatrix *= (e.RotationMatrix);
-            _model2.RotationMatrix = OldRotationMatrix * DeltaRotationMatrix;
-            Change();
+            if (e.IsFinished)
+            {
+                _deltaRotationMatrix *= (e.DeltaRotationMatrix);
+                _model2.RotationMatrix = OldRotationMatrix * _deltaRotationMatrix;
+                Change();
+            }
+            else
+            {
+                //DeltaRotationMatrix *= (e.DeltaRotationMatrix);
+                _model2.RotationMatrix = OldRotationMatrix * _deltaRotationMatrix * e.DeltaRotationMatrix;
+                Change();
+            }
+            
         }
 
         void ViewScene_KeyboardTransition(object sender, KeyboardTransitionEventArgs e)
@@ -178,6 +190,7 @@ namespace _3DPresentation.Views.Editor
             //v3OldRotation = _model2.Rotation;
             v3OldPosition = _model2.Position;
             OldRotationMatrix = _model2.RotationMatrix;
+            _deltaRotationMatrix = Microsoft.Xna.Framework.Matrix.Identity;
         }
         #endregion
 

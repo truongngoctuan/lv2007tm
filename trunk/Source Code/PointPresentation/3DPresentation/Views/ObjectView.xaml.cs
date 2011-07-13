@@ -31,7 +31,7 @@ namespace _3DPresentation.Views
         void ViewScene_MouseRotated(object sender, MouseRotatedEventArgs e)
         {
             //throw new NotImplementedException();
-            tempmodel.RotationMatrix *= e.RotationMatrix;
+            tempmodel.RotationMatrix *= e.LastRotationMatrix;
         }
 
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)

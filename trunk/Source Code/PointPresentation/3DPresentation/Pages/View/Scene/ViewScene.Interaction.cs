@@ -12,8 +12,6 @@ namespace _3DPresentation
     public partial class ViewScene
     {
         bool mouseLeftDown;
-        Point startPosition;
-        Microsoft.Xna.Framework.Vector3 startCameraPosition;
         float _factorRotation = 1.0f;
 
         public float FactorRotation
@@ -46,6 +44,7 @@ namespace _3DPresentation
             Container.MouseEnter += new System.Windows.Input.MouseEventHandler(Container_MouseEnter);
             Container.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(Container_MouseLeftButtonDown);
             Container.MouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(Container_MouseLeftButtonUp);
+            Container.MouseLeave += new System.Windows.Input.MouseEventHandler(Container_MouseLeave);
 
             Container.IsTabStop = true;
             Container.Focus();
@@ -55,8 +54,11 @@ namespace _3DPresentation
 
         void Container_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            CtrlKeyDown = false;
-            bRotateModel = false;
+            if (e.Key == System.Windows.Input.Key.Ctrl)
+            {
+                CtrlKeyDown = false;
+                bRotateModel = false;
+            }
         }
 
         bool bRotateModel = false;
@@ -105,16 +107,43 @@ namespace _3DPresentation
             }
         }
 
+        void Container_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (MouseRotated != null)
+            {
+                MouseRotatedEventArgs eArg = new MouseRotatedEventArgs();
+                eArg.LastRotationMatrix = Matrix.Identity;
+                eArg.DeltaRotationMatrix = deltaRotationMatrix;
+                eArg.IsFinished = true;
+                MouseRotated(this, eArg);
+            }
+
+            mouseLeftDown = false;
+            deltaRotationMatrix = Matrix.Identity;
+        }
+
         void Container_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
+            if (MouseRotated != null)
+            {
+                MouseRotatedEventArgs eArg = new MouseRotatedEventArgs();
+                eArg.LastRotationMatrix = Matrix.Identity;
+                eArg.DeltaRotationMatrix = deltaRotationMatrix;
+                eArg.IsFinished = true;
+                MouseRotated(this, eArg);
+            }
+
             mouseLeftDown = false;
+            deltaRotationMatrix = Matrix.Identity;
+
+
         }
 
         void Container_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             Container.Focus();
             mouseLeftDown = true;
-            startPosition = e.GetPosition(Surface);
+            startPosition = lastPosition = e.GetPosition(Surface);
 
             if (CtrlKeyDown)
             {
@@ -125,7 +154,7 @@ namespace _3DPresentation
 
         void Container_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
         {
-            mouseLeftDown = false;
+            //mouseLeftDown = false;
         }
 
         void Container_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
@@ -134,7 +163,13 @@ namespace _3DPresentation
             _camera.FarPlane = _camera.Radius + 500;
         }
 
-        Microsoft.Xna.Framework.Matrix startRotationMatrix;
+        Point lastPosition;
+        Microsoft.Xna.Framework.Vector3 lastCameraPosition;
+        Microsoft.Xna.Framework.Matrix lastRotationMatrix;
+
+        Point startPosition;
+        Microsoft.Xna.Framework.Vector3 startCameraPosition;
+        Microsoft.Xna.Framework.Matrix deltaRotationMatrix = Microsoft.Xna.Framework.Matrix.Identity;
         void Container_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
         {
             if (bRotateModel)
@@ -142,23 +177,15 @@ namespace _3DPresentation
                 Point currentPosition = e.GetPosition(Surface);
                 if (!mouseLeftDown)
                     return;
-                float dX, dY;
-                dX = (float)(currentPosition.X - startPosition.X) * FactorRotation;
-                dY = (float)(currentPosition.Y - startPosition.Y) * FactorRotation;
-                dX = -dX; dY = -dY;
-
-                Microsoft.Xna.Framework.Vector3 NewCamPosition = _3DPresentation.MathUtil.toNewCameraPosition(_camera, dX, dY);
-
-                Microsoft.Xna.Framework.Vector3 OldPos = this.Camera.Target - startCameraPosition;
-                Microsoft.Xna.Framework.Vector3 NewPos = this.Camera.Target - NewCamPosition;
-
-                Microsoft.Xna.Framework.Matrix mat = _3DPresentation.MathUtil.GetTransformationMatrix(OldPos, NewPos);
-
-                startPosition = currentPosition;
+                Microsoft.Xna.Framework.Matrix lastMat = toRotationMatrix(lastPosition, currentPosition, lastCameraPosition);
+                deltaRotationMatrix = toRotationMatrix(startPosition, currentPosition, startCameraPosition);
+                lastPosition = currentPosition;
                 if (MouseRotated != null)
                 {
                     MouseRotatedEventArgs eArg = new MouseRotatedEventArgs();
-                    eArg.RotationMatrix = mat;
+                    eArg.LastRotationMatrix = lastMat;
+                    eArg.DeltaRotationMatrix = deltaRotationMatrix;
+                    eArg.IsFinished = false;
                     MouseRotated(this, eArg);
                 }
             }
@@ -168,16 +195,33 @@ namespace _3DPresentation
                 if (!mouseLeftDown)
                     return;
 
-                _camera.InertialAlpha += (float)(currentPosition.X - startPosition.X) * _camera.AngularSpeed;
-                _camera.InertialBeta -= (float)(currentPosition.Y - startPosition.Y) * _camera.AngularSpeed;
-                startPosition = currentPosition;
+                _camera.InertialAlpha += (float)(currentPosition.X - lastPosition.X) * _camera.AngularSpeed;
+                _camera.InertialBeta -= (float)(currentPosition.Y - lastPosition.Y) * _camera.AngularSpeed;
+                lastPosition = currentPosition;
             }
+        }
+
+        private Microsoft.Xna.Framework.Matrix toRotationMatrix(Point LastPosition, Point currentPosition,
+            Vector3 LastCameraPosition)
+        {
+            float dX, dY;
+            dX = (float)(currentPosition.X - LastPosition.X) * FactorRotation;
+            dY = (float)(currentPosition.Y - LastPosition.Y) * FactorRotation;
+            dX = -dX; dY = -dY;
+
+            Microsoft.Xna.Framework.Vector3 NewCamPosition = _3DPresentation.MathUtil.toNewCameraPosition(_camera, dX, dY);
+
+            Microsoft.Xna.Framework.Vector3 OldPos = this.Camera.Target - this.Camera.Position;
+            Microsoft.Xna.Framework.Vector3 NewPos = this.Camera.Target - NewCamPosition;
+
+            Microsoft.Xna.Framework.Matrix lastMat = _3DPresentation.MathUtil.GetTransformationMatrix(OldPos, NewPos);
+            return lastMat;
         }
 
         void ChangeToRotationModelState()
         {
-            startCameraPosition = this.Camera.Position;
-            startRotationMatrix = Microsoft.Xna.Framework.Matrix.Identity;
+            startCameraPosition = lastCameraPosition = this.Camera.Position;
+            deltaRotationMatrix = lastRotationMatrix = Microsoft.Xna.Framework.Matrix.Identity;
         }
 
         public event MouseRotatedEventHandler MouseRotated;
@@ -186,7 +230,9 @@ namespace _3DPresentation
 
     public class MouseRotatedEventArgs : EventArgs
     {
-        public Microsoft.Xna.Framework.Matrix RotationMatrix;
+        public Microsoft.Xna.Framework.Matrix LastRotationMatrix;
+        public Microsoft.Xna.Framework.Matrix DeltaRotationMatrix;
+        public bool IsFinished;
     }
 
     public delegate void MouseRotatedEventHandler(object sender, MouseRotatedEventArgs e);
