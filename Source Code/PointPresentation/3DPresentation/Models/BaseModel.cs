@@ -488,5 +488,16 @@ namespace _3DPresentation.Models
         public abstract Type[] GetCompatibleMaterialTypes();
 
         public abstract System.Windows.Media.Imaging.WriteableBitmap toBitmap( int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam);
+        public virtual System.Windows.Media.Imaging.WriteableBitmap toBitmap()
+        {
+            Babylon.Toolbox.OrbitCamera cam = new Babylon.Toolbox.OrbitCamera { Alpha = (float)Math.PI / 2 };
+
+            //setmodel target
+            cam.Radius = this.BoundingInfo.BoundingSphereWorld.Radius * 4.0f;
+            cam.Target = this.BoundingInfo.BoundingSphereWorld.Center;
+            cam.Alpha = cam.Alpha; // to raise event => recompute Position to get new ViewMatrix
+
+            return toBitmap(400, 400, cam);
+        }
     }
 }

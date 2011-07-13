@@ -167,7 +167,7 @@ namespace _3DPresentation.Views
             bool result = tourControl.AddModel(model);
             if (result)
                 cbModels.Items.Add(model);
-            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+            cbbModel.AddImage(model, model.toBitmap());
             return result;
         }
 

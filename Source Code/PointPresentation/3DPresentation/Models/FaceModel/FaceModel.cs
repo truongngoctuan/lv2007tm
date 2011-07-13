@@ -4,6 +4,7 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using _3DPresentation.Material;
+using System.Windows.Media.Imaging;
 
 namespace _3DPresentation.Models
 {
@@ -92,7 +93,7 @@ namespace _3DPresentation.Models
 
         public override System.Windows.Media.Imaging.WriteableBitmap toBitmap(int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam)
         {
-            return null;
+            return new WriteableBitmap(0, 0).FromResource("Views/Editor/Images/blank_facemodel.jpg");
         }
     }
 }

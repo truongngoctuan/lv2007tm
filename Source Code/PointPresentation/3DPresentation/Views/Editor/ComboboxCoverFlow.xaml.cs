@@ -48,7 +48,8 @@ namespace _3DPresentation.Views.Editor
             rightImg1.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked5);
             centerImg.MouseLeftButtonDown += new MouseButtonEventHandler(OnImgClicked4);
 
-            this.SetImages(new PathUri[] {});
+
+           this.SetImages(new WriteableBitmap[] { });
         }
 
         protected void OnImageSelected(ImageSelectedEventArgs e)
@@ -62,7 +63,7 @@ namespace _3DPresentation.Views.Editor
         int brushIndex = -1;
         int realLength = -1;
 
-        public void SetImages(PathUri[] imageUris)
+        public void SetImages(WriteableBitmap[] imageUris)
         {
             ImageArray = imageUris;
             if (ImageArray.Length >= 7)
@@ -76,14 +77,14 @@ namespace _3DPresentation.Views.Editor
             else
             {
                 realLength = ImageArray.Length;
-                List<PathUri> arr = new List<PathUri>();
+                List<WriteableBitmap> arr = new List<WriteableBitmap>();
                 arr.AddRange(ImageArray);
                 imageIndex = ImageArray.Length - 1;
 
                 for (int i = 0; i < 7 - ImageArray.Length; i++)
                 {
                     //arr.Add(UriToBitmapImage("Images/blank.jpg"));
-                    arr.Add(new PathUri("Views/Editor/Images/blank.jpg", false));
+                    arr.Add(new WriteableBitmap(0, 0).FromResource("Views/Editor/Images/blank.jpg"));
                 }
 
                 ImageArray = arr.ToArray();
@@ -93,14 +94,14 @@ namespace _3DPresentation.Views.Editor
             }
         }
 
-        public void AddImage(object obj, PathUri strFileName)
+        public void AddImage(object obj, WriteableBitmap strFileName)
         {
             try
             {
                 Items.Add(obj);
                 if (realLength < 7)
                 {
-                    List<PathUri> arr = new List<PathUri>();
+                    List<WriteableBitmap> arr = new List<WriteableBitmap>();
                     for (int i = 0; i < realLength; i++)
                     {
                         arr.Add(ImageArray[i]);
@@ -110,20 +111,13 @@ namespace _3DPresentation.Views.Editor
 
                     for (int i = 0; i < 7 - realLength; i++)
                     {
-                        arr.Add(new PathUri("Views/Editor/Images/blank.jpg", false));
+                        arr.Add(new WriteableBitmap(0, 0).FromResource("Views/Editor/Images/blank.jpg"));
                     }
                     ImageArray = arr.ToArray();
 
                     if (imageIndex + 1 == realLength - 1)
                     {//have effect back coverflow
-                        firstImgBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
-                        firstReflectionBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
-
-                        imageIndex = (++imageIndex + ImageArray.Length) % ImageArray.Length;
-                        brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
-
-                        UpdateImages();
-                        flowBackward.Begin();
+                        MoveBack();
                     }
                     else
                     {
@@ -131,10 +125,11 @@ namespace _3DPresentation.Views.Editor
 
                         UpdateImages();
                     }
-                }
-                else
-                {
-                    List<PathUri> arr = new List<PathUri>();
+                    }
+                    else
+                    {
+                    List<WriteableBitmap> arr = new List<WriteableBitmap>();
+
                     arr.AddRange(ImageArray);
                     arr.Add(strFileName);
                     realLength++;
@@ -142,14 +137,7 @@ namespace _3DPresentation.Views.Editor
 
                     if (imageIndex + 1 == ImageArray.Length - 1)
                     {//have effect back coverflow
-                        firstImgBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
-                        firstReflectionBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
-
-                        imageIndex = (++imageIndex + ImageArray.Length) % ImageArray.Length;
-                        brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
-
-                        UpdateImages();
-                        flowBackward.Begin();
+                        MoveBack();
                     }
                     else
                     {
@@ -168,33 +156,78 @@ namespace _3DPresentation.Views.Editor
         {
             try
             {
-                if (realLength < 7)
+                if (realLength <= 7)
                 {
+                    List<WriteableBitmap> arr = new List<WriteableBitmap>();
+                    for (int i = 0; i < realLength; i++)
+                    {
+                        arr.Add(ImageArray[i]);
+                    }
+                    arr.RemoveAt(iIndex);
+                    realLength--;
+
+                    for (int i = 0; i < 7 - realLength; i++)
+                    {
+                        arr.Add(new WriteableBitmap(0, 0).FromResource("Views/Editor/Images/blank.jpg"));
+                    }
+                    ImageArray = arr.ToArray();
+
+                    if ((realLength != imageIndex && realLength == iIndex) || imageIndex == 0)
+                    {//this branch do not update imageindex, just update brushindex, because real length change
+                        brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
+
+                        UpdateImages();
+                        return;
+                    }
+
+                    if (realLength == imageIndex)
+                    {//have effect forward coverflow
+                        MoveForward();
+                        return;
+                    }
+
+                    if (iIndex < imageIndex)
+                    {
+                        MoveForward();
+                        return;
+                    }
+
+                    MoveForward(false);
+
                 }
                 else
                 {
-                    List<PathUri> arr = new List<PathUri>();
-                    arr.AddRange(ImageArray);
-                    arr.RemoveAt(iIndex);
-
-                    ImageArray = arr.ToArray();
-
-                    if (imageIndex + 1 == ImageArray.Length - 1)
-                    {//have effect back coverflow
-                        firstImgBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
-                        firstReflectionBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
-
-                        imageIndex = (++imageIndex + ImageArray.Length) % ImageArray.Length;
-                        brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
-
-                        UpdateImages();
-                        flowBackward.Begin();
-                    }
-                    else
+                    List<WriteableBitmap> arr = new List<WriteableBitmap>();
+                    for (int i = 0; i < realLength; i++)
                     {
-                        brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
-                        UpdateImages();
+                        arr.Add(ImageArray[i]);
                     }
+                    arr.RemoveAt(iIndex);
+                    realLength--;
+                    ImageArray = arr.ToArray();
+                    
+                    if ((realLength != imageIndex && realLength == iIndex) || iIndex == 0)
+                    {//this branch do not update imageindex, just update brushindex, because real length change
+                        brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
+
+                        UpdateImages();
+                        return;
+                    }
+
+                    if (realLength == imageIndex)
+                    {//have effect forward coverflow
+                        MoveForward();
+                        return;
+                    }
+
+                    if (iIndex < imageIndex)
+                    {
+                        MoveForward();
+                        return;
+                    }
+
+                    MoveForward(false);
+
                 }
             }
             catch (Exception ex)
@@ -245,8 +278,12 @@ namespace _3DPresentation.Views.Editor
 
         void OnImgClicked(object sender, MouseButtonEventArgs e)
         {
+            if (SelectedIndex >= realLength || SelectedIndex < 0) return;
             ImageSelectedEventArgs args = new ImageSelectedEventArgs();
-            args.Source = (BitmapImage)((ImageBrush)((System.Windows.Shapes.Path)sender).Fill).ImageSource;
+            //args.Source = (BitmapImage)((ImageBrush)((System.Windows.Shapes.Path)sender).Fill).ImageSource;
+            args.SelectedIndex = SelectedIndex;
+            SelectedIndex = -1;
+
             OnImageSelected(args);
             //ClickedPositionParent = e.GetPosition(_parent);
 
@@ -293,22 +330,9 @@ namespace _3DPresentation.Views.Editor
             if (imageIndex != -1)
             {
                 if (imageIndex + 1 == realLength &&realLength < 7) return;
-                firstImgBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
-                firstReflectionBrush.ImageSource = ImageArray[brushIndex].toBitmapImage();
-                imageIndex++;
-                if (imageIndex == ImageArray.Length)
-                {
-                    imageIndex = 0;
-                }
 
-                brushIndex++;
-                if (brushIndex == ImageArray.Length)
-                {
-                    brushIndex = 0;
-                }
+                MoveBack();
 
-                UpdateImages();
-                flowBackward.Begin();
             }
         }
 
@@ -317,22 +341,46 @@ namespace _3DPresentation.Views.Editor
             if (imageIndex != -1)
             {
                 if (imageIndex == 0 && realLength < 7) return;
-                lastImgBrush.ImageSource = ImageArray[(brushIndex + 6) % ImageArray.Length].toBitmapImage();
-                lastReflectionBrush.ImageSource = ImageArray[(brushIndex + 6) % ImageArray.Length].toBitmapImage();
+                MoveForward();
+            }
+        }
 
-                imageIndex--;
-                if (imageIndex < 0)
-                {
-                    imageIndex = ImageArray.Length - 1;
-                }
+        #region Move
 
-                brushIndex--;
-                if (brushIndex < 0)
-                {
-                    brushIndex = ImageArray.Length - 1;
-                }
+        void MoveBack(bool UseAnimation = true)
+        {
+            if (UseAnimation)
+            {
+                firstImgBrush.ImageSource = ImageArray[brushIndex];//.toBitmapImage();
+                firstReflectionBrush.ImageSource = ImageArray[brushIndex];//.toBitmapImage();
+            }
 
-                UpdateImages();
+            imageIndex = (++imageIndex + ImageArray.Length) % ImageArray.Length;
+            brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
+
+            UpdateImages();
+
+            if (UseAnimation)
+            {
+                flowBackward.Begin();
+            }
+        }
+
+        void MoveForward(bool UseAnimation = true)
+        {
+            if (UseAnimation)
+            {
+                lastImgBrush.ImageSource = ImageArray[(brushIndex + 6) % ImageArray.Length];//.toBitmapImage();
+                lastReflectionBrush.ImageSource = ImageArray[(brushIndex + 6) % ImageArray.Length];//.toBitmapImage();
+            }
+
+            imageIndex = (--imageIndex + ImageArray.Length) % ImageArray.Length;
+            brushIndex = (imageIndex + ImageArray.Length - 3) % ImageArray.Length;
+
+            UpdateImages();
+
+            if (UseAnimation)
+            {
                 flowForward.Begin();
             }
         }
@@ -343,8 +391,8 @@ namespace _3DPresentation.Views.Editor
             int CurrentBrushIndex = brushIndex;
             for (int i = 0; i < 7; i++)
             {
-                imageBrushArray[i].ImageSource = ImageArray[CurrentBrushIndex].toBitmapImage();
-                reflectionBrushArray[i].ImageSource = ImageArray[CurrentBrushIndex].toBitmapImage();
+                imageBrushArray[i].ImageSource = ImageArray[CurrentBrushIndex];
+                reflectionBrushArray[i].ImageSource = ImageArray[CurrentBrushIndex];
                 CurrentBrushIndex++;
                 if (CurrentBrushIndex == ImageArray.Length)
                 {
@@ -354,10 +402,11 @@ namespace _3DPresentation.Views.Editor
 
             SetCurrentInfoFrame();
         }
+        #endregion
 
         void SetCurrentInfoFrame()
         {
-            tbCurrentFrameIndex.Text = imageIndex.ToString() + "/" + (ImageArray.Length - 1).ToString() + " Frames.";
+            tbCurrentFrameIndex.Text = (imageIndex + 1).ToString() + "/" + (realLength).ToString() + " Frames.";
         }
 
         private int imageIndex = -1;
@@ -371,8 +420,8 @@ namespace _3DPresentation.Views.Editor
         private ImageBrush[] reflectionBrushArray;
         //private string[] _imageArray;
 
-        private PathUri[] _imageArray;
-        public PathUri[] ImageArray
+        private WriteableBitmap[] _imageArray;
+        public WriteableBitmap[] ImageArray
         {
             get { return _imageArray; }
             set { _imageArray = value; }

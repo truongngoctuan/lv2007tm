@@ -88,7 +88,7 @@ namespace _3DPresentation.Views
             if (viewControl.AddModel(model))
             {
                 model.IsEnabled = false;
-                cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+                cbbModel.AddImage(model, model.toBitmap());
                 result = true;
             }
             return result;

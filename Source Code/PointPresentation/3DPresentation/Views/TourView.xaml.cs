@@ -88,7 +88,7 @@ namespace _3DPresentation.Views
 
         private bool AddModel(BaseModel model)
         {
-            cbbModel.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
+            cbbModel.AddImage(model, model.toBitmap());
             return tourControl.AddModel(model);
         }
 
