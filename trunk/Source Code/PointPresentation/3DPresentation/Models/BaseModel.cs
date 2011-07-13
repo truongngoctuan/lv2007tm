@@ -13,7 +13,7 @@ namespace _3DPresentation.Models
 {
     public abstract class BaseModel
     {
-        public enum VertexType { XYZ, XYZ_RGB, XYZ_NORMAL, XYZ_RGB_NORNAL };
+        public enum VertexTypes { XYZ, XYZ_RGB, XYZ_NORMAL, XYZ_RGB_NORNAL, XYZ_TEXCOORD };
         public enum FileType { PLY };
 
         private object lockThis = new object();
@@ -25,6 +25,7 @@ namespace _3DPresentation.Models
         public CustomBoundingInfo BoundingInfo { get; set; }
 
         // material
+        public string DiffuseTexture;
         private BaseMaterial material;
         public BaseMaterial Material
         {
@@ -146,17 +147,39 @@ namespace _3DPresentation.Models
                     string property = "property";
                     string rgb_header = "red";
                     string normal_header = "nx";
+                    string texcoord_header = "texcoord";
+                    string texture = "TextureFile";
+                    string comment = "comment";
+
+                    string textureName = null;
                     bool rgb = false;
                     bool normal = false;
+                    bool texCoord = false;
                     int nPoints = 0;
                     int nFaces = 0;
-                    VertexType vertexType = VertexType.XYZ;
+                    VertexTypes vertexType = VertexTypes.XYZ;
                     try
                     {
                         string ss = sr.ReadLine();
                         while (!ss.Contains("end_header"))
                         {
-                            if (ss.Contains(numVertex))
+                            if(ss.Contains(comment))
+                            {
+                                if(ss.Contains(texture))
+                                {
+                                    string[] items = ss.Split(' ');
+                                    if(items.Length < 3)
+                                        continue;
+                                    textureName  = items[2];
+                                    string path = string.Format("{0}/{1}", file.Directory.FullName, textureName);
+                                    FileInfo textureFile = new FileInfo(path);
+
+                                    // add this to resourcemanager, assign the textureName to DiffuseTexture
+                                    // so the appropriate material can load it from resourcemanager
+                                    ResourceManager.LoadTexture(textureFile, textureName);
+                                }
+                            }
+                            else if (ss.Contains(numVertex))
                             {
                                 ss = ss.Substring(numVertex.Length);
                                 nPoints = int.Parse(ss);
@@ -167,6 +190,8 @@ namespace _3DPresentation.Models
                                     rgb = true;
                                 else if (ss.Contains(normal_header))
                                     normal = true;
+                                else if (ss.Contains(texcoord_header))
+                                    texCoord = true;
                             }
                             else if (ss.Contains(numFace))
                             {
@@ -177,13 +202,15 @@ namespace _3DPresentation.Models
                         }
 
                         if (rgb && normal)
-                            vertexType = VertexType.XYZ_RGB_NORNAL;
+                            vertexType = VertexTypes.XYZ_RGB_NORNAL;
                         else if (rgb)
-                            vertexType = VertexType.XYZ_RGB;
+                            vertexType = VertexTypes.XYZ_RGB;
+                        else if (texCoord)
+                            vertexType = VertexTypes.XYZ_TEXCOORD;
                         else if (normal)
-                            vertexType = VertexType.XYZ_NORMAL;
+                            vertexType = VertexTypes.XYZ_NORMAL;
 
-                        model = BaseModel.Import_PLY(sr, nPoints, nFaces, vertexType);
+                        model = BaseModel.Import_PLY(sr, nPoints, nFaces, vertexType, textureName);
                     }
                     catch (IOException io)
                     {
@@ -193,7 +220,7 @@ namespace _3DPresentation.Models
             }
             return model;
         }
-        private static BaseModel Import_PLY(StreamReader sr, int nPoints, int nFaces, VertexType vertexType)
+        private static BaseModel Import_PLY(StreamReader sr, int nPoints, int nFaces, VertexTypes vertexType, string textureName)
         {
             if (nPoints == 0)
                 return null;
@@ -201,15 +228,20 @@ namespace _3DPresentation.Models
                 return null;
 
             BaseModel model = null;
-            if (nFaces > 0)
+            if (vertexType == VertexTypes.XYZ_TEXCOORD)
+                model = new TexCoordModel();
+            else if (nFaces > 0)
                 model = new FaceModel();
             else
                 model = new PointModel();
 
             model.IsLoaded = false;
+            model.NumPoints = nPoints;
+            model.NumFaces = nFaces;
+            model.Type = vertexType; 
             model.Begin(nPoints, nFaces);
 
-            if (vertexType == VertexType.XYZ)
+            if (vertexType == VertexTypes.XYZ)
             {
                 for (int i = 0; i < nPoints; i++)
                 {
@@ -225,8 +257,23 @@ namespace _3DPresentation.Models
 
                     model.AddVertex(new Vector3(x, y, z), GlobalVars.GetColor(GlobalVars.ColorEnum.White));
                 }
+
+                for (int i = 0; i < nFaces; i++)
+                {
+                    string ss = sr.ReadLine();
+                    string[] Items = ss.Split(new char[] { ' ' });
+
+                    if (Items.Length < 4)
+                        continue;
+
+                    int i1 = Convert.ToInt32(Items[1]);
+                    int i2 = Convert.ToInt32(Items[2]);
+                    int i3 = Convert.ToInt32(Items[3]);
+
+                    model.AddIndice(i1, i2, i3);
+                }
             }
-            else if (vertexType == VertexType.XYZ_RGB)
+            else if (vertexType == VertexTypes.XYZ_RGB)
             {
                 for (int i = 0; i < nPoints; i++)
                 {
@@ -246,33 +293,71 @@ namespace _3DPresentation.Models
 
                     model.AddVertex(new Vector3(x, y, z), Color.FromNonPremultiplied(r, g, b, a));
                 }
+
+                for (int i = 0; i < nFaces; i++)
+                {
+                    string ss = sr.ReadLine();
+                    string[] Items = ss.Split(new char[] { ' ' });
+
+                    if (Items.Length < 4)
+                        continue;
+
+                    int i1 = Convert.ToInt32(Items[1]);
+                    int i2 = Convert.ToInt32(Items[2]);
+                    int i3 = Convert.ToInt32(Items[3]);
+
+                    model.AddIndice(i1, i2, i3);
+                }
             }
-            else if (vertexType == VertexType.XYZ_NORMAL)
+            else if (vertexType == VertexTypes.XYZ_NORMAL)
             {
             }
-            else if (vertexType == VertexType.XYZ_RGB_NORNAL)
+            else if (vertexType == VertexTypes.XYZ_RGB_NORNAL)
             {
             }
-
-            for (int i = 0; i < nFaces; i++)
+            else if (vertexType == VertexTypes.XYZ_TEXCOORD)
             {
-                string ss = sr.ReadLine();
-                string[] Items = ss.Split(new char[] { ' ' });
+                //StreamWriter writer = new StreamWriter(Utils.Global.GetRealFile(Utils.Global.GetRealModelStoreDirectory() + "/monster.ply").OpenWrite());
+                for (int i = 0; i < nPoints; i++)
+                {
+                    string ss = sr.ReadLine();
+                    string[] Items = ss.Split(new char[] { ' ' });
 
-                if (Items.Length < 4)
-                    continue;
+                    if (Items.Length < 3)
+                        continue;
 
-                int i1 = Convert.ToInt32(Items[1]);
-                int i2 = Convert.ToInt32(Items[2]);
-                int i3 = Convert.ToInt32(Items[3]);
+                    float x = Convert.ToSingle(Items[0]);
+                    float y = Convert.ToSingle(Items[1]);
+                    float z = Convert.ToSingle(Items[2]);
 
-                model.AddIndice(i1, i2, i3);
+                    model.AddVertex(new Vector3(x, y, z));
+                    //writer.WriteLine(string.Format("{0} {1} {2}", (x - 7.299502) / 89.86351, (y - 1.686555) / 89.86351, (z + 422.0298)/ 89.86351));
+                }
+
+                for (int i = 0; i < nFaces; i++)
+                {
+                    string ss = sr.ReadLine();
+                    string[] Items = ss.Split(new char[] { ' ' });
+
+                    if (Items.Length < 11)
+                        continue;
+
+                    int i1 = Convert.ToInt32(Items[1]);
+                    int i2 = Convert.ToInt32(Items[2]);
+                    int i3 = Convert.ToInt32(Items[3]);
+
+                    float texCoord1x = Convert.ToSingle(Items[5]); float texCoord1y = Convert.ToSingle(Items[6]);
+                    float texCoord2x = Convert.ToSingle(Items[7]); float texCoord2y = Convert.ToSingle(Items[8]);
+                    float texCoord3x = Convert.ToSingle(Items[9]); float texCoord3y = Convert.ToSingle(Items[10]);
+
+                    model.AddIndice(i1, i2, i3, new Vector2(texCoord1x, texCoord1y), new Vector2(texCoord2x, texCoord2y), new Vector2(texCoord3x, texCoord3y));
+                    //writer.WriteLine(string.Format("3 {0} {1} {2} 6 {3} {4} {5} {6} {7} {8}", i1, i2, i3, texCoord1x, texCoord1y, texCoord2x, texCoord2y, texCoord3x, texCoord3y));
+                }
+                //writer.Close();
+                model.DiffuseTexture = textureName;
             }
 
-            model.End();
-            model.NumPoints = nPoints;
-            model.NumFaces = nFaces;
-            model.Type = vertexType; 
+            model.End();            
             model.IsLoaded = true;
             return model;
         }
@@ -286,7 +371,15 @@ namespace _3DPresentation.Models
         {
             points[iPoint++] = position;
         }
+        public virtual void AddVertex(Vector3 position)
+        {
+            points[iPoint++] = position;
+        }
         public virtual void AddIndice(int i1, int i2, int i3)
+        {
+            // do nothing
+        }
+        public virtual void AddIndice(int i1, int i2, int i3, Vector2 texCoord1, Vector2 texCoord2, Vector2 texCoord3)
         {
             // do nothing
         }
@@ -326,6 +419,18 @@ namespace _3DPresentation.Models
                     baseMaterial = Material;
                 baseMaterial.World = WorldMatrix;
                 baseMaterial.Device = graphicsDevice;
+                if (baseMaterial is BasicMaterial)
+                {
+                    ((BasicMaterial)baseMaterial).DiffuseTexture = DiffuseTexture;
+                }
+                else if (baseMaterial is TextureMaterial)
+                {
+                    ((TextureMaterial)baseMaterial).DiffuseTexture = DiffuseTexture;
+                }
+                else if (baseMaterial is FourPointLightsTextureMaterial)
+                {
+                    ((FourPointLightsTextureMaterial)baseMaterial).DiffuseTexture = DiffuseTexture;
+                }
                 baseMaterial.Apply();
             }
         }
@@ -345,26 +450,30 @@ namespace _3DPresentation.Models
         }
 
         public string Name { get; set; }
-        public VertexType Type;
+        public VertexTypes Type;
         public long NumPoints;
         public long NumFaces;
 
-        private static bool WriteHeader(FileType fileType, VertexType vertexType, long nPoints, long nFaces, StreamWriter writer)
+        private static bool WriteHeader(FileType fileType, VertexTypes vertexType, long nPoints, long nFaces, string texture, StreamWriter writer)
         {
             bool result = false;
             if (fileType == FileType.PLY && writer != null)
             {
                 writer.WriteLine("ply");
                 writer.WriteLine("format ascii 1.0");
+                if(texture != null && texture.Length > 0)
+                    writer.WriteLine("comment TextureFile " + texture);
                 writer.WriteLine("element vertex " + nPoints);
 
-                if (vertexType == VertexType.XYZ)
+                if (vertexType == VertexTypes.XYZ)
                 {
                     writer.WriteLine("property float32 x");
                     writer.WriteLine("property float32 y");
                     writer.WriteLine("property float32 z");
+                    writer.WriteLine("element face " + nFaces);                
+                    writer.WriteLine("end_header");
                 }
-                else if (vertexType == VertexType.XYZ_RGB)
+                else if (vertexType == VertexTypes.XYZ_RGB)
                 {
                     writer.WriteLine("property float32 x");
                     writer.WriteLine("property float32 y");
@@ -372,8 +481,10 @@ namespace _3DPresentation.Models
                     writer.WriteLine("property uchar red");
                     writer.WriteLine("property uchar green");
                     writer.WriteLine("property uchar blue");
+                    writer.WriteLine("element face " + nFaces);                
+                    writer.WriteLine("end_header");
                 }
-                else if (vertexType == VertexType.XYZ_RGB_NORNAL)
+                else if (vertexType == VertexTypes.XYZ_RGB_NORNAL)
                 {
                     writer.WriteLine("property float32 x");
                     writer.WriteLine("property float32 y");
@@ -384,32 +495,42 @@ namespace _3DPresentation.Models
                     writer.WriteLine("property float32 nx");
                     writer.WriteLine("property float32 ny");
                     writer.WriteLine("property float32 nz");
+                    writer.WriteLine("element face " + nFaces);                
+                    writer.WriteLine("end_header");
+                }
+                else if (vertexType == VertexTypes.XYZ_TEXCOORD)
+                {
+                    writer.WriteLine("property float32 x");
+                    writer.WriteLine("property float32 y");
+                    writer.WriteLine("property float32 z");
+                    writer.WriteLine("element face " + nFaces);                
+                    writer.WriteLine("property list uchar int vertex_indices");
+                    writer.WriteLine("property list uchar float texcoord");
+                    writer.WriteLine("end_header");
                 }
                 else
                 {
                     return false;
-                }
-                writer.WriteLine("element face " + nFaces);                
-                writer.WriteLine("end_header");
+                }                
                 result = true;
             }
             return result;
         }
 
-        public bool Export(FileType fileType, VertexType vertexType, FileInfo file)
+        public bool Export(FileType fileType, VertexTypes vertexType, FileInfo file, bool keepOriginalPosition = false)
         {
             bool result = false;
             using (StreamWriter writer = new StreamWriter(file.OpenWrite()))
             {
-                if (result = WriteHeader(fileType, vertexType, NumPoints, NumFaces, writer))
+                if (result = WriteHeader(fileType, vertexType, NumPoints, NumFaces, DiffuseTexture, writer))
                 {
-                    result = Export(fileType, vertexType, writer);
+                    result = Export(fileType, vertexType, writer, keepOriginalPosition);
                 }
             }
             return result;
         }        
 
-        public bool ExportAll(VertexType vertexType, BaseModel[] models, string batchName, FileType fileType)
+        public static bool ExportAll(VertexTypes vertexType, BaseModel[] models, string batchName, FileType fileType, bool keepOriginalPosition = false)
         {
             bool result = true;
             string storeDirectory = Utils.Global.GetRealModelStoreDirectory();
@@ -419,14 +540,14 @@ namespace _3DPresentation.Models
                 {
                     FileInfo file = Utils.Global.GetRealFile(batchName + '_' + i.ToString() + ".ply");
                     //FileInfo file = Utils.Global.GetRealFile(storeDirectory + batchName + '/' + models[i].Name + ".ply");
-                    if (models[i].Export(fileType, vertexType, file) == false)
+                    if (models[i].Export(fileType, vertexType, file, keepOriginalPosition) == false)
                         result = false;
                 }
             }
             return result;
         }
 
-        public bool ExportUnitedModel(FileType fileType, VertexType vertexType, BaseModel[] models, string batchName)
+        public static bool ExportUnitedModel(FileType fileType, VertexTypes vertexType, BaseModel[] models, string batchName)
         {            
             string storeDirectory = Utils.Global.GetRealModelStoreDirectory();
             FileInfo file = new FileInfo(batchName); //Utils.Global.GetRealFile(storeDirectory + batchName + ".ply");
@@ -442,7 +563,7 @@ namespace _3DPresentation.Models
             bool result = true;
             using (StreamWriter writer = new StreamWriter(file.OpenWrite()))
             {
-                if (result = WriteHeader(fileType, VertexType.XYZ_RGB, nPoints, nFaces, writer))
+                if (result = WriteHeader(fileType, VertexTypes.XYZ_RGB, nPoints, nFaces, null, writer))
                 {
                     for (int i = 0; i < models.Length; i++)
                     {
@@ -471,19 +592,19 @@ namespace _3DPresentation.Models
             return result;
         }
 
-        protected bool Export(FileType fileType, VertexType vertexType, StreamWriter writer)
+        protected bool Export(FileType fileType, VertexTypes vertexType, StreamWriter writer, bool keepOriginalPosition = false)
         {
             if (fileType == FileType.PLY)
             {
-                if (ExportVertexData(fileType, vertexType, writer) == false)
+                if (ExportVertexData(fileType, vertexType, writer, keepOriginalPosition) == false)
                     return false;
                 if (ExportIndiceData(fileType, vertexType, writer) == false)
                     return false;
             }
             return true;
         }
-        protected abstract bool ExportVertexData(FileType fileType, VertexType vertexType, StreamWriter writer);
-        protected abstract bool ExportIndiceData(FileType fileType, VertexType vertexType, StreamWriter writer, long offset = 0);
+        protected abstract bool ExportVertexData(FileType fileType, VertexTypes vertexType, StreamWriter writer, bool keepOriginalPosition = false);
+        protected abstract bool ExportIndiceData(FileType fileType, VertexTypes vertexType, StreamWriter writer, long offset = 0);
         protected abstract BaseMaterial GetDefaultMaterial();
         protected abstract BaseMaterial GetDefaultSpecialMaterial();
         public abstract Type[] GetCompatibleMaterialTypes();

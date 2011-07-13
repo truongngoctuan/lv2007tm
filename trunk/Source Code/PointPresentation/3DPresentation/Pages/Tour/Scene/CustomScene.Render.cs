@@ -13,7 +13,6 @@ namespace _3DPresentation
     public partial class CustomScene : Babylon.Scene
     {
         // Events
-        public event EventHandler Drawed;
         public int DrawError { get; private set; }
 
         private void PrepareRender()
@@ -40,11 +39,6 @@ namespace _3DPresentation
                 {
                     if (ActiveCamera.IsInFrustrum(model.BoundingInfo))
                     {
-                        //if (model == selectedMesh)
-                        //    SetShaderEffect(EffectManager.ShaderEffects.TexturedNoEffect, model.WorldMatrix);
-                        //else
-                        //    SetShaderEffect(EffectManager.ShaderEffects.NoEffect, model.WorldMatrix);
-                        //model.Render(Device);
                         if (model == selectedMesh)
                         {
                             model.Render(graphicsDevice, true);
@@ -57,30 +51,6 @@ namespace _3DPresentation
                 }
             }                
             models = null;
-        }
-
-        private void SetShaderEffect(EffectManager.ShaderEffects shaderEffect, Matrix world)
-        {
-            if (shaderEffect == EffectManager.ShaderEffects.NoEffect)
-            {
-                NoEffect noEffect = EffectManager.NoEffect;
-                noEffect.World = world;
-                noEffect.Projection = ActiveCamera.Projection;
-                noEffect.View = ActiveCamera.View;
-
-                noEffect.Device = Device;
-                noEffect.Apply();
-            }
-            else if (shaderEffect == EffectManager.ShaderEffects.TexturedNoEffect)
-            {
-                TexturedNoEffect texturedNoEffect = EffectManager.TexturedNoEffect;
-                texturedNoEffect.World = world;
-                texturedNoEffect.Projection = ActiveCamera.Projection;
-                texturedNoEffect.View = ActiveCamera.View;
-
-                texturedNoEffect.Device = Device;
-                texturedNoEffect.Apply();
-            }
         }
     }
 }

@@ -101,7 +101,7 @@ namespace SL40PropertyGrid
 					if (attr != null && !string.IsNullOrEmpty(attr.Category))
 						_category = attr.Category;
 					else
-						_category = "Misc";
+						_category = "Misc ";
 				}
 				return this._category;
 			}
@@ -131,7 +131,7 @@ namespace SL40PropertyGrid
 					{
                         _value = value;
                         _propertyInfo.SetValue(_instance, value, (BindingFlags.NonPublic | BindingFlags.Public), null, null, null);
-                        OnPropertyChanged("Value");
+                        //OnPropertyChanged("Value");
 					}
 					else
 					{
@@ -142,7 +142,7 @@ namespace SL40PropertyGrid
 								object val = Enum.Parse(_propertyInfo.PropertyType, value.ToString(), false);
                                 _value = val;
 								_propertyInfo.SetValue(_instance, val, (BindingFlags.NonPublic | BindingFlags.Public), null, null, null);
-								OnPropertyChanged("Value");
+								//OnPropertyChanged("Value");
 							}
 							else
 							{
@@ -152,14 +152,14 @@ namespace SL40PropertyGrid
 									object convertedValue = tc.ConvertFrom(value);
                                     _value = convertedValue;
 									_propertyInfo.SetValue(_instance, convertedValue, null);
-									OnPropertyChanged("Value");
+									//OnPropertyChanged("Value");
 								}
 								else
 								{
 									// try direct setting as a string...
                                     _value = value.ToString();
 									_propertyInfo.SetValue(_instance, value.ToString(), (BindingFlags.NonPublic | BindingFlags.Public), null, null, null);
-									OnPropertyChanged("Value");
+									//OnPropertyChanged("Value");
 								}
 							}
 						}

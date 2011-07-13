@@ -27,7 +27,7 @@ namespace _3DPresentation.Views
             objectView.ClearModels();
             objectView.AddModels(tourControl.GetModels());
             objectView.SetTarget(tourControl.Target);
-
+            objectView.ParentView = this;
             App.GoToPage(objectView);
         }
 

@@ -12,48 +12,37 @@ namespace _3DPresentation.Views
     {
         public bool IsLoaded { get; private set; }
         public UserControl ParentView { get; set; }
+        public BaseModel Target { get; set; }
         public ObjectView()
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(ObjectView_Loaded);
+            this.btBack.Click += new RoutedEventHandler(btBack_Click);            
             this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
-
-            this.viewControl.ViewScene.MouseRotated += new MouseRotatedEventHandler(ViewScene_MouseRotated);
-            this.viewControl.ViewScene.KeyboardTransition += new KeyboardTransitionEventHandler(ViewScene_KeyboardTransition);
         }
 
-        void ViewScene_KeyboardTransition(object sender, KeyboardTransitionEventArgs e)
+        void btBack_Click(object sender, RoutedEventArgs e)
         {
-            tempmodel.Position += (e.T / 100.0f);
-        }
+            App.RemovePage(this);
+            
+            BaseModel[] models = viewControl.GetModels();
+            for (int i = 0; i < models.Length; i++)
+            {
+                models[i].IsEnabled = true;
+            }
+            models = null;
 
-        BaseModel tempmodel = null;
-        void ViewScene_MouseRotated(object sender, MouseRotatedEventArgs e)
-        {
-            //throw new NotImplementedException();
-            tempmodel.RotationMatrix *= e.LastRotationMatrix;
+            App.GoToPage(this.ParentView);
         }
 
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
         {
-            viewControl.GetTarget().IsEnabled = false;
-            viewControl.SetTarget((BaseModel)cbbModel.SelectedItem);
-            viewControl.GetTarget().IsEnabled = true;
+            SetTarget((BaseModel)cbbModel.SelectedItem);
         }
 
         void ObjectView_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
-            ExecuteScript("abc");
-        }
-
-        public bool ExecuteScript(string strScript)
-        {
-            if (IsLoaded == false)
-                return false;
-            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
-            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
-            return true;
         }
 
         public void AddModels(BaseModel[] models)
@@ -61,9 +50,36 @@ namespace _3DPresentation.Views
             for (int i = 0; i < models.Length; i++)
             {
                 AddModel(models[i]);
-                models[i].IsEnabled = false;
             }
-        }      
+        }
+
+        public void ClearModels()
+        {
+            viewControl.ClearModels();
+        }
+
+        public BaseModel GetTarget()
+        {
+            return Target;
+        }
+
+        public bool SetTarget(BaseModel model)
+        {
+            bool result = false;
+            if (viewControl.SetTarget(model))
+            {
+                BaseModel[] models = viewControl.GetModels();
+                for (int i = 0; i < models.Length; i++)
+                {
+                    models[i].IsEnabled = false;
+                }
+                Target = model;
+                Target.IsEnabled = true;
+                models = null;
+                result = true;
+            }
+            return result;
+        }
 
         private bool ImportModel(FileInfo file)
         {
@@ -71,39 +87,29 @@ namespace _3DPresentation.Views
             if (model == null)
                 return false;
 
-            if (tempmodel == null)
-            {
-                tempmodel = model;
-            }
-            cbbModel.AddImage(model, model.toBitmap());
             return AddModel(model);
-        }
-
-        public BaseModel GetTarget()
-        {
-            return viewControl.GetTarget();
-        }
-
-        public bool SetTarget(BaseModel model)
-        {
-            model.IsEnabled = true;
-            return viewControl.SetTarget(model);
-        }
+        }        
 
         private bool AddModel(BaseModel model)
         {
-            cbbModel.AddImage(model, model.toBitmap());
-            return viewControl.AddModel(model);
+            bool result = false;
+            if (viewControl.AddModel(model))
+            {
+                cbbModel.AddImage(model, model.toBitmap());
+                result = true;
+            }
+            return result;
         }
 
         private bool RemoveModel(BaseModel model)
         {
-            return viewControl.RemoveModel(model);
-        }
-
-        public void ClearModels()
-        {
-            viewControl.ClearModels();
+            bool result = false;
+            if (viewControl.RemoveModel(model))
+            {
+                model.IsEnabled = true;                
+                result = true;
+            }
+            return result;
         }
 
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)

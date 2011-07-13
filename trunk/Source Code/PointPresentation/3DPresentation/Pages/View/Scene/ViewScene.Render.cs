@@ -37,11 +37,6 @@ namespace _3DPresentation
                 {
                     if (model.IsEnabled)
                     {
-                        //if (model is PointModel)
-                        //    SetShaderEffect(EffectManager.ShaderEffects.PointEffect, graphicsDevice, model.WorldMatrix);
-                        //else
-                        //    SetShaderEffect(EffectManager.ShaderEffects.NoEffect, graphicsDevice, model.WorldMatrix);
-                        //model.Render(graphicsDevice);
                         model.Render(graphicsDevice);
                     }
                 }
@@ -51,40 +46,6 @@ namespace _3DPresentation
             catch (ArgumentException ex)
             {
                 DrawError++;
-            }
-        }
-        private void SetShaderEffect(EffectManager.ShaderEffects shaderEffect, GraphicsDevice graphicsDevice, Matrix world)
-        {
-            if (shaderEffect == EffectManager.ShaderEffects.NoEffect)
-            {
-                NoEffect noEffect = EffectManager.NoEffect;
-                noEffect.World = world;
-                noEffect.Projection = Camera.Projection;
-                noEffect.View = Camera.View;
-
-                noEffect.Device = graphicsDevice;
-                noEffect.Apply();
-            }
-            else if (shaderEffect == EffectManager.ShaderEffects.TexturedNoEffect)
-            {
-                TexturedNoEffect texturedNoEffect = EffectManager.TexturedNoEffect;
-                texturedNoEffect.World = world;
-                texturedNoEffect.Projection = Camera.Projection;
-                texturedNoEffect.View = Camera.View;
-
-                texturedNoEffect.Device = graphicsDevice;
-                texturedNoEffect.Apply();
-            }
-            else if (shaderEffect == EffectManager.ShaderEffects.PointEffect)
-            {
-                PointEffect pointEffect = EffectManager.PointEffect;
-                pointEffect.World = world;
-                pointEffect.Projection = Camera.Projection;
-                pointEffect.View = Camera.View;
-                pointEffect.Scale = new Vector2(1.0f / SurfaceSize.X, 1.0f / SurfaceSize.Y);
-
-                pointEffect.Device = graphicsDevice;
-                pointEffect.Apply();
             }
         }
     }

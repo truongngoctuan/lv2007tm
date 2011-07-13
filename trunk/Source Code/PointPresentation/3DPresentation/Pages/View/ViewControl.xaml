@@ -5,12 +5,9 @@
              xmlns:customControlEditor="clr-namespace:_3DPresentation.Views.Editor"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="300" d:DesignWidth="400"
-             >
+    d:DesignHeight="300" d:DesignWidth="400">
     
     <Grid x:Name="LayoutRoot" Background="Black">
         <DrawingSurface x:Name="drawingSurface"/>
-        <!--<ComboBox x:Name="cbModels" Width="100" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" />-->
-        <!--<customControlEditor:ComboboxCoverFlow  x:Name="cbModels" HorizontalAlignment="Center" VerticalAlignment="Top"></customControlEditor:ComboboxCoverFlow>-->
     </Grid>
 </UserControl>

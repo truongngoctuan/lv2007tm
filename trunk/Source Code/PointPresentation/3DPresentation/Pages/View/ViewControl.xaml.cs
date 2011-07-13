@@ -31,9 +31,6 @@ namespace _3DPresentation
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(ViewControl_Loaded);
             viewScene = new ViewScene(this, drawingSurface);
-
-            //cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
-            //cbModels.SelectionChanged +=new EventHandler(cbModels_SelectionChanged);
         }
 
         void ViewControl_Loaded(object sender, RoutedEventArgs e)
@@ -41,11 +38,10 @@ namespace _3DPresentation
             IsLoaded = true;
         }
 
-        //void cbModels_SelectionChanged(object sender, EventArgs e)
-        //{
-        //    SetTarget((BaseModel)cbModels.SelectedItem);
-        //}
-
+        public BaseModel[] GetModels()
+        {
+            return viewScene.GetModels();
+        }
         public BaseModel GetTarget()
         {
             return viewScene.TargetModel;
@@ -58,27 +54,17 @@ namespace _3DPresentation
 
         public bool AddModel(BaseModel model)
         {
-            bool result = viewScene.AddModel(model);
-            if (result == false)
-                return false;
-            //cbModels.Items.Add(model);
-            //cbModels.AddImage(model, new PathUri(_3DPresentation.Utils.Global.GetRandomSnapshot(), false));
-            return true;
+            return viewScene.AddModel(model);
         }
 
         public bool RemoveModel(BaseModel model)
         {
-            bool result = viewScene.RemoveModel(model);
-            if (result == false)
-                return false;
-            //cbModels.Items.Remove(model);
-            return true;
+            return viewScene.RemoveModel(model);
         }
 
         public void ClearModels()
         {
             viewScene.ClearModels();
-            //cbModels.Items.Clear();
         }
 
         public Color BackgoundColor

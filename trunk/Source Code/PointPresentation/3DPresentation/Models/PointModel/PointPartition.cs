@@ -95,13 +95,13 @@ namespace _3DPresentation.Models
             graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, VertexBuffer.VertexCount, 0, IndexBuffer.IndexCount / 3);
         }
 
-        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix)
+        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexTypes vertexType, StreamWriter writer, Matrix worldMatrix)
         {
             if (writer == null)
                 return false;
             if (fileType == BaseModel.FileType.PLY)
             {
-                if (vertexType == BaseModel.VertexType.XYZ)
+                if (vertexType == BaseModel.VertexTypes.XYZ)
                 {
                     for (int i = 0; i < Vertices.Length; i += 4)
                     {
@@ -114,7 +114,7 @@ namespace _3DPresentation.Models
                         writer.Write(str);
                     }
                 }
-                else if (vertexType == BaseModel.VertexType.XYZ_RGB)
+                else if (vertexType == BaseModel.VertexTypes.XYZ_RGB)
                 {
                     for (int i = 0; i < Vertices.Length; i += 4)
                     {
@@ -130,7 +130,7 @@ namespace _3DPresentation.Models
             return true;
         }
 
-        public bool ExportIndiceData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix, long offset)
+        public bool ExportIndiceData(BaseModel.FileType fileType, BaseModel.VertexTypes vertexType, StreamWriter writer, Matrix worldMatrix, long offset)
         {
             if (writer == null)
                 return false;

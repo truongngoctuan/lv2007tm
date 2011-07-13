@@ -5,9 +5,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
-    
-    <StackPanel x:Name="LayoutRoot" Background="White">
-        <ComboBox x:Name="cbMaterialType" />
-        <my:PropertiesPanel x:Name="propertiesPanel" />
-    </StackPanel>
+
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <ComboBox Grid.Row="0" x:Name="cbMaterialType" />
+        <my:PropertiesPanel Grid.Row="1" x:Name="propertiesPanel"/>
+    </Grid>
 </UserControl>

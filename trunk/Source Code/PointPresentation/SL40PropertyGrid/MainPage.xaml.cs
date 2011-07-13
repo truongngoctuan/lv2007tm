@@ -36,7 +36,7 @@ namespace SL40PropertyGrid
 				Ulong = 21422,
 				Car = new Car()
 			};
-			this.propertyGrid.SelectedObject = person.Car;
+			this.propertyGrid.SelectedObject = person;
 		}
 
 		private void test_Click(object sender, RoutedEventArgs e)

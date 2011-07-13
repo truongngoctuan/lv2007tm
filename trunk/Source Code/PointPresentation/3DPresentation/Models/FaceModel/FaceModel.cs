@@ -37,6 +37,8 @@ namespace _3DPresentation.Models
         {
             base.End();
             faceManager.End();
+            NumPoints = faceManager.NumPoints;
+            NumFaces = faceManager.NumFaces;
         }
 
         public override void InitBuffers(GraphicsDevice graphicsDevice)
@@ -53,16 +55,21 @@ namespace _3DPresentation.Models
             faceManager.Render(graphicsDevice);
         }
 
-        protected override bool ExportVertexData(FileType fileType, VertexType vertexType, StreamWriter writer)
+        protected override bool ExportVertexData(FileType fileType, VertexTypes vertexType, StreamWriter writer, bool keepOriginalPosition)
         {
             if (writer == null)
                 return false;
             if (fileType == FileType.PLY)
-                return faceManager.ExportVertexData(fileType, vertexType, writer, WorldMatrix);
+            {
+                if (keepOriginalPosition)
+                    return faceManager.ExportVertexData(fileType, vertexType, writer, Matrix.Identity);
+                else
+                    return faceManager.ExportVertexData(fileType, vertexType, writer, WorldMatrix);
+            }
             return false;
         }
 
-        protected override bool ExportIndiceData(FileType fileType, VertexType vertexType, StreamWriter writer, long offset)
+        protected override bool ExportIndiceData(FileType fileType, VertexTypes vertexType, StreamWriter writer, long offset)
         {
             if (writer == null)
                 return false;
@@ -86,7 +93,9 @@ namespace _3DPresentation.Models
             Type[] compatibleTypes = new Type[]
             {
                 typeof(NoEffectMaterial),
-                typeof(TexturedMaterial)
+                typeof(TexturedMaterial),
+                typeof(FourPointLightsMaterial),
+                typeof(VertexColorMaterial)
             };
             return compatibleTypes;
         }

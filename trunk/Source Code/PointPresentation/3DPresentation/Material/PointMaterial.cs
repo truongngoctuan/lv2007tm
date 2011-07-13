@@ -20,5 +20,18 @@ namespace _3DPresentation.Material
             pointEffect.Device = Device;
             pointEffect.Apply();
         }
+
+        public override void Save(System.IO.StreamWriter writer, string texturePath)
+        {
+            if (writer == null)
+                return;
+
+            writer.WriteLine("PointMaterial");
+        }
+
+        protected override void LoadMaterial(System.IO.StreamReader reader)
+        {
+            
+        }
     }
 }
