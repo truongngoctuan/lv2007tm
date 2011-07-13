@@ -203,15 +203,15 @@ namespace _3DPresentation
         public void SaveModel(string strFileName)
         {
             //call function save all frame
-            ArrFrame[0].ExportUnitedModel(BaseModel.FileType.PLY, BaseModel.VertexType.XYZ_RGB, ArrFrame.ToArray(), "e:\\aaa");
+            ArrFrame[0].ExportUnitedModel(BaseModel.FileType.PLY, BaseModel.VertexType.XYZ_RGB, ArrFrame.ToArray(), strFileName);
         }
 
-        public void SaveFrame(string strFileName)
+        public void SaveFrame(string strFileName,int iSelectedIndex)
         {
             lock (lockThis)
             {
                 //call function save all frame
-                ArrFrame[frameViewer.SelectedIndex].Export(BaseModel.FileType.PLY, BaseModel.VertexType.XYZ_RGB, _3DPresentation.Utils.Global.GetRealFile(strFileName));
+                ArrFrame[iSelectedIndex].Export(BaseModel.FileType.PLY, BaseModel.VertexType.XYZ_RGB, _3DPresentation.Utils.Global.GetRealFile(strFileName));
             }
         }
 

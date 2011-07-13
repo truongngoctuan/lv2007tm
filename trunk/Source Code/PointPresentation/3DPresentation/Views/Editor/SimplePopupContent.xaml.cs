@@ -75,7 +75,7 @@ namespace _3DPresentation.Views.Editor
             if ((bool)dlg.ShowDialog())
             {
                 string strPath = dlg.SafeFileName;
-                ParentView.SaveFrame(strPath);
+                ParentView.SaveFrame(strPath, SelectedIndex);
 
                 //MessageBox.Show(strPath);
             }
