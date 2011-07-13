@@ -253,11 +253,22 @@ namespace _3DPresentation
             }
         }
 
+        public void UpdateOneFrame(int iIndex, Microsoft.Xna.Framework.Matrix RotationMatrix, Vector3 Translation)
+        {
+            lock (lockThis)
+            {
+                ArrFrame[iIndex].RotationMatrix *= RotationMatrix;
+                ArrFrame[iIndex].Position += Translation;
+            }
+        }
+
+        
+
         public void UpdateMatrixBeforeFrame(int iIndex, Microsoft.Xna.Framework.Matrix RotationMatrix, Vector3 Translation)
         {
             lock (lockThis)
             {
-                for (int i = iIndex; i <= iIndex; i++)
+                for (int i = iIndex; i >= 0; i--)
                 {
                     ArrFrame[i].RotationMatrix *= RotationMatrix;
                     ArrFrame[i].Position += Translation;
@@ -430,6 +441,8 @@ namespace _3DPresentation
         private void ContentHomePage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             frameViewer.SetActualWidthAndHeight(ContentHomePage.ActualWidth, ContentHomePage.ActualHeight);
+            vcOjectViewer.Width = ContentHomePage.ActualWidth;
+            vcOjectViewer.Height = ContentHomePage.ActualHeight;
         }
 
         //private void Button_Click(object sender, RoutedEventArgs e)
