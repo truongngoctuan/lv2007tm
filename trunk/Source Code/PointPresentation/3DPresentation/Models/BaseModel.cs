@@ -417,7 +417,8 @@ namespace _3DPresentation.Models
             {
                 if (fileType == FileType.PLY)
                 {
-                    FileInfo file = Utils.Global.GetRealFile(storeDirectory + batchName + '/' + models[i].Name + ".ply");
+                    FileInfo file = Utils.Global.GetRealFile(batchName + '_' + i.ToString() + ".ply");
+                    //FileInfo file = Utils.Global.GetRealFile(storeDirectory + batchName + '/' + models[i].Name + ".ply");
                     if (models[i].Export(fileType, vertexType, file) == false)
                         result = false;
                 }

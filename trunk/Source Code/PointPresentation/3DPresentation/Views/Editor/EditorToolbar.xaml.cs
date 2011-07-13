@@ -144,5 +144,24 @@ namespace _3DPresentation.Views.Editor
         {
             ParentEditor.UpdateMatrixAfterFrame(e.ReferenceIndex, e.RotationMatrix, e.TransitionMatrix);
         }
+
+        private void btSaveAllFrames_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog dlg = new SaveFileDialog(); // new instance
+            dlg.Filter = "ply|*.ply";
+            if ((bool)dlg.ShowDialog())
+            {
+                string strPath = dlg.SafeFileName;
+                strPath = strPath.Replace(".ply", "");
+                ParentEditor.SaveAllFrames(strPath);
+                SilverlightMessageBoxLibrary.Message.InfoMessage("Save Done!");
+            }
+        }
+
+        private void btClearCurrentFrames_Click(object sender, RoutedEventArgs e)
+        {
+            ParentEditor.ClearAllFrames();
+            SilverlightMessageBoxLibrary.Message.InfoMessage("Clear Done!");
+        }
     }
 }
