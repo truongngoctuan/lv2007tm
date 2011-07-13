@@ -232,6 +232,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Resource Include="Views\Editor\Images\blank_facemodel.jpg" />
     <Resource Include="Views\Editor\Images\blank.jpg" />
     <Resource Include="Views\Images\dlg_close_button.png" />
     <Resource Include="themes\Transparent.PNG" />

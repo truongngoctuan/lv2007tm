@@ -182,14 +182,14 @@ namespace _3DPresentation
                         vcOjectViewer.SetTarget(ArrFrame[ArrFrame.Count - 1]);
                     }
 
-                    Babylon.Toolbox.OrbitCamera cam = new Babylon.Toolbox.OrbitCamera { Alpha = (float)Math.PI / 2 };
+                    //Babylon.Toolbox.OrbitCamera cam = new Babylon.Toolbox.OrbitCamera { Alpha = (float)Math.PI / 2 };
 
-                    //setmodel target
-                    cam.Radius = model.BoundingInfo.BoundingSphereWorld.Radius * 4.0f;
-                    cam.Target = model.BoundingInfo.BoundingSphereWorld.Center;
-                    cam.Alpha = cam.Alpha; // to raise event => recompute Position to get new ViewMatrix
+                    ////setmodel target
+                    //cam.Radius = model.BoundingInfo.BoundingSphereWorld.Radius * 4.0f;
+                    //cam.Target = model.BoundingInfo.BoundingSphereWorld.Center;
+                    //cam.Alpha = cam.Alpha; // to raise event => recompute Position to get new ViewMatrix
 
-                    frameViewer.AddImage(model.toBitmap(400, 400, cam));
+                    frameViewer.AddImage(model.toBitmap());
 
                     //this.currentImage.Source = model.toBitmap(300, 300, vcOjectViewer.ViewScene.Camera);
                 }
