@@ -25,7 +25,13 @@ namespace _3DPresentation.Utils
             }
         }
 
-        public event EventHandler CreateFileEvent;
+        public class CreateFileEventArgs : EventArgs
+        {
+            public string FileName;
+        }
+        public delegate void CreateFileEventHandler(object sender, CreateFileEventArgs e);
+
+        public event CreateFileEventHandler CreateFileEvent;
         public event EventHandler DeleteFileEvent;
         string _FileName = string.Empty;
 
@@ -34,6 +40,7 @@ namespace _3DPresentation.Utils
             get { return _FileName; }
             set { _FileName = value; }
         }
+        object lockthis = new object();
         public void FolderListener(string strWatchFolder)
         {
             try
@@ -60,24 +67,32 @@ namespace _3DPresentation.Utils
                                 string path = eventObject.TargetInstance.PartComponent;
 
                                 string[] strSplit = path.Split('\"');
-                                FileName = strSplit[strSplit.Length - 2];
-                                if (eventType.IndexOf("CreationEvent") > 0)
-                                {
-                                    if (CreateFileEvent != null)
-                                    {
-                                        CreateFileEvent(this, new EventArgs());
-                                    }
-                                    continue;
-                                }
 
-                                if (eventType.IndexOf("DeletionEvent") > 0)
-                                {
-                                    if (DeleteFileEvent != null)
+                                //lock (lockthis)
+                                //{
+                                    //if (FileName.Equals(strSplit[strSplit.Length - 2])) continue;
+                                    FileName = strSplit[strSplit.Length - 2];
+                                
+                                    if (eventType.IndexOf("CreationEvent") > 0)
                                     {
-                                        DeleteFileEvent(this, new EventArgs());
+                                        if (CreateFileEvent != null)
+                                        {
+                                            CreateFileEventArgs earg = new CreateFileEventArgs();
+                                            earg.FileName = strSplit[strSplit.Length - 2];
+                                            CreateFileEvent(this, earg);
+                                        }
+                                        continue;
                                     }
-                                    continue;
-                                }
+
+                                    if (eventType.IndexOf("DeletionEvent") > 0)
+                                    {
+                                        if (DeleteFileEvent != null)
+                                        {
+                                            DeleteFileEvent(this, new EventArgs());
+                                        }
+                                        continue;
+                                    }
+                                //}
                             }
                         }
                     }

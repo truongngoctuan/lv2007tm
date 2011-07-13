@@ -271,21 +271,27 @@ namespace _3DPresentation
             _3DPresentation.Utils.COMAutomation.StopCommand(WorkingDirectory + "\\result\\cm.txt",
                 WorkingDirectoryTemp + "\\cm.txt", lines);
         }
-
-        void ca_CreateFileEvent(object sender, EventArgs e)
+        //string strTest = "";
+        void ca_CreateFileEvent(object sender, _3DPresentation.Utils.COMAutomation.CreateFileEventArgs e)
         {
             Dispatcher.BeginInvoke(() =>
             {
-                string strFileName = ca.FileName;
-
-                FileInfo fi = new FileInfo(strFileName);
-                if (fi.Extension.Equals(".ply"))
+                lock (lockthis)
                 {
-                    if (fi.Name.StartsWith("NotDecreaseSameVertex"))
-                    {
-                        AddFrame(strFileName);
-                    }
+                    string strFileName = e.FileName;
 
+                    FileInfo fi = new FileInfo(strFileName);
+                    if (fi.Extension.Equals(".ply"))
+                    {
+                        if (fi.Name.StartsWith("NotDecreaseSameVertex"))
+                        {
+                            if (OldFileName == strFileName) return;
+                            OldFileName = strFileName;
+                            //strTest += strFileName + "\n";
+                            AddFrame(strFileName);
+                        }
+
+                    }
                 }
             });
         }
@@ -315,39 +321,47 @@ namespace _3DPresentation
             if (ca == null)
             {
                 ca = new COMAutomation();
-                ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent);
+                ca.CreateFileEvent +=new COMAutomation.CreateFileEventHandler(ca_CreateFileEvent);
             }
             else
             {
                 ca.CreateFileEvent -= ca_CreateFileEvent2;
                 ca.CreateFileEvent -= ca_CreateFileEvent;
-                ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent);
+                ca.CreateFileEvent += new COMAutomation.CreateFileEventHandler(ca_CreateFileEvent);
             }
 
             string strWatchFolder = (WorkingDirectory + "\\result").Replace(@"\", @"\\\\").Replace(@"\\\\\\\\", @"\\\\");
             ca.FolderListener(strWatchFolder);
         }
-
-        void ca_CreateFileEvent2(object sender, EventArgs e)
+        object lockthis = new object();
+        string OldFileName = string.Empty;
+        void ca_CreateFileEvent2(object sender, _3DPresentation.Utils.COMAutomation.CreateFileEventArgs e)
         {
-            Dispatcher.BeginInvoke(() =>
-            {
-                string strFileName = ca.FileName;
+           Dispatcher.BeginInvoke(() =>
+           {
+               lock (lockthis)
+               {
+                   string strFileName = e.FileName;
 
-                FileInfo fi = new FileInfo(strFileName);
-                if (fi.Extension.Equals(".ply"))
-                {
-                    if (fi.Name.StartsWith("NotDecreaseSameVertex"))
-                    {
-                        AddFrame(strFileName);
-                        odControl.PauseFunction();
-                    }
+                   FileInfo fi = new FileInfo(strFileName);
+                   if (fi.Extension.Equals(".ply"))
+                   {
+                       if (fi.Name.StartsWith("NotDecreaseSameVertex"))
+                       {
+                           if (OldFileName == strFileName) return;
+                           OldFileName = strFileName;
+                            //strTest += strFileName + "\n";
+                            AddFrame(strFileName);
+                            odControl.PauseFunction();
+                      }
 
-                }
-            });
+                   }
+               }
+           });
         }
         void odControl_Capture(object sender, EventArgs e)
         {
+            SetupWorkingDirectory();
             string strQuery =
                 string.Format("{0} {1} {2} {3} {4} {5} {6}",
                                 WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
@@ -362,17 +376,17 @@ namespace _3DPresentation
             if (ca == null)
             {
                 ca = new COMAutomation();
-                ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent2);
+                ca.CreateFileEvent += new COMAutomation.CreateFileEventHandler(ca_CreateFileEvent2);
+
+                string strWatchFolder = (WorkingDirectory + "\\result").Replace(@"\", @"\\\\").Replace(@"\\\\\\\\", @"\\\\");
+                ca.FolderListener(strWatchFolder);
             }
             else
             {
                 ca.CreateFileEvent -= ca_CreateFileEvent2;
                 ca.CreateFileEvent -= ca_CreateFileEvent;
-                ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent2);
+                ca.CreateFileEvent += new COMAutomation.CreateFileEventHandler(ca_CreateFileEvent2);
             }
-
-            string strWatchFolder = (WorkingDirectory + "\\result").Replace(@"\", @"\\\\").Replace(@"\\\\\\\\", @"\\\\");
-            ca.FolderListener(strWatchFolder);
         }
 
         #endregion
