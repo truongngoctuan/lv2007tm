@@ -7,47 +7,34 @@ using System.IO;
 
 namespace _3DPresentation.Models
 {
-    public class FaceManager
+    public class TexCoordManager
     {
-        public struct RelativeNode
-        {
-            public Node node2;
-            public Node node3;
-            public RelativeNode(Node n2, Node n3)
-            {
-                node2 = n2;
-                node3 = n3;
-            }
-        }
         public class Node
         {
             public Vector3 Position;
-            public Color Color;
-            public List<RelativeNode> RelativeNodes;
             public int lastPartition;
             public int lastIndex;
 
-            public Node(Vector3 position, Color color)
+            public Node(Vector3 position)
             {
                 Position = position;
-                Color = color;
-                RelativeNodes = new List<RelativeNode>();
                 lastPartition = -1;
                 lastIndex = -1;
             }
         }
-        private Node[] Nodes;
 
         private static int PARTITION_BASE_SIZE = 2500;
 
-        public List<FacePartition> Partitions;
+        public List<TexCoordPartition> Partitions;
         public int PartitionSize;
         public int NumPoints;
         public int NumFaces;
-        
-        public FaceManager()
+
+        Node[] nodes;
+
+        public TexCoordManager()
         {
-            Partitions = new List<FacePartition>();
+            Partitions = new List<TexCoordPartition>();
         }
 
         public void Begin(int nPoints, int nFaces)
@@ -58,10 +45,10 @@ namespace _3DPresentation.Models
             int nPartitions = (nFaces + PartitionSize - 1) / PartitionSize;
             for (int i = 0; i < nPartitions; i++)
             {
-                Partitions.Add(new FacePartition(PartitionSize, i));
+                Partitions.Add(new TexCoordPartition(PartitionSize, i));
             }
 
-            Nodes = new Node[nPoints];
+            nodes = new Node[nPoints];
 
             for (int i = 0; i < Partitions.Count; i++)
             {
@@ -70,39 +57,55 @@ namespace _3DPresentation.Models
         }
 
         int iCurrentNode = 0;
-        public bool AddVertex(Vector3 position, Color color)
+        public bool AddVertex(Vector3 position)
         {
-            if (iCurrentNode >= Nodes.Length)
+            if (iCurrentNode >= nodes.Length)
                 return false;
-            Nodes[iCurrentNode++] = new Node(position, color);
+            nodes[iCurrentNode++] = new Node(position);
             return true;
         }
-        public bool AddIndice(int i1, int i2, int i3)
+
+        int iCurrentPartition = 0;
+        public bool AddIndice(int i1, int i2, int i3, Vector2 texCoord1, Vector2 texCoord2, Vector2 texCoord3)
         {
             if (i1 == i2 || i2 == i3 || i1 == i3)
                 return false;
-
-            if (i1 > i2) { int temp = i1; i1 = i2; i2 = temp; }
-            if (i1 > i3) { int temp = i1; i1 = i3; i3 = temp; }
-            Nodes[i1].RelativeNodes.Add(new RelativeNode(Nodes[i2], Nodes[i3]));
-            return true;
-        }        
+            bool result = false;
+            while(iCurrentPartition < Partitions.Count)
+            {
+                TexCoordPartition partition = Partitions[iCurrentPartition];
+                if(partition.IsFull())
+                {
+                    iCurrentPartition++;
+                }
+                else
+                {
+                    if(nodes[i1].lastPartition != Partitions[iCurrentPartition].ID)
+                    {
+                        nodes[i1].lastPartition = partition.ID;
+                        nodes[i1].lastIndex = partition.AddPoint(nodes[i1].Position, texCoord1);
+                    }
+                    if (nodes[i2].lastPartition != Partitions[iCurrentPartition].ID)
+                    {
+                        nodes[i2].lastPartition = partition.ID;
+                        nodes[i2].lastIndex = partition.AddPoint(nodes[i2].Position, texCoord2);
+                    }
+                    if (nodes[i3].lastPartition != Partitions[iCurrentPartition].ID)
+                    {
+                        nodes[i3].lastPartition = partition.ID;
+                        nodes[i3].lastIndex = partition.AddPoint(nodes[i3].Position, texCoord3);
+                    }
+                    partition.AddIndice(nodes[i1].lastIndex, nodes[i2].lastIndex, nodes[i3].lastIndex);
+                    result = true;
+                    break;
+                }                
+            }
+            return result;
+        }
         
         public void End()
         {
-            int iCurrentPartition = 0;
-            FacePartition partition = Partitions[iCurrentPartition];
-            for (int i = 0; i < Nodes.Length; i++)
-            {               
-                while (AddNode(partition, Nodes[i]) == false)
-                {
-                    iCurrentPartition++;
-                    if (iCurrentPartition == Partitions.Count)
-                        return;
-                    partition = Partitions[iCurrentPartition];
-                }
-            }
-            Nodes = null;
+            nodes = null;
 
             NumPoints = 0;
             NumFaces = 0;
@@ -113,7 +116,7 @@ namespace _3DPresentation.Models
                 NumFaces += Partitions[i].Indices.Length / 3;
             }
 
-            foreach (FacePartition par in Partitions)
+            foreach (TexCoordPartition par in Partitions)
                 par.InitNormals();
         }        
 
@@ -131,40 +134,6 @@ namespace _3DPresentation.Models
             {
                 Partitions[i].Render(graphicsDevice);
             }
-        }
-
-        private bool AddNode(FacePartition partition, Node node)
-        {
-            if (partition.IsFull())
-                return false;
-
-            if (node.RelativeNodes.Count == 0)
-                return true;
-
-            if (node.lastPartition != partition.ID)
-            {
-                node.lastPartition = partition.ID;
-                node.lastIndex = partition.AddPoint(node.Position, node.Color);
-            }
-
-            foreach (FaceManager.RelativeNode relative in node.RelativeNodes)
-            {
-                if (partition.IsFull())
-                    return false;
-                if (relative.node2.lastPartition != partition.ID)
-                {
-                    relative.node2.lastPartition = partition.ID;
-                    relative.node2.lastIndex = partition.AddPoint(relative.node2.Position, relative.node2.Color);
-                }
-                if (relative.node3.lastPartition != partition.ID)
-                {
-                    relative.node3.lastPartition = partition.ID;
-                    relative.node3.lastIndex = partition.AddPoint(relative.node3.Position, relative.node3.Color);
-                }
-
-                partition.AddIndice(node.lastIndex, relative.node2.lastIndex, relative.node3.lastIndex);
-            }
-            return true;
         }
 
         public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexTypes vertexType, StreamWriter writer, Matrix worldMatrix)

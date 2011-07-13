@@ -21,5 +21,18 @@ namespace _3DPresentation.Material
             noEffect.Device = Device;
             noEffect.Apply();
         }
+
+        public override void Save(System.IO.StreamWriter writer, string texturePath)
+        {
+            if (writer == null)
+                return;
+
+            writer.WriteLine("NoEffectMaterial");
+        }
+
+        protected override void LoadMaterial(System.IO.StreamReader reader)
+        {
+            
+        }
     }
 }

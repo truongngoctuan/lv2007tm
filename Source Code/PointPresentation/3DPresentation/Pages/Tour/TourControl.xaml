@@ -10,13 +10,5 @@
     
     <Grid x:Name="LayoutRoot" Background="White">
         <Babylon:BabylonSurface x:Name="babylonSurface" />        
-        <Button x:Name="btLoadScene" Width="75" Height="25" Content="Load Scene" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,0,0" />
-        <ComboBox x:Name="cbScene" Width="75" Height="25" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="100,5,0,0" />
-        <my:OpenFileControl x:Name="myOpenFile" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="5,50,0,0" />
-
-
-        <TextBlock x:Name="myCamPosition" Text="Camera Position: " Height="20" HorizontalAlignment="Left" Margin="5,0,0,30" VerticalAlignment="Bottom" Width="Auto" FontSize="14" Foreground="Lime" FontWeight="Bold"/>
-        <TextBlock x:Name="myTargetPosition" Text="Target Position: " Height="20" HorizontalAlignment="Left" Margin="5,0,0,10" VerticalAlignment="Bottom" Width="Auto" FontSize="14" Foreground="Lime" FontWeight="Bold"/>
-        <ComboBox x:Name="cbModels" Width="100" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,5" />
     </Grid>
 </UserControl>

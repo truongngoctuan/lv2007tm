@@ -80,5 +80,10 @@ namespace _3DPresentation
             }
             return result;
         }
+
+        public BaseModel[] GetModels()
+        {
+            return Models.ToArray();
+        }
     }
 }

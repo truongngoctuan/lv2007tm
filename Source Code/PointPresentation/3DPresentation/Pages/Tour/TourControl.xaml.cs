@@ -38,21 +38,7 @@ namespace _3DPresentation
             InitCustomScene();
 
             this.Loaded += new RoutedEventHandler(TourControl_Loaded);
-            this.SizeChanged += new SizeChangedEventHandler(TourControl_SizeChanged);            
-
-            myCamPosition.Visibility = System.Windows.Visibility.Collapsed;
-            myTargetPosition.Visibility = System.Windows.Visibility.Collapsed;
-            cbScene.Visibility = System.Windows.Visibility.Collapsed;
-            cbModels.Visibility = System.Windows.Visibility.Collapsed;
-            btLoadScene.Visibility = System.Windows.Visibility.Collapsed;
-            myOpenFile.Visibility = System.Windows.Visibility.Collapsed;
-
-            btLoadScene.Click += new RoutedEventHandler(btLoadScene_Click);
-            myOpenFile.FileOpened += new OpenFileControl.FileOpenedHandler(myOpenFile_FileOpened);
-
-            cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
-            cbScene.Items.Add("wcafe.bsf");
-            cbScene.Items.Add("espilit.bsf");
+            this.SizeChanged += new SizeChangedEventHandler(TourControl_SizeChanged);
         }
 
         void TourControl_Loaded(object sender, RoutedEventArgs e)
@@ -65,7 +51,6 @@ namespace _3DPresentation
             customScene = new CustomScene(this, babylonSurface, "CustomScene", babylonSurface.Engine);
             babylonSurface.SetCustomScene(customScene);
 
-            customScene.Drawed += new EventHandler(customScene_Drawed);
             customScene.SelectingModel += new EventHandler(customScene_SelectingModel);
             babylonSurface.Loaded += new RoutedEventHandler(babylonSurface_Loaded);
         }
@@ -88,11 +73,6 @@ namespace _3DPresentation
         public void GoToModel(BaseModel model)
         {
             customScene.GoToModel(model);
-        }
-
-        void cbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            customScene.GoToModel((BaseModel)cbModels.SelectedItem);
         }
 
         public bool AddModel(BaseModel model)
@@ -135,31 +115,6 @@ namespace _3DPresentation
         //{
         //    Uri sceneUri = new Uri("http://www.catuhe.com/BSF/" + scene);
         //    babylonSurface.Scene.Load(sceneUri);
-        //}
-
-        void customScene_Drawed(object sender, EventArgs e)
-        {
-            //if(myCamPosition.Visibility == System.Windows.Visibility.Visible)
-                myCamPosition.Dispatcher.BeginInvoke(new Action(() => { myCamPosition.Text = "Camera Position: " + customScene.CameraPosition.X + " " + customScene.CameraPosition.Y + " " + customScene.CameraPosition.Z; }));
-            //if (myTargetPosition.Visibility == System.Windows.Visibility.Visible)
-                myTargetPosition.Dispatcher.BeginInvoke(new Action(() => { myTargetPosition.Text = "Target Position: " + customScene.TargetPosition.X + " " + customScene.TargetPosition.Y + " " + customScene.TargetPosition.Z; }));
-        }
-
-        void myOpenFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
-        {
-            //BaseModel model = customScene.AddModel(e.FileInfo);
-            //if(model != null)
-            //    cbModels.Items.Add(model);
-        }        
-
-        void btLoadScene_Click(object sender, RoutedEventArgs e)
-        {
-            if (cbScene.SelectedItem == null)
-                return;
-            Uri sceneUri = Utils.Global.MakeStoreUri(string.Format("Scene/{0}/{0}.bsf", "espilit"));
-            //LoadSceneLocal(sceneUri);
-            LoadSceneInPackage(cbScene.SelectedItem.ToString());
-            //LoadScene("wcafe.bsf");
-        }        
+        //}    
     }
 }

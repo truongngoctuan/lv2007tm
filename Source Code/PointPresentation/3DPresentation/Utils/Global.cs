@@ -14,6 +14,7 @@ namespace _3DPresentation.Utils
         public static string StorePath = MyDocumentsFolderPath + '/' + "Silverlight3D/";
         public static string ModelStorePath = StorePath + "Model/";
         public static string SceneStorePath = StorePath + "Scene/";
+        public static string TourStorePath = StorePath + "Tour/";
 
         public static string GetRealStoreDirectory()
         {
@@ -41,6 +42,15 @@ namespace _3DPresentation.Utils
             return SceneStorePath;
         }
 
+        public static string GetRealTourStorePath()
+        {
+            GetRealStoreDirectory();
+            DirectoryInfo dir = new DirectoryInfo(TourStorePath);
+            if (dir.Exists == false)
+                dir.Create();
+            return TourStorePath;
+        }
+
         public static DirectoryInfo GetRealDirectory(string path)
         {
             DirectoryInfo dir = new DirectoryInfo(path);
@@ -61,12 +71,32 @@ namespace _3DPresentation.Utils
             }
             return file;
         }
+        public static FileInfo GetFileInfo(string path)
+        {
+            FileInfo file = new FileInfo(path);
+            if (file.Directory.Exists == false)
+                GetRealDirectory(file.Directory.FullName);
+            return file;
+        }
 
         public static Texture2D LoadTexture(string resource, GraphicsDevice graphicsDevice)
         {
             // MUST BE CALL ON MAIN THREAD (or UI THREAD) ---- cause new an BitmapImage element
             //var stream = Application.GetResourceStream(new Uri(resource, UriKind.Relative)).Stream;
             var stream = Utils.Global.GetPackStream(resource);
+            var bmp = new BitmapImage();
+            bmp.SetSource(stream);
+            Texture2D res = new Texture2D(graphicsDevice, bmp.PixelWidth, bmp.PixelHeight, false, SurfaceFormat.Color);
+            bmp.CopyTo(res);
+            return res;
+        }
+
+        public static Texture2D LoadLocalTexture(string relativePath, GraphicsDevice graphicsDevice)
+        {
+            // MUST BE CALL ON MAIN THREAD (or UI THREAD) ---- cause new an BitmapImage element
+            //var stream = Application.GetResourceStream(new Uri(resource, UriKind.Relative)).Stream;
+            Uri textureUri = Utils.Global.MakeStoreUri(relativePath);
+            var stream = Utils.Global.GetLocalStream(textureUri);
             var bmp = new BitmapImage();
             bmp.SetSource(stream);
             Texture2D res = new Texture2D(graphicsDevice, bmp.PixelWidth, bmp.PixelHeight, false, SurfaceFormat.Color);

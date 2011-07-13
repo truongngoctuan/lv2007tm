@@ -7,7 +7,7 @@ namespace _3DPresentation.Effects
 {
     public class EffectManager
     {
-        public enum ShaderEffects { NoEffect, TexturedNoEffect, PointEffect, FourPointLights }
+        public enum ShaderEffects { NoEffect, TexturedNoEffect, PointEffect, FourPointLights, VertexColorEffect, BasicEffect, TextureEffect ,FourPointLightsTextureEffect }
         // the device to use when creating resources, can't use to draw
         static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
@@ -16,6 +16,10 @@ namespace _3DPresentation.Effects
         private static TexturedNoEffect texturedNoEffect;
         private static PointEffect pointEffect;
         private static FourPointLightsEffect fourPointLightsEffect;
+        private static VertexColorEffect vertexColorEffect;
+        private static BasicEffect basicEffect;
+        private static TextureEffect textureEffect;
+        private static FourPointLightsTextureEffect fourPointLightsTextureEffect;
 
         public static NoEffect NoEffect 
         { 
@@ -57,6 +61,48 @@ namespace _3DPresentation.Effects
             }
             private set { fourPointLightsEffect = value; }
         }
+        public static VertexColorEffect VertexColorEffect
+        {
+            get 
+            {
+                if (!IsReady)
+                    InitEffects();
+                return vertexColorEffect;
+            }
+            private set { vertexColorEffect = value; }
+        }
+        public static BasicEffect BasicEffect
+        {
+            get
+            {
+                if (!IsReady)
+                    InitEffects();
+                return basicEffect;
+            }
+            private set { basicEffect = value; }
+        }
+        public static TextureEffect TextureEffect
+        {
+            get
+            {
+                if (!IsReady)
+                    InitEffects();
+                return textureEffect;
+            }
+            private set { textureEffect = value; }
+        }
+        public static FourPointLightsTextureEffect FourPointLightsTextureEffect
+        {
+            get
+            {
+                if (!IsReady)
+                    InitEffects();
+                return fourPointLightsTextureEffect;
+            }
+            private set { fourPointLightsTextureEffect = value; }
+        }
+
+        
 
 
         public static bool IsReady { get; set; }
@@ -68,11 +114,20 @@ namespace _3DPresentation.Effects
             noEffect = new NoEffect(resourceDevice);
 
             texturedNoEffect = new TexturedNoEffect(resourceDevice);
-            texturedNoEffect.DiffuseTexture = Utils.Global.LoadTexture("Images/3.jpg", resourceDevice);
+            texturedNoEffect.DiffuseTexture = ResourceManager.GetTexture("Images/3.jpg");
 
             pointEffect = new PointEffect(resourceDevice);
 
             fourPointLightsEffect = new FourPointLightsEffect(resourceDevice);
+
+            vertexColorEffect = new VertexColorEffect(resourceDevice);
+
+            basicEffect = new Babylon.Toolbox.BasicEffect(resourceDevice);
+
+            textureEffect = new TextureEffect(resourceDevice);
+
+            fourPointLightsTextureEffect = new FourPointLightsTextureEffect(resourceDevice);
+
             IsReady = true;
         }
 

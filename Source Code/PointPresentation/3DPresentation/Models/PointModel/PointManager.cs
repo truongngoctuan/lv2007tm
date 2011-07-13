@@ -72,7 +72,7 @@ namespace _3DPresentation.Models
             }
         }
 
-        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix)
+        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexTypes vertexType, StreamWriter writer, Matrix worldMatrix)
         {
             if (writer == null)
                 return false;
@@ -85,7 +85,7 @@ namespace _3DPresentation.Models
             return result;
         }
 
-        public bool ExportIndiceData(BaseModel.FileType fileType, BaseModel.VertexType vertexType, StreamWriter writer, Matrix worldMatrix, long offset)
+        public bool ExportIndiceData(BaseModel.FileType fileType, BaseModel.VertexTypes vertexType, StreamWriter writer, Matrix worldMatrix, long offset)
         {
             if (writer == null)
                 return false;

@@ -16,7 +16,23 @@ namespace _3DPresentation.Views
         {
             InitializeComponent();
             this.Loaded += new RoutedEventHandler(ObjectDesign_Loaded);
+            this.btBack.Click += new RoutedEventHandler(btBack_Click);            
             this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
+        }
+
+        void btBack_Click(object sender, RoutedEventArgs e)
+        {
+            App.RemovePage(this);
+            
+            BaseModel[] models = viewControl.GetModels();
+            for (int i = 0; i < models.Length; i++)
+            {
+                models[i].IsEnabled = true;
+            }
+            materialSelector.SetTarget(null);
+            models = null;
+
+            App.GoToPage(this.ParentView);
         }
 
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
@@ -27,15 +43,6 @@ namespace _3DPresentation.Views
         void ObjectDesign_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
-            //ExecuteScript("abc");
-        }
-
-        public bool ExecuteScript(string strScript)
-        {
-            if (IsLoaded == false)
-                return false;
-            ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
-            return true;
         }
 
         public void AddModels(BaseModel[] models)
@@ -61,17 +68,19 @@ namespace _3DPresentation.Views
             bool result = false;
             if (viewControl.SetTarget(model))
             {
-                if(Target != null)
-                    Target.IsEnabled = false;
-
+                BaseModel[] models = viewControl.GetModels();
+                for (int i = 0; i < models.Length; i++)
+                {
+                    models[i].IsEnabled = false;
+                }
                 Target = model;
-                materialSelector.SetTarget(Target);
                 Target.IsEnabled = true;
+                materialSelector.SetTarget(Target);
+                models = null;
                 result = true;
             }
             return result;
         }
-
 
         private bool ImportModel(FileInfo file)
         {
@@ -87,7 +96,6 @@ namespace _3DPresentation.Views
             bool result = false;
             if (viewControl.AddModel(model))
             {
-                model.IsEnabled = false;
                 cbbModel.AddImage(model, model.toBitmap());
                 result = true;
             }

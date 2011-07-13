@@ -6,18 +6,20 @@
     mc:Ignorable="d"
              xmlns:slg="clr-namespace:SL40PropertyGrid;assembly=SL40PropertyGrid"
     d:DesignHeight="300" d:DesignWidth="400" Width="Auto">
-    
+
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="5" MinWidth="1"/>
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        
-        <slg:PropertyGrid x:Name="propertiesGrid" Margin="0, 0, 0, 0"
-                          DefaultLabelWidth="200" Grid.Column="2"  />
+
+        <Grid Grid.Column="0">
+            <Button x:Name="btToggle" Content="Toggle"/>
+        </Grid>
+        <slg:PropertyGrid x:Name="propertiesGrid" DefaultLabelWidth="150" Grid.Column="1"/>
     </Grid>
 </UserControl>

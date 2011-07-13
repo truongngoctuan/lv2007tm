@@ -206,7 +206,7 @@ namespace _3DPresentation
         public void SaveModel(string strFileName)
         {
             //call function save all frame
-            ArrFrame[0].ExportUnitedModel(BaseModel.FileType.PLY, BaseModel.VertexType.XYZ_RGB, ArrFrame.ToArray(), strFileName);
+            BaseModel.ExportUnitedModel(BaseModel.FileType.PLY, BaseModel.VertexTypes.XYZ_RGB, ArrFrame.ToArray(), strFileName);
         }
 
         public void SaveFrame(string strFileName,int iSelectedIndex)
@@ -214,7 +214,7 @@ namespace _3DPresentation
             lock (lockThis)
             {
                 //call function save all frame
-                ArrFrame[iSelectedIndex].Export(BaseModel.FileType.PLY, BaseModel.VertexType.XYZ_RGB, _3DPresentation.Utils.Global.GetRealFile(strFileName));
+                ArrFrame[iSelectedIndex].Export(BaseModel.FileType.PLY, BaseModel.VertexTypes.XYZ_RGB, _3DPresentation.Utils.Global.GetRealFile(strFileName));
             }
         }
 
@@ -224,7 +224,7 @@ namespace _3DPresentation
             lock (lockThis)
             {
                 //call function save all frame
-                ArrFrame[0].ExportAll(BaseModel.VertexType.XYZ_RGB, _arrFrame.ToArray(), strPath, BaseModel.FileType.PLY);
+                BaseModel.ExportAll(BaseModel.VertexTypes.XYZ_RGB, _arrFrame.ToArray(), strPath, BaseModel.FileType.PLY);
             }
         }
 

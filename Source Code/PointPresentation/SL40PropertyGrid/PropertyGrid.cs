@@ -185,7 +185,7 @@ namespace SL40PropertyGrid
 
 			foreach (string category in categories)
 			{
-                if (category == "Misc")
+                if (category == "Misc ")
                     continue;
                 this.AddHeaderRow(category, ref rowCount);
 
@@ -317,15 +317,15 @@ namespace SL40PropertyGrid
 		}
 		void AttachWheelEvents()
 		{
-			HtmlPage.Window.AttachEvent("DOMMouseScroll", OnMouseWheel);
-			HtmlPage.Window.AttachEvent("onmousewheel", OnMouseWheel);
-			HtmlPage.Document.AttachEvent("onmousewheel", OnMouseWheel);
+			//HtmlPage.Window.AttachEvent("DOMMouseScroll", OnMouseWheel);
+			//HtmlPage.Window.AttachEvent("onmousewheel", OnMouseWheel);
+			//HtmlPage.Document.AttachEvent("onmousewheel", OnMouseWheel);
 		}
 		void DetachWheelEvents()
 		{
-			HtmlPage.Window.DetachEvent("DOMMouseScroll", OnMouseWheel);
-			HtmlPage.Window.DetachEvent("onmousewheel", OnMouseWheel);
-			HtmlPage.Document.DetachEvent("onmousewheel", OnMouseWheel);
+			//HtmlPage.Window.DetachEvent("DOMMouseScroll", OnMouseWheel);
+			//HtmlPage.Window.DetachEvent("onmousewheel", OnMouseWheel);
+			//HtmlPage.Document.DetachEvent("onmousewheel", OnMouseWheel);
 		}
 		Image GetHideImage(Visibility visibility)
 		{

@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using _3DPresentation.Models;
 using Microsoft.Xna.Framework;
 using _3DPresentation.Views.Editor;
+using _3DPresentation.Data;
 
 namespace _3DPresentation.Views
 {
@@ -23,15 +24,17 @@ namespace _3DPresentation.Views
             this.KeyDown += new System.Windows.Input.KeyEventHandler(TourDesign_KeyDown);
 
             this.openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
-            this.cbModels.SelectionChanged += new SelectionChangedEventHandler(cbModels_SelectionChanged);
-
             this.tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);
 
             this.cbbModel.SelectionChanged += new EventHandler(cbbModel_SelectionChanged);
             this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
+            btSave.Click += new RoutedEventHandler(btSave_Click);
+        }
 
-            this.openFile.Visibility = System.Windows.Visibility.Collapsed;
-            this.cbModels.Visibility = System.Windows.Visibility.Collapsed;
+        void btSave_Click(object sender, RoutedEventArgs e)
+        {
+            tour.Models = tourControl.GetModels();
+            tour.Save();
         }
 
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
@@ -44,7 +47,7 @@ namespace _3DPresentation.Views
             objectDesign.ClearModels();
             objectDesign.AddModels(tourControl.GetModels());
             objectDesign.SetTarget(tourControl.Target);
-
+            objectDesign.ParentView = this;
             App.GoToPage(objectDesign);
         }
 
@@ -99,28 +102,59 @@ namespace _3DPresentation.Views
             ImportModel(e.FileInfo);
         }
 
+
+        Tour tour;
         void TourDesign_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
-            ExecuteScript("abc");
+            tour = Tour.Load("FirstTour");
+            if (tour == null)
+            {
+                tour = new Tour();
+                tour.Name = "FirstTour";
+                tour.SceneName = "espilit";
+                ExecuteScript("abc");
+            }
+            else
+            {
+                LoadSceneLocal(tour.SceneName);
+                for (int i = 0; i < tour.Models.Length; i++)
+                    AddModel(tour.Models[i]);
+            }
         }
 
         public bool ExecuteScript(string strScript)
         {
             if (IsLoaded == false)
                 return false;
+
             LoadSceneLocal("espilit");
             //BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
             //model.Scale = 3.0f;
             //AddModel(model);
-            BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "horse_text.ply"));
-            model.Scale = 10.0f;
-            model.Position = new Vector3(0, 1, 0);
-            AddModel(model);
-            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "bunny_text.ply"));
+            //BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "horse_text.ply"));
+            //model.Name = "horse_text";
+            //model.Scale = 10.0f;
+            //model.Position = new Vector3(0, 1, 0);
+            //AddModel(model);
+            BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "bunny_text.ply"));
+            model.Name = "bunny_text";
             model.Scale = 10.0f;
             model.Position = new Vector3(0, 1, 3);
             AddModel(model);
+
+            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "Venus.ply"));
+            model.Name = "Venus";
+            model.Scale = 1.0f / 600.0f;
+            model.Position = new Vector3(0, 1, 0);
+            AddModel(model);
+
+            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "monster.ply"));
+            model.Name = "monster";
+            model.Scale = 1.0f;
+            model.Position = new Vector3(3, 1, 3);
+            AddModel(model);
+
             //model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "lucy_text.ply"));
             //model.Scale = 0.001f;
             //model.Position = new Vector3(0, 1, 6);
@@ -166,7 +200,6 @@ namespace _3DPresentation.Views
         {
             bool result = tourControl.AddModel(model);
             if (result)
-                cbModels.Items.Add(model);
             cbbModel.AddImage(model, model.toBitmap());
             return result;
         }
@@ -174,8 +207,6 @@ namespace _3DPresentation.Views
         private bool RemoveModel(BaseModel model)
         {
             bool result = tourControl.RemoveModel(model);
-            if (result)
-                cbModels.Items.Add(model);
             return result;
         }
 

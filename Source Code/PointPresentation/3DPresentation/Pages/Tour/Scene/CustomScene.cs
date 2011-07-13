@@ -89,9 +89,6 @@ namespace _3DPresentation
             {
                 DrawError++;
             }
-
-            if (Drawed != null)
-                Drawed(this, EventArgs.Empty);
         }
 
         public bool IsFlyTo { get; private set; }

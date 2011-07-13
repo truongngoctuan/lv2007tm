@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework;
 using System.IO;
+using Babylon.Toolbox;
 
 
 namespace _3DPresentation.Models
 {
-    public class FacePartition
+    public class TexCoordPartition
     {
         public int ID;
-        public List<VertexPositionNormalColor> VerticesList;        
+        public List<VertexPositionNormalTexture> VerticesList;        
         public List<ushort> IndicesList;
 
-        public VertexPositionNormalColor[] Vertices;
+        public VertexPositionNormalTexture[] Vertices;
         public ushort[] Indices;
 
         public int PartitionSize;
@@ -27,7 +28,7 @@ namespace _3DPresentation.Models
             private set;
         }
 
-        public FacePartition(int partitionSize, int id)
+        public TexCoordPartition(int partitionSize, int id)
         {
             PartitionSize = partitionSize;
             ID = id;                     
@@ -42,7 +43,7 @@ namespace _3DPresentation.Models
 
         public void Begin()
         {
-            VerticesList = new List<VertexPositionNormalColor>();
+            VerticesList = new List<VertexPositionNormalTexture>();
             IndicesList = new List<ushort>();
             Current = 0;
         }
@@ -59,9 +60,14 @@ namespace _3DPresentation.Models
             IndicesList = null;
         }
 
-        public int AddPoint(Vector3 point, Color color)
+        public int AddPoint(Vector3 point, Vector2 texCoord)
         {
-            VerticesList.Add(new VertexPositionNormalColor(point, color, new Vector3(0, 0, 0)));
+            VertexPositionNormalTexture vertex = new VertexPositionNormalTexture()
+            {
+                Position = point,
+                TextureCoordinates = texCoord
+            };
+            VerticesList.Add(vertex);
             return VerticesList.Count - 1;
         }
 
@@ -117,7 +123,7 @@ namespace _3DPresentation.Models
                 return;
             }
 
-            VertexBuffer = new VertexBuffer(graphicsDevice, VertexPositionNormalColor.VertexDeclaration, Vertices.Length, BufferUsage.WriteOnly);
+            VertexBuffer = new VertexBuffer(graphicsDevice, Vertices[0].VertexDeclaration, Vertices.Length, BufferUsage.WriteOnly);
             VertexBuffer.SetData(0, Vertices, 0, Vertices.Length, 0);
             
             IndexBuffer = new IndexBuffer(graphicsDevice, IndexElementSize.SixteenBits, Indices.Length, BufferUsage.WriteOnly);
@@ -160,7 +166,7 @@ namespace _3DPresentation.Models
                     {
                         Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
                         string str = string.Format("{0} {1} {2} {3} {4} {5}\n",
-                            worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Color.R, Vertices[i].Color.G, Vertices[i].Color.B);
+                            worldPosition.X, worldPosition.Y, worldPosition.Z, Color.White.R, Color.White.G, Color.White.B);
                         writer.Write(str);
                     }
                 }
@@ -180,7 +186,17 @@ namespace _3DPresentation.Models
                     {
                         Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
                         string str = string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}\n",
-                            worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Color.R, Vertices[i].Color.G, Vertices[i].Color.B, Vertices[i].Normal.X, Vertices[i].Normal.Y, Vertices[i].Normal.Z);
+                            worldPosition.X, worldPosition.Y, worldPosition.Z, Color.White.R, Color.White.G, Color.White.B, Vertices[i].Normal.X, Vertices[i].Normal.Y, Vertices[i].Normal.Z);
+                        writer.Write(str);
+                    }
+                }
+                else if (vertexType == BaseModel.VertexTypes.XYZ_TEXCOORD)
+                {
+                    for (int i = 0; i < Vertices.Length; i++)
+                    {
+                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        string str = string.Format("{0} {1} {2}\n",
+                            worldPosition.X, worldPosition.Y, worldPosition.Z);
                         writer.Write(str);
                     }
                 }
@@ -195,10 +211,25 @@ namespace _3DPresentation.Models
 
             if (fileType == BaseModel.FileType.PLY)
             {
-                for (int i = 0; i < Indices.Length; i += 3)
+                if (vertexType == BaseModel.VertexTypes.XYZ_TEXCOORD)
                 {
-                    string str = string.Format("3 {0} {1} {2}\n", Indices[i] + offset, Indices[i + 1] + offset, Indices[i + 2] + offset);
-                    writer.Write(str);
+                    for (int i = 0; i < Indices.Length; i += 3)
+                    {
+                        string str = string.Format("3 {0} {1} {2} 6 {3} {4} {5} {6} {7} {8}\n",
+                            Indices[i] + offset, Indices[i + 1] + offset, Indices[i + 2] + offset,
+                            Vertices[Indices[i]].TextureCoordinates.X, Vertices[Indices[i]].TextureCoordinates.Y,
+                            Vertices[Indices[i + 1]].TextureCoordinates.X, Vertices[Indices[i + 1]].TextureCoordinates.Y,
+                            Vertices[Indices[i + 2]].TextureCoordinates.X, Vertices[Indices[i + 2]].TextureCoordinates.Y);
+                        writer.Write(str);
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < Indices.Length; i += 3)
+                    {
+                        string str = string.Format("3 {0} {1} {2}\n", Indices[i] + offset, Indices[i + 1] + offset, Indices[i + 2] + offset);
+                        writer.Write(str);
+                    }
                 }
             }
             return true;

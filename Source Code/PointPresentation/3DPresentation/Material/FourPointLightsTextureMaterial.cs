@@ -7,8 +7,12 @@ using System.ComponentModel;
 
 namespace _3DPresentation.Material
 {
-    public class FourPointLightsMaterial : BaseMaterial
+    public class FourPointLightsTextureMaterial : BaseMaterial
     {
+        [Category("Texture")]
+        [ReadOnly(true)]
+        public string DiffuseTexture { get; set; }
+
         [Category("AmbientLight")]
         public GlobalVars.ColorEnum AmbientLight { get; set; }
 
@@ -42,11 +46,12 @@ namespace _3DPresentation.Material
 
         public override void Apply()
         {
-            FourPointLightsEffect fourPointLights = EffectManager.FourPointLightsEffect;
+            FourPointLightsTextureEffect fourPointLights = EffectManager.FourPointLightsTextureEffect;
             fourPointLights.View = EffectManager.Scene.GetCameraView();
             fourPointLights.Projection = EffectManager.Scene.GetCameraProjection();
             fourPointLights.World = World;
 
+            fourPointLights.DiffuseTexture = ResourceManager.GetTexture(DiffuseTexture);
             fourPointLights.AmbientLight = GlobalVars.GetColor(AmbientLight);
 
             fourPointLights.LightSource1 = LightSource1;
@@ -75,6 +80,8 @@ namespace _3DPresentation.Material
                 return;
 
             writer.WriteLine("FourPointLightsEffect");
+            writer.WriteLine(DiffuseTexture);
+
             writer.WriteLine(ColorToString(AmbientLight));
 
             writer.WriteLine(string.Format("{0} {1} {2}", LightSource1.X, LightSource1.Y, LightSource1.Z));
@@ -96,6 +103,8 @@ namespace _3DPresentation.Material
 
         protected override void LoadMaterial(System.IO.StreamReader reader)
         {
+            DiffuseTexture = reader.ReadLine();
+
             AmbientLight = ReadColor(reader);
 
             LightSource1 = ReadVector3(reader);
