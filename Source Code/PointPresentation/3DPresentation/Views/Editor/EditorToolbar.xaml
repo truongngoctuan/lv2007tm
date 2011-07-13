@@ -23,12 +23,22 @@
             </Button>
             <Button x:Name="btOpenModel" Style="{StaticResource customButtonNoStyle}" Click="btOpenModel_Click" Height="35" Margin="10,5">
                 <Button.Content>
-                    <TextBlock Foreground="White">Open</TextBlock>
+                    <TextBlock Foreground="White">Open Frame(s)</TextBlock>
                 </Button.Content>
             </Button>
             <Button x:Name="btSaveModel" Style="{StaticResource customButtonNoStyle}" Click="btSaveModel_Click" Height="35" Margin="10,5">
                 <Button.Content>
                     <TextBlock Foreground="White">Save Model</TextBlock>
+                </Button.Content>
+            </Button>
+            <Button x:Name="btSaveAllFrames" Style="{StaticResource customButtonNoStyle}" Click="btSaveAllFrames_Click" Height="35" Margin="10,5">
+                <Button.Content>
+                    <TextBlock Foreground="White">Save All Frames</TextBlock>
+                </Button.Content>
+            </Button>
+            <Button x:Name="btClearCurrentFrames" Style="{StaticResource customButtonNoStyle}" Click="btClearCurrentFrames_Click" Height="35" Margin="10,5">
+                <Button.Content>
+                    <TextBlock Foreground="White">Clear Current Frames</TextBlock>
                 </Button.Content>
             </Button>
             <Button x:Name="btMatch2FrameManual" Style="{StaticResource customButtonNoStyle}" Click="btMatch2FrameManual_Click" Height="35" Margin="10,5,10,10">

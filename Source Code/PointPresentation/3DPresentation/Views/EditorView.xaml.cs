@@ -216,6 +216,28 @@ namespace _3DPresentation
             }
         }
 
+
+        public void SaveAllFrames(string strPath)
+        {
+            lock (lockThis)
+            {
+                //call function save all frame
+                ArrFrame[0].ExportAll(BaseModel.VertexType.XYZ_RGB, _arrFrame.ToArray(), strPath, BaseModel.FileType.PLY);
+            }
+        }
+
+        public void ClearAllFrames()
+        {
+            lock (lockThis)
+            {
+                //call function save all frame
+                for (int i = ArrFrame.Count - 1; i >= 0; i--)
+                {
+                    DeleteFrame(i);
+                }
+            }
+        }
+
         //warning: rotation radian
         public void UpdateMatrixAfterFrame(int iIndex, Microsoft.Xna.Framework.Matrix RotationMatrix, Vector3 Translation)
         {
