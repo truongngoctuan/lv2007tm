@@ -129,6 +129,7 @@ void RecontructorController::RunFromKineck()
 
 			if (strcm == "resume")
 			{
+				
 				c->SetPause(false);
 				filesystem3::remove(path(m_strDestinationFolder + "\\" + m_strCommandFile));
 				continue;

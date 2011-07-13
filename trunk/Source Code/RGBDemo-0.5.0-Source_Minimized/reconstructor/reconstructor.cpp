@@ -11,12 +11,13 @@ int main (int argc, char* argv[])
 	string strMode = argv[1];
 	if (strMode == "player")
 	{
-		if (argc == 5)
+		if (argc == 7)
 		{
 			string strDestinationFolder = argv[2];
 			string strRecordedFolderData = argv[3];
 			string strPathCalibrationData = argv[4];
 
+			string strUseICP = argv[6];
 			//fromrecord
 			RecontructorController rc;
 			rc.SetDestinationFolder(strDestinationFolder);
@@ -28,19 +29,24 @@ int main (int argc, char* argv[])
 			//rc.SetSaveFilePlyMode(RecontructorController::Flags::SaveFinalPly, true);
 			//rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
 			rc.SetSavePairs(false);
-			rc.SetUseICP(true);
+			
+			if (strUseICP == "0")
+				rc.SetUseICP(false);
+			else
+				rc.SetUseICP(true);
 			rc.Run();
 		}
 	}
 
 	if ( strMode == "kinect")
 	{
-		if (argc == 6)
+		if (argc == 7)
 		{
 			string strDestinationFolder = argv[2];
 			string strRecordedFolderData = argv[3];
 			string strPathCalibrationData = argv[4];
 			string strConfigFile = argv[5];
+			string strUseICP = argv[6];
 
 			RecontructorController rc;
 			rc.SetDestinationFolder(strDestinationFolder);
@@ -54,7 +60,10 @@ int main (int argc, char* argv[])
 			//rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
 			rc.SetSaveFilePlyMode(RecontructorController::Flags::SaveFinalPly, true);
 			rc.SetSavePairs(false);
-			rc.SetUseICP(true);
+			if (strUseICP == "0")
+				rc.SetUseICP(false);
+			else
+				rc.SetUseICP(true);
 			rc.Run();
 		}
 	}
