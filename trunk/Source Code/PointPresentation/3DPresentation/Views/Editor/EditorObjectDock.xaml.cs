@@ -32,14 +32,25 @@ namespace _3DPresentation.Views.Editor
         {
             InitializeComponent();
 
-            SetEnable(true, false, false);
+            SetEnable(true, true, false, false);
         }
 
-        void SetEnable(bool bPlay, bool bPause, bool bStop)
+        void SetEnable(bool bCapture, bool bRecord, bool bPause, bool bStop)
         {
-            btPlay.IsEnabled = bPlay;
+            btNewCaptureModel.IsEnabled = bCapture;
+            btPlay.IsEnabled = bRecord;
             btPause.IsEnabled = bPause;
             btStop.IsEnabled = bStop;
+
+            if (btNewCaptureModel.IsEnabled)
+            {
+                imgNewCaptureModel.Source = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Views/Editor/Images/top_new_model.png"));
+            }
+            else
+            {
+                imgNewCaptureModel.Source = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Views/Editor/Images/top_play_gray.png"));
+            }
+
 
             if (btPlay.IsEnabled)
             {
@@ -69,57 +80,75 @@ namespace _3DPresentation.Views.Editor
             }
         }
 
-        #region NewCaptureModel
-        
         private void btNewCaptureModel_Click(object sender, RoutedEventArgs e)
         {
-            this.Dispatcher.BeginInvoke(new Action(() =>
+            //this.Dispatcher.BeginInvoke(new Action(() =>
+            //{
+
+            //    try
+            //    {
+            //        List<string> arrFrameName = new List<string>();
+            //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0000.ply");
+            //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0005.ply");
+            //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0015.ply");
+            //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0025.ply");
+            //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0035.ply");
+            //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0045.ply");
+            //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0055.ply");
+            //        arrFrameName.Add("d:\\NotDecreaseSameVertex_0065.ply");
+
+            //        List<string> arrFrameThumnail = new List<string>();
+            //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0000.jpg");
+            //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0005.jpg");
+            //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0015.jpg");
+            //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0025.jpg");
+            //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0035.jpg");
+            //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0045.jpg");
+            //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0055.jpg");
+            //        arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0065.jpg");
+
+            //        for (int i = 0; i < arrFrameName.Count; i++)
+            //        {
+            //            ParentEditor.AddFrame(arrFrameName[i]);
+            //            //System.Threading.Thread.Sleep(2000);
+            //        }
+            //    }
+            //    catch (Exception ex)
+            //    {
+            //        MessageBox.Show(ex.Message);
+            //    }
+            //}));
+
+            if (btStop.IsEnabled)
             {
+                //resume 
+                SetEnable(false, false, true, true);
 
-                try
+                if (Resume != null)
                 {
-                    List<string> arrFrameName = new List<string>();
-                    arrFrameName.Add("d:\\NotDecreaseSameVertex_0000.ply");
-                    arrFrameName.Add("d:\\NotDecreaseSameVertex_0005.ply");
-                    arrFrameName.Add("d:\\NotDecreaseSameVertex_0015.ply");
-                    arrFrameName.Add("d:\\NotDecreaseSameVertex_0025.ply");
-                    arrFrameName.Add("d:\\NotDecreaseSameVertex_0035.ply");
-                    arrFrameName.Add("d:\\NotDecreaseSameVertex_0045.ply");
-                    arrFrameName.Add("d:\\NotDecreaseSameVertex_0055.ply");
-                    arrFrameName.Add("d:\\NotDecreaseSameVertex_0065.ply");
-
-                    List<string> arrFrameThumnail = new List<string>();
-                    arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0000.jpg");
-                    arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0005.jpg");
-                    arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0015.jpg");
-                    arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0025.jpg");
-                    arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0035.jpg");
-                    arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0045.jpg");
-                    arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0055.jpg");
-                    arrFrameThumnail.Add("d:\\NotDecreaseSameVertex_0065.jpg");
-
-                    for (int i = 0; i < arrFrameName.Count; i++)
-                    {
-                        ParentEditor.AddFrame(arrFrameName[i]);
-                        //System.Threading.Thread.Sleep(2000);
-                    }
+                    Resume(this, new EventArgs());
                 }
-                catch (Exception ex)
+            }
+            else
+            {//capture
+                mode = CaptureMode.Capture;
+                SetEnable(false, false, true, true);
+
+                if (Capture != null)
                 {
-                    MessageBox.Show(ex.Message);
+                    Capture(this, new EventArgs());
                 }
-            }));
+
+            }
 
         }
-
-        #endregion
 
         private void btPlay_Click(object sender, RoutedEventArgs e)
         {
             if (btStop.IsEnabled)
             {
                 //resume 
-                SetEnable(false, true, true);
+                SetEnable(false, false, true, true);
 
                 if (Resume != null)
                 {
@@ -128,11 +157,12 @@ namespace _3DPresentation.Views.Editor
             }
             else
             {//play
-                SetEnable(false, true, true);
+                mode = CaptureMode.Record;
+                SetEnable(false, false, true, true);
 
-                if (Play != null)
+                if (Record != null)
                 {
-                    Play(this, new EventArgs());
+                    Record(this, new EventArgs());
                 }
 
             }
@@ -145,13 +175,25 @@ namespace _3DPresentation.Views.Editor
                 Stop(this, new EventArgs());
             }
 
-            SetEnable(true, false, false);
+            SetEnable(true, true, false, false);
         }
 
         private void btPause_Click(object sender, RoutedEventArgs e)
         {
+            PauseFunction();
+        }
+
+        public void PauseFunction()
+        {
             //gui lenh pause
-            SetEnable(true, false, true);
+            if (mode == CaptureMode.Capture)
+            {
+                SetEnable(true, false, false, true);
+            }
+            else
+            {
+                SetEnable(false, true, false, true);
+            }
 
             if (Pause != null)
             {
@@ -159,7 +201,10 @@ namespace _3DPresentation.Views.Editor
             }
         }
 
-        public event EventHandler Play;
+        enum CaptureMode { Capture, Record }
+        CaptureMode mode;
+        public event EventHandler Capture;
+        public event EventHandler Record;
         public event EventHandler Pause;
         public event EventHandler Resume;
         public event EventHandler Stop;

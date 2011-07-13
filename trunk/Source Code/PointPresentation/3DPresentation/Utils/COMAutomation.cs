@@ -63,13 +63,19 @@ namespace _3DPresentation.Utils
                                 FileName = strSplit[strSplit.Length - 2];
                                 if (eventType.IndexOf("CreationEvent") > 0)
                                 {
-                                    CreateFileEvent(this, new EventArgs());
+                                    if (CreateFileEvent != null)
+                                    {
+                                        CreateFileEvent(this, new EventArgs());
+                                    }
                                     continue;
                                 }
 
                                 if (eventType.IndexOf("DeletionEvent") > 0)
                                 {
-                                    DeleteFileEvent(this, new EventArgs());
+                                    if (DeleteFileEvent != null)
+                                    {
+                                        DeleteFileEvent(this, new EventArgs());
+                                    }
                                     continue;
                                 }
                             }
@@ -95,7 +101,10 @@ namespace _3DPresentation.Utils
             try
             {
                 System.IO.File.WriteAllLines(strFileNameTemp, cm);
-                ClientFileAndDirectory.MoveFile(strFileNameTemp, strFileName);
+                if (!ClientFileAndDirectory.FileExists(strFileName))
+                {
+                    ClientFileAndDirectory.MoveFile(strFileNameTemp, strFileName);
+                }
             }
             catch (Exception ex)
             {

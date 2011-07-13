@@ -72,7 +72,8 @@ namespace _3DPresentation
             //vcOjectViewer.AddModel(newModel);
             //vcOjectViewer.SetTarget(newModel);
 
-            odControl.Play += new EventHandler(odControl_Play);
+            odControl.Capture += new EventHandler(odControl_Capture);
+            odControl.Record += new EventHandler(odControl_Record);
             odControl.Pause += new EventHandler(odControl_Pause);
             odControl.Resume += new EventHandler(odControl_Resume);
             odControl.Stop += new EventHandler(odControl_Stop);
@@ -243,30 +244,9 @@ namespace _3DPresentation
         #endregion
 
         #region Play Stop Pause Resume Kinect
-        COMAutomation ca = new COMAutomation();
+        COMAutomation ca = null;
 
-        void ca_DeleteFileEvent(object sender, EventArgs e)
-        {
-            //throw new NotImplementedException();
-        }
 
-        void ca_CreateFileEvent(object sender, EventArgs e)
-        {
-            Dispatcher.BeginInvoke(() =>
-            {
-                string strFileName = ca.FileName;
-
-                FileInfo fi = new FileInfo(strFileName);
-                if (fi.Extension.Equals(".ply"))
-                {
-                    if (fi.Name.StartsWith("NotDecreaseSameVertex"))
-                    {
-                        AddFrame(strFileName);
-                    }
-
-                }
-            });
-        }
         void odControl_Stop(object sender, EventArgs e)
         {
             string[] lines = { "exit" };
@@ -292,8 +272,25 @@ namespace _3DPresentation
                 WorkingDirectoryTemp + "\\cm.txt", lines);
         }
 
+        void ca_CreateFileEvent(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                string strFileName = ca.FileName;
 
-        void odControl_Play(object sender, EventArgs e)
+                FileInfo fi = new FileInfo(strFileName);
+                if (fi.Extension.Equals(".ply"))
+                {
+                    if (fi.Name.StartsWith("NotDecreaseSameVertex"))
+                    {
+                        AddFrame(strFileName);
+                    }
+
+                }
+            });
+        }
+
+        void odControl_Record(object sender, EventArgs e)
         {
             SetupWorkingDirectory();
             //string strQuery =
@@ -305,21 +302,79 @@ namespace _3DPresentation
             //                    WorkingDirectory + "\\recontructor\\kineck_calibration.yml");
 
             string strQuery =
-                string.Format("{0} {1} {2} {3} {4} {5}",
+                string.Format("{0} {1} {2} {3} {4} {5} {6}",
                                 WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
                                 "kinect",
                                 WorkingDirectory + "\\result",
                                 WorkingDirectory + "\\recorded\\grab8",
                                 WorkingDirectory + "\\recontructor\\kineck_calibration.yml",
-                                WorkingDirectory + "\\recontructor\\NestkConfig.xml");
+                                WorkingDirectory + "\\recontructor\\NestkConfig.xml",
+                                "1");
             COMAutomation.Cmd(strQuery);
 
-            ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent);
-            ca.DeleteFileEvent += new EventHandler(ca_DeleteFileEvent);
+            if (ca == null)
+            {
+                ca = new COMAutomation();
+                ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent);
+            }
+            else
+            {
+                ca.CreateFileEvent -= ca_CreateFileEvent2;
+                ca.CreateFileEvent -= ca_CreateFileEvent;
+                ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent);
+            }
 
             string strWatchFolder = (WorkingDirectory + "\\result").Replace(@"\", @"\\\\").Replace(@"\\\\\\\\", @"\\\\");
             ca.FolderListener(strWatchFolder);
         }
+
+        void ca_CreateFileEvent2(object sender, EventArgs e)
+        {
+            Dispatcher.BeginInvoke(() =>
+            {
+                string strFileName = ca.FileName;
+
+                FileInfo fi = new FileInfo(strFileName);
+                if (fi.Extension.Equals(".ply"))
+                {
+                    if (fi.Name.StartsWith("NotDecreaseSameVertex"))
+                    {
+                        AddFrame(strFileName);
+                        odControl.PauseFunction();
+                    }
+
+                }
+            });
+        }
+        void odControl_Capture(object sender, EventArgs e)
+        {
+            string strQuery =
+                string.Format("{0} {1} {2} {3} {4} {5} {6}",
+                                WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
+                                "kinect",
+                                WorkingDirectory + "\\result",
+                                WorkingDirectory + "\\recorded\\grab8",
+                                WorkingDirectory + "\\recontructor\\kineck_calibration.yml",
+                                WorkingDirectory + "\\recontructor\\NestkConfig.xml",
+                                "0");
+            COMAutomation.Cmd(strQuery);
+
+            if (ca == null)
+            {
+                ca = new COMAutomation();
+                ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent2);
+            }
+            else
+            {
+                ca.CreateFileEvent -= ca_CreateFileEvent2;
+                ca.CreateFileEvent -= ca_CreateFileEvent;
+                ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent2);
+            }
+
+            string strWatchFolder = (WorkingDirectory + "\\result").Replace(@"\", @"\\\\").Replace(@"\\\\\\\\", @"\\\\");
+            ca.FolderListener(strWatchFolder);
+        }
+
         #endregion
 
         //private void Button_Click(object sender, RoutedEventArgs e)
