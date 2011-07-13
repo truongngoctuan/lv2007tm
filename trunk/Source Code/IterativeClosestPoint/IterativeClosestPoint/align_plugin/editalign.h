@@ -65,7 +65,7 @@ public:
 	
 
 public:
-	void process();
+	bool process();
 	void recalcCurrentArc();
 	bool glueByPicking(std::string strPairs);
 	void printMat();

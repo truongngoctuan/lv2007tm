@@ -33,22 +33,26 @@ int main (int argc, char* argv[])
 		}
 	}
 
-	if ( strMode == "kineck")
+	if ( strMode == "kinect")
 	{
-		if (argc == 5)
+		if (argc == 6)
 		{
 			string strDestinationFolder = argv[2];
 			string strRecordedFolderData = argv[3];
+			string strPathCalibrationData = argv[4];
+			string strConfigFile = argv[5];
 
 			RecontructorController rc;
 			rc.SetDestinationFolder(strDestinationFolder);
 			rc.SetRecordedFolderData(strRecordedFolderData);
 			//rc.SetPathCalibrationData("kineck_calibration.yml");
+			rc.SetPathCalibrationData(strPathCalibrationData);
 			rc.SetLoadDataFromKineck(true);
+			rc.SetConfigFile(strConfigFile);
 			//rc.SetSaveFilePlyMode(RecontructorController::Flags::Notprocess, true);
 			rc.SetSaveFilePlyMode(RecontructorController::Flags::NotDecreaseSameVertex, true);
-			rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
-			//rc.SetSaveFilePlyMode(RecontructorController::Flags::SaveFinalPly, true);
+			//rc.SetSaveFilePlyMode(RecontructorController::Flags::DecreaseSameVertex, true);
+			rc.SetSaveFilePlyMode(RecontructorController::Flags::SaveFinalPly, true);
 			rc.SetSavePairs(false);
 			rc.SetUseICP(true);
 			rc.Run();

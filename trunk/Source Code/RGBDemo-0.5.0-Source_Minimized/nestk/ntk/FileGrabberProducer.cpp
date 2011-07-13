@@ -17,10 +17,10 @@ void FileGrabberProducer :: check_error(const XnStatus& status, const char* what
 
 void FileGrabberProducer :: initialize()
 {
-	const char* config_file = "config/NestkConfig.xml";
+	string config_file = m_strConfigFile;//"NestkConfig.xml";
 
 	xn::EnumerationErrors errors;
-	XnStatus status = m_ni_context.InitFromXmlFile(config_file, &errors);
+	XnStatus status = m_ni_context.InitFromXmlFile(config_file.c_str(), &errors);
 	if (status != XN_STATUS_OK)
 	{
 		ntk_dbg(0) << "[ERROR] " << xnGetStatusString(status);

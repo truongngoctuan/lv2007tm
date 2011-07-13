@@ -47,7 +47,7 @@ namespace _3DPresentation
         {
             if (WorkingDirectory == string.Empty)
             {
-                WorkingDirectory = "d:\\\\test3";
+                WorkingDirectory = "d:\\\\test2";
             }
                 if (!ClientFileAndDirectory.FolderExists(WorkingDirectory)) ClientFileAndDirectory.CreateFolder(WorkingDirectory);
                 if (!ClientFileAndDirectory.FolderExists(WorkingDirectoryTemp)) ClientFileAndDirectory.CreateFolder(WorkingDirectoryTemp);
@@ -296,13 +296,22 @@ namespace _3DPresentation
         void odControl_Play(object sender, EventArgs e)
         {
             SetupWorkingDirectory();
+            //string strQuery =
+            //    string.Format("{0} {1} {2} {3} {4}",
+            //                    WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
+            //                    "player",
+            //                    WorkingDirectory + "\\result",
+            //                    WorkingDirectory + "\\recorded\\grab7",
+            //                    WorkingDirectory + "\\recontructor\\kineck_calibration.yml");
+
             string strQuery =
-                string.Format("{0} {1} {2} {3} {4}",
+                string.Format("{0} {1} {2} {3} {4} {5}",
                                 WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
-                                "player",
+                                "kinect",
                                 WorkingDirectory + "\\result",
-                                WorkingDirectory + "\\recorded\\grab7",
-                                WorkingDirectory + "\\recontructor\\kineck_calibration.yml");
+                                WorkingDirectory + "\\recorded\\grab8",
+                                WorkingDirectory + "\\recontructor\\kineck_calibration.yml",
+                                WorkingDirectory + "\\recontructor\\NestkConfig.xml");
             COMAutomation.Cmd(strQuery);
 
             ca.CreateFileEvent += new EventHandler(ca_CreateFileEvent);

@@ -239,14 +239,14 @@ bool EditAlignPlugin::glueByPicking(std::string strPairs)
 	return true;
 } 
  
-void EditAlignPlugin::process()
+bool EditAlignPlugin::process()
 {
 	if(meshTree.gluedNum() < 2)
 	{
 		//QMessageBox::warning(0,"Align tool", "Process can work only when more than two meshes have been glued");
-		return;
+		return false;
 	}
-	meshTree.Process(defaultAP);
+	return meshTree.Process(defaultAP);
 
 	/*for(int i = 0; i < meshTree.gluedNum(); i++)
 	{

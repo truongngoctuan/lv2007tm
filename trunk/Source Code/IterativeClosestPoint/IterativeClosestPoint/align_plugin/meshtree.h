@@ -126,7 +126,7 @@ class MeshTree
 	int gluedNum();
 
 	
-	void Process(vcg::AlignPair::Param &ap);
+	bool Process(vcg::AlignPair::Param &ap);
 	void ProcessGlobal(vcg::AlignPair::Param &ap);
 	void ProcessArc(int fixId, int movId, vcg::AlignPair::Result &result, vcg::AlignPair::Param ap);
 	void ProcessArc(int fixId, int movId, vcg::Matrix44d &MovToFix, vcg::AlignPair::Result &result, vcg::AlignPair::Param ap);
