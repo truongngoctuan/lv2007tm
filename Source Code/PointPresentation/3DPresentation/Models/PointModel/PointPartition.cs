@@ -107,6 +107,8 @@ namespace _3DPresentation.Models
                     {
 
                         Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        if (worldPosition.X == worldPosition.Y && worldPosition.Y == worldPosition.Z && worldPosition.Z == 0) continue;
+
                         string str = string.Format("{0} {1} {2}\n",
                             worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Color.R);
                         writer.Write(str);
@@ -117,6 +119,8 @@ namespace _3DPresentation.Models
                     for (int i = 0; i < Vertices.Length; i += 4)
                     {
                         Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        if (worldPosition.X == worldPosition.Y && worldPosition.Y == worldPosition.Z && worldPosition.Z == 0) continue;
+
                         string str = string.Format("{0} {1} {2} {3} {4} {5}\n",
                             worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Color.R, Vertices[i].Color.G, Vertices[i].Color.B);
                         writer.Write(str);

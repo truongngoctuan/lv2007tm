@@ -428,7 +428,7 @@ namespace _3DPresentation.Models
         public bool ExportUnitedModel(FileType fileType, VertexType vertexType, BaseModel[] models, string batchName)
         {            
             string storeDirectory = Utils.Global.GetRealModelStoreDirectory();
-            FileInfo file = Utils.Global.GetRealFile(storeDirectory + batchName + ".ply");
+            FileInfo file = new FileInfo(batchName); //Utils.Global.GetRealFile(storeDirectory + batchName + ".ply");
 
             long nPoints = 0;
             long nFaces = 0;
@@ -441,7 +441,7 @@ namespace _3DPresentation.Models
             bool result = true;
             using (StreamWriter writer = new StreamWriter(file.OpenWrite()))
             {
-                if (result = WriteHeader(fileType, VertexType.XYZ_RGB, NumPoints, NumFaces, writer))
+                if (result = WriteHeader(fileType, VertexType.XYZ_RGB, nPoints, nFaces, writer))
                 {
                     for (int i = 0; i < models.Length; i++)
                     {
