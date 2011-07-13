@@ -37,7 +37,7 @@ namespace _3DPresentation.Views
 
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
         {
-            SetTarget((BaseModel)cbbModel.SelectedItem);
+            SetTarget((BaseModel)e.SelectedItem);
         }
 
         void ObjectView_Loaded(object sender, RoutedEventArgs e)

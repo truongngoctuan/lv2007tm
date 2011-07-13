@@ -28,6 +28,7 @@ namespace _3DPresentation.Views.Editor
     {
         public BitmapImage Source;
         public int SelectedIndex;
+        public object SelectedItem;
     }
 
     public delegate void ImageSelectedEventHandler(object sender, ImageSelectedEventArgs e);
