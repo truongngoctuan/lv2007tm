@@ -654,10 +654,10 @@
     <VertexShader Include="Effects\TexturedNoEffect\TexturedNoEffect.vs.hlsl" />
     <PixelShader Include="Effects\FourPointLightsEffect\FourPointLightsEffect.ps.hlsl" />
     <VertexShader Include="Effects\FourPointLightsEffect\FourPointLightsEffect.vs.hlsl" />
-    <None Include="Effects\FourPointLightsTextureEffect\FourPointLightsTextureEffect.ps.hlsl" />
-    <None Include="Effects\FourPointLightsTextureEffect\FourPointLightsTextureEffect.vs.hlsl" />
-    <None Include="Effects\TextureEffect\TextureEffect.ps.hlsl" />
-    <None Include="Effects\TextureEffect\TextureEffect.vs.hlsl" />
+    <PixelShader Include="Effects\FourPointLightsTextureEffect\FourPointLightsTextureEffect.ps.hlsl" />
+    <VertexShader Include="Effects\FourPointLightsTextureEffect\FourPointLightsTextureEffect.vs.hlsl" />
+    <PixelShader Include="Effects\TextureEffect\TextureEffect.ps.hlsl" />
+    <VertexShader Include="Effects\TextureEffect\TextureEffect.vs.hlsl" />
     <None Include="Reflection.fx" />
     <Resource Include="Reflection.ps" />
     <Page Include="MySliderControl.xaml">
