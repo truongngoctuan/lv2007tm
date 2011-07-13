@@ -83,7 +83,17 @@ namespace _3DPresentation.Views.Editor
                 eArg.RotationMatrix = _deltaRotationMatrix;
                 eArg.TransitionMatrix = v3DeltaPosition;
                 eArg.ReferenceIndex = iReferenceImageIndex;
-                
+                eArg.ApplyToAllFrameAfter = (bool)cboxApplyToAllFrameAfter.IsChecked;
+                if (iFixedImageIndex < iReferenceImageIndex)
+                {
+                    eArg.IsAfter = true;
+                }
+                else
+                {
+                    eArg.IsAfter = false;
+                }
+
+
                 ResetModel();
                 MatchManualFinished(this, eArg);
             }
@@ -209,6 +219,8 @@ namespace _3DPresentation.Views.Editor
             public Microsoft.Xna.Framework.Matrix RotationMatrix;
             public Vector3 TransitionMatrix;
             public int ReferenceIndex;
+            public bool ApplyToAllFrameAfter;
+            public bool IsAfter;
         }
 
         public delegate void TranslationRotationEventHandler(object sender, TranslationRotationEventArgs e);

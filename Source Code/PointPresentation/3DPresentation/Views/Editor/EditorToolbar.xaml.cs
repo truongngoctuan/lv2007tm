@@ -116,9 +116,12 @@ namespace _3DPresentation.Views.Editor
             //setup 2 parameter
             //catch result
             //recal
-            if (ParentEditor.FixedImageIndex == -1 || ParentEditor.ReferenceImageIndex == -1)
+            if (ParentEditor.FixedImageIndex == -1 || ParentEditor.ReferenceImageIndex == -1 ||
+            ParentEditor.FixedImageIndex == ParentEditor.ReferenceImageIndex ||
+            ParentEditor.FixedImageIndex >= ParentEditor.ArrFrame.Count ||
+            ParentEditor.ReferenceImageIndex >= ParentEditor.ArrFrame.Count)
             {
-                MessageBox.Show("error!!");
+                SilverlightMessageBoxLibrary.Message.ErrorMessage("Can't match!!");
                 return;
             }
 
@@ -142,7 +145,24 @@ namespace _3DPresentation.Views.Editor
 
         void pg_MatchManualFinished(object sender, MatchModelManual.TranslationRotationEventArgs e)
         {
-            ParentEditor.UpdateMatrixAfterFrame(e.ReferenceIndex, e.RotationMatrix, e.TransitionMatrix);
+            if (e.IsAfter)
+            {
+                if (e.ApplyToAllFrameAfter)
+                {
+                    ParentEditor.UpdateMatrixAfterFrame(e.ReferenceIndex, e.RotationMatrix, e.TransitionMatrix);
+                    return;
+                }
+            }
+            else
+            {
+                if (e.ApplyToAllFrameAfter)
+                {
+                    ParentEditor.UpdateMatrixBeforeFrame(e.ReferenceIndex, e.RotationMatrix, e.TransitionMatrix);
+                    return;
+                }
+            }
+
+            ParentEditor.UpdateOneFrame(e.ReferenceIndex, e.RotationMatrix, e.TransitionMatrix);
         }
 
         private void btSaveAllFrames_Click(object sender, RoutedEventArgs e)

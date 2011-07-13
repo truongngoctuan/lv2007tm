@@ -31,8 +31,8 @@
                         <Image Source="Images/transition_bg.png" Width="450"></Image>
                         <TextBox x:Name="tboxFactorTransition" Canvas.Left="92" Canvas.Top="74" Width="29" Height="29" Opacity="0.5" TextChanged="tboxFactorTransition_TextChanged" Text="1"></TextBox>
                     </Canvas>
-                
-                <!--<TextBlock x:Name="tblockUpdateCounter">0</TextBlock>
+                    <CheckBox x:Name="cboxApplyToAllFrameAfter" IsChecked="True" Margin="10, 0,0,0">Apply to all frame after</CheckBox>
+                        <!--<TextBlock x:Name="tblockUpdateCounter">0</TextBlock>
                 
                 <TextBlock x:Name="tblockValue" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>-->
             </StackPanel>
