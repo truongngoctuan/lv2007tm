@@ -78,6 +78,7 @@ void RecontructorController::RunFromKineck()
 	// Create producers
 	boost::thread_group producers;
 	FileGrabberProducer p(0, &queue);
+	p.SetConfigFile(m_strConfigFile);
 	p.initialize();
 	producers.create_thread(p);
 

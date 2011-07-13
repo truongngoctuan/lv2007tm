@@ -53,7 +53,13 @@ private:
   double m_framerate;
   int m_frame_count;
 
+  string m_strConfigFile;
+
 public:
+
+		void SetConfigFile(string str) {m_strConfigFile = str;}
+
+	string GetConfigFile() {return m_strConfigFile;}
 
 	// Constructor with id and the queue to use
 	FileGrabberProducer(int id, SynchronisedQueue<RGBDImage *>* queue)

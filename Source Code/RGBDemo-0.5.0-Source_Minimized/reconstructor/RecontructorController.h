@@ -71,6 +71,7 @@ private:
 	string m_strDestinationFolderTemp;
 	string m_strRecordedFolderData;
 	string m_strPathCalibrationData;
+	string m_strConfigFile;
 
 	string m_strCommandFile;
 public: 
@@ -102,6 +103,7 @@ public:
 		m_strDestinationFolderTemp = m_strDestinationFolder + "\\temp";}
 	void SetRecordedFolderData(string str) {m_strRecordedFolderData = str;}
 	void SetPathCalibrationData(string str) {m_strPathCalibrationData = str;}
+	void SetConfigFile(string str) {m_strConfigFile = str;}
 
 	void SetUseICP(bool b) {m_bUseICP = b;}
 public:

@@ -108,7 +108,7 @@ void MeshTree::ProcessArc(int fixId, int movId, vcg::Matrix44d &MovM, vcg::Align
 	result.as.Dump(stdout);
 }
 
-void MeshTree::Process(vcg::AlignPair::Param &ap)
+bool MeshTree::Process(vcg::AlignPair::Param &ap)
 {
 	//QString buf;
 	//cb(0,qPrintable(buf.sprintf("Starting Processing of %i glued meshes out of %i meshes\n",gluedNum(),nodeList.size())));
@@ -178,7 +178,7 @@ void MeshTree::Process(vcg::AlignPair::Param &ap)
 		printf("\n Failure. There are no overlapping meshes?\n No candidate alignment arcs. Nothing Done.\n");
 		printf("===========================================================\n");
 		//cb(0,qPrintable(buf.sprintf("\n Failure. There are no overlapping meshes?\n No candidate alignment arcs. Nothing Done.\n")));
-		return;
+		return false;
 	}
 	
 	
@@ -189,13 +189,14 @@ void MeshTree::Process(vcg::AlignPair::Param &ap)
 		printf("\n Failure. No succesful arc among candidate Alignment arcs. Nothing Done.\n");
 		printf("===========================================================\n");
 		//cb(0,qPrintable(buf.sprintf("\n Failure. No succesful arc among candidate Alignment arcs. Nothing Done.\n")));
-		return;
+		return false;
 	}
 	
 	ProcessGlobal(ap);	
 	printf("===========================================================\n");
 	printf("Completed\n");
 	printf("===========================================================\n");
+	return true;
 }
 
 void MeshTree::ProcessGlobal(vcg::AlignPair::Param &ap)
