@@ -71,30 +71,55 @@ namespace _3DPresentation
                 return;
             }
 
-            if (e.Key == System.Windows.Input.Key.W ||
-                e.Key == System.Windows.Input.Key.S ||
-                e.Key == System.Windows.Input.Key.A ||
-                    e.Key == System.Windows.Input.Key.D)
+            //if (e.Key == System.Windows.Input.Key.W ||
+            //    e.Key == System.Windows.Input.Key.S ||
+            //    e.Key == System.Windows.Input.Key.A ||
+            //        e.Key == System.Windows.Input.Key.D)
             {
                 Camera.ApplyInertia();
+                //Microsoft.Xna.Framework.Vector3 moveDirection = Vector3.Zero;
+                //Microsoft.Xna.Framework.Matrix mat = _3DPresentation.MathUtil.GetTransformationMatrix(new Vector3(0, 0, -1), Camera.Target - Camera.Position);
+                //if (e.Key == System.Windows.Input.Key.W)
+                //{
+                //    moveDirection = MathUtil.TransformPoint(mat, Vector3.Up);
+                //}
+                //else if (e.Key == System.Windows.Input.Key.S)
+                //{
+                //    moveDirection = MathUtil.TransformPoint(mat, Vector3.Down);
+                //}
+                //else if (e.Key == System.Windows.Input.Key.A)
+                //{
+                //    moveDirection = MathUtil.TransformPoint(mat, Vector3.Left);
+                //}
+                //else if (e.Key == System.Windows.Input.Key.D)
+                //{
+                //    moveDirection = MathUtil.TransformPoint(mat, Vector3.Right);
+                //}
+
                 Microsoft.Xna.Framework.Vector3 moveDirection = Vector3.Zero;
-                //Microsoft.Xna.Framework.Matrix mat = Microsoft.Xna.Framework.Matrix.CreateFromYawPitchRoll(_model2.WorldMatrix. Camera.RotationY, tourControl.Camera.RotationX, tourControl.Camera.RotationZ);
-                Microsoft.Xna.Framework.Matrix mat = _3DPresentation.MathUtil.GetTransformationMatrix(new Vector3(0, 0, -1), Camera.Target - Camera.Position);
                 if (e.Key == System.Windows.Input.Key.W)
                 {
-                    moveDirection = MathUtil.TransformPoint(mat, Vector3.Up);
+                    moveDirection = Vector3.Forward;
                 }
                 else if (e.Key == System.Windows.Input.Key.S)
                 {
-                    moveDirection = MathUtil.TransformPoint(mat, Vector3.Down);
+                    moveDirection = Vector3.Backward;
                 }
                 else if (e.Key == System.Windows.Input.Key.A)
                 {
-                    moveDirection = MathUtil.TransformPoint(mat, Vector3.Left);
+                    moveDirection = Vector3.Left;
                 }
                 else if (e.Key == System.Windows.Input.Key.D)
                 {
-                    moveDirection = MathUtil.TransformPoint(mat, Vector3.Right);
+                    moveDirection = Vector3.Right;
+                }
+                else if (e.Key == System.Windows.Input.Key.Q)
+                {
+                    moveDirection = Vector3.Up;
+                }
+                else if (e.Key == System.Windows.Input.Key.E)
+                {
+                    moveDirection = Vector3.Down;
                 }
                 moveDirection *= FactorTransition;
 

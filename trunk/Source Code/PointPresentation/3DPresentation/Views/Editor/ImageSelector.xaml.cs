@@ -498,5 +498,11 @@ namespace _3DPresentation.Views.Editor
             get { return iSelectedIndex; }
             set { iSelectedIndex = value; }
         }
+
+        public void SetActualWidthAndHeight(double iWidth, double iHeight)
+        {
+            bgTop.Width = iWidth;
+            bgBottom.Width = iWidth;
+        }
     }
 }

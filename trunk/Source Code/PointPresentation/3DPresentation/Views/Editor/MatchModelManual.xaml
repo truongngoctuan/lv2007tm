@@ -5,17 +5,20 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:viewctrl="clr-namespace:_3DPresentation"
              xmlns:mine="clr-namespace:SilverlightControls"
+             xmlns:theming="clr-namespace:System.Windows.Controls.Theming;assembly=System.Windows.Controls.Theming.Toolkit"
     mc:Ignorable="d"
     >
 
     <Grid x:Name="LayoutRoot" Background="Gray">
-        <StackPanel>
+        <StackPanel Margin="10, 10">
             
 
             <StackPanel Orientation="Horizontal" VerticalAlignment="Top" HorizontalAlignment="Center">
                 <StackPanel Orientation="Vertical">
-                    <mine:ColorPicker Margin="10,10" Height="23" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="colorPicker1" Width="150" Color="Red" ColorChanged="colorPicker1_ColorChanged">
-                    </mine:ColorPicker>
+                    <theming:Theme ThemeUri="themes/System.Windows.Controls.Theming.ExpressionDark.xaml">
+                        <mine:ColorPicker Margin="10,10" Height="23" HorizontalAlignment="Center" VerticalAlignment="Top" x:Name="colorPicker1" Width="150" Color="Red" ColorChanged="colorPicker1_ColorChanged">
+                        </mine:ColorPicker>
+                    </theming:Theme>
                     <viewctrl:ViewControl x:Name="vcOjectViewer" Width="400" Height="400" VerticalAlignment="Center" HorizontalAlignment="Center"></viewctrl:ViewControl>
                 </StackPanel>
                 <StackPanel Orientation="Vertical" VerticalAlignment="Center" HorizontalAlignment="Center">
@@ -29,15 +32,15 @@
                         <TextBox x:Name="tboxFactorTransition" Canvas.Left="92" Canvas.Top="74" Width="29" Height="29" Opacity="0.5" TextChanged="tboxFactorTransition_TextChanged" Text="1"></TextBox>
                     </Canvas>
                 
-                <TextBlock x:Name="tblockUpdateCounter">0</TextBlock>
+                <!--<TextBlock x:Name="tblockUpdateCounter">0</TextBlock>
                 
-                <TextBlock x:Name="tblockValue" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>
+                <TextBlock x:Name="tblockValue" HorizontalAlignment="Center" VerticalAlignment="Center"></TextBlock>-->
             </StackPanel>
         </StackPanel>
 
         <StackPanel Orientation="Horizontal"  HorizontalAlignment="Right" VerticalAlignment="Bottom">
-                <Button x:Name="OKButton" Content="OK" Click="OKButton_Click" Width="75" Height="23"/>
-                <Button x:Name="CancelButton" Content="Cancel" Click="CancelButton_Click" Width="75" Height="23"/>
+                <Button x:Name="OKButton" Style="{StaticResource ButtonStyleRed}" Content="OK" Click="OKButton_Click" Width="75" Height="23" Margin="20, 20,50, 20"/>
+                <Button x:Name="CancelButton" Style="{StaticResource ButtonStyleBlue}" Content="Cancel" Click="CancelButton_Click" Width="75" Height="23" Margin="50,20,100,20"/>
                 
             </StackPanel>
         </StackPanel>

@@ -28,7 +28,7 @@ namespace _3DPresentation.Views.Editor
         {
             InitializeComponent();
 
-            tblockValue.Text = this.ToString();
+            //tblockValue.Text = this.ToString();
 
             vcOjectViewer.IsTabStop = true;
             vcOjectViewer.Focus();
@@ -115,7 +115,7 @@ namespace _3DPresentation.Views.Editor
         #region ValueChange
         public void Change()
         {
-            tblockUpdateCounter.Text = (int.Parse(tblockUpdateCounter.Text) + 1).ToString();
+            //tblockUpdateCounter.Text = (int.Parse(tblockUpdateCounter.Text) + 1).ToString();
         }
 
         private void tboxFactorRotation_TextChanged(object sender, TextChangedEventArgs e)
@@ -172,7 +172,7 @@ namespace _3DPresentation.Views.Editor
             iFixedImageIndex = iFFIndex;
             iReferenceImageIndex = iRIndex;
 
-            tblockValue.Text = this.ToString();
+            //tblockValue.Text = this.ToString();
         }
 
         public void SetInputData(BaseModel model1, BaseModel model2)
@@ -184,7 +184,7 @@ namespace _3DPresentation.Views.Editor
             vcOjectViewer.AddModel(_model2);
             vcOjectViewer.SetTarget(model1);
 
-            tblockValue.Text = this.ToString();
+            //tblockValue.Text = this.ToString();
 
             //luu lai
             //v3OldRotation = _model2.Rotation;
