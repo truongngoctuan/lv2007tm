@@ -299,29 +299,34 @@ namespace _3DPresentation
         void odControl_Record(object sender, EventArgs e)
         {
             SetupWorkingDirectory();
-            //string strQuery =
-            //    string.Format("{0} {1} {2} {3} {4}",
-            //                    WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
-            //                    "player",
-            //                    WorkingDirectory + "\\result",
-            //                    WorkingDirectory + "\\recorded\\grab7",
-            //                    WorkingDirectory + "\\recontructor\\kineck_calibration.yml");
-
             string strQuery =
                 string.Format("{0} {1} {2} {3} {4} {5} {6}",
                                 WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
-                                "kinect",
+                                "player",
                                 WorkingDirectory + "\\result",
-                                WorkingDirectory + "\\recorded\\grab8",
+                                WorkingDirectory + "\\recorded\\grab7",
                                 WorkingDirectory + "\\recontructor\\kineck_calibration.yml",
                                 WorkingDirectory + "\\recontructor\\NestkConfig.xml",
                                 "1");
+
+            //string strQuery =
+            //    string.Format("{0} {1} {2} {3} {4} {5} {6}",
+            //                    WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
+            //                    "kinect",
+            //                    WorkingDirectory + "\\result",
+            //                    WorkingDirectory + "\\recorded\\grab8",
+            //                    WorkingDirectory + "\\recontructor\\kineck_calibration.yml",
+            //                    WorkingDirectory + "\\recontructor\\NestkConfig.xml",
+            //                    "1");
             COMAutomation.Cmd(strQuery);
 
             if (ca == null)
             {
                 ca = new COMAutomation();
-                ca.CreateFileEvent +=new COMAutomation.CreateFileEventHandler(ca_CreateFileEvent);
+                ca.CreateFileEvent += new COMAutomation.CreateFileEventHandler(ca_CreateFileEvent);
+
+                string strWatchFolder = (WorkingDirectory + "\\result").Replace(@"\", @"\\\\").Replace(@"\\\\\\\\", @"\\\\");
+                ca.FolderListener(strWatchFolder);
             }
             else
             {
@@ -329,9 +334,6 @@ namespace _3DPresentation
                 ca.CreateFileEvent -= ca_CreateFileEvent;
                 ca.CreateFileEvent += new COMAutomation.CreateFileEventHandler(ca_CreateFileEvent);
             }
-
-            string strWatchFolder = (WorkingDirectory + "\\result").Replace(@"\", @"\\\\").Replace(@"\\\\\\\\", @"\\\\");
-            ca.FolderListener(strWatchFolder);
         }
         object lockthis = new object();
         string OldFileName = string.Empty;
@@ -362,15 +364,25 @@ namespace _3DPresentation
         void odControl_Capture(object sender, EventArgs e)
         {
             SetupWorkingDirectory();
+
             string strQuery =
                 string.Format("{0} {1} {2} {3} {4} {5} {6}",
                                 WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
-                                "kinect",
+                                "player",
                                 WorkingDirectory + "\\result",
-                                WorkingDirectory + "\\recorded\\grab8",
+                                WorkingDirectory + "\\recorded\\grab7",
                                 WorkingDirectory + "\\recontructor\\kineck_calibration.yml",
                                 WorkingDirectory + "\\recontructor\\NestkConfig.xml",
                                 "0");
+            //string strQuery =
+            //    string.Format("{0} {1} {2} {3} {4} {5} {6}",
+            //                    WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
+            //                    "kinect",
+            //                    WorkingDirectory + "\\result",
+            //                    WorkingDirectory + "\\recorded\\grab8",
+            //                    WorkingDirectory + "\\recontructor\\kineck_calibration.yml",
+            //                    WorkingDirectory + "\\recontructor\\NestkConfig.xml",
+            //                    "0");
             COMAutomation.Cmd(strQuery);
 
             if (ca == null)
