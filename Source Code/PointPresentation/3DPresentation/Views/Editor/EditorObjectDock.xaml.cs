@@ -44,21 +44,21 @@ namespace _3DPresentation.Views.Editor
 
             if (btNewCaptureModel.IsEnabled)
             {
-                imgNewCaptureModel.Source = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Views/Editor/Images/top_new_model.png"));
+                imgNewCaptureModel.Source = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Views/Editor/Images/top_capture.png"));
             }
             else
             {
-                imgNewCaptureModel.Source = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Views/Editor/Images/top_play_gray.png"));
+                imgNewCaptureModel.Source = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Views/Editor/Images/top_capture_gray.png"));
             }
 
 
             if (btPlay.IsEnabled)
             {
-                imgPlay.Source = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Views/Editor/Images/top_play.png"));
+                imgPlay.Source = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Views/Editor/Images/top_recorder.png"));
             }
             else
             {
-                imgPlay.Source = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Views/Editor/Images/top_play_gray.png"));
+                imgPlay.Source = new BitmapImage(_3DPresentation.Utils.Global.MakePackUri("Views/Editor/Images/top_recorder_gray.png"));
             }
 
             if (btPause.IsEnabled)
