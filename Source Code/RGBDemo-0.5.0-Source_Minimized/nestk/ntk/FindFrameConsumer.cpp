@@ -24,6 +24,10 @@ void FindFrameConsumer::RunThread()
 			::sleep(boost::posix_time::millisec(500));
 			continue;
 		}
+		else
+		{
+			m_queue->SetMaxQueueElement(1);
+		}
 		//m_mutex.lock();
 
 		RGBDImage * m_last_image = m_queue->Dequeue(ilast_image);
@@ -40,10 +44,15 @@ void FindFrameConsumer::RunThread()
 		pose_ok = false;
 		//mtPoseEstimate.lock();
 		TimeCountThread tc_pose_ok(m_id, "pose_ok", 2);
-		pose_ok = pose_estimator->estimateNewPose(*m_last_image, currentPose,
+		pose_ok = pose_estimator->estimateNewPose(m_bUseICP, *m_last_image, currentPose,
 			//ref_points, img_points, 
 			closest_view_index);
 
+		if (!m_bUseICP && pose_ok)
+		{
+			SetPause(true);
+			m_queue->Clean();
+		}
 		if (pose_ok)
 		{
 			ilast_image = FindFrameConsumer::GetCurrentImageIndex();

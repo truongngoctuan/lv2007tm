@@ -64,44 +64,6 @@ protected:
 };
 
 /*!
- * Compute relative pose information using viewXXXX/relative_pose.avs file.
- * The image should have directory information (i.e. loaded from disk)
- * and have a "relative_pose.avs" file storing the pose information.
- * This file should be readableby the Pose3D::parseAvsFile() function.
- */
-class RelativePoseEstimatorFromFile : public RelativePoseEstimator
-{
-public:
-  virtual bool estimateNewPose(const RGBDImage& image);
-  virtual void reset() {}
-};
-
-/*!
- * Compute relative pose information by applying a constant delta pose.
- * This pose estimator takes an initial pose and a delta pose, and for
- * each new frame the current_pose gets multiplied by the delta_pose.
- */
-class RelativePoseEstimatorFromDelta : public RelativePoseEstimator
-{
-public:
-  RelativePoseEstimatorFromDelta(const Pose3D& initial_pose,
-                                 const Pose3D& delta_pose)
-    : m_initial_pose(initial_pose),
-      m_delta_pose(delta_pose)
-  {
-    reset();
-  }
-
-  virtual bool estimateNewPose(const RGBDImage& image);
-
-  virtual void reset() { m_current_pose = m_initial_pose; }
-
-private:
-  Pose3D m_initial_pose;
-  Pose3D m_delta_pose;
-};
-
-/*!
  * Estimate relative 3D pose using feature point detection.
  * Feature matches are computed between the new image and past images,
  * allowing direct estimation of the relative pose.
@@ -119,7 +81,8 @@ public:
   }
 
   virtual bool estimateNewPose(const RGBDImage& image) { return true;}
-  bool estimateNewPose(const RGBDImage& image, Pose3D& new_pose,
+  bool estimateNewPose(bool bUseICP, 
+	  const RGBDImage& image, Pose3D& new_pose,
 	  //std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points,
 	  int& closest_view_index);
   virtual void reset();
@@ -137,7 +100,8 @@ private:
   int computeNumMatchesWithPrevious(const RGBDImage& image,
                                     const FeatureSet& features,
                                     std::vector<cv::DMatch>& best_matches);
-  bool estimateDeltaPose(Pose3D& new_pose,
+  bool estimateDeltaPose(
+							Pose3D& new_pose,
                          const RGBDImage& image,
                          const FeatureSet& features,
                          const std::vector<cv::DMatch>& best_matches,

@@ -172,5 +172,6 @@ public:
 	{
 		boost::unique_lock<boost::mutex> lock(mtPause);
 		Pause = b;
+		
 	}
 };

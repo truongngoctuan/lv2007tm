@@ -202,20 +202,6 @@ double rms_optimize_ransac(Pose3D& pose3d,
 
 namespace ntk
 {
-
-bool RelativePoseEstimatorFromFile::estimateNewPose(const RGBDImage& image)
-{
-  ntk_ensure(image.hasDirectory(), "Only works in fake mode!");
-  m_current_pose.parseAvsFile((image.directory() + "/relative_pose.avs").c_str());
-  return true;
-}
-
-bool RelativePoseEstimatorFromDelta::estimateNewPose(const RGBDImage& image)
-{
-  m_current_pose.applyTransformAfter(m_delta_pose);
-  return true;
-}
-
   
 /*!
  * Compute the number of closest feature matches for each previous view.
@@ -346,7 +332,8 @@ void RelativePoseEstimatorFromImage::CalulatePairs(const Pose3D& depth_pose1, co
 }
 
 boost::mutex mtcomputeNumMatchesWithPrevious;
-bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pose3D& current_pose_final, 
+bool RelativePoseEstimatorFromImage::estimateNewPose(bool bUseICP, 
+													 const RGBDImage& image, Pose3D& current_pose_final, 
 													 //std::vector<cv::Point3f>& ref_points, std::vector<cv::Point3f>& img_points,
 													 int& closest_view_index)
 {
@@ -375,7 +362,15 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pos
   {
 	  TimeCount tc_computeNumMatchesWithPrevious("computeNumMatchesWithPrevious", 2);
     
-    closest_view_index = computeNumMatchesWithPrevious(image, image_features, best_matches);
+	  if(bUseICP)
+	  {
+		closest_view_index = computeNumMatchesWithPrevious(image, image_features, best_matches);
+	  }
+	  else
+	  {
+		closest_view_index = m_features.size() - 1;
+	  }
+
     ntk_dbg_print(closest_view_index, 1);
     ntk_dbg_print(best_matches.size(), 1);
 
@@ -386,30 +381,36 @@ bool RelativePoseEstimatorFromImage::estimateNewPose(const RGBDImage& image, Pos
 	tc_computeNumMatchesWithPrevious.stop();
 
 	TimeCount tc_estimateDeltaPose("estimateDeltaPose", 2);
-    if (best_matches.size() > 0)
-    {
-		//tntuan: test bỏ dòng code này
-      // Estimate the relative pose w.r.t the closest view.
-      //if (!estimateDeltaPose(new_rgb_pose, image, image_features, best_matches, closest_view_index))
-      //  pose_ok = false;
-	  //----------------------------------------
-	  
-      //new_pose = new_rgb_pose;
-      new_pose.toLeftCamera(image.calibration()->depth_intrinsics,
-                            image.calibration()->R, image.calibration()->T);
+  //  if (best_matches.size() > 0)
+  //  {
+		////tntuan: test bỏ dòng code này
+  //    // Estimate the relative pose w.r.t the closest view.
+  //    //if (!estimateDeltaPose(new_rgb_pose, image, image_features, best_matches, closest_view_index))
+  //    //  pose_ok = false;
+	 // //----------------------------------------
+	 // 
+  //    //new_pose = new_rgb_pose;
+  //    new_pose.toLeftCamera(image.calibration()->depth_intrinsics,
+  //                          image.calibration()->R, image.calibration()->T);
 
-    }
-    else
-    {
-      pose_ok = false;
-    }
+  //  }
+  //  else
+  //  {
+  //    pose_ok = false;
+  //  }
+
+	      new_pose.toLeftCamera(image.calibration()->depth_intrinsics,
+                            image.calibration()->R, image.calibration()->T);
 
 	  if (pose_ok)
   {
     //if (m_use_icp)
 	  //if (m_closest_view_index != -1 && true)
-	  if(m_image_data.size() > 0)
-		pose_ok &= optimizeWithICP(image, new_pose, image_features, best_matches, closest_view_index);
+	  if (bUseICP)
+	  {
+		  if(m_image_data.size() > 0)
+			pose_ok &= optimizeWithICP(image, new_pose, image_features, best_matches, closest_view_index);
+	  }
   }
 
 	m_closest_view_index = closest_view_index;
@@ -612,6 +613,7 @@ void SavePairs(int closest_view_index, string strFileName,
 
 bool RelativePoseEstimatorFromImage::optimizeWithICP(const RGBDImage& image, Pose3D& depth_pose, FeatureSet& features, std::vector<cv::DMatch> best_matches, int closest_view_index)
 {
+	if (best_matches.size() < 10) return false;
 	//std::vector<cv::Point3f> ref_points;
 	//std::vector<cv::Point3f> img_points;
 	//CalulatePairs(false, ref_points, img_points);

@@ -16,6 +16,8 @@ private:
 	boost::condition_variable m_cond;		// The condition to wait for
 	int m_index;
 	int m_iMaxQueueElement;
+
+	boost::mutex m_mutexClean;						// The mutex to synchronise on
 public:
 SynchronisedQueue()
 {
@@ -24,8 +26,18 @@ SynchronisedQueue()
 }
 void SetMaxQueueElement(int i)
 {
+	boost::unique_lock<boost::mutex> lock(m_mutex);
 	m_iMaxQueueElement = i;
 }
+
+void Clean()
+{
+	boost::unique_lock<boost::mutex> lock(m_mutexClean);
+	int i = 0;
+	Dequeue(i);
+	m_iMaxQueueElement = 0;
+}
+
 bool CheckNeedToEnqueue()
 {
 	boost::unique_lock<boost::mutex> lock(m_mutex);
