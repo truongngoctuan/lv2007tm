@@ -282,6 +282,7 @@ namespace _3DPresentation.Views.Editor
             ImageSelectedEventArgs args = new ImageSelectedEventArgs();
             //args.Source = (BitmapImage)((ImageBrush)((System.Windows.Shapes.Path)sender).Fill).ImageSource;
             args.SelectedIndex = SelectedIndex;
+            args.SelectedItem = SelectedItem;
             SelectedIndex = -1;
 
             OnImageSelected(args);
