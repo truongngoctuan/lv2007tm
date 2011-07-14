@@ -25,8 +25,7 @@ namespace _3DPresentation.Views
 
             this.openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
             this.tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);
-
-            this.cbbModel.SelectionChanged += new EventHandler(cbbModel_SelectionChanged);
+            
             this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
             btSave.Click += new RoutedEventHandler(btSave_Click);
         }
@@ -39,7 +38,7 @@ namespace _3DPresentation.Views
 
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
         {
-            SelectedModel = (BaseModel)cbbModel.SelectedItem;
+            SelectedModel = (BaseModel)e.SelectedItem;
         }
 
         void tourControl_SelectingModel(object sender, EventArgs e)
@@ -49,13 +48,7 @@ namespace _3DPresentation.Views
             objectDesign.SetTarget(tourControl.Target);
             objectDesign.ParentView = this;
             App.GoToPage(objectDesign);
-        }
-
-        void cbbModel_SelectionChanged(object sender, EventArgs e)
-        {
-            //throw new NotImplementedException();
-            
-        }
+        }        
 
         void TourDesign_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
@@ -143,6 +136,12 @@ namespace _3DPresentation.Views
             model.Position = new Vector3(0, 1, 3);
             AddModel(model);
 
+            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "bunny_text.ply"));
+            model.Name = "bunny_text2";
+            model.Scale = 10.0f;
+            model.Position = new Vector3(0, 2, 3);
+            AddModel(model);
+
             model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "Venus.ply"));
             model.Name = "Venus";
             model.Scale = 1.0f / 600.0f;
@@ -200,7 +199,7 @@ namespace _3DPresentation.Views
         {
             bool result = tourControl.AddModel(model);
             if (result)
-            cbbModel.AddImage(model, model.toBitmap());
+                cbbModel.AddImage(model, model.toBitmap());
             return result;
         }
 

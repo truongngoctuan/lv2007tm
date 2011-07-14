@@ -37,6 +37,15 @@ namespace _3DPresentation.Material
         [Category("Misc")]
         public float Alpha { get; set; }
 
+        public BasicMaterial()
+        {
+            AmbientColor = GlobalVars.ColorEnum.Purple;
+            SceneAmbientColor = GlobalVars.ColorEnum.Purple;
+            LightPosition = new Vector3(5, 0, 0);
+            SpecularColor = GlobalVars.ColorEnum.Orange;
+            SpecularPower = 20.0f;
+        }
+
         public override void Apply()
         {
             BasicEffect basicEffect = EffectManager.BasicEffect;
@@ -77,9 +86,11 @@ namespace _3DPresentation.Material
             writer.WriteLine("BasicMaterial");
             writer.WriteLine(ColorToString(DiffuseColor));
             if (DiffuseTexture == null)
-                writer.WriteLine("null");
+                writer.WriteLine(" ");
             else
+            {
                 writer.WriteLine(DiffuseTexture); SaveTexture(texturePath, DiffuseTexture);
+            }
 
             writer.WriteLine(ColorToString(AmbientColor));
             writer.WriteLine(ColorToString(SceneAmbientColor));
@@ -87,16 +98,20 @@ namespace _3DPresentation.Material
             writer.WriteLine(ColorToString(EmissiveColor));
 
             if (SpecularTexture == null)
-                writer.WriteLine("null");
+                writer.WriteLine(" ");
             else
+            {
                 writer.WriteLine(SpecularTexture); SaveTexture(texturePath, SpecularTexture);
+            }
             writer.WriteLine(ColorToString(SpecularColor));
             writer.WriteLine(SpecularPower);
 
             if (BumpTexture == null)
-                writer.WriteLine("null");
+                writer.WriteLine(" ");
             else
+            {
                 writer.WriteLine(BumpTexture); SaveTexture(texturePath, BumpTexture);
+            }
 
             writer.WriteLine(string.Format("{0} {1} {2}", LightPosition.X, LightPosition.Y, LightPosition.Z));
             writer.WriteLine(InvertBinormal);

@@ -44,7 +44,7 @@ namespace _3DPresentation.Material
             }
             else if (line == "TexturedMaterial")
             {
-                TexturedMaterial material = new TexturedMaterial();
+                TexturedNoEffectMaterial material = new TexturedNoEffectMaterial();
                 material.LoadMaterial(reader);
                 return material;
             }
@@ -106,7 +106,12 @@ namespace _3DPresentation.Material
         protected GlobalVars.ColorEnum StringToColor(string line)
         {
             string[] items = line.Split(' ');
-            return GlobalVars.ColorEnum.Black;
+            if (items.Length < 3)
+                return GlobalVars.ColorEnum.Transparent;
+            int r = int.Parse(items[0]);
+            int g = int.Parse(items[1]);
+            int b = int.Parse(items[2]);
+            return GlobalVars.GetColorEnum(r, g, b);
         }
         protected static bool SaveTexture(string texturePath, string textureName)
         {

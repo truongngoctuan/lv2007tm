@@ -36,6 +36,28 @@ namespace _3DPresentation
                     return Color.Transparent;
             }
         }
+        public static GlobalVars.ColorEnum GetColorEnum(int r, int g, int b)
+        {
+            if (r == 255 && g == 255 && b == 255)
+                return ColorEnum.White;
+            else if(r == 0 && g == 0 && b == 0)
+                return ColorEnum.Black;
+            else if(r == 255 && g == 0 && b == 0)
+                return ColorEnum.Red;
+            else if(r == 0 && g == 255 && b == 0)
+                return ColorEnum.Green;
+            else if(r == 0 && g == 0 && b == 255)
+                return ColorEnum.Blue;
+            else if(r == 255 && g == 128 && b == 0)
+                return ColorEnum.Orange;
+            else if(r == 255 && g == 255 && b == 0)
+                return ColorEnum.Yellow;
+            else if(r == 128 && g == 0 && b == 255)
+                return ColorEnum.Purple;
+            else if (r == 0 && g == 255 && b == 255)
+                return ColorEnum.Cyan;
+            return ColorEnum.Transparent;
+        }
 
         public enum ShaderEffect { NoEffect, MyBasicEffect, BasicEffect, PointEffect, FourPointLights };
         public enum LOD { LOW = 5, MEDIUM = 3, HIGH = 1 };

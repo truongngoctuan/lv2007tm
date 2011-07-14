@@ -13,10 +13,26 @@ using System.Windows.Media.Imaging;
 
 namespace _3DPresentation
 {
-    // Reference : http://csharperimage.jeremylikness.com/2009/07/saving-bitmaps-to-isolated-storage-in.html
+    // Reference : http://www.codeproject.com/Articles/38636/Saving-Bitmaps-to-Isolated-Storage-in-Silverlight
     // Modified
     public class BitmapIO
     {
+        public static BitmapImage LoadBitmap(FileInfo file)
+        {
+            byte[] bytes = _LoadIfExists(file);
+            if (bytes.Length > 0)
+            {
+                #region http://social.msdn.microsoft.com/Forums/en/windowsphone7series/thread/8645414c-907b-462c-aa54-5b3b86b2a243
+                WriteableBitmap wb = _GetImage(bytes);
+                MemoryStream ms = new MemoryStream(); 
+                //wb.LoadJpeg(//your image stream from IsolatedStorage);
+                //wb.(ms, (int)image1.Width, (int)image1.Height, 0, 100);
+                BitmapImage bmp = new BitmapImage();
+                bmp.SetSource(ms);
+                #endregion
+            }
+            return null;
+        }
         public static bool SaveBitmap(BitmapImage bm, FileInfo file)
         {
             WriteableBitmap writableBitmap = new WriteableBitmap(bm);

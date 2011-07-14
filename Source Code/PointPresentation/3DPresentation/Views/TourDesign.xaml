@@ -11,7 +11,7 @@
     <Grid x:Name="LayoutRoot" Background="White" SizeChanged="LayoutRoot_SizeChanged">
         <my:TourControl x:Name="tourControl"/>
         <my:OpenFileControl x:Name="openFile" Label="Add Model" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0 30 0 0"/>
-        <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>
         <Button x:Name="btSave" Content="Save" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+        <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>
     </Grid>
 </UserControl>

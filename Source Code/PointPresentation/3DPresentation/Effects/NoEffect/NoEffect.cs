@@ -7,7 +7,8 @@ namespace _3DPresentation.Effects
     public class NoEffect : Effect
     {
         readonly EffectParameter worldViewProjectionParameter;
-
+        readonly EffectParameter ambientColorParameter;
+        
         public NoEffect(GraphicsDevice device)
             : this(device, "3DPresentation", "Effects/NoEffect/NoEffect")
         {
@@ -18,16 +19,19 @@ namespace _3DPresentation.Effects
             : base(device, assemblyName, rootName)
         {
             worldViewProjectionParameter = GetParameter("WorldViewProjection");
+            ambientColorParameter = GetParameter("AmbientColor");
         }
 
         public string Name { get; set; }
         public Matrix World { get; set; }
         public Matrix View { get; set; }
         public Matrix Projection { get; set; }
+        public Color AmbientColor { get; set; }
 
         public override void Apply()
         {
             worldViewProjectionParameter.SetValue(World * View * Projection);
+            ambientColorParameter.SetValue(AmbientColor);
             base.Apply();
         }
 

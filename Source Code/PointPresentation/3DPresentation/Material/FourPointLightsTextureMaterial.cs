@@ -44,6 +44,11 @@ namespace _3DPresentation.Material
         [Category("Point Light 4")]
         public bool EnableLight4 { get; set; }
 
+        public FourPointLightsTextureMaterial()
+        {
+            AmbientLight = GlobalVars.ColorEnum.Orange;
+        }
+
         public override void Apply()
         {
             FourPointLightsTextureEffect fourPointLights = EffectManager.FourPointLightsTextureEffect;
@@ -80,7 +85,13 @@ namespace _3DPresentation.Material
                 return;
 
             writer.WriteLine("FourPointLightsEffect");
-            writer.WriteLine(DiffuseTexture);
+            if (DiffuseTexture == null)
+                writer.WriteLine(" ");
+            else
+            {
+                writer.WriteLine(DiffuseTexture);
+                SaveTexture(texturePath, DiffuseTexture);
+            }
 
             writer.WriteLine(ColorToString(AmbientLight));
 

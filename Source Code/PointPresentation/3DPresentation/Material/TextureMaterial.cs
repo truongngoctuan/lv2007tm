@@ -37,6 +37,11 @@ namespace _3DPresentation.Material
         [Category("Point Light 3")]
         public float DiffuseIntensity3 { get; set; }
 
+        public TextureMaterial()
+        {
+            AmbientIntensity = 0.3f;
+        }
+
         public override void Apply()
         {
             TextureEffect textureEffect = EffectManager.TextureEffect;
@@ -70,7 +75,14 @@ namespace _3DPresentation.Material
                 return;
 
             writer.WriteLine("TextureMaterial");
-            writer.WriteLine(DiffuseTexture);
+            if (DiffuseTexture == null)
+                writer.WriteLine(" ");
+            else
+            {
+                writer.WriteLine(DiffuseTexture); 
+                SaveTexture(texturePath, DiffuseTexture);
+            }
+            
 
             writer.WriteLine(AmbientIntensity);
 

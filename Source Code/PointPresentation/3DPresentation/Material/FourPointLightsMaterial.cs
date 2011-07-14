@@ -40,6 +40,11 @@ namespace _3DPresentation.Material
         [Category("Point Light 4")]
         public bool EnableLight4 { get; set; }
 
+        public FourPointLightsMaterial()
+        {
+            AmbientLight = GlobalVars.ColorEnum.Orange;
+        }
+
         public override void Apply()
         {
             FourPointLightsEffect fourPointLights = EffectManager.FourPointLightsEffect;

@@ -17,6 +17,7 @@ namespace _3DPresentation.Views
             InitializeComponent();
             objectView = new ObjectView();
             objectView.ParentView = this;
+
             cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
 
             this.Loaded += new RoutedEventHandler(TourView_Loaded);
@@ -26,11 +27,11 @@ namespace _3DPresentation.Views
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
         {
             //throw new NotImplementedException();
-            objectView.ClearModels();
-            objectView.AddModels(tourControl.GetModels());
-            objectView.SetTarget((BaseModel)e.SelectedItem);
-            objectView.ParentView = this;
-            App.GoToPage(objectView);
+            //objectView.ClearModels();
+            //objectView.AddModels(tourControl.GetModels());
+            //objectView.SetTarget((BaseModel)e.SelectedItem);
+            //objectView.ParentView = this;
+            //App.GoToPage(objectView);
         }
 
         void tourControl_SelectingModel(object sender, EventArgs e)
