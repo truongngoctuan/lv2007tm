@@ -191,6 +191,7 @@
       <DependentUpon>UDRMZControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utils\MathUtil.cs" />
+    <Compile Include="Utils\TransitionEffectHelper.cs" />
     <Compile Include="Views\Color Picker\ColorBoard.cs" />
     <Compile Include="Views\Color Picker\ColorHelper.cs" />
     <Compile Include="Views\Color Picker\ColorPicker.cs" />
