@@ -26,13 +26,14 @@ namespace _3DPresentation
         }
 
         Grid mainUI = new Grid();
+        public static UserControl CurrentPage = null;
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             //this.RootVisual = new MainPage();
             //this.RootVisual = new EditorView();
             this.RootVisual = mainUI;
 //            mainUI.Children.Add(new TourControl());
-            mainUI.Children.Add(new EditorView());
+            App.GoToPage(new TourDesign());
         }
 
         public static void GoToPage(UserControl nextPg)
@@ -59,6 +60,7 @@ namespace _3DPresentation
                     page.IsEnabled = false;
                 }
             }
+            CurrentPage = nextPg;
         }
 
         public static void RemovePage(UserControl page)

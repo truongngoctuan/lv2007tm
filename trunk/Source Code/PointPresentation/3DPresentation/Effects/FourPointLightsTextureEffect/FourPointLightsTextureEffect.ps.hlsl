@@ -16,7 +16,7 @@ struct VertexShaderOutput
   float3 lightPos1 : TEXCOORD2;
   float3 lightPos2 : TEXCOORD3;
   float3 lightPos3 : TEXCOORD4;
-  float3 lightPos4 : TEXCOORD5;
+  //float3 lightPos4 : TEXCOORD5;
 };
 
 struct PixelToFrame
@@ -59,12 +59,12 @@ PixelToFrame main(VertexShaderOutput input)
 			color += LightColor3 * lightIntensity3;
 	}
 
-	if(EnableLights.w > 0.0f)
-	{
-		lightIntensity4 = saturate(dot(input.Normal, input.lightPos4));
-		if(lightIntensity4 > 0.0f)
-			color += LightColor4 * lightIntensity4;
-	}
+	//if(EnableLights.w > 0.0f)
+	//{
+		//lightIntensity4 = saturate(dot(input.Normal, input.lightPos4));
+		//if(lightIntensity4 > 0.0f)
+			//color += LightColor4 * lightIntensity4;
+	//}
 
     // Sample the texture pixel at this location.
 	textureColor = tex2D(DiffuseSampler, input.TextureCoords);

@@ -39,7 +39,7 @@ struct VertexShaderOutput
   float3 lightPos1 : TEXCOORD2;
   float3 lightPos2 : TEXCOORD3;
   float3 lightPos3 : TEXCOORD4;
-  float3 lightPos4 : TEXCOORD5;
+  //float3 lightPos4 : TEXCOORD5;
 };
 
 // main shader function
@@ -63,12 +63,12 @@ VertexShaderOutput main(VertexData vertex)
     Output.lightPos1.xyz = LightSource1.xyz - worldPosition.xyz;
     Output.lightPos2.xyz = LightSource2.xyz - worldPosition.xyz;
     Output.lightPos3.xyz = LightSource3.xyz - worldPosition.xyz;
-    Output.lightPos4.xyz = LightSource4.xyz - worldPosition.xyz;
+    //Output.lightPos4.xyz = LightSource4.xyz - worldPosition.xyz;
 
     // Normalize the light position vectors.
     Output.lightPos1 = normalize(Output.lightPos1);
     Output.lightPos2 = normalize(Output.lightPos2);
     Output.lightPos3 = normalize(Output.lightPos3);
-    Output.lightPos4 = normalize(Output.lightPos4);
+    //Output.lightPos4 = normalize(Output.lightPos4);
     return Output;
 }

@@ -1,15 +1,5 @@
-// ===================================================================================
-//  Copyright (c) Microsoft Corporation.  All rights reserved.
-//  THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
-//  OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
-//  LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
-//  FITNESS FOR A PARTICULAR PURPOSE.
-// ===================================================================================
+float4 AmbientColor;
 
-// This simple pixel shader returns the unmodified vertex color.
-// ---
-
-// output from the vertex shader serves as input
 // to the pixel shader
 struct VertexShaderOutput
 {
@@ -20,5 +10,5 @@ struct VertexShaderOutput
 // main shader function
 float4 main(VertexShaderOutput vertex) : COLOR
 {
-	return vertex.Color;
+	return vertex.Color * AmbientColor;
 }

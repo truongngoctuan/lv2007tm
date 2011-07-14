@@ -102,9 +102,6 @@ namespace _3DPresentation.Effects
             private set { fourPointLightsTextureEffect = value; }
         }
 
-        
-
-
         public static bool IsReady { get; set; }
         public static void InitEffects()
         {
@@ -114,7 +111,6 @@ namespace _3DPresentation.Effects
             noEffect = new NoEffect(resourceDevice);
 
             texturedNoEffect = new TexturedNoEffect(resourceDevice);
-            texturedNoEffect.DiffuseTexture = ResourceManager.GetTexture("Images/3.jpg");
 
             pointEffect = new PointEffect(resourceDevice);
 

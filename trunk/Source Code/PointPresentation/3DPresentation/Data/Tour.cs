@@ -13,6 +13,7 @@ using _3DPresentation.Models;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using _3DPresentation.Material;
+using _3DPresentation.Effects;
 
 namespace _3DPresentation.Data
 {
@@ -24,6 +25,8 @@ namespace _3DPresentation.Data
 
         public Tour()
         {
+            EffectManager.InitEffects();
+            ResourceManager.Init();
         }
 
         public bool Save()
@@ -47,7 +50,7 @@ namespace _3DPresentation.Data
                     
                     FileInfo modelFile = Utils.Global.GetRealFile(tourFileDir + "Models/" + Models[i].Name + ".ply");
                     Models[i].Export(BaseModel.FileType.PLY, Models[i].Type, modelFile, true);
-                    Models[i].Material.Save(writer, string.Format("{0}/Models/{1}/", tourFileDir, Models[i].Name));
+                    Models[i].Material.Save(writer, string.Format("{0}/Models/", tourFileDir, Models[i].Name));
                 }
             }            
             return result;
@@ -101,6 +104,7 @@ namespace _3DPresentation.Data
                         if(modelFile.Exists)
                         {
                             model = BaseModel.Import(modelFile);
+                            model.Name = modelName;
                             model.Scale = scale;
                             model.Rotation = new Vector3(rotationX, rotationY, rotationZ);
                             model.Position = new Vector3(positionX, positionY, positionZ);                           

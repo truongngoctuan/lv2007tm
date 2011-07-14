@@ -8,14 +8,20 @@ namespace _3DPresentation.Material
 {
     public class NoEffectMaterial : BaseMaterial
     {
-        [Category("Info")]
-        public double TestValue { get; set; }
+        [Category("Ambient")]
+        public GlobalVars.ColorEnum AmbientColor { get; set; }
+
+        public NoEffectMaterial()
+        {
+            AmbientColor = GlobalVars.ColorEnum.White;
+        }
 
         public override void Apply()
         {
             NoEffect noEffect = EffectManager.NoEffect;
             noEffect.View = EffectManager.Scene.GetCameraView();
             noEffect.Projection = EffectManager.Scene.GetCameraProjection();
+            noEffect.AmbientColor = GlobalVars.GetColor(AmbientColor);
             noEffect.World = World;
 
             noEffect.Device = Device;
@@ -28,11 +34,12 @@ namespace _3DPresentation.Material
                 return;
 
             writer.WriteLine("NoEffectMaterial");
+            writer.WriteLine(ColorToString(AmbientColor));
         }
 
         protected override void LoadMaterial(System.IO.StreamReader reader)
         {
-            
+            AmbientColor = ReadColor(reader);
         }
     }
 }

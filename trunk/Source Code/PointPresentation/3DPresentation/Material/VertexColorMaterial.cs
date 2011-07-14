@@ -28,6 +28,12 @@ namespace _3DPresentation.Material
         [Category("Alpha")]
         public float Alpha { get; set; }
 
+        public VertexColorMaterial()
+        {
+            AmbientColor = GlobalVars.ColorEnum.Green;
+            SceneAmbientColor = GlobalVars.ColorEnum.Green;
+        }
+
         public override void Apply()
         {
             VertexColorEffect vertexColorEffect = EffectManager.VertexColorEffect;

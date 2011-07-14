@@ -25,7 +25,7 @@ namespace _3DPresentation
             
 
             cbMaterialType.Items.Add(typeof(NoEffectMaterial));
-            cbMaterialType.Items.Add(typeof(TexturedMaterial));
+            cbMaterialType.Items.Add(typeof(TexturedNoEffectMaterial));
             cbMaterialType.Items.Add(typeof(PointMaterial));
         }
 
@@ -43,7 +43,10 @@ namespace _3DPresentation
                         BaseMaterial material = null;
                         try
                         {
-                            material = (BaseMaterial)Activator.CreateInstance(type);
+                            if (type != target.Material.GetType())
+                                material = (BaseMaterial)Activator.CreateInstance(type);
+                            else
+                                material = target.Material;
                             target.Material = material;
                             propertiesPanel.Target = (INotifyPropertyChanged)material;
                         }
@@ -62,10 +65,12 @@ namespace _3DPresentation
             {
                 target = null;
                 propertiesPanel.Target = null;
+                return;
             }
-            cbMaterialType.SelectionChanged -= new SelectionChangedEventHandler(cbMaterialType_SelectionChanged);
+            
             if (model != null)
             {
+                cbMaterialType.SelectionChanged -= new SelectionChangedEventHandler(cbMaterialType_SelectionChanged);
                 target = model;
                 Type[] materialTypes = model.GetCompatibleMaterialTypes();
                 cbMaterialType.Items.Clear();
@@ -73,10 +78,10 @@ namespace _3DPresentation
                 {
                     cbMaterialType.Items.Add(materialType);
                 }
-                materialTypes = null;  
-            }
-            cbMaterialType.SelectionChanged += new SelectionChangedEventHandler(cbMaterialType_SelectionChanged);            
-            cbMaterialType.SelectedItem = target.Material.GetType();
+                materialTypes = null;
+                cbMaterialType.SelectionChanged += new SelectionChangedEventHandler(cbMaterialType_SelectionChanged);
+                cbMaterialType.SelectedItem = target.Material.GetType();
+            }            
         }
     }
 }

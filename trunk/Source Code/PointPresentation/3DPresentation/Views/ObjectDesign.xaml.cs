@@ -20,6 +20,11 @@ namespace _3DPresentation.Views
             this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
         }
 
+        void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
+        {
+            SetTarget((BaseModel)e.SelectedItem);
+        }
+
         void btBack_Click(object sender, RoutedEventArgs e)
         {
             App.RemovePage(this);
@@ -33,11 +38,6 @@ namespace _3DPresentation.Views
             models = null;
 
             App.GoToPage(this.ParentView);
-        }
-
-        void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
-        {
-            SetTarget((BaseModel)cbbModel.SelectedItem);
         }
 
         void ObjectDesign_Loaded(object sender, RoutedEventArgs e)

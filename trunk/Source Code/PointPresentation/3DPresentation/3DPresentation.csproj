@@ -63,6 +63,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Babylon.Toolbox, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL" />
+    <Reference Include="ICSharpCode.SharpZLib.Silverlight">
+      <HintPath>..\Lib\ICSharpCode.SharpZLib.Silverlight.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageTools">
+      <HintPath>..\Lib\ImageTools.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageTools.IO.Jpeg">
+      <HintPath>..\Lib\ImageTools.IO.Jpeg.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageTools.IO.Png">
+      <HintPath>..\Lib\ImageTools.IO.Png.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageTools.Utils">
+      <HintPath>..\Lib\ImageTools.Utils.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp, Version=5.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Xna.Framework.Math, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="mscorlib" />
@@ -114,7 +129,7 @@
     <Compile Include="Material\FourPointLightsTextureMaterial.cs" />
     <Compile Include="Material\NoEffectMaterial.cs" />
     <Compile Include="Material\PointMaterial.cs" />
-    <Compile Include="Material\TexturedMaterial.cs" />
+    <Compile Include="Material\TexturedNoEffectMaterial.cs" />
     <Compile Include="Material\TextureMaterial.cs" />
     <Compile Include="Material\VertexColorMaterial.cs" />
     <Compile Include="Models\BaseModel.cs" />

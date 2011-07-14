@@ -2,12 +2,21 @@
 using Microsoft.Xna.Framework;
 using _3DPresentation.Models;
 using _3DPresentation.Effects;
+using System.ComponentModel;
 
 namespace _3DPresentation.Material
 {
-    public class TexturedMaterial : BaseMaterial
+    public class TexturedNoEffectMaterial : BaseMaterial
     {
+        [Category("Texture")]
+        [ReadOnly(true)]
         public string DiffuseTexture { get; set; }
+
+        public TexturedNoEffectMaterial()
+        {
+            DiffuseTexture = "Images/3.jpg";
+        }
+
         public override void Apply()
         {
             TexturedNoEffect texturedNoEffect = EffectManager.TexturedNoEffect;
@@ -16,7 +25,7 @@ namespace _3DPresentation.Material
             texturedNoEffect.Projection = EffectManager.Scene.GetCameraProjection();
             texturedNoEffect.World = World;
             
-            //texturedNoEffect.DiffuseTexture = ResourceManager.GetTexture(DiffuseTexture);
+            texturedNoEffect.DiffuseTexture = ResourceManager.GetTexture(DiffuseTexture);
 
             texturedNoEffect.Device = Device;
             texturedNoEffect.Apply();
