@@ -32,7 +32,7 @@ namespace _3DPresentation
         {
             try
             {
-                if (path == null)
+                if (path == null || path.Length == 0 || path == " ")
                     return null;
                 if (Textures.ContainsKey(path))
                     return Textures[path];

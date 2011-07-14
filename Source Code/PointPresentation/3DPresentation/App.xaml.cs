@@ -46,6 +46,9 @@ namespace _3DPresentation
                 app.mainUI.Children.Add(nextPg);
             }
 
+            if (CurrentPage != null)
+                Utils.TransitionEffectHelper.BeginAnimation(CurrentPage, nextPg);
+
             // Show only nextPg
             foreach(UserControl page in app.mainUI.Children)
             {
@@ -72,7 +75,7 @@ namespace _3DPresentation
             {
                 app.mainUI.Children.Remove(page);
             }
-        }
+        }        
 
         private void Application_Exit(object sender, EventArgs e)
         {
