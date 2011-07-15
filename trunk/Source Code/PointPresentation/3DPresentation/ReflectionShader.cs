@@ -16,7 +16,7 @@ namespace _3DPresentation
     public ReflectionShader()
     {
         //Uri u = new Uri(@"/NavigationWithTransitions;component/Reflection.ps", UriKind.Relative);
-        Uri u = new Uri(@"/_3DPresentation;component/Reflection.ps", UriKind.Relative);
+        Uri u = new Uri(@"/3DPresentation;component/Reflection.ps", UriKind.Relative);
         //Uri u = new Uri(@"Reflection.ps", UriKind.RelativeOrAbsolute);
       PixelShader = new PixelShader() { UriSource = u };
       base.UpdateShaderValue(ElementHeightProperty);

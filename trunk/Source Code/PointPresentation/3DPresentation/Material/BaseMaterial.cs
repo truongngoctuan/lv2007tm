@@ -4,6 +4,7 @@ using _3DPresentation.Models;
 using _3DPresentation.Effects;
 using System.ComponentModel;
 using System.IO;
+using System;
 
 namespace _3DPresentation.Material
 {
@@ -118,6 +119,12 @@ namespace _3DPresentation.Material
             string filePath = string.Format("{0}/{1}", texturePath, textureName);
             return ResourceManager.SaveBitmap(textureName, filePath);
         }
+
+        public override string ToString()
+        {
+            Type type = this.GetType();
+            return type.Name;        }
+
         #region INotifyPropertyChanged Members
 
         public event PropertyChangedEventHandler PropertyChanged;

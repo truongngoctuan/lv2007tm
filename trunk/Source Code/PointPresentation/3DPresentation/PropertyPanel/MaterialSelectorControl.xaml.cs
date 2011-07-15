@@ -22,11 +22,6 @@ namespace _3DPresentation
         public MaterialSelectorControl()
         {
             InitializeComponent();
-            
-
-            cbMaterialType.Items.Add(typeof(NoEffectMaterial));
-            cbMaterialType.Items.Add(typeof(TexturedNoEffectMaterial));
-            cbMaterialType.Items.Add(typeof(PointMaterial));
         }
 
         void cbMaterialType_SelectionChanged(object sender, SelectionChangedEventArgs e)
