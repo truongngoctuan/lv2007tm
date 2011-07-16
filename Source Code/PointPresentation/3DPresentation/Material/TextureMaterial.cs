@@ -44,6 +44,7 @@ namespace _3DPresentation.Material
 
         public override void Apply()
         {
+            Device.BlendState = BlendState.Opaque;
             TextureEffect textureEffect = EffectManager.TextureEffect;
             textureEffect.View = EffectManager.Scene.GetCameraView();
             textureEffect.Projection = EffectManager.Scene.GetCameraProjection();
@@ -67,6 +68,16 @@ namespace _3DPresentation.Material
 
             textureEffect.Device = Device;
             textureEffect.Apply();
+
+            if (EffectManager.Scene is ViewScene)
+            {
+                if (DiffuseIntensity1 > 0)
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(0, DiffuseSource1, DiffuseColor1);
+                if (DiffuseIntensity2 > 0)
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(1, DiffuseSource2, DiffuseColor2);
+                if (DiffuseIntensity3 > 0)
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(2, DiffuseSource3, DiffuseColor3);
+            }
         }
 
         public override void Save(System.IO.StreamWriter writer, string texturePath)

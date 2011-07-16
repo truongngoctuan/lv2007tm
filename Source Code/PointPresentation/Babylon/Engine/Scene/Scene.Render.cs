@@ -13,6 +13,22 @@ namespace Babylon
 
         //nhminh
         //public void Render()
+        public virtual void RenderExtendedStandardModel()
+        { 
+        }
+
+        public virtual void RenderExtendedOpacityModel()
+        {
+        }
+
+        public virtual void RenderExtendedAlphaModel()
+        {
+        }
+
+        public static bool bStandardModel = true;
+        public static bool bOpacityModel = true;
+        public static bool bAlphaModel = true;
+
         public virtual void Render()
         {
             lock (this)
@@ -24,6 +40,7 @@ namespace Babylon
                 RenderedFacesCount = 0;
                 RenderID++;
 
+                AutoClear = true;
                 engine.Device.Clear(((AutoClear || ForceWireframe) ? ClearOptions.Target : 0) | ClearOptions.DepthBuffer, ClearColor, 1.0f, 0);
 
                 SelectVisibleWorld();
@@ -37,24 +54,33 @@ namespace Babylon
                 Engine.Device.BlendState = BlendState.Opaque;
                 foreach (SubModel subModel in standardSubModels)
                 {
+                    if(bStandardModel)
                     subModel.Material.Render(subModel);
                 }
+                //nhminh
+                RenderExtendedStandardModel();
 
                 // Opacity                
                 Engine.AlphaTestEnable = true;
                 foreach (SubModel subModel in opacitySubModels)
                 {
+                    if (bOpacityModel)
                     subModel.Material.Render(subModel);
                 }
-                Engine.AlphaTestEnable = false;
+                //nhminh
+                RenderExtendedOpacityModel();
+                Engine.AlphaTestEnable = false;                
 
                 // Alpha
                 Engine.StatesManager.DepthBufferWrite = false;
                 Engine.Device.BlendState = BlendState.NonPremultiplied;
                 foreach (SubModel subModel in alphaSubModels)
                 {
+                    if (bAlphaModel)
                     subModel.Material.Render(subModel);
                 }
+                //nhminh
+                RenderExtendedAlphaModel();
 
                 // Input
                 controlManager.MoveCamera();

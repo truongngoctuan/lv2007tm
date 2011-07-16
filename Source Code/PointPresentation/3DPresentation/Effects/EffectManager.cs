@@ -12,7 +12,7 @@ namespace _3DPresentation.Effects
         static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
         public static IBaseScene Scene { get; set; }
-        private static NoEffect noEffect;
+        private static SimpleEffect noEffect;
         private static TexturedNoEffect texturedNoEffect;
         private static PointEffect pointEffect;
         private static FourPointLightsEffect fourPointLightsEffect;
@@ -21,7 +21,7 @@ namespace _3DPresentation.Effects
         private static TextureEffect textureEffect;
         private static FourPointLightsTextureEffect fourPointLightsTextureEffect;
 
-        public static NoEffect NoEffect 
+        public static SimpleEffect NoEffect 
         { 
             get 
             {
@@ -108,7 +108,7 @@ namespace _3DPresentation.Effects
             if (IsReady)
                 return;
 
-            noEffect = new NoEffect(resourceDevice);
+            noEffect = new SimpleEffect(resourceDevice);
 
             texturedNoEffect = new TexturedNoEffect(resourceDevice);
 
@@ -132,7 +132,7 @@ namespace _3DPresentation.Effects
             Effect newEffect = null;
             if (effect == ShaderEffects.NoEffect)
             {
-                NoEffect noEffect = new NoEffect(resourceDevice);
+                SimpleEffect noEffect = new SimpleEffect(resourceDevice);
                 newEffect = noEffect;
             }
             else if (effect == ShaderEffects.TexturedNoEffect)

@@ -15,7 +15,7 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition />
         </Grid.RowDefinitions>
-        <ComboBox Grid.Row="0" x:Name="cbMaterialType" />
+        <ComboBox Grid.Row="0" x:Name="cbMaterialType" HorizontalContentAlignment="Center" />
         <my:PropertiesPanel Grid.Row="1" x:Name="propertiesPanel"/>
     </Grid>
 </UserControl>

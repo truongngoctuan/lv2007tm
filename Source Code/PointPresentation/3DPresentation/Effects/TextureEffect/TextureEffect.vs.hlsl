@@ -20,8 +20,8 @@ struct VertexData
 	// DOES NOT NEED TO BE IN THE SAME ORDER
 	// BUT MUST MATCH THE DESCRIPTION : Position, Normal, Color, TEXCOORD.... in VertexDeclaration
   float3 Position : POSITION;    
-  float3 Normal : NORMAL;
   float2 TextureCoords : TEXCOORD0;
+  float3 Normal : NORMAL;  
 };
 
 // vertex shader output passed through to geometry 

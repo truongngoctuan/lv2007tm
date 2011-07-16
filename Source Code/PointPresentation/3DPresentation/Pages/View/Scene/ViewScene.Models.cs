@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using System.IO;
 using System.Windows.Threading;
 using System.Windows;
+using _3DPresentation.Material;
 
 namespace _3DPresentation
 {
@@ -14,8 +15,35 @@ namespace _3DPresentation
     {
         private object lockThis = new object();
         List<BaseModel> Models = new List<BaseModel>();
+
+        BaseModel PointLight;
+        NoEffectMaterial PointLightMaterial;
+        PointLightInfomation[] PointLightInfomations;
+        struct PointLightInfomation
+        {
+            public Vector3 Position;
+            public GlobalVars.ColorEnum Color;
+            public bool Enable;
+        }
         private void PrepareModels()
         {
+            PointLight = BaseModel.Import(Utils.Global.GetPackStream("Resources/sphere.ply"), BaseModel.FileType.PLY);
+            PointLightMaterial = new NoEffectMaterial();
+            PointLight.Material = PointLightMaterial;
+
+            PointLightInfomations = new PointLightInfomation[4];
+        }
+
+        public void SetLightPosition(int index, Vector3 position, GlobalVars.ColorEnum color)
+        {
+            if (index < PointLightInfomations.Length)
+            {
+                if (TargetModel != null)
+                    PointLight.Scale = 0.1f * TargetModel.BoundingInfo.BoundingSphereWorld.Radius;
+                PointLightInfomations[index].Position = position;
+                PointLightInfomations[index].Color = color;
+                PointLightInfomations[index].Enable = true;
+            }
         }
 
         public bool AddModel(BaseModel model)

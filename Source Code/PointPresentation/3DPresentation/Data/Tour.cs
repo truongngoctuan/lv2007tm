@@ -52,6 +52,7 @@ namespace _3DPresentation.Data
                     Models[i].Export(BaseModel.FileType.PLY, Models[i].Type, modelFile, true);
                     Models[i].Material.Save(writer, string.Format("{0}/Models/", tourFileDir, Models[i].Name));
                 }
+                writer.Close();
             }            
             return result;
         }
@@ -112,7 +113,8 @@ namespace _3DPresentation.Data
                             model.Material = BaseMaterial.Load(reader);
                             tour.Models[i] = model;
                         }                        
-                    }                    
+                    }
+                    reader.Close();
                 }
             }                
             return tour;

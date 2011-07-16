@@ -9,6 +9,7 @@ namespace _3DPresentation.Material
     {
         public override void Apply()
         {
+            Device.BlendState = BlendState.Opaque;
             PointEffect pointEffect = EffectManager.PointEffect;
             pointEffect.View = EffectManager.Scene.GetCameraView();
             pointEffect.Projection = EffectManager.Scene.GetCameraProjection();

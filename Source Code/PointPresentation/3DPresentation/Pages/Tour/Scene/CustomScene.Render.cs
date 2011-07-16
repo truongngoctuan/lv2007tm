@@ -13,7 +13,6 @@ namespace _3DPresentation
     public partial class CustomScene : Babylon.Scene
     {
         // Events
-        public int DrawError { get; private set; }
 
         private void PrepareRender()
         {

@@ -16,9 +16,26 @@ namespace _3DPresentation.Material
             AmbientColor = GlobalVars.ColorEnum.White;
         }
 
+        System.DateTime lastTime;
+        System.TimeSpan elapsedTime = System.TimeSpan.FromMilliseconds(0);
         public override void Apply()
         {
-            NoEffect noEffect = EffectManager.NoEffect;
+            if(lastTime == null)
+            {
+                lastTime = System.DateTime.Now;
+            }
+            else
+            {
+                elapsedTime += (System.DateTime.Now - lastTime);
+                lastTime = System.DateTime.Now;
+                if(elapsedTime.TotalMilliseconds > 1000)
+                {
+                    AmbientColor = (GlobalVars.ColorEnum)(((int)AmbientColor + 1) % 7);
+                    elapsedTime = System.TimeSpan.Zero;
+                }
+            }
+            Device.BlendState = BlendState.Opaque;
+            SimpleEffect noEffect = EffectManager.NoEffect;
             noEffect.View = EffectManager.Scene.GetCameraView();
             noEffect.Projection = EffectManager.Scene.GetCameraProjection();
             noEffect.AmbientColor = GlobalVars.GetColor(AmbientColor);

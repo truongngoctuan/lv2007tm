@@ -15,7 +15,7 @@ namespace _3DPresentation.Models
 
         public TexCoordModel()
         {
-            texCoordManager = new TexCoordManager();
+            texCoordManager = new TexCoordManager(this);
         }
 
         public override void Begin(int nPoints, int nFaces)
@@ -32,6 +32,11 @@ namespace _3DPresentation.Models
         {
             base.AddVertex(position);
             texCoordManager.AddVertex(position);
+        }
+        public override void AddVertex(Vector3 position, Vector3 normal)
+        {
+            base.AddVertex(position, normal);
+            texCoordManager.AddVertex(position, normal);
         }
         public override void AddIndice(int i1, int i2, int i3)
         {
