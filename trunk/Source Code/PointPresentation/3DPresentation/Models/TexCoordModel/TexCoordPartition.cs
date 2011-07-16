@@ -60,11 +60,12 @@ namespace _3DPresentation.Models
             IndicesList = null;
         }
 
-        public int AddPoint(Vector3 point, Vector2 texCoord)
+        public int AddPoint(Vector3 point, Vector3 normal, Vector2 texCoord)
         {
             VertexPositionNormalTexture vertex = new VertexPositionNormalTexture()
             {
                 Position = point,
+                Normal = normal,
                 TextureCoordinates = texCoord
             };
             VerticesList.Add(vertex);
@@ -75,7 +76,7 @@ namespace _3DPresentation.Models
         private int maxI = -1;
         public bool AddIndice(int i1, int i2, int i3)
         {
-            if (i1 >= this.PartitionSize || i2 >= this.PartitionSize || i3 >= this.PartitionSize)
+            if (i1 >= this.VerticesList.Count || i2 >= this.VerticesList.Count || i3 >= this.VerticesList.Count)
                 return false;
 
             IndicesList.Add(Convert.ToUInt16(i1));
@@ -145,7 +146,7 @@ namespace _3DPresentation.Models
             graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, VertexBuffer.VertexCount, 0, IndexBuffer.IndexCount / 3);
         }
 
-        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexTypes vertexType, StreamWriter writer, Matrix worldMatrix)
+        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexTypes vertexType, StreamWriter writer, Matrix transformMatrix)
         {
             if (writer == null)
                 return false;
@@ -155,7 +156,7 @@ namespace _3DPresentation.Models
                 {
                     for (int i = 0; i < Vertices.Length; i++)
                     {
-                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        Vector3 worldPosition = MathUtil.TransformPoint(transformMatrix, Vertices[i].Position);
                         string str = string.Format("{0} {1} {2}\n", worldPosition.X, worldPosition.Y, worldPosition.Z);
                         writer.Write(str);
                     }
@@ -164,7 +165,7 @@ namespace _3DPresentation.Models
                 {
                     for (int i = 0; i < Vertices.Length; i++)
                     {
-                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        Vector3 worldPosition = MathUtil.TransformPoint(transformMatrix, Vertices[i].Position);
                         string str = string.Format("{0} {1} {2} {3} {4} {5}\n",
                             worldPosition.X, worldPosition.Y, worldPosition.Z, Color.White.R, Color.White.G, Color.White.B);
                         writer.Write(str);
@@ -174,7 +175,7 @@ namespace _3DPresentation.Models
                 {
                     for (int i = 0; i < Vertices.Length; i++)
                     {
-                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        Vector3 worldPosition = MathUtil.TransformPoint(transformMatrix, Vertices[i].Position);
                         string str = string.Format("{0} {1} {2} {3} {4} {5}\n",
                             worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Normal.X, Vertices[i].Normal.Y, Vertices[i].Normal.Z);
                         writer.Write(str);
@@ -184,7 +185,7 @@ namespace _3DPresentation.Models
                 {
                     for (int i = 0; i < Vertices.Length; i++)
                     {
-                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        Vector3 worldPosition = MathUtil.TransformPoint(transformMatrix, Vertices[i].Position);
                         string str = string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}\n",
                             worldPosition.X, worldPosition.Y, worldPosition.Z, Color.White.R, Color.White.G, Color.White.B, Vertices[i].Normal.X, Vertices[i].Normal.Y, Vertices[i].Normal.Z);
                         writer.Write(str);
@@ -194,9 +195,20 @@ namespace _3DPresentation.Models
                 {
                     for (int i = 0; i < Vertices.Length; i++)
                     {
-                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        Vector3 worldPosition = MathUtil.TransformPoint(transformMatrix, Vertices[i].Position);
                         string str = string.Format("{0} {1} {2}\n",
                             worldPosition.X, worldPosition.Y, worldPosition.Z);
+                        writer.Write(str);
+                    }
+                }
+                else if (vertexType == BaseModel.VertexTypes.XYZ_NORMAL_TEXCOORD)
+                {
+                    for (int i = 0; i < Vertices.Length; i++)
+                    {
+                        Vector3 worldPosition = MathUtil.TransformPoint(transformMatrix, Vertices[i].Position);
+                        Vector3 worldNormal = MathUtil.TransformPoint(transformMatrix, Vertices[i].Normal);
+                        string str = string.Format("{0} {1} {2} {3} {4} {5}\n",
+                            worldPosition.X, worldPosition.Y, worldPosition.Z, worldNormal.X, worldNormal.Y, worldNormal.Z);
                         writer.Write(str);
                     }
                 }
@@ -211,7 +223,7 @@ namespace _3DPresentation.Models
 
             if (fileType == BaseModel.FileType.PLY)
             {
-                if (vertexType == BaseModel.VertexTypes.XYZ_TEXCOORD)
+                if (vertexType == BaseModel.VertexTypes.XYZ_TEXCOORD || vertexType == BaseModel.VertexTypes.XYZ_NORMAL_TEXCOORD)
                 {
                     for (int i = 0; i < Indices.Length; i += 3)
                     {

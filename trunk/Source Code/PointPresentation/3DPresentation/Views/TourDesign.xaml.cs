@@ -52,7 +52,7 @@ namespace _3DPresentation.Views
 
         void TourDesign_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            if (SelectedModel != null)
+            //if (SelectedModel != null)
             {       
                 Vector3 moveDirection = Vector3.Zero;
                 Matrix mat = Matrix.CreateFromYawPitchRoll(tourControl.Camera.RotationY, tourControl.Camera.RotationX, tourControl.Camera.RotationZ);
@@ -80,8 +80,21 @@ namespace _3DPresentation.Views
                 {
                     moveDirection = MathUtil.TransformPoint(mat, Vector3.Forward);
                 }
+                else if (e.Key == System.Windows.Input.Key.Z)
+                {
+                    Babylon.Scene.bStandardModel = !Babylon.Scene.bStandardModel;
+                }
+                else if (e.Key == System.Windows.Input.Key.X)
+                {
+                    Babylon.Scene.bOpacityModel = !Babylon.Scene.bOpacityModel;
+                }
+                else if (e.Key == System.Windows.Input.Key.C)
+                {
+                    Babylon.Scene.bAlphaModel = !Babylon.Scene.bAlphaModel;
+                }
+
                 moveDirection /= 10;
-                SelectedModel.Position += moveDirection;
+                //SelectedModel.Position += moveDirection;
             }
         }
 

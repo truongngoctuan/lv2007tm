@@ -32,10 +32,12 @@ namespace _3DPresentation.Material
         {
             AmbientColor = GlobalVars.ColorEnum.Green;
             SceneAmbientColor = GlobalVars.ColorEnum.Green;
+            Alpha = 1.0f;
         }
 
         public override void Apply()
         {
+            Device.BlendState = BlendState.AlphaBlend;
             VertexColorEffect vertexColorEffect = EffectManager.VertexColorEffect;
             vertexColorEffect.View = EffectManager.Scene.GetCameraView();
             vertexColorEffect.Projection = EffectManager.Scene.GetCameraProjection();
@@ -58,6 +60,12 @@ namespace _3DPresentation.Material
 
             vertexColorEffect.Device = Device;
             vertexColorEffect.Apply();
+
+
+            if (EffectManager.Scene is ViewScene)
+            {
+                 ((ViewScene)EffectManager.Scene).SetLightPosition(0, LightPosition, DiffuseColor);
+            }
         }
 
         public override void Save(System.IO.StreamWriter writer, string texturePath)

@@ -95,7 +95,7 @@ namespace _3DPresentation.Models
             graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, VertexBuffer.VertexCount, 0, IndexBuffer.IndexCount / 3);
         }
 
-        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexTypes vertexType, StreamWriter writer, Matrix worldMatrix)
+        public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexTypes vertexType, StreamWriter writer, Matrix transformMatrix)
         {
             if (writer == null)
                 return false;
@@ -106,7 +106,7 @@ namespace _3DPresentation.Models
                     for (int i = 0; i < Vertices.Length; i += 4)
                     {
 
-                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        Vector3 worldPosition = MathUtil.TransformPoint(transformMatrix, Vertices[i].Position);
                         if (worldPosition.X == worldPosition.Y && worldPosition.Y == worldPosition.Z && worldPosition.Z == 0) continue;
 
                         string str = string.Format("{0} {1} {2}\n",
@@ -118,7 +118,7 @@ namespace _3DPresentation.Models
                 {
                     for (int i = 0; i < Vertices.Length; i += 4)
                     {
-                        Vector3 worldPosition = MathUtil.TransformPoint(worldMatrix, Vertices[i].Position);
+                        Vector3 worldPosition = MathUtil.TransformPoint(transformMatrix, Vertices[i].Position);
                         if (worldPosition.X == worldPosition.Y && worldPosition.Y == worldPosition.Z && worldPosition.Z == 0) continue;
 
                         string str = string.Format("{0} {1} {2} {3} {4} {5}\n",

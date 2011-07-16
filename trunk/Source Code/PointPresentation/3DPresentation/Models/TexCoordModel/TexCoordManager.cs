@@ -12,12 +12,20 @@ namespace _3DPresentation.Models
         public class Node
         {
             public Vector3 Position;
+            public Vector3 Normal;
             public int lastPartition;
             public int lastIndex;
 
             public Node(Vector3 position)
             {
                 Position = position;
+                lastPartition = -1;
+                lastIndex = -1;
+            }
+            public Node(Vector3 position, Vector3 normal)
+            {
+                Position = position;
+                Normal = normal;
                 lastPartition = -1;
                 lastIndex = -1;
             }
@@ -31,10 +39,11 @@ namespace _3DPresentation.Models
         public int NumFaces;
 
         Node[] nodes;
-
-        public TexCoordManager()
+        BaseModel Model;
+        public TexCoordManager(BaseModel model)
         {
             Partitions = new List<TexCoordPartition>();
+            Model = model;
         }
 
         public void Begin(int nPoints, int nFaces)
@@ -64,6 +73,13 @@ namespace _3DPresentation.Models
             nodes[iCurrentNode++] = new Node(position);
             return true;
         }
+        public bool AddVertex(Vector3 position, Vector3 normal)
+        {
+            if (iCurrentNode >= nodes.Length)
+                return false;
+            nodes[iCurrentNode++] = new Node(position, normal);
+            return true;
+        }
 
         int iCurrentPartition = 0;
         public bool AddIndice(int i1, int i2, int i3, Vector2 texCoord1, Vector2 texCoord2, Vector2 texCoord3)
@@ -83,21 +99,21 @@ namespace _3DPresentation.Models
                     if(nodes[i1].lastPartition != Partitions[iCurrentPartition].ID)
                     {
                         nodes[i1].lastPartition = partition.ID;
-                        nodes[i1].lastIndex = partition.AddPoint(nodes[i1].Position, texCoord1);
+                        nodes[i1].lastIndex = partition.AddPoint(nodes[i1].Position, nodes[i1].Normal, texCoord1);
                     }
                     if (nodes[i2].lastPartition != Partitions[iCurrentPartition].ID)
                     {
                         nodes[i2].lastPartition = partition.ID;
-                        nodes[i2].lastIndex = partition.AddPoint(nodes[i2].Position, texCoord2);
+                        nodes[i2].lastIndex = partition.AddPoint(nodes[i2].Position, nodes[i2].Normal, texCoord2);
                     }
                     if (nodes[i3].lastPartition != Partitions[iCurrentPartition].ID)
                     {
                         nodes[i3].lastPartition = partition.ID;
-                        nodes[i3].lastIndex = partition.AddPoint(nodes[i3].Position, texCoord3);
+                        nodes[i3].lastIndex = partition.AddPoint(nodes[i3].Position, nodes[i3].Normal, texCoord3);
                     }
-                    partition.AddIndice(nodes[i1].lastIndex, nodes[i2].lastIndex, nodes[i3].lastIndex);
-                    result = true;
-                    break;
+                    result = partition.AddIndice(nodes[i1].lastIndex, nodes[i2].lastIndex, nodes[i3].lastIndex);
+                    if(result)
+                        break;
                 }                
             }
             return result;
@@ -115,6 +131,11 @@ namespace _3DPresentation.Models
                 NumPoints += Partitions[i].Vertices.Length;
                 NumFaces += Partitions[i].Indices.Length / 3;
             }
+
+            if (Model.Type == BaseModel.VertexTypes.XYZ_NORMAL_TEXCOORD
+                || Model.Type == BaseModel.VertexTypes.XYZ_NORMAL
+                || Model.Type == BaseModel.VertexTypes.XYZ_RGB_NORNAL)
+                return;
 
             foreach (TexCoordPartition par in Partitions)
                 par.InitNormals();

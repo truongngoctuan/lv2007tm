@@ -178,7 +178,7 @@
     <Compile Include="CameraMovements.cs" />
     <Compile Include="ClientLog.cs" />
     <Compile Include="Effects\MyBasicEffect\MyBasicEffect.cs" />
-    <Compile Include="Effects\NoEffect\NoEffect.cs" />
+    <Compile Include="Effects\SimpleEffect\SimpleEffect.cs" />
     <Compile Include="Effects\VertexDeclarations.cs" />
     <Compile Include="Utils\COMAutomation.cs" />
     <Compile Include="Utils\Global.cs" />
@@ -248,7 +248,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <None Include="Resources\sphere.ply" />
+    <Resource Include="Resources\sphere.ply" />
     <Resource Include="Views\Editor\Images\transition_bg.png" />
     <Resource Include="Views\Images\editor_view_bg.jpg" />
     <Resource Include="Views\Editor\Images\top_capture.png" />
@@ -713,8 +713,8 @@
   <ItemGroup>
     <PixelShader Include="Effects\MyBasicEffect\MyBasicEffect.ps.hlsl" />
     <VertexShader Include="Effects\MyBasicEffect\MyBasicEffect.vs.hlsl" />
-    <PixelShader Include="Effects\NoEffect\NoEffect.ps.hlsl" />
-    <VertexShader Include="Effects\NoEffect\NoEffect.vs.hlsl" />
+    <PixelShader Include="Effects\SimpleEffect\SimpleEffect.ps.hlsl" />
+    <VertexShader Include="Effects\SimpleEffect\SimpleEffect.vs.hlsl" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />

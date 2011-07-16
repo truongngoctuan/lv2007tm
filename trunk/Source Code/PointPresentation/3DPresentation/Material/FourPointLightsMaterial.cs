@@ -47,6 +47,7 @@ namespace _3DPresentation.Material
 
         public override void Apply()
         {
+            Device.BlendState = BlendState.Opaque;
             FourPointLightsEffect fourPointLights = EffectManager.FourPointLightsEffect;
             fourPointLights.View = EffectManager.Scene.GetCameraView();
             fourPointLights.Projection = EffectManager.Scene.GetCameraProjection();
@@ -72,6 +73,18 @@ namespace _3DPresentation.Material
 
             fourPointLights.Device = Device;
             fourPointLights.Apply();
+
+            if (EffectManager.Scene is ViewScene)
+            {
+                if (EnableLight1)
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(0, LightSource1, LightColor1);
+                if (EnableLight2)
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(1, LightSource2, LightColor2);
+                if (EnableLight3)
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(2, LightSource3, LightColor3);
+                if (EnableLight4)
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(3, LightSource4, LightColor4);
+            }
         }
 
         public override void Save(System.IO.StreamWriter writer, string texturePath)

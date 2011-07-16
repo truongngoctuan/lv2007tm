@@ -28,9 +28,9 @@ namespace _3DPresentation
         {
             if (target == null)
                 return;
-            if (cbMaterialType.SelectedItem is Type)
+            if (cbMaterialType.SelectedItem is MaterialType)
             {
-                Type type = (Type)cbMaterialType.SelectedItem;
+                Type type = ((MaterialType)cbMaterialType.SelectedItem).Type;
                 //if (target.Material.GetType() != type || propertiesPanel.Target == null)
                 {
                     if (type.BaseType == typeof(BaseMaterial))
@@ -68,15 +68,33 @@ namespace _3DPresentation
                 cbMaterialType.SelectionChanged -= new SelectionChangedEventHandler(cbMaterialType_SelectionChanged);
                 target = model;
                 Type[] materialTypes = model.GetCompatibleMaterialTypes();
-                cbMaterialType.Items.Clear();
-                foreach (Type materialType in materialTypes)
+                //cbMaterialType.Items.Clear();
+                
+                //cbMaterialType.DisplayMemberPath = "Name";
+
+                MaterialType[] types = new MaterialType[materialTypes.Length];
+
+                for (int i = 0; i < materialTypes.Length; i++)
                 {
-                    cbMaterialType.Items.Add(materialType);
+                    types[i] = new MaterialType();
+                    types[i].Type = materialTypes[i];
+                    types[i].Name = BaseMaterial.GetName(materialTypes[i]);
+                    //cbMaterialType.Items.Add(materialType);
                 }
+                cbMaterialType.ItemsSource = types;
+                cbMaterialType.DisplayMemberPath = "Name";
+
                 materialTypes = null;
+                types = null;
                 cbMaterialType.SelectionChanged += new SelectionChangedEventHandler(cbMaterialType_SelectionChanged);
                 cbMaterialType.SelectedItem = target.Material.GetType();
             }            
+        }
+
+        public class MaterialType
+        {
+            public Type Type { get; set; }
+            public string Name { get; set; }
         }
     }
 }

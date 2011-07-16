@@ -37,7 +37,7 @@ namespace _3DPresentation
             get
             {
                 if (ActiveCamera != null)
-                    return new Vector3(DrawError, ActiveCamera.RotationY, ActiveCamera.RotationZ);
+                    return new Vector3(ActiveCamera.RotationX, ActiveCamera.RotationY, ActiveCamera.RotationZ);
                 return Vector3.Zero;
             }
         }
@@ -78,17 +78,24 @@ namespace _3DPresentation
         {
             if (IsEnable == false)
                 return;
-            try
-            {
-                base.Render();
 
-                EffectManager.Scene = this;
-                Render(Device);
-            }
-            catch (ArgumentException ex)
-            {
-                DrawError++;
-            }
+            base.Render();
+        }
+
+        public override void RenderExtendedStandardModel()
+        {
+            EffectManager.Scene = this;
+            Render(Device);
+        }
+
+        public override void RenderExtendedOpacityModel()
+        {
+            
+        }
+
+        public override void RenderExtendedAlphaModel()
+        {
+            
         }
 
         public bool IsFlyTo { get; private set; }

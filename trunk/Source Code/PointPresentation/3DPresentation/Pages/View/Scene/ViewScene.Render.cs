@@ -40,6 +40,17 @@ namespace _3DPresentation
                         model.Render(graphicsDevice);
                     }
                 }
+
+                for(int i = 0; i < PointLightInfomations.Length; i++)
+                {
+                    if (PointLightInfomations[i].Enable == true)
+                    {
+                        PointLight.Position = PointLightInfomations[i].Position;
+                        PointLightMaterial.AmbientColor = PointLightInfomations[i].Color;
+                        PointLight.Render(graphicsDevice, false);
+                    }
+                    PointLightInfomations[i].Enable = false; 
+                }
                 
                 models = null;
             }

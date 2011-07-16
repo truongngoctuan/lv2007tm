@@ -123,7 +123,29 @@ namespace _3DPresentation.Material
         public override string ToString()
         {
             Type type = this.GetType();
-            return type.Name;        }
+            return type.Name;
+        }
+
+        public static string GetName(Type type)
+        {
+            if (type == typeof(BasicMaterial))
+                return "BasicMaterial";
+            else if (type == typeof(FourPointLightsMaterial))
+                return "FourPointLightsMaterial";
+            else if (type == typeof(NoEffectMaterial))
+                return "NoEffectMaterial";
+            else if (type == typeof(PointMaterial))
+                return "PointMaterial";
+            else if (type == typeof(TexturedNoEffectMaterial))
+                return "TexturedMaterial";
+            else if (type == typeof(VertexColorMaterial))
+                return "VertexColorMaterial";
+            else if (type == typeof(TextureMaterial))
+                return "TextureMaterial";
+            else if (type == typeof(FourPointLightsTextureMaterial))
+                return "FourPointLightsTextureMaterial";
+            return "Material";
+        }
 
         #region INotifyPropertyChanged Members
 

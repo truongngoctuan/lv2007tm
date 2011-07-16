@@ -4,6 +4,7 @@ using _3DPresentation.Models;
 using _3DPresentation.Effects;
 using System.ComponentModel;
 using Babylon.Toolbox;
+using System;
 
 namespace _3DPresentation.Material
 {
@@ -44,10 +45,12 @@ namespace _3DPresentation.Material
             LightPosition = new Vector3(5, 0, 0);
             SpecularColor = GlobalVars.ColorEnum.Orange;
             SpecularPower = 20.0f;
+            Alpha = 1.0f;
         }
 
         public override void Apply()
         {
+            Device.BlendState = BlendState.AlphaBlend;
             BasicEffect basicEffect = EffectManager.BasicEffect;
             basicEffect.View = EffectManager.Scene.GetCameraView();
             basicEffect.Projection = EffectManager.Scene.GetCameraProjection();
@@ -76,6 +79,14 @@ namespace _3DPresentation.Material
 
             basicEffect.Device = Device;
             basicEffect.Apply();
+
+            if (EffectManager.Scene is ViewScene)
+            {
+                if (basicEffect.DiffuseTexture != null)                    
+                ((ViewScene)EffectManager.Scene).SetLightPosition(0, LightPosition, GlobalVars.ColorEnum.White);
+                else
+                ((ViewScene)EffectManager.Scene).SetLightPosition(0, LightPosition, DiffuseColor);
+            }
         }
 
         public override void Save(System.IO.StreamWriter writer, string texturePath)

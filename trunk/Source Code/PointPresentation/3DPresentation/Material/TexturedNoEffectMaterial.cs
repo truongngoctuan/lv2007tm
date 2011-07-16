@@ -19,6 +19,7 @@ namespace _3DPresentation.Material
 
         public override void Apply()
         {
+            Device.BlendState = BlendState.Opaque;
             TexturedNoEffect texturedNoEffect = EffectManager.TexturedNoEffect;
             
             texturedNoEffect.View = EffectManager.Scene.GetCameraView();
