@@ -119,6 +119,7 @@ namespace _3DPresentation.Views
                 tour = new Tour();
                 tour.Name = "FirstTour";
                 tour.SceneName = "espilit";
+                LoadSceneLocal(tour.SceneName);
                 //ExecuteScript("abc");
             }
             else

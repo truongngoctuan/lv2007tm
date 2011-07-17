@@ -255,6 +255,7 @@ namespace _3DPresentation.Models
                             vertexType = VertexTypes.XYZ_NORMAL;
 
                         model = BaseModel.Import_PLY(sr, nPoints, nFaces, vertexType, textureName);
+                        model.Name = file.Name;
                     }
                     catch (IOException io)
                     {
