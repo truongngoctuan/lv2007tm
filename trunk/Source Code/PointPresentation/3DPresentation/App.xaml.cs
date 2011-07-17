@@ -40,14 +40,17 @@ namespace _3DPresentation
         {
             if (nextPg == null)
                 return;
-            App app = (App)Application.Current;
+            App app = (App)Application.Current;            
+
             if(app.mainUI.Children.Contains(nextPg) == false)
             {
                 app.mainUI.Children.Add(nextPg);
             }
 
             if (CurrentPage != null)
+            {
                 Utils.TransitionEffectHelper.BeginAnimation(CurrentPage, nextPg);
+            }
 
             // Show only nextPg
             foreach(UserControl page in app.mainUI.Children)
@@ -74,6 +77,7 @@ namespace _3DPresentation
             if (app.mainUI.Children.Contains(page))
             {
                 app.mainUI.Children.Remove(page);
+                page = null;
             }
         }        
 

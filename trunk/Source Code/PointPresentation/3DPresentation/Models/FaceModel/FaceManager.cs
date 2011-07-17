@@ -82,8 +82,8 @@ namespace _3DPresentation.Models
             if (i1 == i2 || i2 == i3 || i1 == i3)
                 return false;
 
-            if (i1 > i2) { int temp = i1; i1 = i2; i2 = temp; }
-            if (i1 > i3) { int temp = i1; i1 = i3; i3 = temp; }
+            //if (i1 > i2) { int temp = i1; i1 = i2; i2 = temp; }
+            //if (i1 > i3) { int temp = i1; i1 = i3; i3 = temp; }
             Nodes[i1].RelativeNodes.Add(new RelativeNode(Nodes[i2], Nodes[i3]));
             return true;
         }        
@@ -92,15 +92,12 @@ namespace _3DPresentation.Models
         {
             int iCurrentPartition = 0;
             FacePartition partition = Partitions[iCurrentPartition];
-            for (int i = 0; i < Nodes.Length; i++)
-            {               
-                while (AddNode(partition, Nodes[i]) == false)
-                {
+            for (int i = 0; i < Nodes.Length && iCurrentPartition < Partitions.Count; )
+            {
+                if (AddNode(Partitions[iCurrentPartition], Nodes[i]) == true)
+                    i++;
+                else
                     iCurrentPartition++;
-                    if (iCurrentPartition == Partitions.Count)
-                        return;
-                    partition = Partitions[iCurrentPartition];
-                }
             }
             Nodes = null;
 

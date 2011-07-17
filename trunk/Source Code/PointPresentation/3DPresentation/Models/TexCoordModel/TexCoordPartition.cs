@@ -101,8 +101,8 @@ namespace _3DPresentation.Models
                 int i1 = Indices[i * 3];
                 int i2 = Indices[i * 3 + 1];
                 int i3 = Indices[i * 3 + 2];
-                Vector3 v1 = Vertices[i2].Position - Vertices[i1].Position;
-                Vector3 v2 = Vertices[i3].Position - Vertices[i1].Position;
+                Vector3 v1 = Vertices[i3].Position - Vertices[i1].Position;
+                Vector3 v2 = Vertices[i2].Position - Vertices[i1].Position;
                 Vector3 normal = Vector3.Cross(v2, v1);
 
                 Vertices[i1].Normal += normal;

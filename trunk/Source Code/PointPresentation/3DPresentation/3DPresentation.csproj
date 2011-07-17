@@ -174,7 +174,6 @@
     <Compile Include="ReflectionShader.cs" />
     <Compile Include="SharpGIS.UnZipper.cs" />
     <Compile Include="Utils\Animator.cs" />
-    <Compile Include="Utils\Camera.cs" />
     <Compile Include="CameraMovements.cs" />
     <Compile Include="ClientLog.cs" />
     <Compile Include="Effects\MyBasicEffect\MyBasicEffect.cs" />
@@ -192,6 +191,9 @@
     </Compile>
     <Compile Include="Utils\MathUtil.cs" />
     <Compile Include="Utils\TransitionEffectHelper.cs" />
+    <Compile Include="Views\Catalog.xaml.cs">
+      <DependentUpon>Catalog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Color Picker\ColorBoard.cs" />
     <Compile Include="Views\Color Picker\ColorHelper.cs" />
     <Compile Include="Views\Color Picker\ColorPicker.cs" />
@@ -251,6 +253,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Resource Include="Views\Images\save.jpg" />
+    <Resource Include="Views\Images\remove.png" />
+    <Resource Include="Views\Images\add.png" />
     <Resource Include="Views\Images\bg1.png" />
     <Resource Include="Views\Images\bg2.png" />
     <Resource Include="Views\Images\bg3.png" />
@@ -286,6 +291,10 @@
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Page Include="Views\Catalog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\customChildWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

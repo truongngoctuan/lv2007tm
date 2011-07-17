@@ -54,9 +54,11 @@ namespace _3DPresentation
 
         public static BitmapImage LoadTexture(FileInfo textureFile, string key)
         {
-            BitmapImage bmp = null;
+            BitmapImage bmp = null;            
             try
             {
+                if (Textures.ContainsKey(key))
+                    return Bitmaps[Textures[key]];
                 if (textureFile.Exists)
                 {                    
                     FileStream stream = textureFile.OpenRead();

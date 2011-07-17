@@ -35,16 +35,15 @@ namespace _3DPresentation
         {
             mouseLeftDown = true;
             startPosition = e.GetPosition(Surface);
+            if (e.ClickCount == 2)
+            {
+                OnMouseClick();
+            }
         }
 
         void Container_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             mouseLeftDown = false;
-            Point upPosition = e.GetPosition(Surface);
-            if (Math.Abs(upPosition.X - startPosition.X) < 5 && Math.Abs(upPosition.Y - startPosition.Y) < 5)
-            {
-                OnMouseClick();
-            }
         }
 
         private void OnMouseClick()

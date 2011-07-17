@@ -8,7 +8,7 @@
     xmlns:Babylon="clr-namespace:Babylon;assembly=Babylon"  
     d:DesignHeight="300" d:DesignWidth="400">
     
-    <Grid x:Name="LayoutRoot" Background="White">
-        <Babylon:BabylonSurface x:Name="babylonSurface" />        
+    <Grid x:Name="LayoutRoot" Background="Transparent">
+        <Babylon:BabylonSurface x:Name="babylonSurface" Background="Transparent"/>        
     </Grid>
 </UserControl>

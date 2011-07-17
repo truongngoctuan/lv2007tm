@@ -12,6 +12,7 @@ namespace _3DPresentation.Effects
         static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
         public static IBaseScene Scene { get; set; }
+
         private static SimpleEffect noEffect;
         private static TexturedNoEffect texturedNoEffect;
         private static PointEffect pointEffect;

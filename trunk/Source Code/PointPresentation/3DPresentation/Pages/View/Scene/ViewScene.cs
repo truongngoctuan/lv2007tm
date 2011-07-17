@@ -45,7 +45,7 @@ namespace _3DPresentation
             Surface = surface;
 
             // State
-            IsEnable = true;
+            IsEnable = false;
             IsLoaded = false;
 
             Surface.SizeChanged += new System.Windows.SizeChangedEventHandler(Surface_SizeChanged);
@@ -57,6 +57,7 @@ namespace _3DPresentation
         private void InitScene()
         {
             IsLoaded = true;
+            IsEnable = true;
 
             PrepareIO();
             PrepareModels();
@@ -91,6 +92,7 @@ namespace _3DPresentation
             GraphicsDevice graphicsDevice = e.GraphicsDevice;
             if (graphicsDevice == null)
                 return;
+
             if (StatesManager == null)
             {
                 StatesManager = new StatesManager(graphicsDevice);
@@ -129,6 +131,11 @@ namespace _3DPresentation
         Vector2 IBaseScene.GetDrawingSurfaceSize()
         {
             return SurfaceSize;
+        }
+
+        StatesManager IBaseScene.GetStatesManager()
+        {
+            return StatesManager;
         }
 
         #endregion

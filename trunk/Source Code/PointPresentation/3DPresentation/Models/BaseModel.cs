@@ -556,7 +556,8 @@ namespace _3DPresentation.Models
                     writer.WriteLine("property float32 x");
                     writer.WriteLine("property float32 y");
                     writer.WriteLine("property float32 z");
-                    writer.WriteLine("element face " + nFaces);                
+                    writer.WriteLine("element face " + nFaces);
+                    writer.WriteLine("property list uchar int vertex_indices");
                     writer.WriteLine("end_header");
                 }
                 else if (vertexType == VertexTypes.XYZ_RGB)
@@ -568,6 +569,7 @@ namespace _3DPresentation.Models
                     writer.WriteLine("property uchar green");
                     writer.WriteLine("property uchar blue");
                     writer.WriteLine("element face " + nFaces);                
+                    writer.WriteLine("property list uchar int vertex_indices");
                     writer.WriteLine("end_header");
                 }
                 else if (vertexType == VertexTypes.XYZ_RGB_NORNAL)
@@ -581,7 +583,8 @@ namespace _3DPresentation.Models
                     writer.WriteLine("property float32 nx");
                     writer.WriteLine("property float32 ny");
                     writer.WriteLine("property float32 nz");
-                    writer.WriteLine("element face " + nFaces);                
+                    writer.WriteLine("element face " + nFaces);               
+                    writer.WriteLine("property list uchar int vertex_indices");
                     writer.WriteLine("end_header");
                 }
                 else if (vertexType == VertexTypes.XYZ_TEXCOORD)
@@ -716,8 +719,8 @@ namespace _3DPresentation.Models
             Babylon.Toolbox.OrbitCamera cam = new Babylon.Toolbox.OrbitCamera { Alpha = (float)Math.PI / 2 };
 
             //setmodel target
-            cam.Radius = this.BoundingInfo.BoundingSphereWorld.Radius * 1000 * 4.0f;
-            cam.Target = this.BoundingInfo.BoundingSphereWorld.Center * 1000;
+            cam.Radius = this.BoundingInfo.BoundingSphereWorld.Radius * 2.0f;
+            cam.Target = this.BoundingInfo.BoundingSphereWorld.Center;
             cam.Alpha = cam.Alpha; // to raise event => recompute Position to get new ViewMatrix
             
             return toBitmap(400, 400, cam);

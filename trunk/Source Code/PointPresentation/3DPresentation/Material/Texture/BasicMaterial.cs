@@ -70,7 +70,7 @@ namespace _3DPresentation.Material
 
             basicEffect.BumpTexture = ResourceManager.GetTexture(BumpTexture);
 
-            basicEffect.LightPosition = LightPosition;
+            basicEffect.LightPosition = MathUtil.TransformPoint(World, LightPosition);
             basicEffect.CameraPosition = EffectManager.Scene.GetCameraPosition();
 
             basicEffect.InvertBinormal = InvertBinormal;
@@ -82,10 +82,10 @@ namespace _3DPresentation.Material
 
             if (EffectManager.Scene is ViewScene)
             {
-                if (basicEffect.DiffuseTexture != null)                    
-                ((ViewScene)EffectManager.Scene).SetLightPosition(0, LightPosition, GlobalVars.ColorEnum.White);
+                if (basicEffect.DiffuseTexture != null)
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(0, MathUtil.TransformPoint(World, LightPosition), GlobalVars.ColorEnum.White);
                 else
-                ((ViewScene)EffectManager.Scene).SetLightPosition(0, LightPosition, DiffuseColor);
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(0, MathUtil.TransformPoint(World, LightPosition), DiffuseColor);
             }
         }
 

@@ -27,19 +27,39 @@ namespace _3DPresentation.Views
             this.MouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(Container_MouseLeftButtonUp);
             this.MouseMove += new System.Windows.Input.MouseEventHandler(Container_MouseMove);
 
-            this.openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
             this.tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);
             
             this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
             btSave.Click += new RoutedEventHandler(btSave_Click);
+            btAddModel.Click += new RoutedEventHandler(btAddModel_Click);
+            btRemoveModel.Click += new RoutedEventHandler(btRemoveModel_Click);
         }
 
+        void btRemoveModel_Click(object sender, RoutedEventArgs e)
+        {
+            if (SelectedModel != null)
+            {
+                RemoveModel(SelectedModel);
+                //cbbModel.DeleteImage(cbbModel.SelectedIndex);
+            }
+            SelectedModel = null;
+        }
 
+        void btAddModel_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog dialog = new OpenFileDialog();
+            dialog.Multiselect = false;
+            dialog.Filter = "Model|*.ply|Text|*.txt|All Files|*.*";
+            if (dialog.ShowDialog() == true)
+            {
+                ImportModel(dialog.File);
+            }            
+        }
 
         void btSave_Click(object sender, RoutedEventArgs e)
         {
-            tour.Models = tourControl.GetModels();
-            tour.Save();
+            CurrentTour.Models = tourControl.GetModels();
+            CurrentTour.Save();
         }
 
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
@@ -118,36 +138,25 @@ namespace _3DPresentation.Views
             }
         }
 
-        void cbModels_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        public void LoadTour(string strTourName)
         {
-            //SelectedModel = (BaseModel)cbModels.SelectedItem;
+            if (strTourName == null || strTourName.Length == 0)
+                return;
+            CurrentTour = Tour.Load(strTourName);
+            if (CurrentTour != null)
+            {
+                LoadSceneLocal(CurrentTour.SceneName);
+                for (int i = 0; i < CurrentTour.Models.Length; i++)
+                    AddModel(CurrentTour.Models[i]);
+            }
         }
 
-        void openFile_FileOpened(object sender, OpenFileControl.FileOpenedEventArgs e)
-        {
-            ImportModel(e.FileInfo);
-        }
-
-
-        Tour tour;
+        public string TourName { get; set; }
+        private Tour CurrentTour { get; set; }
         void TourDesign_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
-            tour = Tour.Load("FirstTour");
-            if (tour == null)
-            {
-                tour = new Tour();
-                tour.Name = "FirstTour";
-                tour.SceneName = "espilit";
-                LoadSceneLocal(tour.SceneName);
-                //ExecuteScript("abc");
-            }
-            else
-            {
-                LoadSceneLocal(tour.SceneName);
-                for (int i = 0; i < tour.Models.Length; i++)
-                    AddModel(tour.Models[i]);
-            }
+            LoadTour(TourName);
         }
 
         public bool ExecuteScript(string strScript)

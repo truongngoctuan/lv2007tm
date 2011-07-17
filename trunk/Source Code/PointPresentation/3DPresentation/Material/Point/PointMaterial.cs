@@ -9,7 +9,10 @@ namespace _3DPresentation.Material
     {
         public override void Apply()
         {
-            Device.BlendState = BlendState.Opaque;
+            CullMode oldCullMode = EffectManager.Scene.GetStatesManager().CullMode;
+            EffectManager.Scene.GetStatesManager().CullMode = CullMode.None;
+
+            Device.BlendState = BlendState.Opaque;            
             PointEffect pointEffect = EffectManager.PointEffect;
             pointEffect.View = EffectManager.Scene.GetCameraView();
             pointEffect.Projection = EffectManager.Scene.GetCameraProjection();
@@ -20,6 +23,8 @@ namespace _3DPresentation.Material
 
             pointEffect.Device = Device;
             pointEffect.Apply();
+
+            EffectManager.Scene.GetStatesManager().CullMode = oldCullMode;
         }
 
         public override void Save(System.IO.StreamWriter writer, string texturePath)

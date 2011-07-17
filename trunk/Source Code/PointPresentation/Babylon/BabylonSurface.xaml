@@ -17,7 +17,7 @@
     MouseEnter="UserControl_MouseEnter"
 >
 
-    <Grid x:Name="LayoutRoot" Background="White" >
+    <Grid x:Name="LayoutRoot" Background="Transparent" >
         <DrawingSurface Draw="OnDraw" x:Name="renderSurface"/>
     </Grid>
 </UserControl>

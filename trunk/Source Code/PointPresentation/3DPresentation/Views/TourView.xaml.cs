@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using _3DPresentation.Models;
 using _3DPresentation.Views.Editor;
 using Microsoft.Xna.Framework;
+using _3DPresentation.Data;
 
 namespace _3DPresentation.Views
 {
@@ -40,16 +41,32 @@ namespace _3DPresentation.Views
             objectView.AddModels(tourControl.GetModels());
             objectView.SetTarget(tourControl.Target);
             objectView.ParentView = this;
+            App.RemovePage(this);
             App.GoToPage(objectView);
         }
 
+        public void LoadTour(string strTourName)
+        {
+            if (strTourName == null || strTourName.Length == 0)
+                return;
+            CurrentTour = Tour.Load(strTourName);
+            if (CurrentTour != null)
+            {
+                LoadSceneLocal(CurrentTour.SceneName);
+                for (int i = 0; i < CurrentTour.Models.Length; i++)
+                    AddModel(CurrentTour.Models[i]);
+            }
+        }
+
+        public string TourName { get; set; }
+        private Tour CurrentTour { get; set; }
         void TourView_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
-            ExecuteScript("abc");
+            LoadTour(TourName);
+            //ExecuteScript("abc");
 
-            //MessageBox.Show(LayoutRoot.Width.ToString() + " " + LayoutRoot.ActualWidth.ToString());
-            
+            //MessageBox.Show(LayoutRoot.Width.ToString() + " " + LayoutRoot.ActualWidth.ToString());            
         }
 
         public bool ExecuteScript(string strScript)
