@@ -22,6 +22,10 @@ namespace _3DPresentation.Views
 
             this.Loaded += new RoutedEventHandler(TourDesign_Loaded);
             this.KeyDown += new System.Windows.Input.KeyEventHandler(TourDesign_KeyDown);
+            this.KeyUp += new System.Windows.Input.KeyEventHandler(TourDesign_KeyUp);
+            this.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(Container_MouseLeftButtonDown);
+            this.MouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(Container_MouseLeftButtonUp);
+            this.MouseMove += new System.Windows.Input.MouseEventHandler(Container_MouseMove);
 
             this.openFile.FileOpened += new OpenFileControl.FileOpenedHandler(openFile_FileOpened);
             this.tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);
@@ -29,6 +33,8 @@ namespace _3DPresentation.Views
             this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
             btSave.Click += new RoutedEventHandler(btSave_Click);
         }
+
+
 
         void btSave_Click(object sender, RoutedEventArgs e)
         {
@@ -48,12 +54,26 @@ namespace _3DPresentation.Views
             objectDesign.SetTarget(tourControl.Target);
             objectDesign.ParentView = this;
             App.GoToPage(objectDesign);
-        }        
+        }
+        void TourDesign_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        {
+            if (e.Key == System.Windows.Input.Key.Ctrl)
+            {
+                CtrlKeyDown = false;
+                bRotateModel = false;
+            }
+        }
 
         void TourDesign_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
             if (SelectedModel != null)
-            {       
+            {
+                if (e.Key == System.Windows.Input.Key.Ctrl)
+                {
+                    CtrlKeyDown = true;
+                }
+
+
                 Vector3 moveDirection = Vector3.Zero;
                 Matrix mat = Matrix.CreateFromYawPitchRoll(tourControl.Camera.RotationY, tourControl.Camera.RotationX, tourControl.Camera.RotationZ);
                 if (e.Key == System.Windows.Input.Key.W)
@@ -240,5 +260,64 @@ namespace _3DPresentation.Views
             App.RemovePage(this);
             App.GoToPage(ParentView);
         }
+
+        #region Rotate Model
+        bool mouseLeftDown;
+        bool CtrlKeyDown = false;
+        bool bRotateModel = false;
+
+        void Container_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            mouseLeftDown = false;
+            deltaRotationMatrix = Matrix.Identity;
+            bRotateModel = false;
+        }
+
+        void Container_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            //Container.Focus();
+            mouseLeftDown = true;
+            startPosition = lastPosition = e.GetPosition(this);
+
+            if (CtrlKeyDown)
+            {
+                bRotateModel = true;
+                //ChangeToRotationModelState();
+            }
+        }
+
+        Point lastPosition;
+        Point startPosition;
+        Microsoft.Xna.Framework.Matrix deltaRotationMatrix = Microsoft.Xna.Framework.Matrix.Identity;
+        void Container_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            if (bRotateModel)
+            {
+                Point currentPosition = e.GetPosition(this);
+                if (!mouseLeftDown)
+                    return;
+
+                Microsoft.Xna.Framework.Matrix lastMat = toRotationMatrix(lastPosition, currentPosition);
+                lastPosition = currentPosition;
+
+                if (SelectedModel != null)
+                {
+                    SelectedModel.RotationMatrix *= lastMat;
+                }
+            }
+        }
+
+
+        private Microsoft.Xna.Framework.Matrix toRotationMatrix(Point LastPosition, Point currentPosition)
+        {
+            float dX, dY;
+            dX = (float)(currentPosition.X - LastPosition.X) * 3.14f / 180.0f;
+            dY = (float)(currentPosition.Y - LastPosition.Y) * 3.14f / 180.0f;
+
+            Microsoft.Xna.Framework.Matrix lastMat = Matrix.CreateFromYawPitchRoll(dX,0, 0);
+            return lastMat;
+        }
+
+        #endregion
     }
 }

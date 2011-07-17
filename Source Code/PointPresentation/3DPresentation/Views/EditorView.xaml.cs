@@ -200,6 +200,7 @@ namespace _3DPresentation
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                throw;
             }
         }
 
