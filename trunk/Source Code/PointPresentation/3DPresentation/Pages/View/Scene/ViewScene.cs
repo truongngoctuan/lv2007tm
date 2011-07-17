@@ -24,6 +24,8 @@ namespace _3DPresentation
         private UserControl Container;
         private DrawingSurface Surface { get; set; }
 
+        public StatesManager StatesManager;
+        public bool WireFrame;
         Vector2 SurfaceSize { get; set; }
 
         // States
@@ -88,7 +90,12 @@ namespace _3DPresentation
             EffectManager.Scene = this;
             GraphicsDevice graphicsDevice = e.GraphicsDevice;
             if (graphicsDevice == null)
-                return;            
+                return;
+            if (StatesManager == null)
+            {
+                StatesManager = new StatesManager(graphicsDevice);
+            }
+
             Render(graphicsDevice);
             _camera.ApplyInertia();
 

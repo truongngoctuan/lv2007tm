@@ -33,9 +33,11 @@ PixelToFrame main(VertexShaderOutput PSIn)
     PixelToFrame Output = (PixelToFrame)0; 
 
 	// Ambient
-	float4 baseColor = tex2D(DiffuseSampler, PSIn.TextureCoords);
+	float4 baseColor = tex2D(DiffuseSampler, float2(PSIn.TextureCoords.x, PSIn.TextureCoords.y));
 	float4 effectColor = float4(1.0f, 1.0f, 1.0f, 1.0f) * (float)xAmbientIntensity;
 
+	if(PSIn.TextureCoords.x == 0)
+	{
 	// Diffuse
 	// Determine the diffuse component by finding the angle between the light and the normal.
 	// The smaller the angle between the normal and the light direction, the closer the dot
@@ -81,5 +83,8 @@ PixelToFrame main(VertexShaderOutput PSIn)
 
 	effectColor = saturate(effectColor);
 	Output.Color = (baseColor * effectColor);
+	}
+	else
+	Output.Color = baseColor;
     return Output;
 }

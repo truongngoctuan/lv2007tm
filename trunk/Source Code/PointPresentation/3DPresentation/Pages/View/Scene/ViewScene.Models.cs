@@ -17,7 +17,7 @@ namespace _3DPresentation
         List<BaseModel> Models = new List<BaseModel>();
 
         BaseModel PointLight;
-        NoEffectMaterial PointLightMaterial;
+        SimpleEffectMaterial PointLightMaterial;
         PointLightInfomation[] PointLightInfomations;
         struct PointLightInfomation
         {
@@ -28,7 +28,7 @@ namespace _3DPresentation
         private void PrepareModels()
         {
             PointLight = BaseModel.Import(Utils.Global.GetPackStream("Resources/sphere.ply"), BaseModel.FileType.PLY);
-            PointLightMaterial = new NoEffectMaterial();
+            PointLightMaterial = new SimpleEffectMaterial();
             PointLight.Material = PointLightMaterial;
 
             PointLightInfomations = new PointLightInfomation[4];
