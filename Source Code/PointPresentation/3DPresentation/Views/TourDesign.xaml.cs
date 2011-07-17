@@ -52,7 +52,7 @@ namespace _3DPresentation.Views
 
         void TourDesign_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
-            //if (SelectedModel != null)
+            if (SelectedModel != null)
             {       
                 Vector3 moveDirection = Vector3.Zero;
                 Matrix mat = Matrix.CreateFromYawPitchRoll(tourControl.Camera.RotationY, tourControl.Camera.RotationX, tourControl.Camera.RotationZ);
@@ -94,7 +94,7 @@ namespace _3DPresentation.Views
                 }
 
                 moveDirection /= 10;
-                //SelectedModel.Position += moveDirection;
+                SelectedModel.Position += moveDirection;
             }
         }
 
@@ -119,7 +119,7 @@ namespace _3DPresentation.Views
                 tour = new Tour();
                 tour.Name = "FirstTour";
                 tour.SceneName = "espilit";
-                ExecuteScript("abc");
+                //ExecuteScript("abc");
             }
             else
             {
