@@ -27,10 +27,11 @@
 
             </StackPanel>-->
         <!--toolbar at left-->
-        <customControlEditor:EditorToolbar x:Name="toolbar"></customControlEditor:EditorToolbar>
+        <customControlEditor:EditorToolbar x:Name="toolbar" Margin="65,39,-65,-39"></customControlEditor:EditorToolbar>
         <!--object dock at top-->
         <customControlEditor:EditorObjectDock x:Name="odControl"  VerticalAlignment="Top" HorizontalAlignment="Center"></customControlEditor:EditorObjectDock>
         <Image x:Name="currentImage" Width="300"></Image>
         <!--<Button Width="100" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Click="Button_Click"></Button>-->
+        <Button VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="btBack" Style="{StaticResource ButtonStyleYellow}" Content="Back" Click="btBack_Click" Width="75" Height="23" Margin="20, 20,20, 20"/>
     </Grid>
 </navigation:Page>

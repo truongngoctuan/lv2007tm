@@ -11,8 +11,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Babylon", "Babylon\Babylon.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SL40PropertyGrid", "SL40PropertyGrid\SL40PropertyGrid.csproj", "{BF2F5CDA-EF80-45F9-99EE-01C1A078339E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Babylon.Toolbox", "Babylon.Toolbox\Babylon.Toolbox.csproj", "{FDE5F342-9CE4-405B-8AA3-D7B16AED2C36}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,10 +37,6 @@ Global
 		{BF2F5CDA-EF80-45F9-99EE-01C1A078339E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF2F5CDA-EF80-45F9-99EE-01C1A078339E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF2F5CDA-EF80-45F9-99EE-01C1A078339E}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FDE5F342-9CE4-405B-8AA3-D7B16AED2C36}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FDE5F342-9CE4-405B-8AA3-D7B16AED2C36}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FDE5F342-9CE4-405B-8AA3-D7B16AED2C36}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FDE5F342-9CE4-405B-8AA3-D7B16AED2C36}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
