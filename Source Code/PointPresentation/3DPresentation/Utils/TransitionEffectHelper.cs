@@ -45,7 +45,7 @@ namespace _3DPresentation.Utils
         {
             if(transitionEffects == null)
                 return null;
-            return transitionEffects[Convert.ToInt32(r.NextDouble() * transitionEffects.Length)];
+            return transitionEffects[Convert.ToInt32(r.NextDouble() * transitionEffects.Length) % transitionEffects.Length];
         }
         public static void BeginAnimation(UserControl oldControl, UserControl newControl)
         {
