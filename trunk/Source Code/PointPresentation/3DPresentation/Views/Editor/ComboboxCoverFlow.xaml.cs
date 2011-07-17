@@ -148,7 +148,8 @@ namespace _3DPresentation.Views.Editor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("AddImage" + ex.Message);
+                throw;
             }
         }
 
@@ -232,7 +233,8 @@ namespace _3DPresentation.Views.Editor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("DeleteImage" + ex.Message);
+                throw;
             }
         }
 
@@ -308,7 +310,8 @@ namespace _3DPresentation.Views.Editor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("onForwardFlowCompleted" + ex.Message);
+                throw;
             }
         }
 
@@ -322,7 +325,7 @@ namespace _3DPresentation.Views.Editor
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                MessageBox.Show("onBackwardFlowCompleted" + ex.Message);
             }
         }
 

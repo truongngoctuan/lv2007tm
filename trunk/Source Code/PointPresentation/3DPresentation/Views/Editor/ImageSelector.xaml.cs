@@ -183,6 +183,7 @@ namespace _3DPresentation.Views.Editor
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                throw;
             }
         }
 
@@ -267,6 +268,7 @@ namespace _3DPresentation.Views.Editor
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                throw;
             }
         }
 
@@ -358,6 +360,7 @@ namespace _3DPresentation.Views.Editor
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                throw;
             }
         }
 
@@ -372,6 +375,7 @@ namespace _3DPresentation.Views.Editor
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message);
+                throw;
             }
         }
 

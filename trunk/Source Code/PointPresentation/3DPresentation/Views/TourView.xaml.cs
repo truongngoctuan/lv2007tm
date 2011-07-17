@@ -48,7 +48,8 @@ namespace _3DPresentation.Views
             IsLoaded = true;
             ExecuteScript("abc");
 
-            MessageBox.Show(LayoutRoot.Width.ToString() + " " + LayoutRoot.ActualWidth.ToString());
+            //MessageBox.Show(LayoutRoot.Width.ToString() + " " + LayoutRoot.ActualWidth.ToString());
+            
         }
 
         public bool ExecuteScript(string strScript)

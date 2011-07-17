@@ -111,17 +111,26 @@ namespace Babylon
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
         {
-            if (Scene == null || Scene.ActiveCamera == null || (!mouseCaptured && !IsFullscreen))
-                return;
-            Point location = e.GetPosition(renderSurface);
+            if (!IsCtrlKeyDown)
+            {
+                if (Scene == null || Scene.ActiveCamera == null || (!mouseCaptured && !IsFullscreen))
+                    return;
+                Point location = e.GetPosition(renderSurface);
 
-            Scene.ControlManager.HandleMouseMove(new Vector2((float)location.X, (float)location.Y));
+                Scene.ControlManager.HandleMouseMove(new Vector2((float)location.X, (float)location.Y));
+            }
         }
 
+        bool IsCtrlKeyDown = false;
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
         {
             lock (moves)
             {
+                if (e.Key == Key.Ctrl)
+                {
+                    IsCtrlKeyDown = true;
+                    return;
+                }
                 if (e.Key == Key.Left && !moves.Contains(MoveDirection.Left))
                     moves.Add(MoveDirection.Left);
                 if (e.Key == Key.Right && !moves.Contains(MoveDirection.Right))
@@ -147,6 +156,12 @@ namespace Babylon
         {
             lock (moves)
             {
+                if (e.Key == Key.Ctrl)
+                {
+                    IsCtrlKeyDown = false;
+                    return;
+                }
+
                 if (e.Key == Key.Left)
                     moves.Remove(MoveDirection.Left);
                 if (e.Key == Key.Right)
