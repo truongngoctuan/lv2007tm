@@ -33,7 +33,7 @@ namespace _3DPresentation.Material
             }
             else if (line == "NoEffectMaterial")
             {
-                NoEffectMaterial material = new NoEffectMaterial();
+                SimpleEffectMaterial material = new SimpleEffectMaterial();
                 material.LoadMaterial(reader);
                 return material;
             }
@@ -132,7 +132,7 @@ namespace _3DPresentation.Material
                 return "BasicMaterial";
             else if (type == typeof(FourPointLightsMaterial))
                 return "FourPointLightsMaterial";
-            else if (type == typeof(NoEffectMaterial))
+            else if (type == typeof(SimpleEffectMaterial))
                 return "NoEffectMaterial";
             else if (type == typeof(PointMaterial))
                 return "PointMaterial";

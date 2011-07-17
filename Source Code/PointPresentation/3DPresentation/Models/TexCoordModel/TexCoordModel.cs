@@ -107,7 +107,7 @@ namespace _3DPresentation.Models
             Type[] compatibleTypes = new Type[]
             {
                 typeof(TextureMaterial),
-                typeof(FourPointLightsTextureMaterial),
+                //typeof(FourPointLightsTextureMaterial),
                 typeof(BasicMaterial)
             };
             return compatibleTypes;

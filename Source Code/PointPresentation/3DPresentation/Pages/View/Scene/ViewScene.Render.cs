@@ -22,11 +22,14 @@ namespace _3DPresentation
             try
             {
                 graphicsDevice.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, Color.Transparent, 1.0f, 0);
-                graphicsDevice.RasterizerState = new RasterizerState
-                {
-                    FillMode = FillMode.Solid,
-                    CullMode = CullMode.None
-                };
+                StatesManager.CullMode = CullMode.None;
+                StatesManager.FillMode = WireFrame ? FillMode.WireFrame : FillMode.Solid;
+                StatesManager.ApplyRasterizerState();
+                //graphicsDevice.RasterizerState = new RasterizerState
+                //{
+                //    FillMode = 
+                //    CullMode = CullMode.None
+                //};
 
                 BaseModel[] models;
                 lock (lockThis)
