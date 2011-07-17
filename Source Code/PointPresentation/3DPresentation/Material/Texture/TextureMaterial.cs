@@ -54,15 +54,15 @@ namespace _3DPresentation.Material
 
             textureEffect.AmbientIntensity = AmbientIntensity;
 
-            textureEffect.DiffuseSource1 = DiffuseSource1;
+            textureEffect.DiffuseSource1 = MathUtil.TransformPoint(World, DiffuseSource1);
             textureEffect.DiffuseColor1 = GlobalVars.GetColor(DiffuseColor1);
             textureEffect.DiffuseIntensity1 = DiffuseIntensity1;
 
-            textureEffect.DiffuseSource2 = DiffuseSource2;
+            textureEffect.DiffuseSource2 = MathUtil.TransformPoint(World, DiffuseSource2);
             textureEffect.DiffuseColor2 = GlobalVars.GetColor(DiffuseColor2);
             textureEffect.DiffuseIntensity2 = DiffuseIntensity2;
 
-            textureEffect.DiffuseSource3 = DiffuseSource3;
+            textureEffect.DiffuseSource3 = MathUtil.TransformPoint(World, DiffuseSource3);
             textureEffect.DiffuseColor3 = GlobalVars.GetColor(DiffuseColor3);
             textureEffect.DiffuseIntensity3 = DiffuseIntensity3;
 
@@ -72,11 +72,11 @@ namespace _3DPresentation.Material
             if (EffectManager.Scene is ViewScene)
             {
                 if (DiffuseIntensity1 > 0)
-                    ((ViewScene)EffectManager.Scene).SetLightPosition(0, DiffuseSource1, DiffuseColor1);
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(0, MathUtil.TransformPoint(World, DiffuseSource1), DiffuseColor1);
                 if (DiffuseIntensity2 > 0)
-                    ((ViewScene)EffectManager.Scene).SetLightPosition(1, DiffuseSource2, DiffuseColor2);
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(1, MathUtil.TransformPoint(World, DiffuseSource2), DiffuseColor2);
                 if (DiffuseIntensity3 > 0)
-                    ((ViewScene)EffectManager.Scene).SetLightPosition(2, DiffuseSource3, DiffuseColor3);
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(2, MathUtil.TransformPoint(World, DiffuseSource3), DiffuseColor3);
             }
         }
 

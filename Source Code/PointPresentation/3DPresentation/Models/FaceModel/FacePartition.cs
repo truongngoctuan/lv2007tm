@@ -94,8 +94,8 @@ namespace _3DPresentation.Models
                 int i1 = Indices[i * 3];
                 int i2 = Indices[i * 3 + 1];
                 int i3 = Indices[i * 3 + 2];
-                Vector3 v1 = Vertices[i2].Position - Vertices[i1].Position;
-                Vector3 v2 = Vertices[i3].Position - Vertices[i1].Position;
+                Vector3 v1 = Vertices[i3].Position - Vertices[i1].Position;
+                Vector3 v2 = Vertices[i2].Position - Vertices[i1].Position;
                 Vector3 normal = Vector3.Cross(v2, v1);
 
                 Vertices[i1].Normal += normal;
@@ -199,8 +199,6 @@ namespace _3DPresentation.Models
                 {
                     string str = string.Format("3 {0} {1} {2}\n", Indices[i] + offset, Indices[i + 1] + offset, Indices[i + 2] + offset);
                     writer.Write(str);
-                    if (i == Indices.Length - 3)
-                        i = i;
                 }
             }
             return true;
@@ -212,7 +210,7 @@ namespace _3DPresentation.Models
             int iHalfHeight = iHeight / 2;
             for (int i = 0; i < Vertices.Length; i += 4)
             {
-                Vector3 p3d = Vertices[i].Position * 1000;
+                Vector3 p3d = Vertices[i].Position;
                 Vector3 p2d = MathUtil.TransformPoint(mat, p3d);
                 p2d.X += iHalfWidth;
                 p2d.Y = iHalfHeight - p2d.Y;

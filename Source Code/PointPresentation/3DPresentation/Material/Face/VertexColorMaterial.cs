@@ -73,7 +73,7 @@ namespace _3DPresentation.Material
             if (writer == null)
                 return;
 
-            writer.WriteLine("VertexColorEffect");
+            writer.WriteLine("VertexColorMaterial");
             writer.WriteLine(ColorToString(DiffuseColor));
             writer.WriteLine(ColorToString(AmbientColor));
             writer.WriteLine(ColorToString(SceneAmbientColor));

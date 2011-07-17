@@ -31,15 +31,16 @@ namespace _3DPresentation.Material
                 material.LoadMaterial(reader);
                 return material;
             }
-            else if (line == "NoEffectMaterial")
+            else if (line == "TextureMaterial")
             {
-                SimpleEffectMaterial material = new SimpleEffectMaterial();
+                TextureMaterial material = new TextureMaterial();
                 material.LoadMaterial(reader);
                 return material;
             }
-            else if (line == "PointMaterial")
+
+            else if (line == "NoEffectMaterial")
             {
-                PointMaterial material = new PointMaterial();
+                SimpleEffectMaterial material = new SimpleEffectMaterial();
                 material.LoadMaterial(reader);
                 return material;
             }
@@ -55,15 +56,17 @@ namespace _3DPresentation.Material
                 material.LoadMaterial(reader);
                 return material;
             }
-            else if (line == "TextureMaterial")
-            {
-                TextureMaterial material = new TextureMaterial();
-                material.LoadMaterial(reader);
-                return material;
-            }
             else if (line == "FourPointLightsTextureMaterial")
             {
                 FourPointLightsTextureMaterial material = new FourPointLightsTextureMaterial();
+                material.LoadMaterial(reader);
+                return material;
+            }
+
+
+            else if (line == "PointMaterial")
+            {
+                PointMaterial material = new PointMaterial();
                 material.LoadMaterial(reader);
                 return material;
             }

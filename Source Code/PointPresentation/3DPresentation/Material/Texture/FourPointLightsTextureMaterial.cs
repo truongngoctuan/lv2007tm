@@ -60,19 +60,19 @@ namespace _3DPresentation.Material
             fourPointLights.DiffuseTexture = ResourceManager.GetTexture(DiffuseTexture);
             fourPointLights.AmbientLight = GlobalVars.GetColor(AmbientLight);
 
-            fourPointLights.LightSource1 = LightSource1;
+            fourPointLights.LightSource1 = MathUtil.TransformPoint(World, LightSource1);
             fourPointLights.LightColor1 = GlobalVars.GetColor(LightColor1);            
             fourPointLights.EnableLight1 = EnableLight1;
 
-            fourPointLights.LightSource2 = LightSource2;
+            fourPointLights.LightSource2 = MathUtil.TransformPoint(World, LightSource2);
             fourPointLights.LightColor2 = GlobalVars.GetColor(LightColor2);            
             fourPointLights.EnableLight2 = EnableLight2;
 
-            fourPointLights.LightSource3 = LightSource3;
+            fourPointLights.LightSource3 = MathUtil.TransformPoint(World, LightSource3);
             fourPointLights.LightColor3 = GlobalVars.GetColor(LightColor3);            
             fourPointLights.EnableLight3 = EnableLight3;
 
-            fourPointLights.LightSource4 = LightSource4;
+            fourPointLights.LightSource4 = MathUtil.TransformPoint(World, LightSource4);
             fourPointLights.LightColor4 = GlobalVars.GetColor(LightColor4);            
             fourPointLights.EnableLight4 = EnableLight4;
 
@@ -82,13 +82,13 @@ namespace _3DPresentation.Material
             if (EffectManager.Scene is ViewScene)
             {
                 if (EnableLight1)
-                    ((ViewScene)EffectManager.Scene).SetLightPosition(0, LightSource1, LightColor1);
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(0, MathUtil.TransformPoint(World, LightSource1), LightColor1);
                 if (EnableLight2)
-                    ((ViewScene)EffectManager.Scene).SetLightPosition(1, LightSource2, LightColor2);
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(1, MathUtil.TransformPoint(World, LightSource2), LightColor2);
                 if (EnableLight3)
-                    ((ViewScene)EffectManager.Scene).SetLightPosition(2, LightSource3, LightColor3);
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(2, MathUtil.TransformPoint(World, LightSource3), LightColor3);
                 if (EnableLight4)
-                    ((ViewScene)EffectManager.Scene).SetLightPosition(3, LightSource4, LightColor4);
+                    ((ViewScene)EffectManager.Scene).SetLightPosition(3, MathUtil.TransformPoint(World, LightSource4), LightColor4);
             }
         }
 
@@ -97,7 +97,7 @@ namespace _3DPresentation.Material
             if (writer == null)
                 return;
 
-            writer.WriteLine("FourPointLightsEffect");
+            writer.WriteLine("FourPointLightsTextureMaterial");
             if (DiffuseTexture == null)
                 writer.WriteLine(" ");
             else

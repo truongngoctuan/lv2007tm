@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Xna.Framework;
+using Babylon.Toolbox;
 
 
 namespace _3DPresentation
@@ -11,5 +12,7 @@ namespace _3DPresentation
         Matrix GetCameraProjection();
 
         Vector2 GetDrawingSurfaceSize();
+
+        StatesManager GetStatesManager();
     }
 }

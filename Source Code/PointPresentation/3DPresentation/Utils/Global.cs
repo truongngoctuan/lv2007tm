@@ -11,10 +11,10 @@ namespace _3DPresentation.Utils
     {
         public static string MyDocumentsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-        public static string StorePath = MyDocumentsFolderPath + '/' + "Silverlight3D/";
-        public static string ModelStorePath = StorePath + "Model/";
-        public static string SceneStorePath = StorePath + "Scene/";
-        public static string TourStorePath = StorePath + "Tour/";
+        public static string StorePath = MyDocumentsFolderPath + "/Silverlight3D";
+        public static string ModelStorePath = StorePath + "/Model";
+        public static string SceneStorePath = StorePath + "/Scene";
+        public static string TourStorePath = StorePath + "/Tour";
 
         public static string GetRealStoreDirectory()
         {

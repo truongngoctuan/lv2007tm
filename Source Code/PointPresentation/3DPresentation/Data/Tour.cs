@@ -40,18 +40,23 @@ namespace _3DPresentation.Data
             {
                 writer.WriteLine(Name);
                 writer.WriteLine(SceneName);
-                writer.WriteLine(Models.Length);
-                for (int i = 0; i < Models.Length; i++)
+                if (Models != null)
                 {
-                    writer.WriteLine(Models[i].Name);
-                    writer.WriteLine(string.Format("{0}", Models[i].Scale));
-                    writer.WriteLine(string.Format("{0} {1} {2}", Models[i].Rotation.X, Models[i].Rotation.Y, Models[i].Rotation.Z));
-                    writer.WriteLine(string.Format("{0} {1} {2}", Models[i].Position.X, Models[i].Position.Y, Models[i].Position.Z));                    
-                    
-                    FileInfo modelFile = Utils.Global.GetRealFile(tourFileDir + "Models/" + Models[i].Name + ".ply");
-                    Models[i].Export(BaseModel.FileType.PLY, Models[i].Type, modelFile, true);
-                    Models[i].Material.Save(writer, string.Format("{0}/Models/", tourFileDir, Models[i].Name));
+                    writer.WriteLine(Models.Length);
+                    for (int i = 0; i < Models.Length; i++)
+                    {
+                        writer.WriteLine(Models[i].Name);
+                        writer.WriteLine(string.Format("{0}", Models[i].Scale));
+                        writer.WriteLine(string.Format("{0} {1} {2}", Models[i].Rotation.X, Models[i].Rotation.Y, Models[i].Rotation.Z));
+                        writer.WriteLine(string.Format("{0} {1} {2}", Models[i].Position.X, Models[i].Position.Y, Models[i].Position.Z));
+
+                        FileInfo modelFile = Utils.Global.GetRealFile(tourFileDir + "Models/" + Models[i].Name + ".ply");
+                        Models[i].Export(BaseModel.FileType.PLY, Models[i].Type, modelFile, true);
+                        Models[i].Material.Save(writer, string.Format("{0}/Models/", tourFileDir, Models[i].Name));
+                    }
                 }
+                else
+                    writer.WriteLine(0);
                 writer.Close();
             }            
             return result;
@@ -60,7 +65,7 @@ namespace _3DPresentation.Data
         {
             Tour tour = null;
             string storeDirectory = Utils.Global.GetRealTourStorePath();
-            string tourFileDir = string.Format("{0}/{1}/", storeDirectory, name);
+            string tourFileDir = string.Format("{0}/{1}", storeDirectory, name);
             string tourFilePath = string.Format("{0}/{1}/{1}.tour", storeDirectory, name);
             FileInfo tourFile = Utils.Global.GetFileInfo(tourFilePath);
             if (tourFile.Exists)
@@ -101,7 +106,7 @@ namespace _3DPresentation.Data
                         positionY = Convert.ToSingle(items[1]);
                         positionZ = Convert.ToSingle(items[2]);
 
-                        modelFile = Utils.Global.GetFileInfo(tourFileDir + "Models/" + modelName + ".ply");
+                        modelFile = Utils.Global.GetFileInfo(tourFileDir + "/Models/" + modelName + ".ply");
                         if(modelFile.Exists)
                         {
                             model = BaseModel.Import(modelFile);
@@ -116,7 +121,7 @@ namespace _3DPresentation.Data
                     }
                     reader.Close();
                 }
-            }                
+            }
             return tour;
         }
     }

@@ -8,6 +8,7 @@ using System.IO;
 using System.Windows.Threading;
 using System.Windows;
 using System.Windows.Controls;
+using Babylon.Toolbox;
 
 namespace _3DPresentation
 {
@@ -22,6 +23,9 @@ namespace _3DPresentation
         public bool IsLoaded { get; private set; }
         public bool IsEnable { get; set; }
         
+        // StatesManager
+        public StatesManager StatesManager;
+
         // Notifications
         public float FPS
         {
@@ -50,7 +54,7 @@ namespace _3DPresentation
             Surface = babylonSurface;
             
             // State
-            IsEnable = true;
+            IsEnable = false;
             IsLoaded = false;            
             
             // Init Events
@@ -72,6 +76,7 @@ namespace _3DPresentation
         void CustomScene_Loaded(object sender, EventArgs e)
         {
             IsLoaded = true;
+            IsEnable = true;
 
             PrepareIO();
             PrepareStreaming();
@@ -92,7 +97,9 @@ namespace _3DPresentation
         {
             if (IsEnable == false)
                 return;
-            
+
+            if(StatesManager == null)
+                StatesManager = new StatesManager(Device);
             base.Render();
         }
 
@@ -138,6 +145,11 @@ namespace _3DPresentation
         Vector2 IBaseScene.GetDrawingSurfaceSize()
         {
             return SurfaceSize;
+        }
+
+        StatesManager IBaseScene.GetStatesManager()
+        {
+            return StatesManager;
         }
 
         #endregion

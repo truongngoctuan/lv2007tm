@@ -78,7 +78,7 @@ namespace _3DPresentation.Utils
             System.Windows.Media.Animation.DoubleAnimation da = new System.Windows.Media.Animation.DoubleAnimation();
             da.From = 0;
             da.To = 1;
-            da.Duration = TimeSpan.FromSeconds(2);
+            da.Duration = TimeSpan.FromSeconds(3);
             da.AutoReverse = false;
             //da.RepeatBehavior = System.Windows.Media.Animation.RepeatBehavior.Forever;
 

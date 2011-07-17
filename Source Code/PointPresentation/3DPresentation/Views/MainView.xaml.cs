@@ -29,21 +29,26 @@ namespace _3DPresentation.Views
         {
             EditorView ev = new EditorView();
             ev.ParentView = this;
+            App.RemovePage(this);
             App.GoToPage(ev);
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            TourView tv = new TourView();
-            tv.ParentView = this;
-            App.GoToPage(tv);
+            Catalog catalog = new Catalog();
+            catalog.DesignMode = false;
+            catalog.ParentView = this;
+            App.RemovePage(this);
+            App.GoToPage(catalog);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            TourDesign tv = new TourDesign();
-            tv.ParentView = this;
-            App.GoToPage(tv);
+            Catalog catalog = new Catalog();
+            catalog.DesignMode = true;
+            catalog.ParentView = this;
+            App.RemovePage(this);
+            App.GoToPage(catalog);
         }
 
     }

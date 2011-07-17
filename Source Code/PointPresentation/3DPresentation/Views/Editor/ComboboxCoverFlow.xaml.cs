@@ -289,12 +289,6 @@ namespace _3DPresentation.Views.Editor
 
             OnImageSelected(args);
             //ClickedPositionParent = e.GetPosition(_parent);
-
-            if (SelectionChanged != null)
-            {
-                SelectionChanged(this, new EventArgs());
-            }
-            
         }
 
         #endregion

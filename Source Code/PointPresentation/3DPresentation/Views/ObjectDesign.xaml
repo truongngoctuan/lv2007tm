@@ -7,7 +7,7 @@
              xmlns:theming="clr-namespace:System.Windows.Controls.Theming;assembly=System.Windows.Controls.Theming.Toolkit"
              xmlns:customControlEditor="clr-namespace:_3DPresentation.Views.Editor"
              xmlns:my="clr-namespace:_3DPresentation" 
-    d:DesignHeight="300" d:DesignWidth="400">
+    d:DesignHeight="768" d:DesignWidth="1024">
 
     <Grid x:Name="LayoutRoot" Background="White" SizeChanged="LayoutRoot_SizeChanged">
         <Image Source="Images/editor_view_bg.jpg" Stretch="Fill"></Image>
