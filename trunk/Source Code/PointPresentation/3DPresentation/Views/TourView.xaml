@@ -12,6 +12,6 @@
     <Grid x:Name="LayoutRoot" Background="White" SizeChanged="LayoutRoot_SizeChanged">
         <my:TourControl x:Name="tourControl"/>
         <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>
-        
+        <Button Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="btBack" Style="{StaticResource ButtonStyleYellow}" Content="Back" Click="btBack_Click" Width="75" Height="23" Margin="20, 20,20, 20"/>
     </Grid>
 </UserControl>

@@ -34,12 +34,16 @@ namespace _3DPresentation.Views
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            App.GoToPage(new TourView());
+            TourView tv = new TourView();
+            tv.ParentView = this;
+            App.GoToPage(tv);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
-            App.GoToPage(new TourDesign());
+            TourDesign tv = new TourDesign();
+            tv.ParentView = this;
+            App.GoToPage(tv);
         }
 
     }

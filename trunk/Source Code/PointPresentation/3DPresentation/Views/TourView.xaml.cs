@@ -113,5 +113,18 @@ namespace _3DPresentation.Views
         {
             cbbModel.SetActualWidthAndHeight(LayoutRoot.ActualWidth, LayoutRoot.ActualHeight);
         }
+
+        UserControl _parentView = null;
+
+        public UserControl ParentView
+        {
+            get { return _parentView; }
+            set { _parentView = value; }
+        }
+        private void btBack_Click(object sender, RoutedEventArgs e)
+        {
+            App.RemovePage(this);
+            App.GoToPage(ParentView);
+        }
     }
 }
