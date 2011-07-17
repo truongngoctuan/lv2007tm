@@ -121,7 +121,7 @@ namespace _3DPresentation
                 {
                     moveDirection = Vector3.Down;
                 }
-                moveDirection *= FactorTransition;
+                moveDirection *= FactorTransition / 1000.0f;
 
                 if (KeyboardTransition != null)
                 {

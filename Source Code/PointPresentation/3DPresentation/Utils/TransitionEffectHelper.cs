@@ -9,7 +9,7 @@ namespace _3DPresentation.Utils
 {
     public class TransitionEffectHelper
     {
-        static TransitionEffect transitionEffect = new ShaderEffectsLibrary.BandedSwirlTransition();
+        static TransitionEffect transitionEffect = new ShaderEffectsLibrary.WaterTransition();
         public static void BeginAnimation(UserControl oldControl, UserControl newControl)
         {                
             WriteableBitmap capture = new WriteableBitmap(oldControl, new System.Windows.Media.ScaleTransform());
