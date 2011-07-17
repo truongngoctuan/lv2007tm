@@ -445,6 +445,19 @@ namespace _3DPresentation
             vcOjectViewer.Height = ContentHomePage.ActualHeight;
         }
 
+        UserControl _parentView = null;
+
+        public UserControl ParentView
+        {
+            get { return _parentView; }
+            set { _parentView = value; }
+        }
+        private void btBack_Click(object sender, RoutedEventArgs e)
+        {
+            App.RemovePage(this);
+            App.GoToPage(ParentView);
+        }
+
         //private void Button_Click(object sender, RoutedEventArgs e)
         //{
         //    System.Windows.Media.Imaging.WriteableBitmap wbm = new System.Windows.Media.Imaging.WriteableBitmap(300, 300).FromResource("Views/Editor/Images/rotation_bg.png");
