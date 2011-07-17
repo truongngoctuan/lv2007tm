@@ -18,6 +18,8 @@ namespace _3DPresentation.Views
             this.Loaded += new RoutedEventHandler(ObjectDesign_Loaded);
             this.btBack.Click += new RoutedEventHandler(btBack_Click);            
             this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
+
+            viewControl.BackgoundColor = System.Windows.Media.Color.FromArgb(0, 0, 0, 0);
         }
 
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
@@ -116,6 +118,8 @@ namespace _3DPresentation.Views
         private void LayoutRoot_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             cbbModel.SetActualWidthAndHeight(LayoutRoot.ActualWidth, LayoutRoot.ActualHeight);
+            viewControl.Width = LayoutRoot.ActualWidth;
+            viewControl.Height = LayoutRoot.ActualHeight;
         }
     }
 }

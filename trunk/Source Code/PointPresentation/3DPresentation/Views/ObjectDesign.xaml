@@ -4,14 +4,17 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+             xmlns:theming="clr-namespace:System.Windows.Controls.Theming;assembly=System.Windows.Controls.Theming.Toolkit"
              xmlns:customControlEditor="clr-namespace:_3DPresentation.Views.Editor"
              xmlns:my="clr-namespace:_3DPresentation" 
     d:DesignHeight="300" d:DesignWidth="400">
-    
-    <Grid x:Name="LayoutRoot" Background="White">
+
+    <Grid x:Name="LayoutRoot" Background="White" SizeChanged="LayoutRoot_SizeChanged">
+        <Image Source="Images/editor_view_bg.jpg" Stretch="Fill"></Image>
         <my:ViewControl x:Name="viewControl"/>
-        <Button x:Name="btBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
-        <my:MaterialSelectorControl x:Name="materialSelector" Height="400" Width="250" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5, 50, 0, 0" />
+        <Button Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="btBack" Style="{StaticResource ButtonStyleYellow}" Content="Back" Width="75" Height="23" Margin="20, 20,20, 20"/>
+            
         <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>
+        <my:MaterialSelectorControl x:Name="materialSelector" Height="400" Width="250" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="5, 50, 0, 0" />
     </Grid>
 </UserControl>
