@@ -81,7 +81,8 @@ namespace _3DPresentation.Models
 
         protected override BaseMaterial GetDefaultSpecialMaterial()
         {
-            return new PointMaterial();
+            return Material;
+            //return new PointMaterial();
         }
 
         public override Type[] GetCompatibleMaterialTypes()

@@ -719,7 +719,7 @@ namespace _3DPresentation.Models
             Babylon.Toolbox.OrbitCamera cam = new Babylon.Toolbox.OrbitCamera { Alpha = (float)Math.PI / 2 };
 
             //setmodel target
-            cam.Radius = this.BoundingInfo.BoundingSphereWorld.Radius * 2.0f;
+            cam.Radius = this.BoundingInfo.BoundingSphereWorld.Radius * 4.0f;
             cam.Target = this.BoundingInfo.BoundingSphereWorld.Center;
             cam.Alpha = cam.Alpha; // to raise event => recompute Position to get new ViewMatrix
             

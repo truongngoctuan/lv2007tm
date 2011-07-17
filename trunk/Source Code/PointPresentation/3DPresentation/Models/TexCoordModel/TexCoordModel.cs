@@ -99,7 +99,8 @@ namespace _3DPresentation.Models
 
         protected override BaseMaterial GetDefaultSpecialMaterial()
         {
-            return new TextureMaterial();
+            return Material;
+            //return new TextureMaterial();
         }
 
         public override Type[] GetCompatibleMaterialTypes()
