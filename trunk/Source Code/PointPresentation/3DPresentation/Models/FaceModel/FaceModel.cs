@@ -85,7 +85,7 @@ namespace _3DPresentation.Models
 
         protected override BaseMaterial GetDefaultSpecialMaterial()
         {
-            return new TexturedNoEffectMaterial();
+            return new SimpleEffectMaterial();
         }
 
         public override Type[] GetCompatibleMaterialTypes()
@@ -93,7 +93,7 @@ namespace _3DPresentation.Models
             Type[] compatibleTypes = new Type[]
             {
                 typeof(SimpleEffectMaterial),
-                typeof(TexturedNoEffectMaterial),
+                //typeof(TexturedNoEffectMaterial),
                 typeof(FourPointLightsMaterial),
                 typeof(VertexColorMaterial)
             };

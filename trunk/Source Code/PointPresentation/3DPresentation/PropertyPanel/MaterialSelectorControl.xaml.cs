@@ -22,6 +22,7 @@ namespace _3DPresentation
         public MaterialSelectorControl()
         {
             InitializeComponent();
+            cbMaterialType.SelectionChanged += new SelectionChangedEventHandler(cbMaterialType_SelectionChanged);
         }
 
         void cbMaterialType_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -66,20 +67,20 @@ namespace _3DPresentation
             if (model != null)
             {
                 cbMaterialType.SelectionChanged -= new SelectionChangedEventHandler(cbMaterialType_SelectionChanged);
-                target = model;
-                Type[] materialTypes = model.GetCompatibleMaterialTypes();
                 //cbMaterialType.Items.Clear();
-                
-                //cbMaterialType.DisplayMemberPath = "Name";
+                target = model;
 
+                Type[] materialTypes = model.GetCompatibleMaterialTypes();
                 MaterialType[] types = new MaterialType[materialTypes.Length];
-
+                MaterialType selectedType = null;
                 for (int i = 0; i < materialTypes.Length; i++)
                 {
                     types[i] = new MaterialType();
                     types[i].Type = materialTypes[i];
                     types[i].Name = BaseMaterial.GetName(materialTypes[i]);
-                    //cbMaterialType.Items.Add(materialType);
+
+                    if (types[i].Type == target.Material.GetType())
+                        selectedType = types[i];
                 }
                 cbMaterialType.ItemsSource = types;
                 cbMaterialType.DisplayMemberPath = "Name";
@@ -87,7 +88,7 @@ namespace _3DPresentation
                 materialTypes = null;
                 types = null;
                 cbMaterialType.SelectionChanged += new SelectionChangedEventHandler(cbMaterialType_SelectionChanged);
-                cbMaterialType.SelectedItem = target.Material.GetType();
+                cbMaterialType.SelectedItem = selectedType;
             }            
         }
 

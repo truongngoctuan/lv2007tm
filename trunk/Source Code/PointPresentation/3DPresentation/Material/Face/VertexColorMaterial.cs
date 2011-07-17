@@ -53,7 +53,7 @@ namespace _3DPresentation.Material
             vertexColorEffect.SpecularColor = GlobalVars.GetColor(SpecularColor);
             vertexColorEffect.SpecularPower = SpecularPower;
 
-            vertexColorEffect.LightPosition = LightPosition;
+            vertexColorEffect.LightPosition = MathUtil.TransformPoint(World, LightPosition);
             vertexColorEffect.CameraPosition = EffectManager.Scene.GetCameraPosition();
 
             vertexColorEffect.Alpha = Alpha;
@@ -64,7 +64,7 @@ namespace _3DPresentation.Material
 
             if (EffectManager.Scene is ViewScene)
             {
-                 ((ViewScene)EffectManager.Scene).SetLightPosition(0, LightPosition, DiffuseColor);
+                 ((ViewScene)EffectManager.Scene).SetLightPosition(0, MathUtil.TransformPoint(World, LightPosition), DiffuseColor);
             }
         }
 
