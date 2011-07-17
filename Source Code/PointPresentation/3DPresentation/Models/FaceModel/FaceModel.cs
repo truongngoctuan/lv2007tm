@@ -85,7 +85,8 @@ namespace _3DPresentation.Models
 
         protected override BaseMaterial GetDefaultSpecialMaterial()
         {
-            return new SimpleEffectMaterial();
+            return Material;
+            //return new SimpleEffectMaterial();
         }
 
         public override Type[] GetCompatibleMaterialTypes()
