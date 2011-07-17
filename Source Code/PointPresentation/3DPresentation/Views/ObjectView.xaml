@@ -8,8 +8,9 @@
     d:DesignHeight="300" d:DesignWidth="400">
     
     <Grid x:Name="LayoutRoot" Background="White" SizeChanged="LayoutRoot_SizeChanged">
+        <Image Source="Images/editor_view_bg.jpg" Stretch="Fill"></Image>
         <my:ViewControl x:Name="viewControl" Width="500" Height="400"/>
-        <Button x:Name="btBack" Content="Back" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"/>
+        <Button Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="btBack" Style="{StaticResource ButtonStyleYellow}" Content="Back" Width="75" Height="23" Margin="20, 20,20, 20"/>
         <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>
     </Grid>
 </UserControl>

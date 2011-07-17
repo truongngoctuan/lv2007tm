@@ -407,7 +407,7 @@ namespace _3DPresentation.Views.Editor
 
         void SetCurrentInfoFrame()
         {
-            tbCurrentFrameIndex.Text = (imageIndex + 1).ToString() + "/" + (realLength).ToString() + " Frames.";
+            //tbCurrentFrameIndex.Text = (imageIndex + 1).ToString() + "/" + (realLength).ToString() + " Frames.";
         }
 
         private int imageIndex = -1;

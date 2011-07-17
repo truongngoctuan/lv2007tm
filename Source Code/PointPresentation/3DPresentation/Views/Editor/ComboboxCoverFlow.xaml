@@ -566,7 +566,7 @@
         <!--<ctl:RepeatButton Canvas.Left="710" Width="80" Height="200" Interval="600" Caption="" Click="btnForward_Click"/>-->
         <!--<Path Data="M 765,100 L745,80 L745,120z" Fill="Yellow" IsHitTestVisible="False"/>-->
 
-        <TextBlock x:Name="tbCurrentFrameIndex" Canvas.Left="0">0</TextBlock>
+        <!--<TextBlock x:Name="tbCurrentFrameIndex" Canvas.Left="0">0</TextBlock>-->
     </Canvas>
     </Grid>
 </UserControl>
