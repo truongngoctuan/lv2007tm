@@ -246,9 +246,11 @@ namespace _3DPresentation
         {
             lock (lockThis)
             { 
+                BaseModel RefModel = ArrFrame[iIndex];
                 for (int i = iIndex; i < ArrFrame.Count; i++)
                 {
-                    ArrFrame[i].RotationMatrix *= RotationMatrix;
+                    Vector3 T = ArrFrame[i].BoundingInfo.BoundingSphere.Center - RefModel.BoundingInfo.BoundingSphere.Center;
+                    ArrFrame[i].RotationMatrix *= _3DPresentation.MathUtil.toTransitionMatrix(T) * RotationMatrix * _3DPresentation.MathUtil.toTransitionMatrix(-T);
                     ArrFrame[i].Position += Translation;
                 }
             }
@@ -269,9 +271,11 @@ namespace _3DPresentation
         {
             lock (lockThis)
             {
+                BaseModel RefModel = ArrFrame[iIndex];
                 for (int i = iIndex; i >= 0; i--)
                 {
-                    ArrFrame[i].RotationMatrix *= RotationMatrix;
+                    Vector3 T = ArrFrame[i].BoundingInfo.BoundingSphere.Center - RefModel.BoundingInfo.BoundingSphere.Center;
+                    ArrFrame[i].RotationMatrix *= _3DPresentation.MathUtil.toTransitionMatrix(T) * RotationMatrix * _3DPresentation.MathUtil.toTransitionMatrix(-T);
                     ArrFrame[i].Position += Translation;
                 }
             }
@@ -401,24 +405,25 @@ namespace _3DPresentation
         {
             SetupWorkingDirectory();
 
-            string strQuery =
-                string.Format("{0} {1} {2} {3} {4} {5} {6}",
-                                WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
-                                "player",
-                                WorkingDirectory + "\\result",
-                                WorkingDirectory + "\\recorded\\grab7",
-                                WorkingDirectory + "\\recontructor\\kineck_calibration.yml",
-                                WorkingDirectory + "\\recontructor\\NestkConfig.xml",
-                                "0");
             //string strQuery =
             //    string.Format("{0} {1} {2} {3} {4} {5} {6}",
             //                    WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
-            //                    "kinect",
+            //                    "player",
             //                    WorkingDirectory + "\\result",
-            //                    WorkingDirectory + "\\recorded\\grab8",
+            //                    WorkingDirectory + "\\recorded\\grab7",
             //                    WorkingDirectory + "\\recontructor\\kineck_calibration.yml",
             //                    WorkingDirectory + "\\recontructor\\NestkConfig.xml",
             //                    "0");
+
+            string strQuery =
+                string.Format("{0} {1} {2} {3} {4} {5} {6}",
+                                WorkingDirectory + "\\recontructor\\rgbd-reconstructor.exe",
+                                "kinect",
+                                WorkingDirectory + "\\result",
+                                WorkingDirectory + "\\recorded\\grab8",
+                                WorkingDirectory + "\\recontructor\\kineck_calibration.yml",
+                                WorkingDirectory + "\\recontructor\\NestkConfig.xml",
+                                "0");
             COMAutomation.Cmd(strQuery);
 
             if (ca == null)

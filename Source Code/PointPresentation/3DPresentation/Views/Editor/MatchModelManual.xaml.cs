@@ -190,9 +190,9 @@ namespace _3DPresentation.Views.Editor
             _model1 = model1;
             _model2 = model2;
 
-            vcOjectViewer.AddModel(model1);
+            vcOjectViewer.AddModel(_model1);
             vcOjectViewer.AddModel(_model2);
-            vcOjectViewer.SetTarget(model1);
+            vcOjectViewer.SetTarget(_model2);
 
             //tblockValue.Text = this.ToString();
 

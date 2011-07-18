@@ -153,5 +153,12 @@ namespace _3DPresentation
             return position;
         }
         #endregion
+
+        public static Matrix toTransitionMatrix(Vector3 T)
+        {
+            Matrix mat = Matrix.Identity;
+            mat.Translation = T;
+            return mat;
+        }
     } 
 }
