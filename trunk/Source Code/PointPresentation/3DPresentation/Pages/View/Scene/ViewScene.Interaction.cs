@@ -130,6 +130,47 @@ namespace _3DPresentation
                     KeyboardTransition(this, eArg);
                 }
             }
+
+            { //rotation
+                Vector3 Angle = Vector3.Zero;
+                if (e.Key == System.Windows.Input.Key.Y)
+                {
+                    Angle.X = -1;
+                }
+                else if (e.Key == System.Windows.Input.Key.U)
+                {
+                    Angle.X = 1;
+                }
+                else if (e.Key == System.Windows.Input.Key.H)
+                {
+                    Angle.Y = -1;
+                }
+                else if (e.Key == System.Windows.Input.Key.J)
+                {
+                    Angle.Y = 1;
+                }
+                else if (e.Key == System.Windows.Input.Key.N)
+                {
+                    Angle.Z = -1;
+                }
+                else if (e.Key == System.Windows.Input.Key.M)
+                {
+                    Angle.Z = 1;
+                }
+
+                Angle *= FactorRotation / 10;
+                Angle *= 3.14f / 180.0f;
+
+                Matrix mat = Matrix.CreateFromYawPitchRoll(Angle.X, Angle.Y, Angle.Z);
+                if (MouseRotated != null)
+                {
+                    MouseRotatedEventArgs eArg = new MouseRotatedEventArgs();
+                    eArg.LastRotationMatrix = mat;
+                    eArg.DeltaRotationMatrix = mat;
+                    eArg.IsFinished = true;
+                    MouseRotated(this, eArg);
+                }
+            }
         }
 
         void Container_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
