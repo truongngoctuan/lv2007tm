@@ -230,17 +230,53 @@ namespace _3DPresentation
             Vector3 LastCameraPosition)
         {
             float dX, dY;
-            dX = (float)(currentPosition.X - LastPosition.X) * FactorRotation;
-            dY = (float)(currentPosition.Y - LastPosition.Y) * FactorRotation;
-            dX = -dX; dY = -dY;
+            if (Math.Abs(currentPosition.X - LastPosition.X) < 5)
+            {
+                dX = 0;
+            }
+            else
+            dX = (float)(currentPosition.X - LastPosition.X) * 3.14f / 180.0f;
 
-            Microsoft.Xna.Framework.Vector3 NewCamPosition = _3DPresentation.MathUtil.toNewCameraPosition(_camera, dX, dY);
+            if (Math.Abs(currentPosition.Y - LastPosition.Y) < 5)
+            {
+                dY = 0;
+            }
+            else
+            dY = (float)(currentPosition.Y - LastPosition.Y) * 3.14f / 180.0f;
 
-            Microsoft.Xna.Framework.Vector3 OldPos = this.Camera.Target - this.Camera.Position;
-            Microsoft.Xna.Framework.Vector3 NewPos = this.Camera.Target - NewCamPosition;
+            dX *= FactorRotation / 10;
+            dY *= FactorRotation / 10;
 
-            Microsoft.Xna.Framework.Matrix lastMat = _3DPresentation.MathUtil.GetTransformationMatrix(OldPos, NewPos);
+            Microsoft.Xna.Framework.Matrix lastMat = Matrix.CreateFromYawPitchRoll(dX, dY, 0);
             return lastMat;
+
+            //float dX, dY;
+            //if (Math.Abs( currentPosition.X - LastPosition.X) < 5)
+            //{
+            //    dX = 0;
+            //}
+            //else
+            //{
+            //    dX = (float)(currentPosition.X - LastPosition.X) * FactorRotation;
+            //}
+
+            //if (Math.Abs( currentPosition.Y - LastPosition.Y) < 5)
+            //{
+            //    dY = 0;
+            //}
+            //else
+            //{
+            //    dY = (float)(currentPosition.Y - LastPosition.Y) * FactorRotation;
+            //}
+            //dX = -dX; dY = -dY;
+
+            //Microsoft.Xna.Framework.Vector3 NewCamPosition = _3DPresentation.MathUtil.toNewCameraPosition(_camera, dX, dY);
+
+            //Microsoft.Xna.Framework.Vector3 OldPos = this.Camera.Target - this.Camera.Position;
+            //Microsoft.Xna.Framework.Vector3 NewPos = this.Camera.Target - NewCamPosition;
+
+            //Microsoft.Xna.Framework.Matrix lastMat = _3DPresentation.MathUtil.GetTransformationMatrix(OldPos, NewPos);
+            //return lastMat;
         }
 
         void ChangeToRotationModelState()
