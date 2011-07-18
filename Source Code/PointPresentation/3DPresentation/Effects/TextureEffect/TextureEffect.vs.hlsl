@@ -43,6 +43,6 @@ VertexShaderOutput main(VertexData vertex)
     Output.TextureCoords = vertex.TextureCoords;
 
 	Output.Normal = normalize(mul(vertex.Normal, (float3x3)xWorld));    
-	Output.Position3D = mul(vertex.Position, xWorld); //doesn't work with translation, fix later
+	Output.Position3D = mul(float4(vertex.Position, 1.0f), xWorld); //doesn't work with translation, fix later
     return Output;
 }

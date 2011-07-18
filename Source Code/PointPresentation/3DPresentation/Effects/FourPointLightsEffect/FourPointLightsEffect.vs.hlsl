@@ -36,10 +36,10 @@ struct VertexShaderOutput
   float4 Position : POSITION;
   float4 Color : COLOR;  
   float3 Normal : TEXCOORD0;
-  float3 lightPos1 : TEXCOORD1;
-  float3 lightPos2 : TEXCOORD2;
-  float3 lightPos3 : TEXCOORD3;
-  float3 lightPos4 : TEXCOORD4;
+  float3 LightDir1 : TEXCOORD1;
+  float3 LightDir2 : TEXCOORD2;
+  float3 LightDir3 : TEXCOORD3;
+  float3 LightDir4 : TEXCOORD4;
 };
 
 // main shader function
@@ -57,18 +57,13 @@ VertexShaderOutput main(VertexData vertex)
     Output.Normal = normalize(Output.Normal);
 
     // Calculate the position of the vertex in the world.
-    float4 worldPosition = mul(vertex.Position, World);
+    float4 worldPosition = mul(float4(vertex.Position, 1.0f), World);
 
 	// Determine the light directions based on the position of the lights and the position of the vertex in the world.
-    Output.lightPos1.xyz = LightSource1.xyz - worldPosition.xyz;
-    Output.lightPos2.xyz = LightSource2.xyz - worldPosition.xyz;
-    Output.lightPos3.xyz = LightSource3.xyz - worldPosition.xyz;
-    Output.lightPos4.xyz = LightSource4.xyz - worldPosition.xyz;
-
-    // Normalize the light position vectors.
-    Output.lightPos1 = normalize(Output.lightPos1);
-    Output.lightPos2 = normalize(Output.lightPos2);
-    Output.lightPos3 = normalize(Output.lightPos3);
-    Output.lightPos4 = normalize(Output.lightPos4);
+	// Normalize the light position vectors.
+    Output.LightDir1 = normalize(LightSource1.xyz - worldPosition.xyz);
+    Output.LightDir2 = normalize(LightSource2.xyz - worldPosition.xyz);
+    Output.LightDir3 = normalize(LightSource3.xyz - worldPosition.xyz);
+    Output.LightDir4 = normalize(LightSource4.xyz - worldPosition.xyz);
     return Output;
 }

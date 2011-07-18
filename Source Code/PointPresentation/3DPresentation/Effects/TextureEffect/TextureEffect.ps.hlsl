@@ -34,10 +34,8 @@ PixelToFrame main(VertexShaderOutput PSIn)
 
 	// Ambient
 	float4 baseColor = tex2D(DiffuseSampler, float2(PSIn.TextureCoords.x, PSIn.TextureCoords.y));
-	float4 effectColor = float4(1.0f, 1.0f, 1.0f, 1.0f) * (float)xAmbientIntensity;
+	float4 effectColor = float4(xAmbientIntensity.x, xAmbientIntensity.x, xAmbientIntensity.x, 1.0f);
 
-	if(PSIn.TextureCoords.x == 0)
-	{
 	// Diffuse
 	// Determine the diffuse component by finding the angle between the light and the normal.
 	// The smaller the angle between the normal and the light direction, the closer the dot
@@ -50,7 +48,7 @@ PixelToFrame main(VertexShaderOutput PSIn)
 		factor *= max(0,(1 - pow(distance((float3)xDiffuseSource1, PSIn.Position3D) / lightIntensity, 2)));
 		if(lightIntensity > 0.0f)
 		{
-			float4 diffuse = xDiffuseColor1 * factor;
+			float4 diffuse = xDiffuseColor1 * float4(factor, factor, factor, 1.0f);
 			effectColor = (diffuse + effectColor);
 		}
 	}
@@ -63,7 +61,7 @@ PixelToFrame main(VertexShaderOutput PSIn)
 		factor *= max(0,(1 - pow(distance((float3)xDiffuseSource2, PSIn.Position3D) / lightIntensity, 2)));
 		if(lightIntensity > 0.0f)
 		{
-			float4 diffuse = xDiffuseColor2 * factor;
+			float4 diffuse = xDiffuseColor2 * float4(factor, factor, factor, 1.0f);
 			effectColor = (diffuse + effectColor);
 		}
 	}
@@ -76,15 +74,12 @@ PixelToFrame main(VertexShaderOutput PSIn)
 		factor *= max(0,(1 - pow(distance((float3)xDiffuseSource3, PSIn.Position3D) / lightIntensity, 2)));
 		if(lightIntensity > 0.0f)
 		{
-			float4 diffuse = xDiffuseColor3 * factor;
+			float4 diffuse = xDiffuseColor3 * float4(factor, factor, factor, 1.0f);
 			effectColor = (diffuse + effectColor);
 		}
 	}
 
 	effectColor = saturate(effectColor);
 	Output.Color = (baseColor * effectColor);
-	}
-	else
-	Output.Color = baseColor;
     return Output;
 }

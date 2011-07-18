@@ -95,7 +95,7 @@ namespace _3DPresentation.Material
         {
             string line = reader.ReadLine();
             string[] items = line.Split(' ');
-            if (items.Length > 3)
+            if (items.Length >= 3)
             {
                 return new Vector3(float.Parse(items[0]), float.Parse(items[1]), float.Parse(items[2]));
             }

@@ -13,10 +13,10 @@ struct VertexShaderOutput
   float4 Position : POSITION;
   float4 Color : COLOR;  
   float3 Normal : TEXCOORD0;
-  float3 lightPos1 : TEXCOORD1;
-  float3 lightPos2 : TEXCOORD2;
-  float3 lightPos3 : TEXCOORD3;
-  float3 lightPos4 : TEXCOORD4;
+  float3 LightDir1 : TEXCOORD1;
+  float3 LightDir2 : TEXCOORD2;
+  float3 LightDir3 : TEXCOORD3;
+  float3 LightDir4 : TEXCOORD4;
 };
 
 struct PixelToFrame
@@ -36,31 +36,37 @@ PixelToFrame main(VertexShaderOutput input)
 	if(EnableLights.x > 0.0f)
 	{
 		// Calculate the different amounts of light on this pixel based on the positions of the lights.
-		lightIntensity1 = saturate(dot(input.Normal, input.lightPos1));
+		lightIntensity1 = saturate(dot(input.Normal, input.LightDir1));
 		// Determine the diffuse color amount of each of the four lights.
 		if(lightIntensity1 > 0.0f)
-			color += LightColor1 * float4(lightIntensity1, lightIntensity1, lightIntensity1, lightIntensity1);
+			color += LightColor1 * float4(lightIntensity1, lightIntensity1, lightIntensity1, 1.0f);
 	}
 
 	if(EnableLights.y > 0.0f)
-	{
-		lightIntensity2 = saturate(dot(input.Normal, input.lightPos2));
+	{		
+		// Calculate the different amounts of light on this pixel based on the positions of the lights.
+		lightIntensity2 = saturate(dot(input.Normal, input.LightDir2));
+		// Determine the diffuse color amount of each of the four lights.
 		if(lightIntensity2 > 0.0f)
-			color += LightColor2 * lightIntensity2;
+			color += LightColor2 * float4(lightIntensity2, lightIntensity2, lightIntensity2, 1.0f);
 	}
 
 	if(EnableLights.z > 0.0f)
 	{
-		lightIntensity3 = saturate(dot(input.Normal, input.lightPos3));
+		// Calculate the different amounts of light on this pixel based on the positions of the lights.
+		lightIntensity3 = saturate(dot(input.Normal, input.LightDir3));
+		// Determine the diffuse color amount of each of the four lights.
 		if(lightIntensity3 > 0.0f)
-			color += LightColor3 * lightIntensity3;
+			color += LightColor3 * float4(lightIntensity3, lightIntensity3, lightIntensity3, 1.0f);
 	}
 
 	if(EnableLights.w > 0.0f)
 	{
-		lightIntensity4 = saturate(dot(input.Normal, input.lightPos4));
+		// Calculate the different amounts of light on this pixel based on the positions of the lights.
+		lightIntensity4 = saturate(dot(input.Normal, input.LightDir4));
+		// Determine the diffuse color amount of each of the four lights.
 		if(lightIntensity4 > 0.0f)
-			color += LightColor4 * lightIntensity4;
+			color += LightColor4 * float4(lightIntensity4, lightIntensity4, lightIntensity4, 1.0f);
 	}
 
     // Sample the texture pixel at this location.
