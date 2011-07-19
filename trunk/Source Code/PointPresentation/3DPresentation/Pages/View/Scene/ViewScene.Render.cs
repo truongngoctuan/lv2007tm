@@ -44,6 +44,8 @@ namespace _3DPresentation
                     }
                 }
 
+                if (App.CurrentPage is _3DPresentation.Views.ObjectView)
+                    return;
                 for(int i = 0; i < PointLightInfomations.Length; i++)
                 {
                     if (PointLightInfomations[i].Enable == true)

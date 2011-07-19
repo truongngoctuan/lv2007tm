@@ -13,7 +13,7 @@ namespace _3DPresentation.Models
 {
     public abstract class BaseModel
     {
-        public enum VertexTypes { XYZ, XYZ_RGB, XYZ_NORMAL, XYZ_RGB_NORNAL, XYZ_TEXCOORD, XYZ_NORMAL_TEXCOORD };
+        public enum VertexTypes { XYZ, XYZ_RGB, XYZ_NORMAL, XYZ_NORNAL_RGB, XYZ_TEXCOORD, XYZ_NORMAL_TEXCOORD };
         public enum FileType { PLY };
 
         private object lockThis = new object();
@@ -244,7 +244,7 @@ namespace _3DPresentation.Models
                         }
 
                         if (rgb && normal)
-                            vertexType = VertexTypes.XYZ_RGB_NORNAL;
+                            vertexType = VertexTypes.XYZ_NORNAL_RGB;
                         else if (rgb)
                             vertexType = VertexTypes.XYZ_RGB;
                         else if (texCoord & normal)
@@ -357,9 +357,77 @@ namespace _3DPresentation.Models
             }
             else if (vertexType == VertexTypes.XYZ_NORMAL)
             {
+                for (int i = 0; i < nPoints; i++)
+                {
+                    string ss = sr.ReadLine();
+                    string[] Items = ss.Split(new char[] { ' ' });
+
+                    if (Items.Length < 6)
+                        continue;
+
+                    float x = Convert.ToSingle(Items[0]);
+                    float y = Convert.ToSingle(Items[1]);
+                    float z = Convert.ToSingle(Items[2]);
+                    int nx = Convert.ToInt32(Items[3]);
+                    int ny = Convert.ToInt32(Items[4]);
+                    int nz = Convert.ToInt32(Items[5]);
+
+                    model.AddVertex(new Vector3(x, y, z), new Vector3(nx, ny, nz), Color.FromNonPremultiplied(255, 255, 255, 255));
+                }
+
+                for (int i = 0; i < nFaces; i++)
+                {
+                    string ss = sr.ReadLine();
+                    string[] Items = ss.Split(new char[] { ' ' });
+
+                    if (Items.Length < 4)
+                        continue;
+
+                    int i1 = Convert.ToInt32(Items[1]);
+                    int i2 = Convert.ToInt32(Items[2]);
+                    int i3 = Convert.ToInt32(Items[3]);
+
+                    model.AddIndice(i1, i2, i3);
+                }
             }
-            else if (vertexType == VertexTypes.XYZ_RGB_NORNAL)
+            else if (vertexType == VertexTypes.XYZ_NORNAL_RGB)
             {
+                for (int i = 0; i < nPoints; i++)
+                {
+                    string ss = sr.ReadLine();
+                    string[] Items = ss.Split(new char[] { ' ' });
+
+                    if (Items.Length < 9)
+                        continue;
+
+                    float x = Convert.ToSingle(Items[0]);
+                    float y = Convert.ToSingle(Items[1]);
+                    float z = Convert.ToSingle(Items[2]);
+                    float nx = Convert.ToSingle(Items[3]);
+                    float ny = Convert.ToSingle(Items[4]);
+                    float nz = Convert.ToSingle(Items[5]);
+                    int r = Convert.ToInt32(Items[6]);
+                    int g = Convert.ToInt32(Items[7]);
+                    int b = Convert.ToInt32(Items[8]);
+                    int a = 255;
+
+                    model.AddVertex(new Vector3(x, y, z), new Vector3(nx, ny, nz), Color.FromNonPremultiplied(r, g, b, a));
+                }
+
+                for (int i = 0; i < nFaces; i++)
+                {
+                    string ss = sr.ReadLine();
+                    string[] Items = ss.Split(new char[] { ' ' });
+
+                    if (Items.Length < 4)
+                        continue;
+
+                    int i1 = Convert.ToInt32(Items[1]);
+                    int i2 = Convert.ToInt32(Items[2]);
+                    int i3 = Convert.ToInt32(Items[3]);
+
+                    model.AddIndice(i1, i2, i3);
+                }
             }
             else if (vertexType == VertexTypes.XYZ_TEXCOORD)
             {
@@ -458,6 +526,10 @@ namespace _3DPresentation.Models
             points[iPoint++] = position;
         }
         public virtual void AddVertex(Vector3 position, Vector3 normal)
+        {
+            points[iPoint++] = position;
+        }
+        public virtual void AddVertex(Vector3 position, Vector3 normal, Color color)
         {
             points[iPoint++] = position;
         }
@@ -572,18 +644,18 @@ namespace _3DPresentation.Models
                     writer.WriteLine("property list uchar int vertex_indices");
                     writer.WriteLine("end_header");
                 }
-                else if (vertexType == VertexTypes.XYZ_RGB_NORNAL)
+                else if (vertexType == VertexTypes.XYZ_NORNAL_RGB)
                 {
                     writer.WriteLine("property float32 x");
                     writer.WriteLine("property float32 y");
                     writer.WriteLine("property float32 z");
-                    writer.WriteLine("property uchar red");
-                    writer.WriteLine("property uchar green");
-                    writer.WriteLine("property uchar blue");
                     writer.WriteLine("property float32 nx");
                     writer.WriteLine("property float32 ny");
                     writer.WriteLine("property float32 nz");
-                    writer.WriteLine("element face " + nFaces);               
+                    writer.WriteLine("property uchar red");
+                    writer.WriteLine("property uchar green");
+                    writer.WriteLine("property uchar blue");
+                    writer.WriteLine("element face " + nFaces);
                     writer.WriteLine("property list uchar int vertex_indices");
                     writer.WriteLine("end_header");
                 }
@@ -713,7 +785,7 @@ namespace _3DPresentation.Models
         protected abstract BaseMaterial GetDefaultSpecialMaterial();
         public abstract Type[] GetCompatibleMaterialTypes();
 
-        public abstract System.Windows.Media.Imaging.WriteableBitmap toBitmap( int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam);
+        public abstract System.Windows.Media.Imaging.WriteableBitmap toBitmap( int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam, float k);
         public virtual System.Windows.Media.Imaging.WriteableBitmap toBitmap()
         {
             Babylon.Toolbox.OrbitCamera cam = new Babylon.Toolbox.OrbitCamera { Alpha = (float)Math.PI / 2 };
@@ -722,8 +794,9 @@ namespace _3DPresentation.Models
             cam.Radius = this.BoundingInfo.BoundingSphereWorld.Radius * 4.0f;
             cam.Target = this.BoundingInfo.BoundingSphereWorld.Center;
             cam.Alpha = cam.Alpha; // to raise event => recompute Position to get new ViewMatrix
-            
-            return toBitmap(400, 400, cam);
+
+            float k = 75.0f * (1.0f / this.BoundingInfo.BoundingSphereWorld.Radius);
+            return toBitmap(400, 400, cam, k);
         }
     }
 }

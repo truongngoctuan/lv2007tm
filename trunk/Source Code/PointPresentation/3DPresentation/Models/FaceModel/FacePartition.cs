@@ -65,6 +65,12 @@ namespace _3DPresentation.Models
             return VerticesList.Count - 1;
         }
 
+        public int AddPoint(Vector3 point, Vector3 normal, Color color)
+        {
+            VerticesList.Add(new VertexPositionNormalColor(point, color, normal));
+            return VerticesList.Count - 1;
+        }
+
         private int maxIndex = -1;
         private int maxI = -1;
         public bool AddIndice(int i1, int i2, int i3)
@@ -174,7 +180,7 @@ namespace _3DPresentation.Models
                         writer.Write(str);
                     }
                 }
-                else if (vertexType == BaseModel.VertexTypes.XYZ_RGB_NORNAL)
+                else if (vertexType == BaseModel.VertexTypes.XYZ_NORNAL_RGB)
                 {
                     for (int i = 0; i < Vertices.Length; i++)
                     {
@@ -204,13 +210,13 @@ namespace _3DPresentation.Models
             return true;
         }
 
-        public void projectToImagePlane(Matrix mat, int iWidth, int iHeight, int[,] zBuffer, System.Windows.Media.Imaging.WriteableBitmap bm)
+        public void projectToImagePlane(Matrix mat, int iWidth, int iHeight, int[,] zBuffer, System.Windows.Media.Imaging.WriteableBitmap bm, float k)
         {
             int iHalfWidth = iWidth / 2;
             int iHalfHeight = iHeight / 2;
             for (int i = 0; i < Vertices.Length; i += 4)
             {
-                Vector3 p3d = Vertices[i].Position;
+                Vector3 p3d = Vertices[i].Position * k;
                 Vector3 p2d = MathUtil.TransformPoint(mat, p3d);
                 p2d.X += iHalfWidth;
                 p2d.Y = iHalfHeight - p2d.Y;

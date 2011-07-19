@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Collections.Generic;
 using _3DPresentation.Data;
+using System.Windows.Media.Imaging;
 
 namespace _3DPresentation.Views
 {
@@ -27,7 +28,23 @@ namespace _3DPresentation.Views
             if (tour.Save())
             {
                 Button bt = new Button();
-                bt.Content = tour.Name;
+                //if (DesignMode)
+                //{
+                //    Image image = new Image();
+                //    image.Source = new BitmapImage(Utils.Global.MakePackUri("Views/Images/bg3.png"));
+                //    image.Height = 100;
+                //    image.Width = 150;
+                //    bt.Content = image;
+                //}
+                //else
+                //{
+                //    Image image = new Image();
+                //    image.Source = new BitmapImage(Utils.Global.MakePackUri("Views/Images/bg2.png"));
+                //    image.Height = 100;
+                //    image.Width = 150;
+                //    bt.Content = image;
+                //}
+                bt.Content = tour;
                 bt.Click += new RoutedEventHandler(bt_Click);
 
                 stackPanel.Children.Add(bt);
@@ -77,6 +94,22 @@ namespace _3DPresentation.Views
             foreach (string tour in toursName)
             {
                 Button bt = new Button();
+                //if (DesignMode)
+                //{
+                //    Image image = new Image();
+                //    image.Source = new BitmapImage(Utils.Global.MakePackUri("Views/Images/bg3.png"));
+                //    image.Height = 100;
+                //    image.Width = 150;
+                //    bt.Content = image;
+                //}
+                //else
+                //{
+                //    Image image = new Image();
+                //    image.Source = new BitmapImage(Utils.Global.MakePackUri("Views/Images/bg2.png"));
+                //    image.Height = 100;
+                //    image.Width = 150;
+                //    bt.Content = image;
+                //}
                 bt.Content = tour;
                 bt.Click += new RoutedEventHandler(bt_Click);
 

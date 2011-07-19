@@ -30,7 +30,7 @@ namespace _3DPresentation.Material
                 lastTime = System.DateTime.Now;
                 if(elapsedTime.TotalMilliseconds > 1000)
                 {
-                    AmbientColor = (GlobalVars.ColorEnum)(((int)AmbientColor + 1) % 7);
+                    AmbientColor = (GlobalVars.ColorEnum)(((int)AmbientColor + 1) % 8 + 1);
                     elapsedTime = System.TimeSpan.Zero;
                 }
             }

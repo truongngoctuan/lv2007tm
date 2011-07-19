@@ -181,7 +181,7 @@ namespace _3DPresentation.Models
                         writer.Write(str);
                     }
                 }
-                else if (vertexType == BaseModel.VertexTypes.XYZ_RGB_NORNAL)
+                else if (vertexType == BaseModel.VertexTypes.XYZ_NORNAL_RGB)
                 {
                     for (int i = 0; i < Vertices.Length; i++)
                     {
@@ -245,6 +245,31 @@ namespace _3DPresentation.Models
                 }
             }
             return true;
+        }
+
+        public void projectToImagePlane(Matrix mat, int iWidth, int iHeight, int[,] zBuffer, System.Windows.Media.Imaging.WriteableBitmap bm, float k)
+        {
+            int iHalfWidth = iWidth / 2;
+            int iHalfHeight = iHeight / 2;
+            for (int i = 0; i < Vertices.Length; i += 4)
+            {
+                Vector3 p3d = Vertices[i].Position * k;
+                Vector3 p2d = MathUtil.TransformPoint(mat, p3d);
+                p2d.X += iHalfWidth;
+                p2d.Y = iHalfHeight - p2d.Y;
+                if (0 <= p2d.X && p2d.X < iWidth && 0 <= p2d.Y && p2d.Y < iHeight)
+                {
+                    if (zBuffer[(int)p2d.X, (int)p2d.Y] != 0 && p3d.Z > zBuffer[(int)p2d.X, (int)p2d.Y]) continue;
+
+                    zBuffer[(int)p2d.X, (int)p2d.Y] = (int)p3d.Z;
+                    System.Windows.Media.Color clr = new System.Windows.Media.Color();
+                    clr.A = 255;
+                    clr.R = 255;
+                    clr.G = 255;
+                    clr.B = 255;
+                    System.Windows.Media.Imaging.WriteableBitmapExtensions.SetPixel(bm, (int)p2d.X, (int)p2d.Y, clr);
+                }
+            }
         }
     }
 }

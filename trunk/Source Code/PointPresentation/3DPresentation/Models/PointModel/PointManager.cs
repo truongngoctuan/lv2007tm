@@ -99,13 +99,12 @@ namespace _3DPresentation.Models
             return result;
         }
 
-        public void projectToImagePlane(Matrix mat, int iWidth, int iHeight, int[,] zBuffer, System.Windows.Media.Imaging.WriteableBitmap bm)
+        public void projectToImagePlane(Matrix mat, int iWidth, int iHeight, int[,] zBuffer, System.Windows.Media.Imaging.WriteableBitmap bm, float k)
         {
             for (int i = 0; i < Partitions.Count; i++)
             {
-                Partitions[i].projectToImagePlane(mat, iWidth, iHeight, zBuffer, bm);
+                Partitions[i].projectToImagePlane(mat, iWidth, iHeight, zBuffer, bm, k);
             }
-
         }
     }
 }
