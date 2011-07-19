@@ -119,9 +119,16 @@ namespace _3DPresentation.Models
             return base.toBitmap();
         }
 
-        public override System.Windows.Media.Imaging.WriteableBitmap toBitmap(int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam)
+        public override System.Windows.Media.Imaging.WriteableBitmap toBitmap(int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam, float k)
         {
-            return new WriteableBitmap(0, 0).FromResource("Views/Editor/Images/blank_facemodel.jpg");
+            System.Windows.Media.Imaging.WriteableBitmap wbm = new System.Windows.Media.Imaging.WriteableBitmap(iWidth, iHeight);//.FromResource("Views/Editor/Images/blank.jpg");
+            System.Windows.Media.Imaging.WriteableBitmapExtensions.Clear(wbm, System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
+            Matrix mat = cam.View * cam.Projection;
+
+            int[,] zbuffer = new int[iWidth, iHeight];
+
+            texCoordManager.projectToImagePlane(mat, iWidth, iHeight, zbuffer, wbm, k);
+            return wbm;
         }
     }
 }

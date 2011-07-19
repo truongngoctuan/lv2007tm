@@ -9,21 +9,11 @@ namespace _3DPresentation.Models
 {
     public class FaceManager
     {
-        public struct RelativeNode
-        {
-            public Node node2;
-            public Node node3;
-            public RelativeNode(Node n2, Node n3)
-            {
-                node2 = n2;
-                node3 = n3;
-            }
-        }
         public class Node
         {
             public Vector3 Position;
+            public Vector3 Normal;
             public Color Color;
-            public List<RelativeNode> RelativeNodes;
             public int lastPartition;
             public int lastIndex;
 
@@ -31,7 +21,14 @@ namespace _3DPresentation.Models
             {
                 Position = position;
                 Color = color;
-                RelativeNodes = new List<RelativeNode>();
+                lastPartition = -1;
+                lastIndex = -1;
+            }
+            public Node(Vector3 position, Vector3 normal, Color color)
+            {
+                Position = position;
+                Normal = normal;
+                Color = color;
                 lastPartition = -1;
                 lastIndex = -1;
             }
@@ -44,10 +41,12 @@ namespace _3DPresentation.Models
         public int PartitionSize;
         public int NumPoints;
         public int NumFaces;
-        
-        public FaceManager()
+
+        BaseModel Model;
+        public FaceManager(BaseModel model)
         {
             Partitions = new List<FacePartition>();
+            Model = model;
         }
 
         public void Begin(int nPoints, int nFaces)
@@ -77,28 +76,54 @@ namespace _3DPresentation.Models
             Nodes[iCurrentNode++] = new Node(position, color);
             return true;
         }
+        public bool AddVertex(Vector3 position, Vector3 normal, Color color)
+        {
+            if (iCurrentNode >= Nodes.Length)
+                return false;
+            Nodes[iCurrentNode++] = new Node(position, normal, color);
+            return true;
+        }
+
+        int iCurrentPartition = 0;
         public bool AddIndice(int i1, int i2, int i3)
         {
             if (i1 == i2 || i2 == i3 || i1 == i3)
                 return false;
-
-            //if (i1 > i2) { int temp = i1; i1 = i2; i2 = temp; }
-            //if (i1 > i3) { int temp = i1; i1 = i3; i3 = temp; }
-            Nodes[i1].RelativeNodes.Add(new RelativeNode(Nodes[i2], Nodes[i3]));
-            return true;
+            bool result = false;
+            while (iCurrentPartition < Partitions.Count)
+            {
+                FacePartition partition = Partitions[iCurrentPartition];
+                if (partition.IsFull())
+                {
+                    iCurrentPartition++;
+                }
+                else
+                {
+                    if (Nodes[i1].lastPartition != Partitions[iCurrentPartition].ID)
+                    {
+                        Nodes[i1].lastPartition = partition.ID;
+                        Nodes[i1].lastIndex = partition.AddPoint(Nodes[i1].Position, Nodes[i1].Normal, Nodes[i1].Color);
+                    }
+                    if (Nodes[i2].lastPartition != Partitions[iCurrentPartition].ID)
+                    {
+                        Nodes[i2].lastPartition = partition.ID;
+                        Nodes[i2].lastIndex = partition.AddPoint(Nodes[i2].Position, Nodes[i2].Normal, Nodes[i2].Color);
+                    }
+                    if (Nodes[i3].lastPartition != Partitions[iCurrentPartition].ID)
+                    {
+                        Nodes[i3].lastPartition = partition.ID;
+                        Nodes[i3].lastIndex = partition.AddPoint(Nodes[i3].Position, Nodes[i3].Normal, Nodes[i3].Color);
+                    }
+                    result = partition.AddIndice(Nodes[i1].lastIndex, Nodes[i2].lastIndex, Nodes[i3].lastIndex);
+                    if (result)
+                        break;
+                }
+            }
+            return result;
         }        
         
         public void End()
         {
-            int iCurrentPartition = 0;
-            FacePartition partition = Partitions[iCurrentPartition];
-            for (int i = 0; i < Nodes.Length && iCurrentPartition < Partitions.Count; )
-            {
-                if (AddNode(Partitions[iCurrentPartition], Nodes[i]) == true)
-                    i++;
-                else
-                    iCurrentPartition++;
-            }
             Nodes = null;
 
             NumPoints = 0;
@@ -109,6 +134,11 @@ namespace _3DPresentation.Models
                 NumPoints += Partitions[i].Vertices.Length;
                 NumFaces += Partitions[i].Indices.Length / 3;
             }
+
+            if (Model.Type == BaseModel.VertexTypes.XYZ_NORMAL_TEXCOORD
+                || Model.Type == BaseModel.VertexTypes.XYZ_NORMAL
+                || Model.Type == BaseModel.VertexTypes.XYZ_NORNAL_RGB)
+                return;
 
             foreach (FacePartition par in Partitions)
                 par.InitNormals();
@@ -128,40 +158,6 @@ namespace _3DPresentation.Models
             {
                 Partitions[i].Render(graphicsDevice);
             }
-        }
-
-        private bool AddNode(FacePartition partition, Node node)
-        {
-            if (partition.IsFull())
-                return false;
-
-            if (node.RelativeNodes.Count == 0)
-                return true;
-
-            if (node.lastPartition != partition.ID)
-            {
-                node.lastPartition = partition.ID;
-                node.lastIndex = partition.AddPoint(node.Position, node.Color);
-            }
-
-            foreach (FaceManager.RelativeNode relative in node.RelativeNodes)
-            {
-                if (partition.IsFull())
-                    return false;
-                if (relative.node2.lastPartition != partition.ID)
-                {
-                    relative.node2.lastPartition = partition.ID;
-                    relative.node2.lastIndex = partition.AddPoint(relative.node2.Position, relative.node2.Color);
-                }
-                if (relative.node3.lastPartition != partition.ID)
-                {
-                    relative.node3.lastPartition = partition.ID;
-                    relative.node3.lastIndex = partition.AddPoint(relative.node3.Position, relative.node3.Color);
-                }
-
-                partition.AddIndice(node.lastIndex, relative.node2.lastIndex, relative.node3.lastIndex);
-            }
-            return true;
         }
 
         public bool ExportVertexData(BaseModel.FileType fileType, BaseModel.VertexTypes vertexType, StreamWriter writer, Matrix worldMatrix)
@@ -192,11 +188,11 @@ namespace _3DPresentation.Models
             return result;
         }
 
-        public void projectToImagePlane(Matrix mat, int iWidth, int iHeight, int[,] zBuffer, System.Windows.Media.Imaging.WriteableBitmap bm)
+        public void projectToImagePlane(Matrix mat, int iWidth, int iHeight, int[,] zBuffer, System.Windows.Media.Imaging.WriteableBitmap bm, float k)
         {
             for (int i = 0; i < Partitions.Count; i++)
             {
-                Partitions[i].projectToImagePlane(mat, iWidth, iHeight, zBuffer, bm);
+                Partitions[i].projectToImagePlane(mat, iWidth, iHeight, zBuffer, bm, k);
             }
 
         }

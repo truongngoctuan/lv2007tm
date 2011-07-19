@@ -140,13 +140,13 @@ namespace _3DPresentation.Models
         }
 
 
-        public void projectToImagePlane(Matrix mat, int iWidth, int iHeight, int[,] zBuffer, System.Windows.Media.Imaging.WriteableBitmap bm)
+        public void projectToImagePlane(Matrix mat, int iWidth, int iHeight, int[,] zBuffer, System.Windows.Media.Imaging.WriteableBitmap bm, float k)
         {
             int iHalfWidth = iWidth / 2;
             int iHalfHeight = iHeight / 2;
             for (int i = 0; i < Vertices.Length; i += 4)
             {
-                Vector3 p3d = Vertices[i].Position * 1000;
+                Vector3 p3d = Vertices[i].Position * (k / 10);
                 Vector3 p2d = MathUtil.TransformPoint(mat, p3d);
                 p2d.X += iHalfWidth;
                 p2d.Y = iHalfHeight - p2d.Y;

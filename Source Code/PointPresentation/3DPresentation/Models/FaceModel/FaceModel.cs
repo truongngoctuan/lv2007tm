@@ -15,7 +15,7 @@ namespace _3DPresentation.Models
              
         public FaceModel()
         {
-            faceManager = new FaceManager();
+            faceManager = new FaceManager(this);
         }
 
         public override void Begin(int nPoints, int nFaces)
@@ -27,6 +27,11 @@ namespace _3DPresentation.Models
         {
             base.AddVertex(position, color);
             faceManager.AddVertex(position, color);
+        }
+        public override void AddVertex(Vector3 position, Vector3 normal, Color color)
+        {
+            base.AddVertex(position, normal, color);
+            faceManager.AddVertex(position, normal, color);
         }
         public override void AddIndice(int i1, int i2, int i3)
         {
@@ -101,7 +106,7 @@ namespace _3DPresentation.Models
             return compatibleTypes;
         }
 
-        public override System.Windows.Media.Imaging.WriteableBitmap toBitmap(int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam)
+        public override System.Windows.Media.Imaging.WriteableBitmap toBitmap(int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam, float k)
         {
             //return new WriteableBitmap(0, 0).FromResource("Views/Editor/Images/blank_facemodel.jpg");
 
@@ -111,7 +116,7 @@ namespace _3DPresentation.Models
 
             int[,] zbuffer = new int[iWidth, iHeight];
 
-            faceManager.projectToImagePlane(mat, iWidth, iHeight, zbuffer, wbm);
+            faceManager.projectToImagePlane(mat, iWidth, iHeight, zbuffer, wbm, k);
             return wbm;
         }
     }

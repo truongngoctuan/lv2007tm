@@ -76,13 +76,15 @@ namespace _3DPresentation.Models
 
         protected override BaseMaterial GetDefaultMaterial()
         {
-            return new PointMaterial();
+            FourPointLightsMaterial material = new FourPointLightsMaterial();
+            material.AmbientLight = GlobalVars.ColorEnum.White;
+            return material;
         }
 
         protected override BaseMaterial GetDefaultSpecialMaterial()
         {
-            return Material;
-            //return new PointMaterial();
+            //return Material;
+            return new PointMaterial();
         }
 
         public override Type[] GetCompatibleMaterialTypes()
@@ -94,7 +96,7 @@ namespace _3DPresentation.Models
             return compatibleTypes;
         }
 
-        public override System.Windows.Media.Imaging.WriteableBitmap toBitmap(int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam)
+        public override System.Windows.Media.Imaging.WriteableBitmap toBitmap(int iWidth, int iHeight, Babylon.Toolbox.OrbitCamera cam, float k)
         {
             System.Windows.Media.Imaging.WriteableBitmap wbm = new System.Windows.Media.Imaging.WriteableBitmap(iWidth, iHeight);//.FromResource("Views/Editor/Images/blank.jpg");
             System.Windows.Media.Imaging.WriteableBitmapExtensions.Clear(wbm, System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
@@ -102,7 +104,7 @@ namespace _3DPresentation.Models
 
             int[,] zbuffer = new int[iWidth, iHeight];
 
-            pointManager.projectToImagePlane(mat, iWidth, iHeight, zbuffer, wbm);
+            pointManager.projectToImagePlane(mat, iWidth, iHeight, zbuffer, wbm, k);
             return wbm;
         }
     }

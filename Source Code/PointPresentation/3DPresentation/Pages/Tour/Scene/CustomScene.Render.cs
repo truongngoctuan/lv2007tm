@@ -38,11 +38,11 @@ namespace _3DPresentation
                 {
                     if (ActiveCamera.IsInFrustrum(model.BoundingInfo))
                     {
-                        if (model == selectedMesh)
-                        {
-                            model.Render(graphicsDevice, true);
-                        }
-                        else
+                        //if (model == selectedMesh)
+                        //{
+                        //    model.Render(graphicsDevice, true);
+                        //}
+                        //else
                         {
                             model.Render(graphicsDevice, false);
                         }

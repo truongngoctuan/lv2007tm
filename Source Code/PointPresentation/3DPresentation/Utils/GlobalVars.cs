@@ -9,7 +9,7 @@ namespace _3DPresentation
         // the device to use when creating resources
         public static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
 
-        public enum ColorEnum { Transparent, Red, Green, Blue, Orange, Yellow, Purple, Black, White, Cyan }
+        public enum ColorEnum { Transparent, Red, Green, Blue, Orange, Yellow, Purple, White, Cyan, Black}
         public static Color GetColor(ColorEnum color)
         {
             switch (color)

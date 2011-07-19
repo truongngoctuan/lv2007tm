@@ -134,7 +134,7 @@ namespace _3DPresentation.Models
 
             if (Model.Type == BaseModel.VertexTypes.XYZ_NORMAL_TEXCOORD
                 || Model.Type == BaseModel.VertexTypes.XYZ_NORMAL
-                || Model.Type == BaseModel.VertexTypes.XYZ_RGB_NORNAL)
+                || Model.Type == BaseModel.VertexTypes.XYZ_NORNAL_RGB)
                 return;
 
             foreach (TexCoordPartition par in Partitions)
@@ -183,6 +183,14 @@ namespace _3DPresentation.Models
                 offset += Partitions[i].Vertices.Length;
             }
             return result;
+        }
+
+        public void projectToImagePlane(Matrix mat, int iWidth, int iHeight, int[,] zBuffer, System.Windows.Media.Imaging.WriteableBitmap bm, float k)
+        {
+            for (int i = 0; i < Partitions.Count; i++)
+            {
+                Partitions[i].projectToImagePlane(mat, iWidth, iHeight, zBuffer, bm, k);
+            }
         }
     }
 }
