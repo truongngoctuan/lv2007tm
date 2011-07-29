@@ -61,6 +61,15 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>4D52B1F02B55373E1BB0C4266B6E5281FEE2E03B</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>Silverlight3DApp.pfx</ManifestKeyFile>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Babylon.Toolbox, Version=1.0.4.0, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="ICSharpCode.SharpZLib.Silverlight">
@@ -252,6 +261,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <None Include="Silverlight3DApp.pfx" />
     <Resource Include="Views\Images\increase.png" />
     <Resource Include="Views\Images\save.jpg" />
     <Resource Include="Views\Images\remove.png" />

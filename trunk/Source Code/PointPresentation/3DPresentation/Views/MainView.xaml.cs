@@ -27,11 +27,15 @@ namespace _3DPresentation.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("This feature require elevated trust");
-            EditorView ev = new EditorView();
-            ev.ParentView = this;
-            App.RemovePage(this);
-            App.GoToPage(ev);
+            if (Application.Current.HasElevatedPermissions)
+            {
+                EditorView ev = new EditorView();
+                ev.ParentView = this;
+                App.RemovePage(this);
+                App.GoToPage(ev);
+            }
+            else
+                MessageBox.Show("This feature require elevated trust");            
         }
 
         private void Button_Click_1(object sender, RoutedEventArgs e)
