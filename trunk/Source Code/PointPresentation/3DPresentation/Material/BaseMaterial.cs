@@ -117,11 +117,6 @@ namespace _3DPresentation.Material
             int b = int.Parse(items[2]);
             return GlobalVars.GetColorEnum(r, g, b);
         }
-        protected static bool SaveTexture(string texturePath, string textureName)
-        {
-            string filePath = string.Format("{0}/{1}", texturePath, textureName);
-            return ResourceManager.SaveBitmap(textureName, filePath);
-        }
 
         public override string ToString()
         {

@@ -4,52 +4,13 @@ using System.Reflection;
 using System.Windows;
 using Microsoft.Xna.Framework.Graphics;
 using System.Windows.Media.Imaging;
+using System.IO.IsolatedStorage;
 
 namespace _3DPresentation.Utils
 {
     internal static class Global
     {
-        public static string MyDocumentsFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-
-        public static string StorePath = MyDocumentsFolderPath + "/Silverlight3D";
-        public static string ModelStorePath = StorePath + "/Model";
-        public static string SceneStorePath = StorePath + "/Scene";
-        public static string TourStorePath = StorePath + "/Tour";
-
-        public static string GetRealStoreDirectory()
-        {
-            DirectoryInfo dir = new DirectoryInfo(StorePath);
-            if (dir.Exists == false)
-                dir.Create();
-            return StorePath;
-        }
-
-        public static string GetRealModelStoreDirectory()
-        {
-            GetRealStoreDirectory();
-            DirectoryInfo dir = new DirectoryInfo(ModelStorePath);
-            if (dir.Exists == false)
-                dir.Create();
-            return ModelStorePath;
-        }
-
-        public static string GetRealSceneStorePath()
-        {
-            GetRealStoreDirectory();
-            DirectoryInfo dir = new DirectoryInfo(SceneStorePath);
-            if (dir.Exists == false)
-                dir.Create();
-            return SceneStorePath;
-        }
-
-        public static string GetRealTourStorePath()
-        {
-            GetRealStoreDirectory();
-            DirectoryInfo dir = new DirectoryInfo(TourStorePath);
-            if (dir.Exists == false)
-                dir.Create();
-            return TourStorePath;
-        }
+        public static string TourStorePath = "Tour";
 
         public static DirectoryInfo GetRealDirectory(string path)
         {
@@ -84,19 +45,9 @@ namespace _3DPresentation.Utils
             // MUST BE CALL ON MAIN THREAD (or UI THREAD) ---- cause new an BitmapImage element
             //var stream = Application.GetResourceStream(new Uri(resource, UriKind.Relative)).Stream;
             var stream = Utils.Global.GetPackStream(resource);
-            var bmp = new BitmapImage();
-            bmp.SetSource(stream);
-            Texture2D res = new Texture2D(graphicsDevice, bmp.PixelWidth, bmp.PixelHeight, false, SurfaceFormat.Color);
-            bmp.CopyTo(res);
-            return res;
-        }
+            if (stream == null)
+                return null;
 
-        public static Texture2D LoadLocalTexture(string relativePath, GraphicsDevice graphicsDevice)
-        {
-            // MUST BE CALL ON MAIN THREAD (or UI THREAD) ---- cause new an BitmapImage element
-            //var stream = Application.GetResourceStream(new Uri(resource, UriKind.Relative)).Stream;
-            Uri textureUri = Utils.Global.MakeStoreUri(relativePath);
-            var stream = Utils.Global.GetLocalStream(textureUri);
             var bmp = new BitmapImage();
             bmp.SetSource(stream);
             Texture2D res = new Texture2D(graphicsDevice, bmp.PixelWidth, bmp.PixelHeight, false, SurfaceFormat.Color);
@@ -106,8 +57,15 @@ namespace _3DPresentation.Utils
 
         public static Stream GetPackStream(string path)
         {
-            Uri uri = MakePackUri(path);
-            return Application.GetResourceStream(uri).Stream;
+            Stream stream = null;
+            try
+            {
+                Uri uri = MakePackUri(path);
+                stream = Application.GetResourceStream(uri).Stream;
+            }
+            catch (Exception ex)
+            { stream = null; }
+            return stream;
         }
 
         public static Stream GetPackStream(Uri uri)
@@ -142,20 +100,20 @@ namespace _3DPresentation.Utils
             return result;
         }
 
-        public static Uri MakeStoreUri(string relativeFile)
-        {
-            string uriString = StorePath + '/' + relativeFile;
-            Uri result = null;
-            try
-            {
-                result = new Uri(uriString, UriKind.Absolute);
-            }
-            catch (UriFormatException)
-            {
-                result = null;
-            }
-            return result;
-        }
+        //public static Uri MakeStoreUri(string relativeFile)
+        //{
+        //    string uriString = StorePath + '/' + relativeFile;
+        //    Uri result = null;
+        //    try
+        //    {
+        //        result = new Uri(uriString, UriKind.Absolute);
+        //    }
+        //    catch (UriFormatException)
+        //    {
+        //        result = null;
+        //    }
+        //    return result;
+        //}
 
         public static Uri MakeRelativeUri(Uri baseUri, string relativeFile)
         {
@@ -178,6 +136,7 @@ namespace _3DPresentation.Utils
             return result;
         }
 
+        private static string _assemblyShortName;
         private static string AssemblyShortName
         {
             get
@@ -192,19 +151,6 @@ namespace _3DPresentation.Utils
 
                 return _assemblyShortName;
             }
-        }
-
-        private static string _assemblyShortName;
-
-        public static BitmapImage AbsolutePathStringToBitmapImage(string str)
-        {
-            BitmapImage bi = new BitmapImage();
-            FileInfo fio = new FileInfo(str);
-            System.IO.Stream stream2 = fio.OpenRead();
-            bi.SetSource(stream2);
-            stream2.Close();
-
-            return bi;
         }
 
 		public static string GetRandomSnapshot()
@@ -226,6 +172,124 @@ namespace _3DPresentation.Utils
             };
             Random rd = new Random();
             return str[rd.Next(str.Length)];
+        }
+
+        private static void CreateDirs(IsolatedStorageFile store, string path)
+        {
+            if (path.Length == 0)
+                return;
+            if (store.DirectoryExists(path))
+                return;
+            CreateDirs(store, Path.GetDirectoryName(path));
+            store.CreateDirectory(path);
+        }
+
+        public static Stream GetStream(string path, FileMode mode)
+        {
+            Stream result = null;
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (store.FileExists(path) == false)
+                {
+                    if (mode != FileMode.Open)
+                    {                        
+                        CreateDirs(store, Path.GetDirectoryName(path));
+                        result = store.CreateFile(path);
+                    }
+                }
+                else
+                    result = store.OpenFile(path, mode);
+            }
+            return result;
+        }
+        public static bool WriteTo(string path, MemoryStream ms)
+        {
+            bool result = false;
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                long availableSpace = store.AvailableFreeSpace;
+                long need = 0;
+                Stream stream = null;
+                if (store.FileExists(path))
+                {
+                    stream = store.OpenFile(path, FileMode.Open);
+                    need = ms.Length - stream.Length;
+                    stream.Close();
+                }
+                else
+                    need = ms.Length;
+
+                CreateDirs(store, Path.GetDirectoryName(path));
+                stream = store.OpenFile(path, FileMode.Create);
+
+                if (need - availableSpace > 0)
+                {
+                    if (IncreaseQuota())
+                        ms.WriteTo(stream);
+                    else
+                        MessageBox.Show("Not enough free space in application's storage.");
+                }
+                else
+                    ms.WriteTo(stream);
+
+                stream.Flush();
+                stream.Close();                
+                result = true;
+            }
+            return result;
+        }
+        public static string[] GetTourList()
+        {
+            string[] tourList = null;
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                string path = Path.Combine(TourStorePath, "*.*");
+                if (store.DirectoryExists(TourStorePath))
+                    tourList = store.GetDirectoryNames(path);
+                else
+                    tourList = new string[0];
+            }
+            return tourList;
+        }
+        public static void DeleteAllTours()
+        {
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                if (store.DirectoryExists(TourStorePath))
+                {
+                    DeleteDirectory(store, TourStorePath);
+                }                
+            }
+        }
+        private static void DeleteDirectory(IsolatedStorageFile store, string path)
+        {
+            string[] dirs = store.GetDirectoryNames(Path.Combine(path, "*"));
+            foreach (string dir in dirs)
+                DeleteDirectory(store, Path.Combine(path, dir));
+
+            string[] files = store.GetFileNames(Path.Combine(path, "*.*"));
+            foreach (string file in files)
+                store.DeleteFile(Path.Combine(path, file));
+
+            store.DeleteDirectory(path);
+        }
+        public static bool IncreaseQuota()
+        {
+            bool result = false;
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                result = store.IncreaseQuotaTo(store.Quota + 1048576 * 50);
+            }
+            return result;
+        }
+        public static bool IsFull()
+        {
+            bool result = false;
+            using (var store = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                result = (store.AvailableFreeSpace == 0);
+            }
+            return result;
         }
     }
 }

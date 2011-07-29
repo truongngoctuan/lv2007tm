@@ -76,9 +76,7 @@ namespace _3DPresentation.Models
 
         protected override BaseMaterial GetDefaultMaterial()
         {
-            FourPointLightsMaterial material = new FourPointLightsMaterial();
-            material.AmbientLight = GlobalVars.ColorEnum.White;
-            return material;
+            return new PointMaterial();
         }
 
         protected override BaseMaterial GetDefaultSpecialMaterial()

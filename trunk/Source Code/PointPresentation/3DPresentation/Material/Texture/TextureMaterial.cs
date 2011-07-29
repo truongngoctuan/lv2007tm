@@ -89,11 +89,7 @@ namespace _3DPresentation.Material
             if (DiffuseTexture == null)
                 writer.WriteLine(" ");
             else
-            {
                 writer.WriteLine(DiffuseTexture); 
-                SaveTexture(texturePath, DiffuseTexture);
-            }
-            
 
             writer.WriteLine(AmbientIntensity);
 

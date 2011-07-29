@@ -13,10 +13,16 @@ namespace _3DPresentation.Views
     {
         public bool IsLoaded { get; private set; }
         public BaseModel SelectedModel { get; private set; }
-        private ObjectDesign objectDesign;
+        private static ObjectDesign objectDesign;
+        private static TourControl tourControl;
         public TourDesign()
         {
             InitializeComponent();
+
+            tourControl = new TourControl();
+            tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);
+            this.DrawingRoot.Children.Add(tourControl);
+
             objectDesign = new ObjectDesign();
             objectDesign.ParentView = this;
 
@@ -26,13 +32,18 @@ namespace _3DPresentation.Views
             this.MouseLeftButtonDown += new System.Windows.Input.MouseButtonEventHandler(Container_MouseLeftButtonDown);
             this.MouseLeftButtonUp += new System.Windows.Input.MouseButtonEventHandler(Container_MouseLeftButtonUp);
             this.MouseMove += new System.Windows.Input.MouseEventHandler(Container_MouseMove);
-
-            this.tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);
             
             this.cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
             btSave.Click += new RoutedEventHandler(btSave_Click);
             btAddModel.Click += new RoutedEventHandler(btAddModel_Click);
             btRemoveModel.Click += new RoutedEventHandler(btRemoveModel_Click);
+            btIncreaseStorageSize.Click += new RoutedEventHandler(btIncreaseStorageSize_Click);
+        }
+
+        void btIncreaseStorageSize_Click(object sender, RoutedEventArgs e)
+        {
+            if(Utils.Global.IncreaseQuota() == false)
+                MessageBox.Show("Failed when try to increase application storage's size");
         }
 
         void btRemoveModel_Click(object sender, RoutedEventArgs e)
@@ -49,10 +60,19 @@ namespace _3DPresentation.Views
         {
             OpenFileDialog dialog = new OpenFileDialog();
             dialog.Multiselect = false;
-            dialog.Filter = "Model|*.ply|Text|*.txt|All Files|*.*";
+            dialog.Filter = "Model (*.ply)|*.ply|Texture (*.jpg, *.png, *.jpeg)|*.jpg;*.png;*.jpeg|All Files (*.*)|*.*";
             if (dialog.ShowDialog() == true)
             {
-                ImportModel(dialog.File);
+                FileInfo file = dialog.File;
+                string extension = file.Extension.ToUpper();
+                if (extension.CompareTo(".PLY") == 0)
+                {
+                    ImportModel(file);
+                }
+                else if (extension.CompareTo(".JPG") == 0 || extension.CompareTo(".PNG") == 0 || extension.CompareTo(".JPEG") == 0)
+                {
+                    ImportTexture(file);
+                }
             }            
         }
 
@@ -73,6 +93,7 @@ namespace _3DPresentation.Views
             objectDesign.AddModels(tourControl.GetModels());
             objectDesign.SetTarget(tourControl.Target);
             objectDesign.ParentView = this;
+            App.RemovePage(this);
             App.GoToPage(objectDesign);
         }
         void TourDesign_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
@@ -145,7 +166,7 @@ namespace _3DPresentation.Views
             CurrentTour = Tour.Load(strTourName);
             if (CurrentTour != null)
             {
-                LoadSceneLocal(CurrentTour.SceneName);
+                LoadSceneInPackage(CurrentTour.SceneName);
                 for (int i = 0; i < CurrentTour.Models.Length; i++)
                     AddModel(CurrentTour.Models[i]);
             }
@@ -156,68 +177,29 @@ namespace _3DPresentation.Views
         void TourDesign_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
-            LoadTour(TourName);
+            if(CurrentTour == null)
+                LoadTour(TourName);
         }
 
-        public bool ExecuteScript(string strScript)
+        private void ImportTexture(FileInfo file)
         {
-            if (IsLoaded == false)
-                return false;
-
-            LoadSceneLocal("espilit");
-            //BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
-            //model.Scale = 3.0f;
-            //AddModel(model);
-            //BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "horse_text.ply"));
-            //model.Name = "horse_text";
-            //model.Scale = 10.0f;
-            //model.Position = new Vector3(0, 1, 0);
-            //AddModel(model);
-            BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "bunny_text.ply"));
-            model.Name = "bunny_text";
-            model.Scale = 10.0f;
-            model.Position = new Vector3(0, 1, 3);
-            AddModel(model);
-
-            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "bunny_text.ply"));
-            model.Name = "bunny_text2";
-            model.Scale = 10.0f;
-            model.Position = new Vector3(0, 2, 3);
-            AddModel(model);
-
-            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "Venus.ply"));
-            model.Name = "Venus";
-            model.Scale = 1.0f / 600.0f;
-            model.Position = new Vector3(0, 1, 0);
-            AddModel(model);
-
-            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "monster.ply"));
-            model.Name = "monster";
-            model.Scale = 1.0f;
-            model.Position = new Vector3(3, 1, 3);
-            AddModel(model);
-
-            //model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "lucy_text.ply"));
-            //model.Scale = 0.001f;
-            //model.Position = new Vector3(0, 1, 6);
-            //AddModel(model);
-            //model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "lion_text.ply"));
-            //model.Scale = 10.0f;
-            //model.Position = new Vector3(-3, 1, 6);
-            //AddModel(model);
-            //model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "heptoroid_text.ply"));
-            //model.Scale = 0.1f;
-            //model.Position = new Vector3(-6, 1, 6);
-            //AddModel(model);
-            return true;
+            using (Stream stream = file.OpenRead())
+            {
+                ResourceManager.LoadTexture(stream, file.Name);
+            }
         }
 
         private bool ImportModel(FileInfo file)
         {
-            BaseModel model = BaseModel.Import(file);
-            if (model == null)
-                return false;
-            return AddModel(model);
+            using (Stream stream = file.OpenRead())
+            {
+                BaseModel model = BaseModel.Import(stream);
+                if (model == null)
+                    return false;
+                model.Position = new Vector3(0, 2, 0);
+                return AddModel(model);
+            }
+            return false;
         }
 
         private void LoadScene(string scene)
@@ -229,14 +211,14 @@ namespace _3DPresentation.Views
         private void LoadSceneInPackage(string scene)
         {
             Uri sceneUri = Utils.Global.MakePackUri(string.Format("Resources/Models/{0}.bsf", scene));
-            tourControl.LoadSceneLocal(sceneUri);
+            tourControl.LoadSceneInPackage(sceneUri);
         }
 
-        private void LoadSceneLocal(string scene)
-        {
-            Uri sceneUri = Utils.Global.MakeStoreUri(string.Format("Scene/{0}/{0}.bsf", scene));
-            tourControl.LoadSceneLocal(sceneUri);
-        }        
+        //private void LoadSceneLocal(string scene)
+        //{
+        //    Uri sceneUri = Utils.Global.MakeStoreUri(string.Format("Scene/{0}/{0}.bsf", scene));
+        //    tourControl.LoadSceneLocal(sceneUri);
+        //}
 
         private bool AddModel(BaseModel model)
         {

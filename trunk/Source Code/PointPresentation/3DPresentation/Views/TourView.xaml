@@ -5,12 +5,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     xmlns:my="clr-namespace:_3DPresentation"
-    d:DesignHeight="300" d:DesignWidth="400"
+    d:DesignHeight="768" d:DesignWidth="1024"
              xmlns:customControlEditor="clr-namespace:_3DPresentation.Views.Editor"
              >
     
     <Grid x:Name="LayoutRoot" Background="Black" SizeChanged="LayoutRoot_SizeChanged">
-        <my:TourControl x:Name="tourControl"/>
+        <Grid x:Name="DrawingRoot" />
         <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>
         <Button Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="btBack" Style="{StaticResource ButtonStyleYellow}" Content="Back" Click="btBack_Click" Width="75" Height="23" Margin="20, 20,20, 20"/>
     </Grid>

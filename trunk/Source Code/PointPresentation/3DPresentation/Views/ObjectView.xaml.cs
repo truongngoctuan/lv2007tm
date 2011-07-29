@@ -81,16 +81,7 @@ namespace _3DPresentation.Views
                 result = true;
             }
             return result;
-        }
-
-        private bool ImportModel(FileInfo file)
-        {
-            BaseModel model = BaseModel.Import(file);
-            if (model == null)
-                return false;
-
-            return AddModel(model);
-        }        
+        }       
 
         private bool AddModel(BaseModel model)
         {

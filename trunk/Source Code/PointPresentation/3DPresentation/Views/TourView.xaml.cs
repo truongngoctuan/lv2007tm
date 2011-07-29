@@ -12,27 +12,26 @@ namespace _3DPresentation.Views
     public partial class TourView : UserControl
     {
         public bool IsLoaded { get; private set; }
-        private ObjectView objectView;
+        private static ObjectView objectView;
+        private static TourControl tourControl;
         public TourView()
         {            
             InitializeComponent();
+            tourControl = new TourControl();
+            tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);            
+            this.DrawingRoot.Children.Add(tourControl);
+
             objectView = new ObjectView();
             objectView.ParentView = this;
 
             cbbModel.ImageSelected += new ImageSelectedEventHandler(cbbModel_ImageSelected);
 
             this.Loaded += new RoutedEventHandler(TourView_Loaded);
-            this.tourControl.SelectingModel += new EventHandler(tourControl_SelectingModel);            
         }
 
         void cbbModel_ImageSelected(object sender, ImageSelectedEventArgs e)
         {
-            //throw new NotImplementedException();
-            //objectView.ClearModels();
-            //objectView.AddModels(tourControl.GetModels());
-            //objectView.SetTarget((BaseModel)e.SelectedItem);
-            //objectView.ParentView = this;
-            //App.GoToPage(objectView);
+            
         }
 
         void tourControl_SelectingModel(object sender, EventArgs e)
@@ -52,7 +51,7 @@ namespace _3DPresentation.Views
             CurrentTour = Tour.Load(strTourName);
             if (CurrentTour != null)
             {
-                LoadSceneLocal(CurrentTour.SceneName);
+                LoadSceneInPackage(CurrentTour.SceneName);
                 for (int i = 0; i < CurrentTour.Models.Length; i++)
                     AddModel(CurrentTour.Models[i]);
             }
@@ -63,39 +62,8 @@ namespace _3DPresentation.Views
         void TourView_Loaded(object sender, RoutedEventArgs e)
         {
             IsLoaded = true;
-            LoadTour(TourName);
-            //ExecuteScript("abc");
-
-            //MessageBox.Show(LayoutRoot.Width.ToString() + " " + LayoutRoot.ActualWidth.ToString());            
-        }
-
-        public bool ExecuteScript(string strScript)
-        {
-            if (IsLoaded == false)
-                return false;
-            LoadSceneLocal("espilit");
-            //ImportModel(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
-            BaseModel model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "bunny_text.ply"));
-            model.Scale = 10.0f;
-            model.Position = new Vector3(0, 1, 0);
-            AddModel(model);
-            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "kit_face.ply"));
-            model.Scale = 10.0f;
-            model.Position = new Vector3(0, 2, 3);
-            AddModel(model);
-            model = BaseModel.Import(new FileInfo(Utils.Global.StorePath + "/Scene/espilit/Models/" + "bunny_text.ply"));
-            model.Scale = 0.001f;
-            model.Position = new Vector3(0, 1, 6);
-            AddModel(model);
-            return true;
-        }
-
-        private bool ImportModel(FileInfo file)
-        {
-            BaseModel model = BaseModel.Import(file);
-            if (model == null)
-                return false;
-            return AddModel(model);
+            if (CurrentTour == null)
+                LoadTour(TourName);
         }
 
         private void LoadScene(string scene)
@@ -107,19 +75,22 @@ namespace _3DPresentation.Views
         private void LoadSceneInPackage(string scene)
         {
             Uri sceneUri = Utils.Global.MakePackUri(string.Format("Resources/Models/{0}.bsf", scene));
-            tourControl.LoadSceneLocal(sceneUri);
+            tourControl.LoadSceneInPackage(sceneUri);
         }
 
-        private void LoadSceneLocal(string scene)
-        {
-            Uri sceneUri = Utils.Global.MakeStoreUri(string.Format("Scene/{0}/{0}.bsf", scene));
-            tourControl.LoadSceneLocal(sceneUri);
-        }        
+        //private void LoadSceneLocal(string scene)
+        //{
+        //    Uri sceneUri = Utils.Global.MakeStoreUri(string.Format("Scene/{0}/{0}.bsf", scene));
+        //    tourControl.LoadSceneLocal(sceneUri);
+        //}        
 
         private bool AddModel(BaseModel model)
         {
-            cbbModel.AddImage(model, model.toBitmap());
-            return tourControl.AddModel(model);
+            bool result = tourControl.AddModel(model);
+            if (result)
+                cbbModel.AddImage(model, model.toBitmap());
+
+            return result;
         }
 
         private bool RemoveModel(BaseModel model)
@@ -142,7 +113,7 @@ namespace _3DPresentation.Views
         private void btBack_Click(object sender, RoutedEventArgs e)
         {
             App.RemovePage(this);
-            App.GoToPage(ParentView);
+            App.GoToPage(this.ParentView);
         }
     }
 }

@@ -99,9 +99,8 @@ namespace _3DPresentation.Material
             if (DiffuseTexture == null)
                 writer.WriteLine(" ");
             else
-            {
-                writer.WriteLine(DiffuseTexture); SaveTexture(texturePath, DiffuseTexture);
-            }
+                writer.WriteLine(DiffuseTexture);
+            
 
             writer.WriteLine(ColorToString(AmbientColor));
             writer.WriteLine(ColorToString(SceneAmbientColor));
@@ -111,18 +110,15 @@ namespace _3DPresentation.Material
             if (SpecularTexture == null)
                 writer.WriteLine(" ");
             else
-            {
-                writer.WriteLine(SpecularTexture); SaveTexture(texturePath, SpecularTexture);
-            }
+                writer.WriteLine(SpecularTexture);
+            
             writer.WriteLine(ColorToString(SpecularColor));
             writer.WriteLine(SpecularPower);
 
             if (BumpTexture == null)
                 writer.WriteLine(" ");
             else
-            {
-                writer.WriteLine(BumpTexture); SaveTexture(texturePath, BumpTexture);
-            }
+                writer.WriteLine(BumpTexture);
 
             writer.WriteLine(string.Format("{0} {1} {2}", LightPosition.X, LightPosition.Y, LightPosition.Z));
             writer.WriteLine(InvertBinormal);

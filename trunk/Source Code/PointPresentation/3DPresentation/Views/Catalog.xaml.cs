@@ -17,37 +17,47 @@ namespace _3DPresentation.Views
             this.Loaded += new RoutedEventHandler(Catalog_Loaded);
             this.btBack.Click += new RoutedEventHandler(btBack_Click);
             this.btNewTour.Click += new RoutedEventHandler(btNewTour_Click);
+            this.btDelAll.Click += new RoutedEventHandler(btDelAll_Click);
         }
 
-        List<string> toursName = null;
-        void btNewTour_Click(object sender, RoutedEventArgs e)
+        List<string> tourList;
+        void UpdateList()
         {
-            Tour tour = new Tour();
-            tour.Name = DateTime.Now.Ticks.ToString();
-            tour.SceneName = "espilit";
-            if (tour.Save())
+            tourList = new List<string>(Utils.Global.GetTourList());
+
+            stackPanel.Children.Clear();
+            foreach (string tour in tourList)
             {
                 Button bt = new Button();
-                //if (DesignMode)
-                //{
-                //    Image image = new Image();
-                //    image.Source = new BitmapImage(Utils.Global.MakePackUri("Views/Images/bg3.png"));
-                //    image.Height = 100;
-                //    image.Width = 150;
-                //    bt.Content = image;
-                //}
-                //else
-                //{
-                //    Image image = new Image();
-                //    image.Source = new BitmapImage(Utils.Global.MakePackUri("Views/Images/bg2.png"));
-                //    image.Height = 100;
-                //    image.Width = 150;
-                //    bt.Content = image;
-                //}
+                bt.Background = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 0, 0));
+                bt.Width = 225;
+                bt.Height = 50;
+                bt.Foreground = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromArgb(255, 0, 0, 255));
+                bt.FontSize = 20;
                 bt.Content = tour;
                 bt.Click += new RoutedEventHandler(bt_Click);
 
                 stackPanel.Children.Add(bt);
+            }
+        }
+
+        void btDelAll_Click(object sender, RoutedEventArgs e)
+        {
+            Utils.Global.DeleteAllTours();
+            UpdateList();
+        }
+
+        void btNewTour_Click(object sender, RoutedEventArgs e)
+        {
+            if (tbNewTourName.Text.Length == 0 || tourList.Contains(tbNewTourName.Text))
+                return;
+
+            Tour tour = new Tour();
+            tour.Name = tbNewTourName.Text;
+            tour.SceneName = "espilit";
+            if (tour.Save())
+            {
+                UpdateList();
             }
         }
 
@@ -74,54 +84,19 @@ namespace _3DPresentation.Views
 
         void Catalog_Loaded(object sender, RoutedEventArgs e)
         {
-            toursName = new List<string>();
-            DirectoryInfo dirInfo = Utils.Global.GetRealDirectory(Utils.Global.GetRealTourStorePath());
-            if (dirInfo == null)
-                return;
-            foreach (DirectoryInfo tourDir in dirInfo.EnumerateDirectories())
-            {
-                foreach (FileInfo tour in tourDir.EnumerateFiles("*.tour"))
-                {
-                    string name = GetName(tour.Name);
-                    if (name == tourDir.Name)
-                    {
-                        toursName.Add(name);
-                    }
-                }
-            }
-
-            stackPanel.Children.Clear();
-            foreach (string tour in toursName)
-            {
-                Button bt = new Button();
-                //if (DesignMode)
-                //{
-                //    Image image = new Image();
-                //    image.Source = new BitmapImage(Utils.Global.MakePackUri("Views/Images/bg3.png"));
-                //    image.Height = 100;
-                //    image.Width = 150;
-                //    bt.Content = image;
-                //}
-                //else
-                //{
-                //    Image image = new Image();
-                //    image.Source = new BitmapImage(Utils.Global.MakePackUri("Views/Images/bg2.png"));
-                //    image.Height = 100;
-                //    image.Width = 150;
-                //    bt.Content = image;
-                //}
-                bt.Content = tour;
-                bt.Click += new RoutedEventHandler(bt_Click);
-
-                stackPanel.Children.Add(bt);
-            }
+            UpdateList();
         }
 
         bool _designMode = false;
         public bool DesignMode 
         {
             get { return _designMode; }
-            set { _designMode = value; btNewTour.Visibility = _designMode ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed; }
+            set 
+            { 
+                _designMode = value; 
+                btNewTour.Visibility = _designMode ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
+                btDelAll.Visibility = _designMode ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed; 
+            }
         }
 
         void bt_Click(object sender, RoutedEventArgs e)
