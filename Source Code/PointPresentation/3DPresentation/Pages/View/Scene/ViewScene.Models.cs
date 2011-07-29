@@ -101,7 +101,7 @@ namespace _3DPresentation
                 {
                     result = true;
                     TargetModel = model;
-                    Camera.Radius = TargetModel.BoundingInfo.BoundingSphereWorld.Radius * 4.0f;
+                    Camera.Radius = TargetModel.BoundingInfo.BoundingSphereWorld.Radius * 10.0f;
                     Camera.Target = TargetModel.BoundingInfo.BoundingSphereWorld.Center;
                     Camera.Alpha = Camera.Alpha; // to raise event => recompute Position to get new ViewMatrix
                 }

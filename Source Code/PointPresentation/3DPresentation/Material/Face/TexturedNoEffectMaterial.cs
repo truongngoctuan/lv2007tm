@@ -38,7 +38,7 @@ namespace _3DPresentation.Material
                 return;
 
             writer.WriteLine("TexturedMaterial");
-            writer.WriteLine(DiffuseTexture); SaveTexture(texturePath, DiffuseTexture);
+            writer.WriteLine(DiffuseTexture);
         }
 
         protected override void LoadMaterial(System.IO.StreamReader reader)

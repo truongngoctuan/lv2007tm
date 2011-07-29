@@ -177,7 +177,7 @@ namespace _3DPresentation
             {
                 lock (lockThis)
                 {
-                    BaseModel model = PointModel.Import(fi);
+                    BaseModel model = PointModel.Import(fi.OpenRead());
                     ArrFrame.Add(model);
                     vcOjectViewer.AddModel(ArrFrame[ArrFrame.Count - 1]);
                     if (ArrFrame.Count == 1)
@@ -207,7 +207,12 @@ namespace _3DPresentation
         public void SaveModel(string strFileName)
         {
             //call function save all frame
-            BaseModel.ExportUnitedModel(BaseModel.FileType.PLY, BaseModel.VertexTypes.XYZ_RGB, ArrFrame.ToArray(), strFileName);
+            FileInfo fileInfo = new FileInfo(strFileName);
+            using (Stream stream = fileInfo.OpenWrite())
+            {
+                BaseModel.ExportUnitedModel(BaseModel.FileType.PLY, BaseModel.VertexTypes.XYZ_RGB, ArrFrame.ToArray(), stream);
+                stream.Close();
+            }
         }
 
         public void SaveFrame(string strFileName,int iSelectedIndex)
@@ -215,7 +220,12 @@ namespace _3DPresentation
             lock (lockThis)
             {
                 //call function save all frame
-                ArrFrame[iSelectedIndex].Export(BaseModel.FileType.PLY, BaseModel.VertexTypes.XYZ_RGB, _3DPresentation.Utils.Global.GetRealFile(strFileName));
+                FileInfo fileInfo = new FileInfo(strFileName);
+                using (StreamWriter writer = new StreamWriter(fileInfo.OpenWrite()))
+                {
+                    ArrFrame[iSelectedIndex].Export(BaseModel.FileType.PLY, BaseModel.VertexTypes.XYZ_RGB, writer);
+                    writer.Close();
+                }
             }
         }
 
@@ -225,7 +235,17 @@ namespace _3DPresentation
             lock (lockThis)
             {
                 //call function save all frame
-                BaseModel.ExportAll(BaseModel.VertexTypes.XYZ_RGB, _arrFrame.ToArray(), strPath, BaseModel.FileType.PLY);
+                BaseModel[] models = _arrFrame.ToArray();
+                for (int i = 0; i < models.Length; i++)
+                {
+                    //FileInfo file = Utils.Global.GetRealFile(storeDirectory + batchName + '/' + models[i].Name + ".ply");
+                    string strFile = string.Format("{0}/{1}.ply", strPath, models[i].Name);
+                    FileInfo file = new FileInfo(strFile);
+                    using (StreamWriter writer = new StreamWriter(file.Open(FileMode.Create)))
+                    {
+                        models[i].Export(BaseModel.FileType.PLY, BaseModel.VertexTypes.XYZ_RGB, writer, false);
+                    }
+                }
             }
         }
 

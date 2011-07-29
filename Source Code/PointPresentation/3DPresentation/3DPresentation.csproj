@@ -112,7 +112,6 @@
     </Compile>
     <Compile Include="ClientFileAndDirectory.cs" />
     <Compile Include="ClientPackage.cs" />
-    <Compile Include="Data\BitmapIO.cs" />
     <Compile Include="Data\ResourceManager.cs" />
     <Compile Include="Data\Tour.cs" />
     <Compile Include="Effects\EffectManager.cs" />
@@ -253,6 +252,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
+    <Resource Include="Views\Images\increase.png" />
     <Resource Include="Views\Images\save.jpg" />
     <Resource Include="Views\Images\remove.png" />
     <Resource Include="Views\Images\add.png" />

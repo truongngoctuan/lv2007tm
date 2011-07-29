@@ -146,7 +146,7 @@ namespace _3DPresentation.Models
             int iHalfHeight = iHeight / 2;
             for (int i = 0; i < Vertices.Length; i += 4)
             {
-                Vector3 p3d = Vertices[i].Position * (k / 10);
+                Vector3 p3d = Vertices[i].Position * k;
                 Vector3 p2d = MathUtil.TransformPoint(mat, p3d);
                 p2d.X += iHalfWidth;
                 p2d.Y = iHalfHeight - p2d.Y;

@@ -11,26 +11,30 @@
     d:DesignHeight="768" d:DesignWidth="1024">
     
     <Grid x:Name="LayoutRoot" Background="Black" SizeChanged="LayoutRoot_SizeChanged">
-        <my:TourControl x:Name="tourControl"/>
-        
+        <Grid x:Name="DrawingRoot" />
         <StackPanel VerticalAlignment="Top" HorizontalAlignment="Left">
             <Button Foreground="White" x:Name="btBack" Style="{StaticResource ButtonStyleYellow}" Content="Back" Click="btBack_Click" Width="75" Height="23" Margin="20, 20, 20, 20"/>
         </StackPanel>
         
         <customControlEditor:ComboboxCoverFlow x:Name="cbbModel" VerticalAlignment="Bottom" HorizontalAlignment="Center"></customControlEditor:ComboboxCoverFlow>       
-        <Button x:Name="btAddModel" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 60 10">
+        <Button x:Name="btAddModel" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 180 10">
             <Button.Content>
                 <Image Source="Images/add.png" Height="32" Width="32"/>
             </Button.Content>
         </Button>
-        <Button x:Name="btRemoveModel" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="60 0 0 10">
+        <Button x:Name="btRemoveModel" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 60 10">
             <Button.Content>
                 <Image Source="Images/remove.png" Height="32" Width="32"/>
             </Button.Content>
         </Button>
-        <Button x:Name="btSave" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="180 0 0 10">
+        <Button x:Name="btSave" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="60 0 0 10">
             <Button.Content>
                <Image Source="Images/save.jpg" Height="32" Width="32"/>
+            </Button.Content>
+        </Button>
+        <Button x:Name="btIncreaseStorageSize" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="180 0 0 10">
+            <Button.Content>
+                <Image Source="Images/increase.png" Height="32" Width="32"/>
             </Button.Content>
         </Button>
     </Grid>

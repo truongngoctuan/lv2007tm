@@ -11,6 +11,8 @@
         
         <Button Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="btBack" Style="{StaticResource ButtonStyleYellow}" Content="Back" Width="75" Height="23" Margin="20, 20,20, 20"/>
         <Button Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="btNewTour" Style="{StaticResource ButtonStyleYellow}" Content="New Tour" Width="75" Height="23" Margin="20, 70, 20, 20"/>
+        <TextBox x:Name="tbNewTourName" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100" Height="25"  Margin="175, 72, 20, 20"/>
+        <Button Foreground="White" VerticalAlignment="Top" HorizontalAlignment="Left" x:Name="btDelAll" Style="{StaticResource ButtonStyleYellow}" Content="Delete All" Width="75" Height="23" Margin="20, 120, 20, 20"/>
         
         <StackPanel x:Name="stackPanel" HorizontalAlignment="Center" VerticalAlignment="Center">            
         </StackPanel>

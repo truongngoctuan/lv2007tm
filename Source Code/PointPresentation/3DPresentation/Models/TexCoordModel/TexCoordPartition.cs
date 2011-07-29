@@ -187,7 +187,7 @@ namespace _3DPresentation.Models
                     {
                         Vector3 worldPosition = MathUtil.TransformPoint(transformMatrix, Vertices[i].Position);
                         string str = string.Format("{0} {1} {2} {3} {4} {5} {6} {7} {8}\n",
-                            worldPosition.X, worldPosition.Y, worldPosition.Z, Color.White.R, Color.White.G, Color.White.B, Vertices[i].Normal.X, Vertices[i].Normal.Y, Vertices[i].Normal.Z);
+                            worldPosition.X, worldPosition.Y, worldPosition.Z, Vertices[i].Normal.X, Vertices[i].Normal.Y, Vertices[i].Normal.Z, Color.White.R, Color.White.G, Color.White.B);
                         writer.Write(str);
                     }
                 }

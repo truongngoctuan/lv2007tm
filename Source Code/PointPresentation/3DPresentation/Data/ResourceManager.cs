@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using ImageTools;
 using ImageTools.IO;
+using System.Windows;
 
 
 
@@ -52,24 +53,29 @@ namespace _3DPresentation
             return null;
         }
 
-        public static BitmapImage LoadTexture(FileInfo textureFile, string key)
+        public static BitmapImage LoadTexture(Stream stream, string key)
         {
             BitmapImage bmp = null;            
             try
-            {
-                if (Textures.ContainsKey(key))
-                    return Bitmaps[Textures[key]];
-                if (textureFile.Exists)
+            {                
+                if (stream != null && stream.CanRead)
                 {                    
-                    FileStream stream = textureFile.OpenRead();
                     bmp = new BitmapImage();
                     bmp.SetSource(stream);
 
                     Texture2D res = new Texture2D(resourceDevice, bmp.PixelWidth, bmp.PixelHeight, false, SurfaceFormat.Color);
                     bmp.CopyTo(res);
 
-                    Textures.Add(key, res);
-                    Bitmaps.Add(res, bmp);
+                    if (Textures.ContainsKey(key))
+                        Textures[key] = res;
+                    else
+                        Textures.Add(key, res);
+
+                    if (Bitmaps.ContainsKey(res))
+                        Bitmaps[res] = bmp;
+                    else
+                        Bitmaps.Add(res, bmp);
+                    stream.Close();
                 }
             }
             catch (Exception ex)
@@ -87,12 +93,16 @@ namespace _3DPresentation
                 BitmapImage bitmapImage = Bitmaps[texture2D];
                 WriteableBitmap writableBitmap = new WriteableBitmap(bitmapImage);
                 ExtendedImage myImage = ImageExtensions.ToImage(writableBitmap);
-                FileInfo file = Utils.Global.GetRealFile(filePath);
-                using (Stream stream = file.OpenWrite())
+                using (Stream stream = Utils.Global.GetStream(filePath, FileMode.Create))
                 {
                     myImage.WriteToStream(stream);
-                    stream.Close();
-                    result = true;
+                    if (Utils.Global.IsFull())
+                    {
+                        MessageBox.Show("Need more space");
+                        result = false;
+                    }
+                    else
+                        result = true;
                 }
                 myImage = null;
                 writableBitmap = null;

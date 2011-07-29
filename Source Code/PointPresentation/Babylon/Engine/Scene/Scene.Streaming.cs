@@ -33,6 +33,7 @@ namespace Babylon
             else if (LoadMode == Mode.Package)
             {
                 GetPackDataStream(data);
+                return;
             }
             //end nhminh
 

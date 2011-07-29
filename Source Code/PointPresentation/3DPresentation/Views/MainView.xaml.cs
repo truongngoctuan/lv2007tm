@@ -27,6 +27,7 @@ namespace _3DPresentation.Views
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            MessageBox.Show("This feature require elevated trust");
             EditorView ev = new EditorView();
             ev.ParentView = this;
             App.RemovePage(this);

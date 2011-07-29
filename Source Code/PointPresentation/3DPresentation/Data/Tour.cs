@@ -32,11 +32,11 @@ namespace _3DPresentation.Data
         public bool Save()
         {
             bool result = true;
-            string storeDirectory = Utils.Global.GetRealTourStorePath();
+            string storeDirectory = Utils.Global.TourStorePath;
             string tourFileDir = string.Format("{0}/{1}/", storeDirectory, Name);
             string tourFilePath = string.Format("{0}/{1}/{1}.tour", storeDirectory, Name);
-            FileInfo tourFile = Utils.Global.GetRealFile(tourFilePath);
-            using (StreamWriter writer = new StreamWriter(tourFile.OpenWrite()))
+            MemoryStream memStream = new MemoryStream();
+            using (StreamWriter writer = new StreamWriter(memStream))
             {
                 writer.WriteLine(Name);
                 writer.WriteLine(SceneName);
@@ -50,28 +50,45 @@ namespace _3DPresentation.Data
                         writer.WriteLine(string.Format("{0} {1} {2}", Models[i].Rotation.X, Models[i].Rotation.Y, Models[i].Rotation.Z));
                         writer.WriteLine(string.Format("{0} {1} {2}", Models[i].Position.X, Models[i].Position.Y, Models[i].Position.Z));
 
-                        FileInfo modelFile = Utils.Global.GetRealFile(tourFileDir + "Models/" + Models[i].Name + ".ply");
-                        Models[i].Export(BaseModel.FileType.PLY, Models[i].Type, modelFile, true);
-                        Models[i].Material.Save(writer, string.Format("{0}/Models/", tourFileDir, Models[i].Name));
+
+                        MemoryStream modelStream = new MemoryStream();
+                        using (StreamWriter modelWriter = new StreamWriter(modelStream))
+                        {
+                            Models[i].Export(BaseModel.FileType.PLY, Models[i].Type, modelWriter, true);
+
+                            if (Models[i].DiffuseTexture != null)
+                            {
+                                string strTexture = string.Format("{0}/Models/{1}", tourFileDir, Models[i].DiffuseTexture);
+                                ResourceManager.SaveBitmap(Models[i].DiffuseTexture, strTexture);
+                            }
+
+                            Models[i].Material.Save(writer, string.Format("{0}/Models/", tourFileDir, Models[i].Name));
+
+
+                            string strFile = string.Format("{0}/Models/{1}.ply", tourFileDir, Models[i].Name);
+                            Utils.Global.WriteTo(strFile, modelStream);
+                        }
                     }
                 }
                 else
                     writer.WriteLine(0);
-                writer.Close();
-            }            
+
+                writer.Flush();
+                Utils.Global.WriteTo(tourFilePath, memStream);
+            }
             return result;
         }
         public static Tour Load(string name)
         {
             Tour tour = null;
-            string storeDirectory = Utils.Global.GetRealTourStorePath();
+            string storeDirectory = Utils.Global.TourStorePath;
             string tourFileDir = string.Format("{0}/{1}", storeDirectory, name);
             string tourFilePath = string.Format("{0}/{1}/{1}.tour", storeDirectory, name);
-            FileInfo tourFile = Utils.Global.GetFileInfo(tourFilePath);
-            if (tourFile.Exists)
+            Stream stream = Utils.Global.GetStream(tourFilePath, FileMode.Open);
+            if (stream != null)
             {
                 tour = new Tour();
-                using (StreamReader reader = new StreamReader(tourFile.OpenRead()))
+                using (StreamReader reader = new StreamReader(stream))
                 {
                     tour.Name = reader.ReadLine();
                     tour.SceneName = reader.ReadLine();
@@ -84,7 +101,6 @@ namespace _3DPresentation.Data
                     float rotationX, rotationY, rotationZ;
                     float scale;
                     BaseModel model = null;
-                    FileInfo modelFile;
 
                     tour.Models = new BaseModel[nModels];
                     for (int i = 0; i < nModels; i++)
@@ -106,10 +122,18 @@ namespace _3DPresentation.Data
                         positionY = Convert.ToSingle(items[1]);
                         positionZ = Convert.ToSingle(items[2]);
 
-                        modelFile = Utils.Global.GetFileInfo(tourFileDir + "/Models/" + modelName + ".ply");
-                        if(modelFile.Exists)
+                        string strFile = string.Format("{0}/Models/{1}.ply", tourFileDir, modelName);
+                        Stream modelStream = Utils.Global.GetStream(strFile, FileMode.Open);
+                        if (modelStream != null)
                         {
-                            model = BaseModel.Import(modelFile);
+                            model = BaseModel.Import(modelStream);
+                            if (model.DiffuseTexture != null)
+                            {
+                                string strTexture = string.Format("{0}/Models/{1}", tourFileDir, model.DiffuseTexture);
+                                Stream textureStream = Utils.Global.GetStream(strTexture, FileMode.Open);
+                                ResourceManager.LoadTexture(textureStream, model.DiffuseTexture);
+                                textureStream.Close();
+                            }
                             model.Name = modelName;
                             model.Scale = scale;
                             model.Rotation = new Vector3(rotationX, rotationY, rotationZ);
@@ -121,7 +145,9 @@ namespace _3DPresentation.Data
                     }
                     reader.Close();
                 }
+                stream.Close();
             }
+
             return tour;
         }
     }

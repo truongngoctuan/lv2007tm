@@ -33,29 +33,6 @@ namespace _3DPresentation.Views.Editor
 
     public delegate void ImageSelectedEventHandler(object sender, ImageSelectedEventArgs e);
 
-    public class PathUri
-    {
-        public PathUri(string str, bool b)
-        {
-            Path = str;
-            IsAbsolutePath = b;
-        }
-        public string Path;
-        public bool IsAbsolutePath;
-
-        public BitmapImage toBitmapImage()
-        {
-            if (IsAbsolutePath)
-            {
-                return _3DPresentation.Utils.Global.AbsolutePathStringToBitmapImage(Path);
-            }
-            else
-            {
-                return new BitmapImage(_3DPresentation.Utils.Global.MakePackUri(Path));
-            }
-        }
-    }
-
     public partial class ImageSelector : UserControl
     {
         public event ImageSelectedEventHandler ImageSelected;
