@@ -96,6 +96,7 @@ namespace _3DPresentation.Views
                 _designMode = value; 
                 btNewTour.Visibility = _designMode ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed;
                 btDelAll.Visibility = _designMode ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed; 
+				tbNewTourName.Visibility = _designMode ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed; 
             }
         }
 
